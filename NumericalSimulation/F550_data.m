@@ -15,9 +15,9 @@ rotorCm = 1.779e-07;    %Rotor torque coefficient(kg.m^2) %M=Cm*w^2
 rotorCt = 1.105e-05;    %Rotor thrust coefficient(kg.m^2) %T=Ct**w^2
 
 
-g=9.8;      %Gravity acceleration(m/s^2)
+g=9.81;      %Gravity acceleration(m/s^2)
 
-Mass = 1.4; %Mass of UAV(kg)
+Mass = 2.06; %Mass of UAV(kg)
 Jxx = 0.0211;
 Jyy = 0.0219;
 Jzz = 0.0366;
@@ -27,7 +27,7 @@ Inertia= [Jxx, 0, 0;...
 Inertia_inv=inv(Inertia);
 
 
-d_prop = 0.225;   %Body radius(m)
+armLength = 0.275;   %Body radius(m)
 Cd  = 0.055;      %Damping coefficient(N/(m/s)^2)
 Cmd = [0.0035 0.0039 0.0034]; %Damping moment coefficient vector(N/(m/s)^2)
 dzcg = 0.12;
@@ -55,5 +55,5 @@ else
 end
 
 % Initial data
-motorRpm0 =[4000 4000 4000 4000];
+motorRpm0 =[4000 4000 4000 4000 4000 4000];
 x0=[0 0 0 0 0 0 0 0 0 0 0 -500];
