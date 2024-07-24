@@ -77,7 +77,7 @@ x0', motorRpm0
 eval(['save trim_V', num2str(0), ' u0 x0 motorRpm0'])
 
 %% Verification of trim data
-sim('F550_verify_trim.slx',100);
+out = sim('F550_verify_trim.slx',100);
     a=out.states_out;
 
     % plot response
