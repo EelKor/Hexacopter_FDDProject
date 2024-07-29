@@ -4,16 +4,6 @@
 
 
 %% UAV Dynamics Constants
-%Based on the quadcopter model used in jMAVSim
-
-Ixx = 0.011; %Kgm^2
-Iyy = 0.015;
-Izz = 0.021;
-
-inertia = diag([Ixx, Iyy, Izz]);
-
-mass = 2.02; %Kg
-g = 9.81; %m/s^2
 
 % Rotor Position (PX4 Generic X-configuration Hexacopter)
 l1 = 0.275; l2 = 0.275; l3 = 0.275; 
@@ -45,7 +35,7 @@ control.rotation.friction = 0.025;
 control.rotation.vd = 0.2;
 
 % Initial states
-init.equilibriumZ =  mass*g/contact.translation.spring;
+init.equilibriumZ =  Mass*g/contact.translation.spring;
 init.posNED = [0, 0, init.equilibriumZ]; % m
 init.vb = [0 0 0]'; %m/s
 init.euler = [0, 0, 0]'; %Roll Pitch Yaw Rads
@@ -86,4 +76,5 @@ ms_to_cms = 100;
 MAVLink_Input_Read_Size = 1024;
 
 % Sample Time of Plant and Controller (100 Hz)
-SampleTime = 0.01;
+SampleTime = 0.001;
+Ts_sensor = 1/100;
