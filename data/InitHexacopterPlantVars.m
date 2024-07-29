@@ -77,4 +77,4 @@ MAVLink_Input_Read_Size = 1024;
 
 % Sample Time of Plant and Controller (100 Hz)
 SampleTime = 0.001;
-Ts_sensor = 1/100;
+Ts_sensor = 1/200;
