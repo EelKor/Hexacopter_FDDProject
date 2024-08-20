@@ -52,11 +52,11 @@ rotorPositions(:,6) = [l6*sind(gamma6), l6*cosd(gamma6), 0]';
 
 rotorDir = [1 -1 1 -1 -1 1];
 
-%Reference location: Zurich
-% This is the home position also
-ref_lat = 473977420e-7;
-ref_lon = 85455940e-7;
-ref_height = 488;
+%Reference location: Chuungnam National Univ.
+% This is the home position also 
+ref_lat = 36.364905;
+ref_lon = 127.344377;
+ref_height = 23;
 
 %% UAV Dynamics Data Serialization Constants
 
@@ -76,5 +76,5 @@ ms_to_cms = 100;
 MAVLink_Input_Read_Size = 1024;
 
 % Sample Time of Plant and Controller (100 Hz)
-SampleTime = 0.001;
-Ts_sensor = 1/200;
+SampleTime = 1/500;
+Ts_sensor = 1/100;

@@ -20,4 +20,4 @@ useCustomMixer = true;
 %% Model Sample Time
 
 % Sample Time of Plant and Controller (100 Hz)
-SampleTime = 0.01;
+SampleTime = 1/250;
