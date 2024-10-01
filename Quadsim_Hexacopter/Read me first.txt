@@ -1,0 +1,17 @@
+변경로그
+
+01/13/2021: 기존 QuadSim의 쿼드콥터 모델링을 헥사콥터로 변경, 
+01/13/2021: 애니메이션도 헥사콥터로 변경됨.
+01/14/2021: Dynamics 블럭에 고장을 주입할 수 있음.
+
+실행방법은 아래와 같습니다.
+
+1. 전체 폴더 path 추가
+
+2. \MATLAB-Quadcopter DOBC by S.Kim\Simulation Files\Simulink Models에서 PC_Quadcopter_Simulation_DoB_ADRC_Hexacopter.slx 실행
+
+3. 시뮬링크 상의 LOAD 클릭하여 
+- Quadcopter Structure Files에서 hexaModel_X.mat 선택
+- Initial Conditions 폴더에서 path commands와 Initial conditions 원하는 대로 선택
+
+by S.Kim on 01/14/2020
