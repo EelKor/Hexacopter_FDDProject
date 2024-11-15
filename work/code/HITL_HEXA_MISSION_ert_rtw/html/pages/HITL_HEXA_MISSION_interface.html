@@ -1,0 +1,3615 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><link rel="stylesheet" type="text/css" href="rtwreport.css" /><script language="JavaScript" type="text/javascript" src="rtwshrink.js"></script><script>function postParentWindowMessage(message) {window.parent.postMessage(message, "*");}</script><style> h3 { margin-bottom: 1ex; } h4.function {   font-size: larger; font-weight: normal;   color: #c05709;	margin-bottom: 0ex; } .description {	border-style: none;	color: DimGray; } .footnote { margin-top: 0.5ex; font-size: small; color: DimGray;} a:link { color: #0076a8 } a:visited, a:hover { color: #004b87 } ul.services { margin-top: 0.5ex; } .include { color: #992211 } a.include:link { color:inherit; text-decoration: none } a.include:hover { text-decoration: underline } a.fcn:link { color:inherit; text-decoration: none } a.fcn:hover { text-decoration: underline } code.usage { white-space: pre-wrap; } .programlisting {   margin-left: 4ex; margin-right: 4ex;   margin-top: 2ex;  margin-bottom: 2ex; } .tooltip { position: relative; display: inline-block; } .tooltip .tooltip-text {   visibility: hidden;   position: absolute;   top: 110%;   left: 0;   background-color: white;   z-index: 1;   box-shadow: 5px 5px 10px 5px Gainsboro;   border-radius: 10px;   padding: 10px 15px 0px; } .tooltip:hover .tooltip-text { visibility: visible; } .tooltip-text .footnote { white-space: nowrap;} </style><title>
+Code Interface Report for HITL_HEXA_MISSION
+</title>
+
+</head>
+<body>
+<h1>
+Code Interface Report for HITL_HEXA_MISSION
+</h1>
+<div>
+
+</div>
+<div id="table_of_contents">
+<h3>
+Table of Contents
+</h3>
+<ol>
+<li>
+<a href="#sec_introduction" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_001_control'), 'rtwIdDataInterface_table_001')">
+Introduction
+</a>
+
+</li>
+<li>
+<span>
+<a href="#sec_execution" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_002_control'), 'rtwIdDataInterface_table_002')">
+Function Interfaces
+</a>
+<ul>
+<li>
+<a href="#sec_initialize_functions" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_002_control'), 'rtwIdDataInterface_table_002')">
+Initialize Functions
+</a>
+
+</li>
+<li>
+<a href="#sec_terminate_functions" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_002_control'), 'rtwIdDataInterface_table_002')">
+Terminate Functions
+</a>
+
+</li>
+<li>
+<a href="#sec_periodic_functions" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_002_control'), 'rtwIdDataInterface_table_002')">
+Periodic Functions
+</a>
+
+</li>
+<li>
+<a href="#sec_aperiodic_functions" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_002_control'), 'rtwIdDataInterface_table_002')">
+Aperiodic Functions
+</a>
+
+</li>
+
+</ul>
+</span>
+
+</li>
+<li>
+<span>
+<a href="#sec_data_interfaces" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_003_control'), 'rtwIdDataInterface_table_003')">
+Data Interfaces
+</a>
+<ul>
+<li>
+<a href="#sec_inports" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_003_control'), 'rtwIdDataInterface_table_003')">
+Inports
+</a>
+
+</li>
+<li>
+<a href="#sec_outports" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_003_control'), 'rtwIdDataInterface_table_003')">
+Outports
+</a>
+
+</li>
+<li>
+<a href="#sec_interface_parameters" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_003_control'), 'rtwIdDataInterface_table_003')">
+Parameters
+</a>
+
+</li>
+<li>
+<a href="#sec_data_stores" onclick="rtwTableExpand(window.document, window.document.getElementById('rtwIdDataInterface_table_003_control'), 'rtwIdDataInterface_table_003')">
+Internal data
+</a>
+
+</li>
+
+</ul>
+</span>
+
+</li>
+
+</ol>
+
+</div>
+<h2 name="sec_Introduction" id="sec_introduction">
+1. Introduction <span title="Click to shrink or expand section" style="cursor:pointer;font-weight:normal;" id="rtwIdDataInterface_table_001_control" onclick ="if (rtwTableShrink) rtwTableShrink(window.document, this, 'rtwIdDataInterface_table_001', false)"><span class="shrink-button">[<u>show</u>]</span></span>
+</h2>
+<table width="100%" style="display: none" name="rtwIdDataInterface_table_001" id="rtwIdDataInterface_table_001" border="0">
+<tr>
+<td align="left" valign="top">
+<p>
+The code generator produced a data code interface for the model. The code interface report summarizes the interface code for model callable entry-point functions and data interface elements, such as root-level inports and outports.
+</p>
+
+</td>
+
+</tr>
+
+</table>
+<h2 name="sec_Function_Interfaces" id="sec_execution">
+2. Function Interfaces <span title="Click to shrink or expand section" style="cursor:pointer;font-weight:normal;" id="rtwIdDataInterface_table_002_control" onclick ="if (rtwTableShrink) rtwTableShrink(window.document, this, 'rtwIdDataInterface_table_002', false)"><span class="shrink-button">[<u>hide</u>]</span></span>
+</h2>
+<table width="100%" name="rtwIdDataInterface_table_002" id="rtwIdDataInterface_table_002" border="0">
+<tr>
+<td align="left" valign="top">
+External code initiates execution of the generated code by calling entry-point functions generated for the model. The type of function code that the code generator produces for a model depends on the modelling style and periodic rates represented in the model. For more information, see <a href="javascript: void(0)" onclick="postParentWindowMessage({message:'legacyMCall', expr:'helpview(fullfile(docroot,\'toolbox\',\'ecoder\',\'helptargets.map\'),\'model_entry_points\')'})" >Configure Generated C Function Interface for Model Entry-Point Functions</a><br><br>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<section id="sec_initialize_functions">
+<h3>
+2.1 Initialize Functions
+</h3>
+<p>
+Initialize entry-point functions implement startup behavior. In a model, Initialize Function blocks represent startup behavior explicitly.
+</p>
+<div id="fcn_HITL_HEXA_MISSION_initialize">
+<h4 class="function">
+HITL_HEXA_MISSION_initialize
+</h4>
+<span class="description">
+Initialization entry point of generated code
+</span>
+<div class="programlisting">
+<code class="usage"><span class="include">#include "<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'HITL_HEXA_MISSION.h'})" class="include">HITL_HEXA_MISSION.h</a>"</span>
+void <a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'HITL_HEXA_MISSION_initialize'})" class="fcn">HITL_HEXA_MISSION_initialize</a>(void)</code>
+</div>
+</div>
+</section>
+<section id="sec_terminate_functions">
+<h3>
+2.2 Terminate Functions
+</h3>
+<p>
+Terminate entry-point functions implement shutdown behavior. In a model, Terminate Function blocks represent shutdown behavior explicitly.
+</p>
+<div id="fcn_HITL_HEXA_MISSION_terminate">
+<h4 class="function">
+HITL_HEXA_MISSION_terminate
+</h4>
+<span class="description">
+Termination entry point of generated code
+</span>
+<div class="programlisting">
+<code class="usage"><span class="include">#include "<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'HITL_HEXA_MISSION.h'})" class="include">HITL_HEXA_MISSION.h</a>"</span>
+void <a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'HITL_HEXA_MISSION_terminate'})" class="fcn">HITL_HEXA_MISSION_terminate</a>(void)</code>
+</div>
+</div>
+</section>
+<section id="sec_periodic_functions">
+<h3>
+2.3 Periodic Functions
+</h3>
+<p>
+Periodic entry-point functions implement model behavior that occurs at a fixed sampling rate. For a rate-based model, the code generator produces a periodic entry-point function for each rate used in the model. In a function-call (export-function) model, Function Call Subsystem blocks that specify a sampling rate represent periodic functions.
+</p>
+<div id="fcn_HITL_HEXA_MISSION_step">
+<h4 class="function">
+HITL_HEXA_MISSION_step
+</h4>
+<span class="description">
+Output entry point of generated code. Must be called periodically, every 0.004 seconds. 
+</span>
+<div class="programlisting">
+<code class="usage"><span class="include">#include "<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'HITL_HEXA_MISSION.h'})" class="include">HITL_HEXA_MISSION.h</a>"</span>
+void <a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'HITL_HEXA_MISSION_step'})" class="fcn">HITL_HEXA_MISSION_step</a>(void)</code>
+</div>
+</div>
+</section>
+<section id="sec_aperiodic_functions">
+<h3>
+2.4 Aperiodic Functions
+</h3>
+<p>
+Aperiodic (asynchronous) entry-point functions implement component behavior occurring asynchronously. In a function-call (export-function) model, Function Call Subsystem blocks that do not specify a sampling rate represent aperiodic functions.
+</p>
+<p>
+No aperiodic functions represented in model.
+</p>
+</section>
+
+</td>
+
+</tr>
+
+</table>
+<h2 name="sec_Data_Interfaces" id="sec_data_interfaces">
+3. Data Interfaces <span title="Click to shrink or expand section" style="cursor:pointer;font-weight:normal;" id="rtwIdDataInterface_table_003_control" onclick ="if (rtwTableShrink) rtwTableShrink(window.document, this, 'rtwIdDataInterface_table_003', false)"><span class="shrink-button">[<u>hide</u>]</span></span>
+</h2>
+<table width="100%" name="rtwIdDataInterface_table_003" id="rtwIdDataInterface_table_003" border="0">
+<tr>
+<td align="left" valign="top">
+A data code interface maps model data interface elements, such as root-level inports and outports, to storage classes. A storage class specifies the appearance and placement of data elements in the generated code. Storage classes apply direct-access data communication. The list of storage classes available for mapping is determined by the Embedded Coder Dictionary that is associated with the model. You map model interface elements to storage classes in the model code mappings.<br><br>
+</td>
+
+</tr>
+<tr>
+<td align="left" valign="top">
+<section id="sec_inports">
+<h3>
+3.1 Inports
+</h3>
+Variables that are generated in the code based on storage class specifications for model root-level inports.<p>
+No inport is present in model.
+</p>
+</section>
+<section id="sec_outports">
+<h3>
+3.2 Outports
+</h3>
+Variables that are generated in the code based on storage class specifications for model root-level outports.<p>
+No outport is present in model.
+</p>
+</section>
+<section id="sec_interface_parameters">
+<h3>
+3.3 Parameters
+</h3>
+Variables in the generated code that represent model parameters and model parameter arguments that are generated in the code based on a storage class specification and flagged to be tunable or not tunable while the model code executes in the target environment.<div id="fcn_HITL_HEXA_MISSION_P.PID_vz_InitialConditionForFilter">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PID_vz_InitialConditionForFilter
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/PID_vz
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PID_vz_InitialConditionForFilter;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController_InitialConditionForFilter">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController_InitialConditionForFilter
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController_InitialConditionForFilter;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController1_InitialConditionForFilter">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController1_InitialConditionForFilter
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController1_InitialConditionForFilter;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController2_InitialConditionForFilter">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController2_InitialConditionForFilter
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController2_InitialConditionForFilter;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PID_vz_InitialConditionForIntegrator">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PID_vz_InitialConditionForIntegrator
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/PID_vz
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PID_vz_InitialConditionForIntegrator;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController_InitialConditionForIntegrator">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController_InitialConditionForIntegrator
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController_InitialConditionForIntegrator;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController1_InitialConditionForIntegrator">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController1_InitialConditionForIntegrator
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController1_InitialConditionForIntegrator;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController2_InitialConditionForIntegrator">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController2_InitialConditionForIntegrator
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController2_InitialConditionForIntegrator;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PID_vz_LowerSaturationLimit">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PID_vz_LowerSaturationLimit
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/PID_vz
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PID_vz_LowerSaturationLimit;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController_LowerSaturationLimit">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController_LowerSaturationLimit
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController_LowerSaturationLimit;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController1_LowerSaturationLimit">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController1_LowerSaturationLimit
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController1_LowerSaturationLimit;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController2_LowerSaturationLimit">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController2_LowerSaturationLimit
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController2_LowerSaturationLimit;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PID_vz_UpperSaturationLimit">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PID_vz_UpperSaturationLimit
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/PID_vz
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PID_vz_UpperSaturationLimit;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController_UpperSaturationLimit">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController_UpperSaturationLimit
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController_UpperSaturationLimit;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController1_UpperSaturationLimit">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController1_UpperSaturationLimit
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController1_UpperSaturationLimit;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.PIDController2_UpperSaturationLimit">
+<h4 class="function">
+HITL_HEXA_MISSION_P.PIDController2_UpperSaturationLimit
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/PID Controller2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T PIDController2_UpperSaturationLimit;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.CompareToConstant_const">
+<h4 class="function">
+HITL_HEXA_MISSION_P.CompareToConstant_const
+</h4>
+<span class="description">
+Parameters for &lt;S6&gt;/Compare To Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T CompareToConstant_const;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.CompareToConstant_const_k">
+<h4 class="function">
+HITL_HEXA_MISSION_P.CompareToConstant_const_k
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Compare To Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  uint16_T CompareToConstant_const_k;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.CompareToConstant_const_d">
+<h4 class="function">
+HITL_HEXA_MISSION_P.CompareToConstant_const_d
+</h4>
+<span class="description">
+Parameters for &lt;S594&gt;/Compare To Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  uint8_T CompareToConstant_const_d;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Out1_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Out1_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S602&gt;/Out1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_trajectory_waypoint Out1_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value
+</h4>
+<span class="description">
+Parameters for &lt;S607&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_trajectory_waypoint Constant_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_g">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_g
+</h4>
+<span class="description">
+Parameters for &lt;S601&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_trajectory_waypoint Constant_Value_g;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Out1_Y0_h">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Out1_Y0_h
+</h4>
+<span class="description">
+Parameters for &lt;S614&gt;/Out1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_position_setpoint_triplet Out1_Y0_h;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_d">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_d
+</h4>
+<span class="description">
+Parameters for &lt;S599&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_position_setpoint_triplet Constant_Value_d;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Out1_Y0_p">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Out1_Y0_p
+</h4>
+<span class="description">
+Parameters for &lt;S624&gt;/Out1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_local_position Out1_Y0_p;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_e">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_e
+</h4>
+<span class="description">
+Parameters for &lt;S620&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_local_position Constant_Value_e;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_c">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_c
+</h4>
+<span class="description">
+Parameters for &lt;S21&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_actuator_outputs Constant_Value_c;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Out1_Y0_i">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Out1_Y0_i
+</h4>
+<span class="description">
+Parameters for &lt;S20&gt;/Out1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_input_rc Out1_Y0_i;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_l">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_l
+</h4>
+<span class="description">
+Parameters for &lt;S19&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_input_rc Constant_Value_l;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_i">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_i
+</h4>
+<span class="description">
+Parameters for &lt;S615&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_local_position_setpoint Constant_Value_i;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Out1_Y0_k">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Out1_Y0_k
+</h4>
+<span class="description">
+Parameters for &lt;S623&gt;/Out1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_attitude Out1_Y0_k;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_lh">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_lh
+</h4>
+<span class="description">
+Parameters for &lt;S619&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_attitude Constant_Value_lh;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_b">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_b
+</h4>
+<span class="description">
+Parameters for &lt;S31&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_attitude_setpoint Constant_Value_b;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Out1_Y0_o">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Out1_Y0_o
+</h4>
+<span class="description">
+Parameters for &lt;S613&gt;/Out1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_home_position Out1_Y0_o;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_b0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_b0
+</h4>
+<span class="description">
+Parameters for &lt;S598&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_home_position Constant_Value_b0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Out1_Y0_e">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Out1_Y0_e
+</h4>
+<span class="description">
+Parameters for &lt;S621&gt;/Out1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_angular_velocity Out1_Y0_e;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_n">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_n
+</h4>
+<span class="description">
+Parameters for &lt;S617&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_angular_velocity Constant_Value_n;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_j">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_j
+</h4>
+<span class="description">
+Parameters for &lt;S33&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_vehicle_rates_setpoint Constant_Value_j;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Out1_Y0_d">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Out1_Y0_d
+</h4>
+<span class="description">
+Parameters for &lt;S622&gt;/Out1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_actuator_armed Out1_Y0_d;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_jl">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_jl
+</h4>
+<span class="description">
+Parameters for &lt;S618&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  px4_Bus_actuator_armed Constant_Value_jl;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value
+</h4>
+<span class="description">
+Parameters for &lt;S6&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant1_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value_j">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value_j
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant1_Value_j;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain
+</h4>
+<span class="description">
+Parameters for &lt;S14&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_UpperSat">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_UpperSat
+</h4>
+<span class="description">
+Parameters for &lt;S14&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_UpperSat;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_LowerSat">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_LowerSat
+</h4>
+<span class="description">
+Parameters for &lt;S14&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_LowerSat;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant2_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant2_Value
+</h4>
+<span class="description">
+Parameters for &lt;S6&gt;/Constant2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant2_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant2_Value_o">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant2_Value_o
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Constant2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant2_Value_o;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_f">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_f
+</h4>
+<span class="description">
+Parameters for &lt;S15&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain_f;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_UpperSat_g">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_UpperSat_g
+</h4>
+<span class="description">
+Parameters for &lt;S15&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_UpperSat_g;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_LowerSat_c">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_LowerSat_c
+</h4>
+<span class="description">
+Parameters for &lt;S15&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_LowerSat_c;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant3_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant3_Value
+</h4>
+<span class="description">
+Parameters for &lt;S6&gt;/Constant3
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant3_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant3_Value_b">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant3_Value_b
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Constant3
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant3_Value_b;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_f4">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_f4
+</h4>
+<span class="description">
+Parameters for &lt;S16&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain_f4;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_UpperSat_d">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_UpperSat_d
+</h4>
+<span class="description">
+Parameters for &lt;S16&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_UpperSat_d;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_LowerSat_d">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_LowerSat_d
+</h4>
+<span class="description">
+Parameters for &lt;S16&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_LowerSat_d;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant4_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant4_Value
+</h4>
+<span class="description">
+Parameters for &lt;S6&gt;/Constant4
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant4_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant4_Value_e">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant4_Value_e
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Constant4
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant4_Value_e;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_c">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_c
+</h4>
+<span class="description">
+Parameters for &lt;S17&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain_c;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_UpperSat_gv">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_UpperSat_gv
+</h4>
+<span class="description">
+Parameters for &lt;S17&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_UpperSat_gv;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_LowerSat_b">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_LowerSat_b
+</h4>
+<span class="description">
+Parameters for &lt;S17&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_LowerSat_b;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant5_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant5_Value
+</h4>
+<span class="description">
+Parameters for &lt;S6&gt;/Constant5
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant5_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant5_Value_f">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant5_Value_f
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Constant5
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant5_Value_f;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_l">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_l
+</h4>
+<span class="description">
+Parameters for &lt;S18&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain_l;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_UpperSat_i">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_UpperSat_i
+</h4>
+<span class="description">
+Parameters for &lt;S18&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_UpperSat_i;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_LowerSat_i">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_LowerSat_i
+</h4>
+<span class="description">
+Parameters for &lt;S18&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_LowerSat_i;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_a">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_a
+</h4>
+<span class="description">
+Parameters for &lt;S6&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_a;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_d3">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_d3
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_d3;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_m">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_m
+</h4>
+<span class="description">
+Parameters for &lt;S13&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain_m;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_UpperSat_ik">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_UpperSat_ik
+</h4>
+<span class="description">
+Parameters for &lt;S13&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_UpperSat_ik;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Saturation1_LowerSat_n">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Saturation1_LowerSat_n
+</h4>
+<span class="description">
+Parameters for &lt;S13&gt;/Saturation1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Saturation1_LowerSat_n;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter1_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter1_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Read Parameter1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter1_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter13_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter13_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Read Parameter13
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter13_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter2_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter2_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Read Parameter2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter2_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter3_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter3_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Read Parameter3
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter3_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter4_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter4_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Read Parameter4
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter4_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter5_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter5_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S7&gt;/Read Parameter5
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter5_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_im">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_im
+</h4>
+<span class="description">
+Parameters for &lt;S26&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_im[1][4];
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_be">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_be
+</h4>
+<span class="description">
+Parameters for &lt;S39&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_be;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_m">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_m
+</h4>
+<span class="description">
+Parameters for &lt;S40&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_m;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Switch1_Threshold">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Switch1_Threshold
+</h4>
+<span class="description">
+Parameters for &lt;S44&gt;/Switch1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Switch1_Threshold;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter10_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter10_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Read Parameter10
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter10_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter11_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter11_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Read Parameter11
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter11_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter4_SampleTime_b">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter4_SampleTime_b
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Read Parameter4
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter4_SampleTime_b;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter5_SampleTime_m">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter5_SampleTime_m
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Read Parameter5
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter5_SampleTime_m;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter6_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter6_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Read Parameter6
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter6_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter9_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter9_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Read Parameter9
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter9_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Yawrate_sp_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Yawrate_sp_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Yawrate_sp
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Yawrate_sp_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Pitchrate_sp_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Pitchrate_sp_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Pitchrate_sp
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Pitchrate_sp_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Rollrate_spl_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Rollrate_spl_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Rollrate_spl
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Rollrate_spl_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_p">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_p
+</h4>
+<span class="description">
+Parameters for &lt;S44&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_p;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Switch_Threshold">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Switch_Threshold
+</h4>
+<span class="description">
+Parameters for &lt;S44&gt;/Switch
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Switch_Threshold;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.RateLimiter2_RisingLim">
+<h4 class="function">
+HITL_HEXA_MISSION_P.RateLimiter2_RisingLim
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Rate Limiter2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T RateLimiter2_RisingLim;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.RateLimiter2_FallingLim">
+<h4 class="function">
+HITL_HEXA_MISSION_P.RateLimiter2_FallingLim
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Rate Limiter2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T RateLimiter2_FallingLim;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.RateLimiter2_IC">
+<h4 class="function">
+HITL_HEXA_MISSION_P.RateLimiter2_IC
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Rate Limiter2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T RateLimiter2_IC;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.RateLimiter1_RisingLim">
+<h4 class="function">
+HITL_HEXA_MISSION_P.RateLimiter1_RisingLim
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Rate Limiter1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T RateLimiter1_RisingLim;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.RateLimiter1_FallingLim">
+<h4 class="function">
+HITL_HEXA_MISSION_P.RateLimiter1_FallingLim
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Rate Limiter1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T RateLimiter1_FallingLim;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.RateLimiter1_IC">
+<h4 class="function">
+HITL_HEXA_MISSION_P.RateLimiter1_IC
+</h4>
+<span class="description">
+Parameters for &lt;S28&gt;/Rate Limiter1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T RateLimiter1_IC;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_j4">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_j4
+</h4>
+<span class="description">
+Parameters for &lt;S204&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_j4;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Read Parameter
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter1_SampleTime_m">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter1_SampleTime_m
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Read Parameter1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter1_SampleTime_m;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter12_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter12_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Read Parameter12
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter12_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter13_SampleTime_o">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter13_SampleTime_o
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Read Parameter13
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter13_SampleTime_o;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter14_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter14_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Read Parameter14
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter14_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter15_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter15_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Read Parameter15
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter15_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter2_SampleTime_p">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter2_SampleTime_p
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Read Parameter2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter2_SampleTime_p;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter3_SampleTime_j">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter3_SampleTime_j
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Read Parameter3
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter3_SampleTime_j;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter7_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter7_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Read Parameter7
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter7_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter8_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter8_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Read Parameter8
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter8_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.tau_Thrust_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.tau_Thrust_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/tau_Thrust
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T tau_Thrust_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.des_pitch_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.des_pitch_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/des_pitch
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T des_pitch_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.des_roll_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.des_roll_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/des_roll
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T des_roll_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value_o">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value_o
+</h4>
+<span class="description">
+Parameters for &lt;S390&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant1_Value_o;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_p3">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_p3
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_p3;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Clamping_zero_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Clamping_zero_Value
+</h4>
+<span class="description">
+Parameters for &lt;S390&gt;/Clamping_zero
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Clamping_zero_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Filter_gainval">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Filter_gainval
+</h4>
+<span class="description">
+Parameters for &lt;S395&gt;/Filter
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Filter_gainval;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Integrator_gainval">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Integrator_gainval
+</h4>
+<span class="description">
+Parameters for &lt;S400&gt;/Integrator
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Integrator_gainval;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_l2">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_l2
+</h4>
+<span class="description">
+Parameters for &lt;S205&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain_l2;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain1_Gain">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain1_Gain
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Gain1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain1_Gain;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter16_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter16_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Read Parameter16
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter16_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter17_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter17_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Read Parameter17
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter17_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter18_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter18_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Read Parameter18
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter18_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter19_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter19_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Read Parameter19
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter19_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter20_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter20_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Read Parameter20
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter20_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter21_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter21_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Read Parameter21
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter21_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter22_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter22_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Read Parameter22
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter22_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter23_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter23_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Read Parameter23
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter23_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter24_SampleTime">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter24_SampleTime
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Read Parameter24
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter24_SampleTime;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.tau_yaw_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.tau_yaw_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/tau_yaw
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T tau_yaw_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.tau_pitch_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.tau_pitch_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/tau_pitch
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T tau_pitch_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.tau_roll_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.tau_roll_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/tau_roll
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T tau_roll_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value_k">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value_k
+</h4>
+<span class="description">
+Parameters for &lt;S445&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant1_Value_k;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value_jx">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value_jx
+</h4>
+<span class="description">
+Parameters for &lt;S497&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant1_Value_jx;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value_ka">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value_ka
+</h4>
+<span class="description">
+Parameters for &lt;S549&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant1_Value_ka;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_pd">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_pd
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_pd;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Filter_gainval_f">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Filter_gainval_f
+</h4>
+<span class="description">
+Parameters for &lt;S450&gt;/Filter
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Filter_gainval_f;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Integrator_gainval_h">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Integrator_gainval_h
+</h4>
+<span class="description">
+Parameters for &lt;S455&gt;/Integrator
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Integrator_gainval_h;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Clamping_zero_Value_i">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Clamping_zero_Value_i
+</h4>
+<span class="description">
+Parameters for &lt;S445&gt;/Clamping_zero
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Clamping_zero_Value_i;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value_f">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value_f
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant1_Value_f;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Filter_gainval_l">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Filter_gainval_l
+</h4>
+<span class="description">
+Parameters for &lt;S502&gt;/Filter
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Filter_gainval_l;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Integrator_gainval_b">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Integrator_gainval_b
+</h4>
+<span class="description">
+Parameters for &lt;S507&gt;/Integrator
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Integrator_gainval_b;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Clamping_zero_Value_d">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Clamping_zero_Value_d
+</h4>
+<span class="description">
+Parameters for &lt;S497&gt;/Clamping_zero
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Clamping_zero_Value_d;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant2_Value_n">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant2_Value_n
+</h4>
+<span class="description">
+Parameters for &lt;S30&gt;/Constant2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant2_Value_n;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Filter_gainval_a">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Filter_gainval_a
+</h4>
+<span class="description">
+Parameters for &lt;S554&gt;/Filter
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Filter_gainval_a;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Integrator_gainval_n">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Integrator_gainval_n
+</h4>
+<span class="description">
+Parameters for &lt;S559&gt;/Integrator
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Integrator_gainval_n;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Clamping_zero_Value_e">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Clamping_zero_Value_e
+</h4>
+<span class="description">
+Parameters for &lt;S549&gt;/Clamping_zero
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Clamping_zero_Value_e;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.yaw_Out_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.yaw_Out_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S593&gt;/yaw_Out
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T yaw_Out_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Delay_InitialCondition">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Delay_InitialCondition
+</h4>
+<span class="description">
+Parameters for &lt;S591&gt;/Delay
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Delay_InitialCondition;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Rate_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Rate_Value
+</h4>
+<span class="description">
+Parameters for &lt;S591&gt;/Rate
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Rate_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain1_Gain_b">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain1_Gain_b
+</h4>
+<span class="description">
+Parameters for &lt;S591&gt;/Gain1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain1_Gain_b;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_e">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_e
+</h4>
+<span class="description">
+Parameters for &lt;S591&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain_e;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Delay_InitialCondition_g">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Delay_InitialCondition_g
+</h4>
+<span class="description">
+Parameters for &lt;S592&gt;/Delay
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Delay_InitialCondition_g;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_f">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_f
+</h4>
+<span class="description">
+Parameters for &lt;S592&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_f;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Out_Y0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Out_Y0
+</h4>
+<span class="description">
+Parameters for &lt;S589&gt;/Out
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Out_Y0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_ls">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_ls
+</h4>
+<span class="description">
+Parameters for &lt;S587&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain_ls;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.yaw_Out_Y0_f">
+<h4 class="function">
+HITL_HEXA_MISSION_P.yaw_Out_Y0_f
+</h4>
+<span class="description">
+Parameters for &lt;S590&gt;/yaw_Out
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T yaw_Out_Y0_f;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Delay_InitialCondition_n">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Delay_InitialCondition_n
+</h4>
+<span class="description">
+Parameters for &lt;S582&gt;/Delay
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Delay_InitialCondition_n;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Delay_InitialCondition_m">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Delay_InitialCondition_m
+</h4>
+<span class="description">
+Parameters for &lt;S587&gt;/Delay
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Delay_InitialCondition_m;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Switch_Threshold_j">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Switch_Threshold_j
+</h4>
+<span class="description">
+Parameters for &lt;S587&gt;/Switch
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Switch_Threshold_j;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Rateofdescent_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Rateofdescent_Value
+</h4>
+<span class="description">
+Parameters for &lt;S587&gt;/Rate of descent
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Rateofdescent_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain2_Gain">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain2_Gain
+</h4>
+<span class="description">
+Parameters for &lt;S587&gt;/Gain2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain2_Gain;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain1_Gain_a">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain1_Gain_a
+</h4>
+<span class="description">
+Parameters for &lt;S587&gt;/Gain1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain1_Gain_a;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Delay_InitialCondition_j">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Delay_InitialCondition_j
+</h4>
+<span class="description">
+Parameters for &lt;S588&gt;/Delay
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Delay_InitialCondition_j;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_nn">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_nn
+</h4>
+<span class="description">
+Parameters for &lt;S588&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_nn;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_jd">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_jd
+</h4>
+<span class="description">
+Parameters for &lt;S594&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_jd;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_gw">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_gw
+</h4>
+<span class="description">
+Parameters for &lt;S584&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_gw;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.yaw_Out_Y0_p">
+<h4 class="function">
+HITL_HEXA_MISSION_P.yaw_Out_Y0_p
+</h4>
+<span class="description">
+Parameters for &lt;S586&gt;/yaw_Out
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T yaw_Out_Y0_p;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Delay_InitialCondition_g0">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Delay_InitialCondition_g0
+</h4>
+<span class="description">
+Parameters for &lt;S585&gt;/Delay
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Delay_InitialCondition_g0;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_ic">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_ic
+</h4>
+<span class="description">
+Parameters for &lt;S585&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_ic;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter_SampleTime_d">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter_SampleTime_d
+</h4>
+<span class="description">
+Parameters for &lt;S580&gt;/Read Parameter
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter_SampleTime_d;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter_SampleTime_c">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter_SampleTime_c
+</h4>
+<span class="description">
+Parameters for &lt;S612&gt;/Read Parameter
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter_SampleTime_c;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.ReadParameter_SampleTime_g">
+<h4 class="function">
+HITL_HEXA_MISSION_P.ReadParameter_SampleTime_g
+</h4>
+<span class="description">
+Parameters for &lt;S611&gt;/Read Parameter
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T ReadParameter_SampleTime_g;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Switch_Threshold_l">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Switch_Threshold_l
+</h4>
+<span class="description">
+Parameters for &lt;S26&gt;/Switch
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Switch_Threshold_l;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_cc">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_cc
+</h4>
+<span class="description">
+Parameters for &lt;S23&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain_cc;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_j">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_j
+</h4>
+<span class="description">
+Parameters for &lt;S5&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain_Gain_j;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain1_Gain_j">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain1_Gain_j
+</h4>
+<span class="description">
+Parameters for &lt;S5&gt;/Gain1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain1_Gain_j;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain2_Gain_f">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain2_Gain_f
+</h4>
+<span class="description">
+Parameters for &lt;S5&gt;/Gain2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain2_Gain_f;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain3_Gain">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain3_Gain
+</h4>
+<span class="description">
+Parameters for &lt;S5&gt;/Gain3
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Gain3_Gain;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_gp">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_gp
+</h4>
+<span class="description">
+Parameters for &lt;S10&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant_Value_gp;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.thrust_sp_bX_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.thrust_sp_bX_Value
+</h4>
+<span class="description">
+Parameters for &lt;S24&gt;/thrust_sp_bX
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T thrust_sp_bX_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.thrust_sp_bY_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.thrust_sp_bY_Value
+</h4>
+<span class="description">
+Parameters for &lt;S24&gt;/thrust_sp_bY
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T thrust_sp_bY_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.thrust_sp_bX_Value_m">
+<h4 class="function">
+HITL_HEXA_MISSION_P.thrust_sp_bX_Value_m
+</h4>
+<span class="description">
+Parameters for &lt;S25&gt;/thrust_sp_bX
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T thrust_sp_bX_Value_m;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.thrust_sp_bY_Value_m">
+<h4 class="function">
+HITL_HEXA_MISSION_P.thrust_sp_bY_Value_m
+</h4>
+<span class="description">
+Parameters for &lt;S25&gt;/thrust_sp_bY
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T thrust_sp_bY_Value_m;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant17_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant17_Value
+</h4>
+<span class="description">
+Parameters for &lt;S10&gt;/Constant17
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T Constant17_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant7_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant7_Value
+</h4>
+<span class="description">
+Parameters for &lt;S605&gt;/Constant7
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  uint64_T Constant7_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain1_Gain_k">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain1_Gain_k
+</h4>
+<span class="description">
+Parameters for &lt;S47&gt;/Gain1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Gain1_Gain_k;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain1_Gain_i">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain1_Gain_i
+</h4>
+<span class="description">
+Parameters for &lt;S45&gt;/Gain1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Gain1_Gain_i;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain1_Gain_o">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain1_Gain_o
+</h4>
+<span class="description">
+Parameters for &lt;S46&gt;/Gain1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Gain1_Gain_o;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain1_Gain_o1">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain1_Gain_o1
+</h4>
+<span class="description">
+Parameters for &lt;S204&gt;/Gain1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Gain1_Gain_o1;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain1_Gain_p">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain1_Gain_p
+</h4>
+<span class="description">
+Parameters for &lt;S206&gt;/Gain1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Gain1_Gain_p;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_md">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_md
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Gain_Gain_md;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain2_Gain_i">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain2_Gain_i
+</h4>
+<span class="description">
+Parameters for &lt;S29&gt;/Gain2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Gain2_Gain_i;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value_d">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value_d
+</h4>
+<span class="description">
+Parameters for &lt;S612&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant1_Value_d[1][2];
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_f2">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_f2
+</h4>
+<span class="description">
+Parameters for &lt;S612&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant_Value_f2;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Gain_Gain_h">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Gain_Gain_h
+</h4>
+<span class="description">
+Parameters for &lt;S611&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Gain_Gain_h;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value_k4">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value_k4
+</h4>
+<span class="description">
+Parameters for &lt;S611&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant1_Value_k4[1][2];
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_l4">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_l4
+</h4>
+<span class="description">
+Parameters for &lt;S611&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant_Value_l4;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_fh">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_fh
+</h4>
+<span class="description">
+Parameters for &lt;S605&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant_Value_fh[1][3];
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value_h">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value_h
+</h4>
+<span class="description">
+Parameters for &lt;S605&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant1_Value_h[1][3];
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant2_Value_f">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant2_Value_f
+</h4>
+<span class="description">
+Parameters for &lt;S605&gt;/Constant2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant2_Value_f[1][3];
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant3_Value_a">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant3_Value_a
+</h4>
+<span class="description">
+Parameters for &lt;S605&gt;/Constant3
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant3_Value_a;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant4_Value_g">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant4_Value_g
+</h4>
+<span class="description">
+Parameters for &lt;S605&gt;/Constant4
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant4_Value_g;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant5_Value_j">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant5_Value_j
+</h4>
+<span class="description">
+Parameters for &lt;S603&gt;/Constant5
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  boolean_T Constant5_Value_j;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant5_Value_k">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant5_Value_k
+</h4>
+<span class="description">
+Parameters for &lt;S604&gt;/Constant5
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  boolean_T Constant5_Value_k;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant1_Value_dl">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant1_Value_dl
+</h4>
+<span class="description">
+Parameters for &lt;S606&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  boolean_T Constant1_Value_dl;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant5_Value_h">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant5_Value_h
+</h4>
+<span class="description">
+Parameters for &lt;S606&gt;/Constant5
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  boolean_T Constant5_Value_h;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant5_Value_l">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant5_Value_l
+</h4>
+<span class="description">
+Parameters for &lt;S605&gt;/Constant5
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  boolean_T Constant5_Value_l;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_mp">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_mp
+</h4>
+<span class="description">
+Parameters for &lt;S390&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant_Value_mp;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant2_Value_k">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant2_Value_k
+</h4>
+<span class="description">
+Parameters for &lt;S390&gt;/Constant2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant2_Value_k;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant3_Value_i">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant3_Value_i
+</h4>
+<span class="description">
+Parameters for &lt;S390&gt;/Constant3
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant3_Value_i;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant4_Value_j">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant4_Value_j
+</h4>
+<span class="description">
+Parameters for &lt;S390&gt;/Constant4
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant4_Value_j;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_dt">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_dt
+</h4>
+<span class="description">
+Parameters for &lt;S445&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant_Value_dt;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant2_Value_l">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant2_Value_l
+</h4>
+<span class="description">
+Parameters for &lt;S445&gt;/Constant2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant2_Value_l;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant3_Value_j">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant3_Value_j
+</h4>
+<span class="description">
+Parameters for &lt;S445&gt;/Constant3
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant3_Value_j;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant4_Value_c">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant4_Value_c
+</h4>
+<span class="description">
+Parameters for &lt;S445&gt;/Constant4
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant4_Value_c;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_d5">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_d5
+</h4>
+<span class="description">
+Parameters for &lt;S497&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant_Value_d5;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant2_Value_e">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant2_Value_e
+</h4>
+<span class="description">
+Parameters for &lt;S497&gt;/Constant2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant2_Value_e;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant3_Value_k">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant3_Value_k
+</h4>
+<span class="description">
+Parameters for &lt;S497&gt;/Constant3
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant3_Value_k;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant4_Value_n">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant4_Value_n
+</h4>
+<span class="description">
+Parameters for &lt;S497&gt;/Constant4
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant4_Value_n;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_k">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_k
+</h4>
+<span class="description">
+Parameters for &lt;S549&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant_Value_k;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant2_Value_m">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant2_Value_m
+</h4>
+<span class="description">
+Parameters for &lt;S549&gt;/Constant2
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant2_Value_m;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant3_Value_d">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant3_Value_d
+</h4>
+<span class="description">
+Parameters for &lt;S549&gt;/Constant3
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant3_Value_d;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant4_Value_b">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant4_Value_b
+</h4>
+<span class="description">
+Parameters for &lt;S549&gt;/Constant4
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  int8_T Constant4_Value_b;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant_Value_fm">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant_Value_fm
+</h4>
+<span class="description">
+Parameters for &lt;S597&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  uint8_T Constant_Value_fm;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+<div id="fcn_HITL_HEXA_MISSION_P.Constant6_Value">
+<h4 class="function">
+HITL_HEXA_MISSION_P.Constant6_Value
+</h4>
+<span class="description">
+Parameters for &lt;S605&gt;/Constant6
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  uint8_T Constant6_Value;
+  ...
+} HITL_HEXA_MISSION_P;</code>
+</div>
+</div>
+</section>
+<section id="sec_data_stores">
+<h3>
+3.4 Internal data
+</h3>
+Variables in the generated code that represent signal data, blocks that have internal state, and data stores that are generated in the code based on a storage class specification and flagged to be measured or not measured while the model code executes in the target environment.<p>
+No data stores in model; note that this report lists only data stores with non-auto default storage class and global data stores
+</p>
+</section>
+
+</td>
+
+</tr>
+
+</table>
+
+<script>function postParentWindowMessage(message) {window.parent.postMessage(message, "*");}</script>
+</body>
+
+</html>

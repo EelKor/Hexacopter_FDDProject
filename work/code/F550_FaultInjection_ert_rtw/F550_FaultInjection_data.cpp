@@ -1,0 +1,2302 @@
+//
+// Academic License - for use in teaching, academic research, and meeting
+// course requirements at degree granting institutions only.  Not for
+// government, commercial, or other organizational use.
+//
+// File: F550_FaultInjection_data.cpp
+//
+// Code generated for Simulink model 'F550_FaultInjection'.
+//
+// Model version                  : 4.153
+// Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
+// C/C++ source code generated on : Sat Aug 10 17:25:22 2024
+//
+// Target selection: ert.tlc
+// Embedded hardware selection: ARM Compatible->ARM Cortex
+// Code generation objectives: Unspecified
+// Validation result: Not run
+//
+#include "F550_FaultInjection.h"
+
+// Block parameters (default storage)
+P_F550_FaultInjection_T F550_FaultInjection_P = {
+  // Mask Parameter: PID_vz_InitialConditionForFilter
+  //  Referenced by: '<S384>/Filter'
+
+  0.0,
+
+  // Mask Parameter: PIDController2_InitialConditionForFilter
+  //  Referenced by: '<S537>/Filter'
+
+  0.0,
+
+  // Mask Parameter: PIDController1_InitialConditionForFilter
+  //  Referenced by: '<S487>/Filter'
+
+  0.0,
+
+  // Mask Parameter: PIDController_InitialConditionForFilter
+  //  Referenced by: '<S437>/Filter'
+
+  0.0,
+
+  // Mask Parameter: PID_vz_InitialConditionForIntegrator
+  //  Referenced by: '<S389>/Integrator'
+
+  0.0,
+
+  // Mask Parameter: PIDController2_InitialConditionForIntegrator
+  //  Referenced by: '<S542>/Integrator'
+
+  0.0,
+
+  // Mask Parameter: PIDController1_InitialConditionForIntegrator
+  //  Referenced by: '<S492>/Integrator'
+
+  0.0,
+
+  // Mask Parameter: PIDController_InitialConditionForIntegrator
+  //  Referenced by: '<S442>/Integrator'
+
+  0.0,
+
+  // Mask Parameter: PID_vz_LowerSaturationLimit
+  //  Referenced by:
+  //    '<S396>/Saturation'
+  //    '<S382>/DeadZone'
+
+  0.0,
+
+  // Mask Parameter: PIDController2_LowerSaturationLimit
+  //  Referenced by:
+  //    '<S549>/Saturation'
+  //    '<S535>/DeadZone'
+
+  -0.2,
+
+  // Mask Parameter: PIDController1_LowerSaturationLimit
+  //  Referenced by:
+  //    '<S499>/Saturation'
+  //    '<S485>/DeadZone'
+
+  -0.2,
+
+  // Mask Parameter: PIDController_LowerSaturationLimit
+  //  Referenced by:
+  //    '<S449>/Saturation'
+  //    '<S435>/DeadZone'
+
+  -0.1,
+
+  // Mask Parameter: PID_vz_UpperSaturationLimit
+  //  Referenced by:
+  //    '<S396>/Saturation'
+  //    '<S382>/DeadZone'
+
+  1.0,
+
+  // Mask Parameter: PIDController2_UpperSaturationLimit
+  //  Referenced by:
+  //    '<S549>/Saturation'
+  //    '<S535>/DeadZone'
+
+  0.2,
+
+  // Mask Parameter: PIDController1_UpperSaturationLimit
+  //  Referenced by:
+  //    '<S499>/Saturation'
+  //    '<S485>/DeadZone'
+
+  0.2,
+
+  // Mask Parameter: PIDController_UpperSaturationLimit
+  //  Referenced by:
+  //    '<S449>/Saturation'
+  //    '<S435>/DeadZone'
+
+  0.1,
+
+  // Mask Parameter: CompareToConstant_const
+  //  Referenced by: '<S11>/Constant'
+
+  1800.0,
+
+  // Mask Parameter: CompareToConstant_const_k
+  //  Referenced by: '<S18>/Constant'
+
+  1400U,
+
+  // Mask Parameter: CompareToConstant_const_d
+  //  Referenced by: '<S578>/Constant'
+
+  5U,
+
+  // Computed Parameter: Out1_Y0
+  //  Referenced by: '<S585>/Out1'
+
+  {
+    (0ULL),                            // timestamp
+    0U,                                // type
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U, 0U }
+    ,                                  // _padding0
+
+    {
+      {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      } }
+    // waypoints
+  },
+
+  // Computed Parameter: Constant_Value
+  //  Referenced by: '<S590>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    0U,                                // type
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U, 0U }
+    ,                                  // _padding0
+
+    {
+      {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      } }
+    // waypoints
+  },
+
+  // Computed Parameter: Constant_Value_g
+  //  Referenced by: '<S584>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    0U,                                // type
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U, 0U }
+    ,                                  // _padding0
+
+    {
+      {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      }, {
+        (0ULL),                        // timestamp
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // position
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // velocity
+
+        {
+          0.0F, 0.0F, 0.0F }
+        ,                              // acceleration
+        0.0F,                          // yaw
+        0.0F,                          // yaw_speed
+        false,                         // point_valid
+        0U,                            // type
+
+        {
+          0U, 0U }
+        // _padding0
+      } }
+    // waypoints
+  },
+
+  // Computed Parameter: Out1_Y0_e
+  //  Referenced by: '<S604>/Out1'
+
+  {
+    (0ULL),                            // timestamp
+    (0ULL),                            // timestamp_sample
+    0.0F,                              // x
+    0.0F,                              // y
+    0.0F,                              // z
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // q
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // q_offset
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
+      0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // pose_covariance
+    0.0F,                              // vx
+    0.0F,                              // vy
+    0.0F,                              // vz
+    0.0F,                              // rollspeed
+    0.0F,                              // pitchspeed
+    0.0F,                              // yawspeed
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
+      0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // velocity_covariance
+    0U,                                // local_frame
+    0U,                                // velocity_frame
+
+    {
+      0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Constant_Value_n
+  //  Referenced by: '<S600>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    (0ULL),                            // timestamp_sample
+    0.0F,                              // x
+    0.0F,                              // y
+    0.0F,                              // z
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // q
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // q_offset
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
+      0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // pose_covariance
+    0.0F,                              // vx
+    0.0F,                              // vy
+    0.0F,                              // vz
+    0.0F,                              // rollspeed
+    0.0F,                              // pitchspeed
+    0.0F,                              // yawspeed
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
+      0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // velocity_covariance
+    0U,                                // local_frame
+    0U,                                // velocity_frame
+
+    {
+      0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Out1_Y0_h
+  //  Referenced by: '<S597>/Out1'
+
+  {
+    (0ULL),                            // timestamp
+
+    {
+      (0ULL),                          // timestamp
+      0.0,                             // lat
+      0.0,                             // lon
+      0.0F,                            // vx
+      0.0F,                            // vy
+      0.0F,                            // vz
+      0.0F,                            // alt
+      0.0F,                            // yaw
+      0.0F,                            // yawspeed
+      0.0F,                            // loiter_radius
+      0.0F,                            // acceptance_radius
+      0.0F,                            // cruising_speed
+      0.0F,                            // cruising_throttle
+      false,                           // valid
+      0U,                              // type
+      false,                           // velocity_valid
+      0U,                              // velocity_frame
+      false,                           // alt_valid
+      false,                           // yaw_valid
+      false,                           // yawspeed_valid
+      0,                               // landing_gear
+      0,                               // loiter_direction
+      false,                           // disable_weather_vane
+
+      {
+        0U, 0U, 0U, 0U, 0U, 0U }
+      // _padding0
+    },                                 // previous
+
+    {
+      (0ULL),                          // timestamp
+      0.0,                             // lat
+      0.0,                             // lon
+      0.0F,                            // vx
+      0.0F,                            // vy
+      0.0F,                            // vz
+      0.0F,                            // alt
+      0.0F,                            // yaw
+      0.0F,                            // yawspeed
+      0.0F,                            // loiter_radius
+      0.0F,                            // acceptance_radius
+      0.0F,                            // cruising_speed
+      0.0F,                            // cruising_throttle
+      false,                           // valid
+      0U,                              // type
+      false,                           // velocity_valid
+      0U,                              // velocity_frame
+      false,                           // alt_valid
+      false,                           // yaw_valid
+      false,                           // yawspeed_valid
+      0,                               // landing_gear
+      0,                               // loiter_direction
+      false,                           // disable_weather_vane
+
+      {
+        0U, 0U, 0U, 0U, 0U, 0U }
+      // _padding0
+    },                                 // current
+
+    {
+      (0ULL),                          // timestamp
+      0.0,                             // lat
+      0.0,                             // lon
+      0.0F,                            // vx
+      0.0F,                            // vy
+      0.0F,                            // vz
+      0.0F,                            // alt
+      0.0F,                            // yaw
+      0.0F,                            // yawspeed
+      0.0F,                            // loiter_radius
+      0.0F,                            // acceptance_radius
+      0.0F,                            // cruising_speed
+      0.0F,                            // cruising_throttle
+      false,                           // valid
+      0U,                              // type
+      false,                           // velocity_valid
+      0U,                              // velocity_frame
+      false,                           // alt_valid
+      false,                           // yaw_valid
+      false,                           // yawspeed_valid
+      0,                               // landing_gear
+      0,                               // loiter_direction
+      false,                           // disable_weather_vane
+
+      {
+        0U, 0U, 0U, 0U, 0U, 0U }
+      // _padding0
+    }                                  // next
+  },
+
+  // Computed Parameter: Constant_Value_d
+  //  Referenced by: '<S582>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+
+    {
+      (0ULL),                          // timestamp
+      0.0,                             // lat
+      0.0,                             // lon
+      0.0F,                            // vx
+      0.0F,                            // vy
+      0.0F,                            // vz
+      0.0F,                            // alt
+      0.0F,                            // yaw
+      0.0F,                            // yawspeed
+      0.0F,                            // loiter_radius
+      0.0F,                            // acceptance_radius
+      0.0F,                            // cruising_speed
+      0.0F,                            // cruising_throttle
+      false,                           // valid
+      0U,                              // type
+      false,                           // velocity_valid
+      0U,                              // velocity_frame
+      false,                           // alt_valid
+      false,                           // yaw_valid
+      false,                           // yawspeed_valid
+      0,                               // landing_gear
+      0,                               // loiter_direction
+      false,                           // disable_weather_vane
+
+      {
+        0U, 0U, 0U, 0U, 0U, 0U }
+      // _padding0
+    },                                 // previous
+
+    {
+      (0ULL),                          // timestamp
+      0.0,                             // lat
+      0.0,                             // lon
+      0.0F,                            // vx
+      0.0F,                            // vy
+      0.0F,                            // vz
+      0.0F,                            // alt
+      0.0F,                            // yaw
+      0.0F,                            // yawspeed
+      0.0F,                            // loiter_radius
+      0.0F,                            // acceptance_radius
+      0.0F,                            // cruising_speed
+      0.0F,                            // cruising_throttle
+      false,                           // valid
+      0U,                              // type
+      false,                           // velocity_valid
+      0U,                              // velocity_frame
+      false,                           // alt_valid
+      false,                           // yaw_valid
+      false,                           // yawspeed_valid
+      0,                               // landing_gear
+      0,                               // loiter_direction
+      false,                           // disable_weather_vane
+
+      {
+        0U, 0U, 0U, 0U, 0U, 0U }
+      // _padding0
+    },                                 // current
+
+    {
+      (0ULL),                          // timestamp
+      0.0,                             // lat
+      0.0,                             // lon
+      0.0F,                            // vx
+      0.0F,                            // vy
+      0.0F,                            // vz
+      0.0F,                            // alt
+      0.0F,                            // yaw
+      0.0F,                            // yawspeed
+      0.0F,                            // loiter_radius
+      0.0F,                            // acceptance_radius
+      0.0F,                            // cruising_speed
+      0.0F,                            // cruising_throttle
+      false,                           // valid
+      0U,                              // type
+      false,                           // velocity_valid
+      0U,                              // velocity_frame
+      false,                           // alt_valid
+      false,                           // yaw_valid
+      false,                           // yawspeed_valid
+      0,                               // landing_gear
+      0,                               // loiter_direction
+      false,                           // disable_weather_vane
+
+      {
+        0U, 0U, 0U, 0U, 0U, 0U }
+      // _padding0
+    }                                  // next
+  },
+
+  // Computed Parameter: Out1_Y0_p
+  //  Referenced by: '<S607>/Out1'
+
+  {
+    (0ULL),                            // timestamp
+    (0ULL),                            // timestamp_sample
+    (0ULL),                            // ref_timestamp
+    0.0,                               // ref_lat
+    0.0,                               // ref_lon
+    0.0F,                              // x
+    0.0F,                              // y
+    0.0F,                              // z
+
+    {
+      0.0F, 0.0F }
+    ,                                  // delta_xy
+    0.0F,                              // delta_z
+    0.0F,                              // vx
+    0.0F,                              // vy
+    0.0F,                              // vz
+    0.0F,                              // z_deriv
+
+    {
+      0.0F, 0.0F }
+    ,                                  // delta_vxy
+    0.0F,                              // delta_vz
+    0.0F,                              // ax
+    0.0F,                              // ay
+    0.0F,                              // az
+    0.0F,                              // heading
+    0.0F,                              // delta_heading
+    0.0F,                              // ref_alt
+    0.0F,                              // dist_bottom
+    0.0F,                              // eph
+    0.0F,                              // epv
+    0.0F,                              // evh
+    0.0F,                              // evv
+    0.0F,                              // vxy_max
+    0.0F,                              // vz_max
+    0.0F,                              // hagl_min
+    0.0F,                              // hagl_max
+    false,                             // xy_valid
+    false,                             // z_valid
+    false,                             // v_xy_valid
+    false,                             // v_z_valid
+    0U,                                // xy_reset_counter
+    0U,                                // z_reset_counter
+    0U,                                // vxy_reset_counter
+    0U,                                // vz_reset_counter
+    0U,                                // heading_reset_counter
+    false,                             // xy_global
+    false,                             // z_global
+    false,                             // dist_bottom_valid
+    0U,                                // dist_bottom_sensor_bitfield
+
+    {
+      0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Constant_Value_e
+  //  Referenced by: '<S603>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    (0ULL),                            // timestamp_sample
+    (0ULL),                            // ref_timestamp
+    0.0,                               // ref_lat
+    0.0,                               // ref_lon
+    0.0F,                              // x
+    0.0F,                              // y
+    0.0F,                              // z
+
+    {
+      0.0F, 0.0F }
+    ,                                  // delta_xy
+    0.0F,                              // delta_z
+    0.0F,                              // vx
+    0.0F,                              // vy
+    0.0F,                              // vz
+    0.0F,                              // z_deriv
+
+    {
+      0.0F, 0.0F }
+    ,                                  // delta_vxy
+    0.0F,                              // delta_vz
+    0.0F,                              // ax
+    0.0F,                              // ay
+    0.0F,                              // az
+    0.0F,                              // heading
+    0.0F,                              // delta_heading
+    0.0F,                              // ref_alt
+    0.0F,                              // dist_bottom
+    0.0F,                              // eph
+    0.0F,                              // epv
+    0.0F,                              // evh
+    0.0F,                              // evv
+    0.0F,                              // vxy_max
+    0.0F,                              // vz_max
+    0.0F,                              // hagl_min
+    0.0F,                              // hagl_max
+    false,                             // xy_valid
+    false,                             // z_valid
+    false,                             // v_xy_valid
+    false,                             // v_z_valid
+    0U,                                // xy_reset_counter
+    0U,                                // z_reset_counter
+    0U,                                // vxy_reset_counter
+    0U,                                // vz_reset_counter
+    0U,                                // heading_reset_counter
+    false,                             // xy_global
+    false,                             // z_global
+    false,                             // dist_bottom_valid
+    0U,                                // dist_bottom_sensor_bitfield
+
+    {
+      0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Constant_Value_c
+  //  Referenced by: '<S21>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    0U,                                // noutputs
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
+      0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // output
+
+    {
+      0U, 0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Constant_Value_i
+  //  Referenced by: '<S598>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    0.0F,                              // x
+    0.0F,                              // y
+    0.0F,                              // z
+    0.0F,                              // yaw
+    0.0F,                              // yawspeed
+    0.0F,                              // vx
+    0.0F,                              // vy
+    0.0F,                              // vz
+
+    {
+      0.0F, 0.0F, 0.0F }
+    ,                                  // acceleration
+
+    {
+      0.0F, 0.0F, 0.0F }
+    ,                                  // jerk
+
+    {
+      0.0F, 0.0F, 0.0F }
+    ,                                  // thrust
+
+    {
+      0U, 0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Out1_Y0_i
+  //  Referenced by: '<S20>/Out1'
+
+  {
+    (0ULL),                            // timestamp
+    (0ULL),                            // timestamp_last_signal
+    0,                                 // rssi
+    0U,                                // rc_lost_frame_count
+    0U,                                // rc_total_frame_count
+    0U,                                // rc_ppm_frame_length
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U }
+    ,                                  // values
+    0U,                                // channel_count
+    false,                             // rc_failsafe
+    false,                             // rc_lost
+    0U,                                // input_source
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Out1_Y0_ii
+  //  Referenced by: '<S46>/Out1'
+
+  {
+    (0ULL),                            // timestamp
+    (0ULL),                            // timestamp_last_signal
+    0,                                 // rssi
+    0U,                                // rc_lost_frame_count
+    0U,                                // rc_total_frame_count
+    0U,                                // rc_ppm_frame_length
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U }
+    ,                                  // values
+    0U,                                // channel_count
+    false,                             // rc_failsafe
+    false,                             // rc_lost
+    0U,                                // input_source
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Constant_Value_f
+  //  Referenced by: '<S45>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    (0ULL),                            // timestamp_last_signal
+    0,                                 // rssi
+    0U,                                // rc_lost_frame_count
+    0U,                                // rc_total_frame_count
+    0U,                                // rc_ppm_frame_length
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U }
+    ,                                  // values
+    0U,                                // channel_count
+    false,                             // rc_failsafe
+    false,                             // rc_lost
+    0U,                                // input_source
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Constant_Value_l
+  //  Referenced by: '<S19>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    (0ULL),                            // timestamp_last_signal
+    0,                                 // rssi
+    0U,                                // rc_lost_frame_count
+    0U,                                // rc_total_frame_count
+    0U,                                // rc_ppm_frame_length
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U }
+    ,                                  // values
+    0U,                                // channel_count
+    false,                             // rc_failsafe
+    false,                             // rc_lost
+    0U,                                // input_source
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Constant_Value_a
+  //  Referenced by: '<S32>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    0.0F,                              // roll_body
+    0.0F,                              // pitch_body
+    0.0F,                              // yaw_body
+    0.0F,                              // yaw_sp_move_rate
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // q_d
+
+    {
+      0.0F, 0.0F, 0.0F }
+    ,                                  // thrust_body
+    false,                             // roll_reset_integral
+    false,                             // pitch_reset_integral
+    false,                             // yaw_reset_integral
+    false,                             // fw_control_yaw
+    0U,                                // apply_flaps
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Out1_Y0_k
+  //  Referenced by: '<S606>/Out1'
+
+  {
+    (0ULL),                            // timestamp
+    (0ULL),                            // timestamp_sample
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // q
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // delta_q_reset
+    0U,                                // quat_reset_counter
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Constant_Value_lh
+  //  Referenced by: '<S602>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    (0ULL),                            // timestamp_sample
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // q
+
+    {
+      0.0F, 0.0F, 0.0F, 0.0F }
+    ,                                  // delta_q_reset
+    0U,                                // quat_reset_counter
+
+    {
+      0U, 0U, 0U, 0U, 0U, 0U, 0U }
+    // _padding0
+  },
+
+  // Computed Parameter: Out1_Y0_o
+  //  Referenced by: '<S596>/Out1'
+
+  {
+    (0ULL),                            // timestamp
+    0.0,                               // lat
+    0.0,                               // lon
+    0.0F,                              // alt
+    0.0F,                              // x
+    0.0F,                              // y
+    0.0F,                              // z
+    0.0F,                              // yaw
+    false,                             // valid_alt
+    false,                             // valid_hpos
+    false,                             // valid_lpos
+    false                              // manual_home
+  },
+
+  // Computed Parameter: Constant_Value_b
+  //  Referenced by: '<S581>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    0.0,                               // lat
+    0.0,                               // lon
+    0.0F,                              // alt
+    0.0F,                              // x
+    0.0F,                              // y
+    0.0F,                              // z
+    0.0F,                              // yaw
+    false,                             // valid_alt
+    false,                             // valid_hpos
+    false,                             // valid_lpos
+    false                              // manual_home
+  },
+
+  // Computed Parameter: Constant_Value_c4
+  //  Referenced by: '<S34>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    0.0F,                              // roll
+    0.0F,                              // pitch
+    0.0F,                              // yaw
+
+    {
+      0.0F, 0.0F, 0.0F }
+    // thrust_body
+  },
+
+  // Computed Parameter: Out1_Y0_d
+  //  Referenced by: '<S605>/Out1'
+
+  {
+    (0ULL),                            // timestamp
+    false,                             // armed
+    false,                             // prearmed
+    false,                             // ready_to_arm
+    false,                             // lockdown
+    false,                             // manual_lockdown
+    false,                             // force_failsafe
+    false,                             // in_esc_calibration_mode
+    false                              // soft_stop
+  },
+
+  // Computed Parameter: Constant_Value_j
+  //  Referenced by: '<S601>/Constant'
+
+  {
+    (0ULL),                            // timestamp
+    false,                             // armed
+    false,                             // prearmed
+    false,                             // ready_to_arm
+    false,                             // lockdown
+    false,                             // manual_lockdown
+    false,                             // force_failsafe
+    false,                             // in_esc_calibration_mode
+    false                              // soft_stop
+  },
+
+  // Expression: 1000
+  //  Referenced by: '<S6>/Constant1'
+
+  1000.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Fault1'
+
+  100.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Constant1'
+
+  100.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S13>/Constant'
+
+  1100.0,
+
+  // Expression: 0.01
+  //  Referenced by: '<S13>/Gain'
+
+  0.01,
+
+  // Expression: 1
+  //  Referenced by: '<S13>/Saturation1'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S13>/Saturation1'
+
+  0.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S13>/IDLE PWM'
+
+  1100.0,
+
+  // Expression: 1000
+  //  Referenced by: '<S6>/Constant2'
+
+  1000.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Fault2'
+
+  100.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Constant2'
+
+  100.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S14>/Constant'
+
+  1100.0,
+
+  // Expression: 0.01
+  //  Referenced by: '<S14>/Gain'
+
+  0.01,
+
+  // Expression: 1
+  //  Referenced by: '<S14>/Saturation1'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S14>/Saturation1'
+
+  0.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S14>/IDLE PWM'
+
+  1100.0,
+
+  // Expression: 1000
+  //  Referenced by: '<S6>/Constant3'
+
+  1000.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Fault3'
+
+  100.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Constant3'
+
+  100.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S15>/Constant'
+
+  1100.0,
+
+  // Expression: 0.01
+  //  Referenced by: '<S15>/Gain'
+
+  0.01,
+
+  // Expression: 1
+  //  Referenced by: '<S15>/Saturation1'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S15>/Saturation1'
+
+  0.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S15>/IDLE PWM'
+
+  1100.0,
+
+  // Expression: 1000
+  //  Referenced by: '<S6>/Constant4'
+
+  1000.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Fault4'
+
+  100.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Constant4'
+
+  100.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S16>/Constant'
+
+  1100.0,
+
+  // Expression: 0.01
+  //  Referenced by: '<S16>/Gain'
+
+  0.01,
+
+  // Expression: 1
+  //  Referenced by: '<S16>/Saturation1'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S16>/Saturation1'
+
+  0.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S16>/IDLE PWM'
+
+  1100.0,
+
+  // Expression: 1000
+  //  Referenced by: '<S6>/Constant5'
+
+  1000.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Fault5'
+
+  100.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Constant5'
+
+  100.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S17>/Constant'
+
+  1100.0,
+
+  // Expression: 0.01
+  //  Referenced by: '<S17>/Gain'
+
+  0.01,
+
+  // Expression: 1
+  //  Referenced by: '<S17>/Saturation1'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S17>/Saturation1'
+
+  0.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S17>/IDLE PWM'
+
+  1100.0,
+
+  // Expression: 1000
+  //  Referenced by: '<S6>/Constant'
+
+  1000.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Fault'
+
+  100.0,
+
+  // Expression: 100
+  //  Referenced by: '<S7>/Constant'
+
+  100.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S12>/Constant'
+
+  1100.0,
+
+  // Expression: 0.01
+  //  Referenced by: '<S12>/Gain'
+
+  0.01,
+
+  // Expression: 1
+  //  Referenced by: '<S12>/Saturation1'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S12>/Saturation1'
+
+  0.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S12>/IDLE PWM'
+
+  1100.0,
+
+  // Expression: -1
+  //  Referenced by: '<S7>/Read Parameter1'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S7>/Read Parameter13'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S7>/Read Parameter2'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S7>/Read Parameter3'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S7>/Read Parameter4'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S7>/Read Parameter5'
+
+  -1.0,
+
+  // Expression: 1100
+  //  Referenced by: '<S23>/Constant'
+
+  1100.0,
+
+  // Expression: 1/800
+  //  Referenced by: '<S23>/Gain'
+
+  0.00125,
+
+  // Expression: 1
+  //  Referenced by: '<S23>/Saturation'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S23>/Saturation'
+
+  0.0,
+
+  // Expression: 1500
+  //  Referenced by: '<S23>/Constant1'
+
+  1500.0,
+
+  // Expression: 1/400
+  //  Referenced by: '<S23>/Gain1'
+
+  0.0025,
+
+  // Expression: 1
+  //  Referenced by: '<S23>/Saturation1'
+
+  1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S23>/Saturation1'
+
+  -1.0,
+
+  // Expression: 1500
+  //  Referenced by: '<S23>/Constant2'
+
+  1500.0,
+
+  // Expression: 1/400
+  //  Referenced by: '<S23>/Gain2'
+
+  0.0025,
+
+  // Expression: 1
+  //  Referenced by: '<S23>/Saturation2'
+
+  1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S23>/Saturation2'
+
+  -1.0,
+
+  // Expression: 1500
+  //  Referenced by: '<S23>/Constant3'
+
+  1500.0,
+
+  // Expression: 1/400
+  //  Referenced by: '<S23>/Gain3'
+
+  0.0025,
+
+  // Expression: 1
+  //  Referenced by: '<S23>/Saturation3'
+
+  1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S23>/Saturation3'
+
+  -1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S149>/Constant'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S151>/Switch1'
+
+  0.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter1'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter11'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter12'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter13'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter14'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter15'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter2'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter3'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter4'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter7'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Read Parameter8'
+
+  -1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S380>/Constant1'
+
+  0.0,
+
+  // Expression: -1
+  //  Referenced by: '<S149>/Gain1'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S150>/Gain'
+
+  -1.0,
+
+  // Expression: 2*pi
+  //  Referenced by: '<S151>/Constant'
+
+  6.2831853071795862,
+
+  // Expression: pi
+  //  Referenced by: '<S151>/Switch'
+
+  3.1415926535897931,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Gain1'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S30>/Gain3'
+
+  -1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S380>/Clamping_zero'
+
+  0.0,
+
+  // Computed Parameter: Filter_gainval
+  //  Referenced by: '<S384>/Filter'
+
+  0.004,
+
+  // Computed Parameter: Integrator_gainval
+  //  Referenced by: '<S389>/Integrator'
+
+  0.004,
+
+  // Expression: [1 0 0 0]
+  //  Referenced by: '<S26>/Constant'
+
+  { 1.0, 0.0, 0.0, 0.0 },
+
+  // Expression: 1
+  //  Referenced by: '<S40>/Constant'
+
+  1.0,
+
+  // Expression: 1
+  //  Referenced by: '<S41>/Constant'
+
+  1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S29>/Read Parameter10'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S29>/Read Parameter5'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S29>/Read Parameter6'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S29>/Read Parameter9'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S31>/Read Parameter16'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S31>/Read Parameter17'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S31>/Read Parameter18'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S31>/Read Parameter19'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S31>/Read Parameter20'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S31>/Read Parameter21'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S31>/Read Parameter22'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S31>/Read Parameter23'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S31>/Read Parameter24'
+
+  -1.0,
+
+  // Computed Parameter: tau_Yaw_Y0
+  //  Referenced by: '<S2>/tau_Yaw'
+
+  0.0,
+
+  // Computed Parameter: tau_Pitch_Y0
+  //  Referenced by: '<S2>/tau_Pitch'
+
+  0.0,
+
+  // Computed Parameter: tau_Roll_Y0
+  //  Referenced by: '<S2>/tau_Roll'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S433>/Constant1'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S483>/Constant1'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S533>/Constant1'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S26>/Switch'
+
+  0.0,
+
+  // Computed Parameter: Merge_InitialOutput
+  //  Referenced by: '<S2>/Merge'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S24>/thrust_sp_bX'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S24>/thrust_sp_bY'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S25>/thrust_sp_bX'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S25>/thrust_sp_bY'
+
+  0.0,
+
+  // Expression: 180*pi/180
+  //  Referenced by: '<S29>/Rate Limiter2'
+
+  3.1415926535897931,
+
+  // Expression: -180*pi/180
+  //  Referenced by: '<S29>/Rate Limiter2'
+
+  -3.1415926535897931,
+
+  // Expression: 0
+  //  Referenced by: '<S29>/Rate Limiter2'
+
+  0.0,
+
+  // Expression: 180*pi/180
+  //  Referenced by: '<S29>/Rate Limiter1'
+
+  3.1415926535897931,
+
+  // Expression: -180*pi/180
+  //  Referenced by: '<S29>/Rate Limiter1'
+
+  -3.1415926535897931,
+
+  // Expression: 0
+  //  Referenced by: '<S29>/Rate Limiter1'
+
+  0.0,
+
+  // Computed Parameter: Integrator_gainval_n
+  //  Referenced by: '<S542>/Integrator'
+
+  0.004,
+
+  // Expression: 50
+  //  Referenced by: '<S31>/Constant2'
+
+  50.0,
+
+  // Computed Parameter: Filter_gainval_d
+  //  Referenced by: '<S537>/Filter'
+
+  0.004,
+
+  // Expression: 0
+  //  Referenced by: '<S533>/Clamping_zero'
+
+  0.0,
+
+  // Computed Parameter: Integrator_gainval_c
+  //  Referenced by: '<S492>/Integrator'
+
+  0.004,
+
+  // Expression: 50
+  //  Referenced by: '<S31>/Constant1'
+
+  50.0,
+
+  // Computed Parameter: Filter_gainval_c
+  //  Referenced by: '<S487>/Filter'
+
+  0.004,
+
+  // Expression: 0
+  //  Referenced by: '<S483>/Clamping_zero'
+
+  0.0,
+
+  // Computed Parameter: Integrator_gainval_p
+  //  Referenced by: '<S442>/Integrator'
+
+  0.004,
+
+  // Expression: 100
+  //  Referenced by: '<S31>/Constant'
+
+  100.0,
+
+  // Computed Parameter: Filter_gainval_dc
+  //  Referenced by: '<S437>/Filter'
+
+  0.004,
+
+  // Expression: 0
+  //  Referenced by: '<S433>/Clamping_zero'
+
+  0.0,
+
+  // Computed Parameter: yaw_Out_Y0
+  //  Referenced by: '<S576>/yaw_Out'
+
+  0.0,
+
+  // Expression: 0.0
+  //  Referenced by: '<S574>/Delay'
+
+  0.0,
+
+  // Expression: 0.01
+  //  Referenced by: '<S574>/Rate'
+
+  0.01,
+
+  // Expression: -1
+  //  Referenced by: '<S574>/Gain1'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S574>/Gain'
+
+  -1.0,
+
+  // Expression: 1
+  //  Referenced by: '<S575>/Delay'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S575>/Constant'
+
+  0.0,
+
+  // Computed Parameter: Out_Y0
+  //  Referenced by: '<S572>/Out'
+
+  0.0,
+
+  // Expression: -1
+  //  Referenced by: '<S570>/Gain'
+
+  -1.0,
+
+  // Computed Parameter: yaw_Out_Y0_f
+  //  Referenced by: '<S573>/yaw_Out'
+
+  0.0,
+
+  // Expression: 0.0
+  //  Referenced by: '<S565>/Delay'
+
+  0.0,
+
+  // Expression: 0.0
+  //  Referenced by: '<S570>/Delay'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S570>/Switch'
+
+  0.0,
+
+  // Expression: 0.02
+  //  Referenced by: '<S570>/Rate of descent'
+
+  0.02,
+
+  // Expression: -1
+  //  Referenced by: '<S570>/Gain2'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S570>/Gain1'
+
+  -1.0,
+
+  // Expression: 1
+  //  Referenced by: '<S571>/Delay'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S571>/Constant'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<S577>/Constant'
+
+  0.0,
+
+  // Expression: 6
+  //  Referenced by: '<S567>/Constant'
+
+  6.0,
+
+  // Computed Parameter: yaw_Out_Y0_p
+  //  Referenced by: '<S569>/yaw_Out'
+
+  0.0,
+
+  // Expression: 1
+  //  Referenced by: '<S568>/Delay'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S568>/Constant'
+
+  0.0,
+
+  // Expression: -1
+  //  Referenced by: '<S563>/Read Parameter'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S595>/Read Parameter'
+
+  -1.0,
+
+  // Expression: -1
+  //  Referenced by: '<S594>/Read Parameter'
+
+  -1.0,
+
+  // Expression: 5
+  //  Referenced by: '<S5>/Gain'
+
+  5.0,
+
+  // Expression: 5
+  //  Referenced by: '<S5>/Gain1'
+
+  5.0,
+
+  // Expression: 10
+  //  Referenced by: '<S5>/Gain2'
+
+  10.0,
+
+  // Expression: 1
+  //  Referenced by: '<S5>/Gain3'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S10>/Constant'
+
+  0.0,
+
+  // Expression: 6
+  //  Referenced by: '<S10>/Constant17'
+
+  6.0,
+
+  // Computed Parameter: Constant7_Value
+  //  Referenced by: '<S588>/Constant7'
+
+  (0ULL),
+
+  // Computed Parameter: Constant_Value_gk
+  //  Referenced by: '<S30>/Constant'
+
+  10.0F,
+
+  // Computed Parameter: Gain1_Gain_p
+  //  Referenced by: '<S152>/Gain1'
+
+  0.0174532924F,
+
+  // Computed Parameter: Gain1_Gain_f
+  //  Referenced by: '<S153>/Gain1'
+
+  0.0174532924F,
+
+  // Computed Parameter: Gain_Gain_dz
+  //  Referenced by: '<S30>/Gain'
+
+  -1.0F,
+
+  // Computed Parameter: Gain2_Gain_a
+  //  Referenced by: '<S30>/Gain2'
+
+  -1.0F,
+
+  // Computed Parameter: Gain1_Gain_l
+  //  Referenced by: '<S47>/Gain1'
+
+  0.0174532924F,
+
+  // Computed Parameter: Gain1_Gain_c
+  //  Referenced by: '<S48>/Gain1'
+
+  0.0174532924F,
+
+  // Computed Parameter: Constant1_Value_d
+  //  Referenced by: '<S595>/Constant1'
+
+  { 0.0F, 0.0F },
+
+  // Computed Parameter: Constant_Value_f2
+  //  Referenced by: '<S595>/Constant'
+
+  0.0F,
+
+  // Computed Parameter: Gain_Gain_h
+  //  Referenced by: '<S594>/Gain'
+
+  -1.0F,
+
+  // Computed Parameter: Constant1_Value_k
+  //  Referenced by: '<S594>/Constant1'
+
+  { 0.0F, 0.0F },
+
+  // Computed Parameter: Constant_Value_l4
+  //  Referenced by: '<S594>/Constant'
+
+  0.0F,
+
+  // Computed Parameter: Constant_Value_fh
+  //  Referenced by: '<S588>/Constant'
+
+  { 0.0F, 0.0F, 0.0F },
+
+  // Computed Parameter: Constant1_Value_h
+  //  Referenced by: '<S588>/Constant1'
+
+  { 0.0F, 0.0F, 0.0F },
+
+  // Computed Parameter: Constant2_Value_f
+  //  Referenced by: '<S588>/Constant2'
+
+  { 0.0F, 0.0F, 0.0F },
+
+  // Computed Parameter: Constant3_Value_a
+  //  Referenced by: '<S588>/Constant3'
+
+  0.0F,
+
+  // Computed Parameter: Constant4_Value_g
+  //  Referenced by: '<S588>/Constant4'
+
+  0.0F,
+
+  // Computed Parameter: Constant5_Value_j
+  //  Referenced by: '<S586>/Constant5'
+
+  true,
+
+  // Computed Parameter: Constant5_Value_k
+  //  Referenced by: '<S587>/Constant5'
+
+  true,
+
+  // Computed Parameter: Constant1_Value_dl
+  //  Referenced by: '<S589>/Constant1'
+
+  true,
+
+  // Computed Parameter: Constant5_Value_h
+  //  Referenced by: '<S589>/Constant5'
+
+  true,
+
+  // Computed Parameter: Constant5_Value_l
+  //  Referenced by: '<S588>/Constant5'
+
+  false,
+
+  // Computed Parameter: Constant_Value_dl
+  //  Referenced by: '<S380>/Constant'
+
+  1,
+
+  // Computed Parameter: Constant2_Value_c
+  //  Referenced by: '<S380>/Constant2'
+
+  -1,
+
+  // Computed Parameter: Constant3_Value_k
+  //  Referenced by: '<S380>/Constant3'
+
+  1,
+
+  // Computed Parameter: Constant4_Value_b
+  //  Referenced by: '<S380>/Constant4'
+
+  -1,
+
+  // Computed Parameter: Constant_Value_dm
+  //  Referenced by: '<S433>/Constant'
+
+  1,
+
+  // Computed Parameter: Constant2_Value_l
+  //  Referenced by: '<S433>/Constant2'
+
+  -1,
+
+  // Computed Parameter: Constant3_Value_by
+  //  Referenced by: '<S433>/Constant3'
+
+  1,
+
+  // Computed Parameter: Constant4_Value_i
+  //  Referenced by: '<S433>/Constant4'
+
+  -1,
+
+  // Computed Parameter: Constant_Value_ol
+  //  Referenced by: '<S483>/Constant'
+
+  1,
+
+  // Computed Parameter: Constant2_Value_d
+  //  Referenced by: '<S483>/Constant2'
+
+  -1,
+
+  // Computed Parameter: Constant3_Value_m
+  //  Referenced by: '<S483>/Constant3'
+
+  1,
+
+  // Computed Parameter: Constant4_Value_m
+  //  Referenced by: '<S483>/Constant4'
+
+  -1,
+
+  // Computed Parameter: Constant_Value_ix
+  //  Referenced by: '<S533>/Constant'
+
+  1,
+
+  // Computed Parameter: Constant2_Value_f2
+  //  Referenced by: '<S533>/Constant2'
+
+  -1,
+
+  // Computed Parameter: Constant3_Value_ki
+  //  Referenced by: '<S533>/Constant3'
+
+  1,
+
+  // Computed Parameter: Constant4_Value_l
+  //  Referenced by: '<S533>/Constant4'
+
+  -1,
+
+  // Computed Parameter: ManualSwitch1_CurrentSetting
+  //  Referenced by: '<S7>/Manual Switch1'
+
+  0U,
+
+  // Computed Parameter: ManualSwitch2_CurrentSetting
+  //  Referenced by: '<S7>/Manual Switch2'
+
+  0U,
+
+  // Computed Parameter: ManualSwitch3_CurrentSetting
+  //  Referenced by: '<S7>/Manual Switch3'
+
+  0U,
+
+  // Computed Parameter: ManualSwitch4_CurrentSetting
+  //  Referenced by: '<S7>/Manual Switch4'
+
+  0U,
+
+  // Computed Parameter: ManualSwitch5_CurrentSetting
+  //  Referenced by: '<S7>/Manual Switch5'
+
+  0U,
+
+  // Computed Parameter: ManualSwitch_CurrentSetting
+  //  Referenced by: '<S7>/Manual Switch'
+
+  0U,
+
+  // Computed Parameter: Constant_Value_fm
+  //  Referenced by: '<S580>/Constant'
+
+  0U,
+
+  // Computed Parameter: Constant6_Value
+  //  Referenced by: '<S588>/Constant6'
+
+  255U
+};
+
+//
+// File trailer for generated code.
+//
+// [EOF]
+//
