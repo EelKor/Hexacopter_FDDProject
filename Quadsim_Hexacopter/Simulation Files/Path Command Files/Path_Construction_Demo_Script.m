@@ -41,6 +41,21 @@ path.psi = timeseries(Psi,t);
 clear X Y Z t Psi
 uisave('path', 'front')
 
+%% WP - right Flight
+X = [ 0, 0, 0,0,0]; % meters
+Y = [ 0, 0, 20, 20, 20]; % meters
+Z = [ 3, 3, 3, 3,3]; % meters
+t = [ 0, 5, 10, 15, 20]; % seconds
+Psi = [ 0, 0, 0, 0, 0]*pi/180; % radians
+%X = 1.5*X;
+%Y = 1.5*Y;
+path.x = timeseries(X,t);
+path.y = timeseries(Y,t);
+path.z = timeseries(Z,t);
+path.psi = timeseries(Psi,t);
+clear X Y Z t Psi
+uisave('path', 'front')
+
 %% Diamond
 % X = [ 0, 10, 0, -10, 0, 10, 0, -10, 0, 10, 0, -10, 0, 10, 0, -10, 0, 10, 0, -10, 0]; % meters
 % Y = [ 0, 0, 10, 0, -10, 0, 10, 0, -10, 0, 10, 0, -10, 0, 10, 0, -10, 0, 10, 0, -10]; % meters
