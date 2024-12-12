@@ -9,7 +9,7 @@
 % Generated on: 24-Jul-2024 17:09:16
 
 %% Specify the model name
-model = 'F550_model_trim';
+model = 'F550_model_trim_ver2023b';
 
 %% Create the operating point specification object.
 opspec = operspec(model);

@@ -31,13 +31,15 @@ armLength = 0.275;   %Body radius(m)
 Cd  = 0.055;      %Damping coefficient(N/(m/s)^2)
 Cmd = [0.0035 0.0039 0.0034]; %Damping moment coefficient vector(N/(m/s)^2)
 dzcg = 0.12;
+%% 
 
-% ----------------------------------------------------
+
+%% ----------------------------------------------------
 % Initial Condition
 
 Alt_ground = 0;  % altidude ground
 
-% Wind ---------------------------------------------------
+%% Wind ---------------------------------------------------
 
 NoWind=0;
 if NoWind==1;
@@ -54,7 +56,7 @@ else
     Wind_DiscreteGustAmp = [1.5 1.5 1.0]; % Gust Amplitue (m/sec)
 end
 
-% Initial data
+%% Initial data
 motorRpm0 =[0 0 0 0 0 0];
 x0=[0 0 0 0 0 0 0 0 0 0 0 0];
 u0 = [0 0 0 0];
