@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Info File="NumericalSimulation/Trim_Calculation/F550_Position_ctrl_ver2023b.slx" GroupUUID="6965cc46-600c-4208-9fba-9568dd36f522" Icon="" Name="F550_Position_ctrl_ver2023b" Type="Basic" Visible="1"/>
+<Info File="NumericalSimulation/F550_Dynamic_Models/Trim_Calculation/F550_Position_ctrl_ver2023b.slx" GroupUUID="6965cc46-600c-4208-9fba-9568dd36f522" Icon="" Name="F550_Position_ctrl_ver2023b" Type="Basic" Visible="1"/>
