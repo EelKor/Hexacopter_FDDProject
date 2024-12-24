@@ -32,10 +32,10 @@ for i = 1:length(vars)
     timetables{i} = eval(vars{i});
 end
 
-TT = synchronize(timetables{1:end-1},'first','previous');
+TT = synchronize(timetables{1:end},'first','previous');
 uniqueTT = unique(TT);
 
-uniqueTT.Properties.VariableNames = vars(1:end-1);
+uniqueTT.Properties.VariableNames = vars(1:end);
 uniqueTT = rmmissing(uniqueTT);
 writetimetable(uniqueTT,strcat(name,'.csv'))
 
