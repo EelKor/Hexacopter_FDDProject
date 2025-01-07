@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_HEXA_Hovering'.
 //
-// Model version                  : 5.25
+// Model version                  : 5.27
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Wed Oct 16 16:25:30 2024
+// C/C++ source code generated on : Tue Jan  7 14:03:20 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -72,11 +72,25 @@ preprocessor word size checks.
 // Skipping ulong_long/long_long check: insufficient preprocessor integer range. 
 extern real_T rt_remd_snf(real_T u0, real_T u1);
 extern real_T rt_atan2d_snf(real_T u0, real_T u1);
+extern void FLIGHT_HEXA_Hovering_SourceBlock_Init
+  (DW_SourceBlock_FLIGHT_HEXA_Hovering_T *localDW);
+extern void FLIGHT_HEXA_Hovering_SourceBlock
+  (B_SourceBlock_FLIGHT_HEXA_Hovering_T *localB,
+   DW_SourceBlock_FLIGHT_HEXA_Hovering_T *localDW);
+extern void FLIGHT_HEXA_Hovering_SourceBlock_n_Init
+  (DW_SourceBlock_FLIGHT_HEXA_Hovering_e_T *localDW);
+extern void FLIGHT_HEXA_Hovering_SourceBlock_d
+  (B_SourceBlock_FLIGHT_HEXA_Hovering_d_T *localB,
+   DW_SourceBlock_FLIGHT_HEXA_Hovering_e_T *localDW);
 extern void FLIGHT_HEXA_Hovering_MATLABSystem_Init
   (DW_MATLABSystem_FLIGHT_HEXA_Hovering_T *localDW);
 extern void FLIGHT_HEXA_Hovering_MATLABSystem(const real_T rtu_0[3], const
   real_T rtu_1[3], boolean_T rtu_2, uint8_T rtu_3,
   B_MATLABSystem_FLIGHT_HEXA_Hovering_T *localB);
+extern void FLIGHT_HEXA_Hovering_SourceBlock_Term
+  (DW_SourceBlock_FLIGHT_HEXA_Hovering_T *localDW);
+extern void FLIGHT_HEXA_Hovering_SourceBlock_a_Term
+  (DW_SourceBlock_FLIGHT_HEXA_Hovering_e_T *localDW);
 extern void FLIGHT_HEXA_Hovering_MATLABSystem_Term
   (DW_MATLABSystem_FLIGHT_HEXA_Hovering_T *localDW);
 

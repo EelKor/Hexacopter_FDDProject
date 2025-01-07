@@ -13,7 +13,6 @@ px4_add_module(
     STACK_MAIN 2000
 SRCS
    MW_ParameterRead.cpp
-   MW_PX4_PWM.cpp
    MW_uORB_Read.cpp
    MW_uORB_Write.cpp
    ert_main.cpp
@@ -26,7 +25,6 @@ SRCS
    nuttxinitialize.cpp
    MW_Parameter.h
    MW_ParameterRead.h
-   MW_PX4_PWM.h
    MW_uORB_Read.h
    MW_uORB_Write.h
    rtGetInf.h
