@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+ Flight Gear 0.9.3/0.9.8a config file for F450 simulation
+ $Revision: 1.1.8.1 $
+ Copyright 1990-2005 The MathWorks Inc.
+
+ R. Aberg
+ 2004-MAY-17
+************************************************************************
+-->
+
+<PropertyList>
+
+ <path>F450.ac</path>
+
+
+<animation>
+  <type>spin</type>
+  <object-name>Propeller1</object-name>
+  <property>/engines/engine[0]/rpm</property>
+  <factor>-1</factor>
+  <center>
+    <x-m>-0.874</x-m>
+    <y-m>0.87</y-m>
+    <z-m>0.875</z-m>
+  </center>
+  <axis>
+    <x>0.0</x>
+    <y>0.0</y>
+    <z>1.0</z>
+  </axis>
+</animation>
+
+
+
+
+<animation>
+  <type>spin</type>
+  <object-name>Propeller2</object-name>
+  <property>/engines/engine[1]/rpm</property>
+  <factor>1</factor>
+  <center>
+    <x-m>0.874</x-m>
+    <y-m>-0.87</y-m>
+    <z-m>0.875</z-m>
+  </center>
+  <axis>
+    <x>0.0</x>
+    <y>0.0</y>
+    <z>1.0</z>
+  </axis>
+</animation>
+
+
+
+
+<animation>
+  <type>spin</type>
+  <object-name>Propeller3</object-name>
+  <property>/engines/engine[2]/rpm</property>
+  <factor>-1</factor>
+  <center>
+    <x-m>-0.874</x-m>
+    <y-m>-0.87</y-m>
+    <z-m>0.875</z-m>
+  </center>
+  <axis>
+    <x>0.0</x>
+    <y>0.0</y>
+    <z>-1.0</z>
+  </axis>
+</animation>
+
+
+
+<animation>
+  <type>spin</type>
+  <object-name>Propeller4</object-name>
+  <property>/engines/engine[3]/rpm</property>
+  <factor>1</factor>
+  <center>
+    <x-m>0.874</x-m>
+    <y-m>0.87</y-m>
+    <z-m>0.875</z-m>
+  </center>
+  <axis>
+    <x>0.0</x>
+    <y>0.0</y>
+    <z>-1.0</z>
+  </axis>
+</animation>
+
+</PropertyList>

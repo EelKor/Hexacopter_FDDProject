@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+ Flight Gear 0.9.3/0.9.8a config file for Rotor4 network simulation
+
+ Background information: http://oea.larc.nasa.gov/PAIS/Rotor4.html
+
+ $Revision: 1.1.8.1 $
+ Copyright 1990-2005 The MathWorks Inc.
+
+ R. Aberg
+ 2003-NOV-26
+************************************************************************
+-->
+
+<PropertyList>
+
+
+ <sim>
+  <description>DJI F450 Model for QuadCopter Simulation System</description>
+
+  <flight-model>network</flight-model>
+
+  <model>
+    <path>Aircraft/F450/Models/F450.xml</path>
+  </model>
+
+  <systems>
+   <electrical>
+    <path>Aircraft/Generic/generic-electrical.xml</path>
+   </electrical>
+  </systems> 
+  
+ 	<chase-distance-m  type="double"> -10</chase-distance-m> 	
+	<current-view>
+	<view-number  type="int">2</view-number>	
+	</current-view>
+	
+	<time>
+	<gmt type="string">"2004-05-31 T20:09:05"</gmt>	
+	<gmt-string type="string">"20:09:05"</gmt>		
+	</time>
+	
+	
+ </sim>
+ 
+ 
+</PropertyList>
