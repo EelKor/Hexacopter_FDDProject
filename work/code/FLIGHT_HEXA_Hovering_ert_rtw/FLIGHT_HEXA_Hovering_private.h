@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_HEXA_Hovering'.
 //
-// Model version                  : 5.27
+// Model version                  : 5.30
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Tue Jan  7 14:03:20 2025
+// C/C++ source code generated on : Wed Jan  8 13:53:58 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -77,11 +77,11 @@ extern void FLIGHT_HEXA_Hovering_SourceBlock_Init
 extern void FLIGHT_HEXA_Hovering_SourceBlock
   (B_SourceBlock_FLIGHT_HEXA_Hovering_T *localB,
    DW_SourceBlock_FLIGHT_HEXA_Hovering_T *localDW);
-extern void FLIGHT_HEXA_Hovering_SourceBlock_n_Init
-  (DW_SourceBlock_FLIGHT_HEXA_Hovering_e_T *localDW);
-extern void FLIGHT_HEXA_Hovering_SourceBlock_d
-  (B_SourceBlock_FLIGHT_HEXA_Hovering_d_T *localB,
-   DW_SourceBlock_FLIGHT_HEXA_Hovering_e_T *localDW);
+extern void FLIGHT_HEXA_Hovering_SourceBlock_k_Init
+  (DW_SourceBlock_FLIGHT_HEXA_Hovering_m_T *localDW);
+extern void FLIGHT_HEXA_Hovering_SourceBlock_b
+  (B_SourceBlock_FLIGHT_HEXA_Hovering_i_T *localB,
+   DW_SourceBlock_FLIGHT_HEXA_Hovering_m_T *localDW);
 extern void FLIGHT_HEXA_Hovering_MATLABSystem_Init
   (DW_MATLABSystem_FLIGHT_HEXA_Hovering_T *localDW);
 extern void FLIGHT_HEXA_Hovering_MATLABSystem(const real_T rtu_0[3], const
@@ -89,8 +89,8 @@ extern void FLIGHT_HEXA_Hovering_MATLABSystem(const real_T rtu_0[3], const
   B_MATLABSystem_FLIGHT_HEXA_Hovering_T *localB);
 extern void FLIGHT_HEXA_Hovering_SourceBlock_Term
   (DW_SourceBlock_FLIGHT_HEXA_Hovering_T *localDW);
-extern void FLIGHT_HEXA_Hovering_SourceBlock_a_Term
-  (DW_SourceBlock_FLIGHT_HEXA_Hovering_e_T *localDW);
+extern void FLIGHT_HEXA_Hovering_SourceBlock_o_Term
+  (DW_SourceBlock_FLIGHT_HEXA_Hovering_m_T *localDW);
 extern void FLIGHT_HEXA_Hovering_MATLABSystem_Term
   (DW_MATLABSystem_FLIGHT_HEXA_Hovering_T *localDW);
 

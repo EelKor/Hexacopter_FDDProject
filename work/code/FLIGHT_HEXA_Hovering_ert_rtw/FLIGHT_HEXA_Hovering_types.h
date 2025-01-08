@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_HEXA_Hovering'.
 //
-// Model version                  : 5.27
+// Model version                  : 5.30
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Tue Jan  7 14:03:20 2025
+// C/C++ source code generated on : Wed Jan  8 13:53:58 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -20,10 +20,9 @@
 #define FLIGHT_HEXA_Hovering_types_h_
 #include "rtwtypes.h"
 #include "MW_Parameter.h"
+#include <uORB/topics/vehicle_angular_velocity.h>
 #include <uORB/topics/actuator_armed.h>
 #include <uORB/topics/input_rc.h>
-#include <uORB/topics/actuator_motors.h>
-#include <uORB/topics/vehicle_angular_velocity.h>
 #include <uORB/topics/vehicle_attitude.h>
 #include <uORB/topics/vehicle_local_position.h>
 #include <uORB/topics/trajectory_waypoint.h>
@@ -31,6 +30,7 @@
 #include <uORB/topics/home_position.h>
 #include <uORB/topics/position_setpoint.h>
 #include <uORB/topics/position_setpoint_triplet.h>
+#include <uORB/topics/actuator_motors.h>
 #ifndef struct_b_px4_internal_block_SampleTimeImpl_FLIGHT_HEXA_Hovering_T
 #define struct_b_px4_internal_block_SampleTimeImpl_FLIGHT_HEXA_Hovering_T
 
@@ -68,7 +68,21 @@ struct px4_internal_block_LLA2LocalCoordinatesNED_FLIGHT_HEXA_Hoveri_T
 #endif
       // struct_px4_internal_block_LLA2LocalCoordinatesNED_FLIGHT_HEXA_Hoveri_T
 
-// Custom Type definition for MATLABSystem: '<S70>/Read Parameter'
+#ifndef struct_px4_internal_block_LLA2LocalCoordinates_FLIGHT_HEXA_Hovering_T
+#define struct_px4_internal_block_LLA2LocalCoordinates_FLIGHT_HEXA_Hovering_T
+
+struct px4_internal_block_LLA2LocalCoordinates_FLIGHT_HEXA_Hovering_T
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  boolean_T previousValidReceived;
+  boolean_T nextValidReceived;
+};
+
+#endif // struct_px4_internal_block_LLA2LocalCoordinates_FLIGHT_HEXA_Hovering_T
+
+// Custom Type definition for MATLABSystem: '<S55>/Read Parameter5'
 #include "MW_Parameter.h"
 #ifndef struct_px4_internal_block_ParameterUpdate_FLIGHT_HEXA_Hovering_T
 #define struct_px4_internal_block_ParameterUpdate_FLIGHT_HEXA_Hovering_T
@@ -97,20 +111,6 @@ struct px4_internal_block_Publisher_FLIGHT_HEXA_Hovering_T
 };
 
 #endif            // struct_px4_internal_block_Publisher_FLIGHT_HEXA_Hovering_T
-
-#ifndef struct_px4_internal_block_LLA2LocalCoordinates_FLIGHT_HEXA_Hovering_T
-#define struct_px4_internal_block_LLA2LocalCoordinates_FLIGHT_HEXA_Hovering_T
-
-struct px4_internal_block_LLA2LocalCoordinates_FLIGHT_HEXA_Hovering_T
-{
-  boolean_T matlabCodegenIsDeleted;
-  int32_T isInitialized;
-  boolean_T isSetupComplete;
-  boolean_T previousValidReceived;
-  boolean_T nextValidReceived;
-};
-
-#endif // struct_px4_internal_block_LLA2LocalCoordinates_FLIGHT_HEXA_Hovering_T
 
 #ifndef struct_cell_wrap_FLIGHT_HEXA_Hovering_T
 #define struct_cell_wrap_FLIGHT_HEXA_Hovering_T

@@ -12,8 +12,8 @@ px4_add_module(
     MAIN px4_simulink_app
     STACK_MAIN 2000
 SRCS
-   MW_ParameterRead.cpp
    MW_uORB_Read.cpp
+   MW_ParameterRead.cpp
    MW_uORB_Write.cpp
    ert_main.cpp
    FLIGHT_HEXA_Hovering.cpp
@@ -23,9 +23,9 @@ SRCS
    rt_nonfinite.cpp
    MW_PX4_TaskControl.cpp
    nuttxinitialize.cpp
+   MW_uORB_Read.h
    MW_Parameter.h
    MW_ParameterRead.h
-   MW_uORB_Read.h
    MW_uORB_Write.h
    rtGetInf.h
    rtGetNaN.h

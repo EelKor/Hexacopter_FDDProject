@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_HEXA_Hovering'.
 //
-// Model version                  : 5.27
+// Model version                  : 5.30
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Tue Jan  7 14:03:20 2025
+// C/C++ source code generated on : Wed Jan  8 13:53:58 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
