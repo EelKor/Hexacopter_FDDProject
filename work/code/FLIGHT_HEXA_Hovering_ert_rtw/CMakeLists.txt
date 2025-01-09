@@ -55,6 +55,9 @@ SRCS
        ${MAVLINK_LIBRARY_DIR}/${MAVLINK_DIALECT_UAVIONIX}
 )
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+
 get_target_property(PX4_SL_APP_COMPILE_FLAGS modules__px4_simulink_app COMPILE_OPTIONS)
 list(REMOVE_ITEM PX4_SL_APP_COMPILE_FLAGS -Werror)
 set_target_properties(modules__px4_simulink_app PROPERTIES COMPILE_OPTIONS "${PX4_SL_APP_COMPILE_FLAGS}")

@@ -9,7 +9,7 @@
 //
 // Model version                  : 5.30
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Wed Jan  8 13:53:58 2025
+// C/C++ source code generated on : Thu Jan  9 13:36:09 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -35,7 +35,7 @@ extern "C"
 // Named constants for Chart: '<S4>/Chart'
 const uint8_T FLIGHT_HEXA_Hovering_IN_MISSION = 1U;
 const uint8_T FLIGHT_HEXA_Hovering_IN_STABLIZED = 2U;
-const real_T FLIGHT_HEXA_Hovering_period = 0.004;
+const real_T FLIGHT_HEXA_Hovering_period = 0.01;
 
 // Block signals (default storage)
 B_FLIGHT_HEXA_Hovering_T FLIGHT_HEXA_Hovering_B;
@@ -186,12 +186,15 @@ static real_T FLIGHT_HEXA_Hovering_sind(real_T x)
     }
 
     if (absx <= 45.0) {
-      b_x = sin(0.017453292519943295 * b_x);
+      b_x *= 0.017453292519943295;
+      b_x = sin(b_x);
     } else if (absx <= 135.0) {
       if (b_x > 0.0) {
-        b_x = cos((b_x - 90.0) * 0.017453292519943295);
+        b_x = (b_x - 90.0) * 0.017453292519943295;
+        b_x = cos(b_x);
       } else {
-        b_x = -cos((b_x + 90.0) * 0.017453292519943295);
+        b_x = (b_x + 90.0) * 0.017453292519943295;
+        b_x = -cos(b_x);
       }
     } else {
       if (b_x > 0.0) {
@@ -259,11 +262,11 @@ void FLIGHT_HEXA_Hovering_MATLABSystem(const real_T rtu_0[3], const real_T
   rtu_1[3], boolean_T rtu_2, uint8_T rtu_3,
   B_MATLABSystem_FLIGHT_HEXA_Hovering_T *localB)
 {
-  real_T Rn_tmp;
   real_T absx;
   real_T dLon;
   real_T flat;
-  real_T u;
+  real_T flat_tmp;
+  real_T r;
   int32_T b_k;
   boolean_T b[3];
   boolean_T exitg1;
@@ -276,19 +279,19 @@ void FLIGHT_HEXA_Hovering_MATLABSystem(const real_T rtu_0[3], const real_T
     flat = fabs(localB->dLat);
     if (flat > 180.0) {
       if (rtIsNaN(localB->dLat + 180.0) || rtIsInf(localB->dLat + 180.0)) {
-        flat = (rtNaN);
+        r = (rtNaN);
       } else if (localB->dLat + 180.0 == 0.0) {
-        flat = 0.0;
+        r = 0.0;
       } else {
-        flat = fmod(localB->dLat + 180.0, 360.0);
-        if (flat == 0.0) {
-          flat = 0.0;
+        r = fmod(localB->dLat + 180.0, 360.0);
+        if (r == 0.0) {
+          r = 0.0;
         } else if (localB->dLat + 180.0 < 0.0) {
-          flat += 360.0;
+          r += 360.0;
         }
       }
 
-      localB->dLat = localB->dLat * 0.0 + (flat - 180.0);
+      localB->dLat = localB->dLat * 0.0 + (r - 180.0);
       flat = fabs(localB->dLat);
     }
 
@@ -296,71 +299,71 @@ void FLIGHT_HEXA_Hovering_MATLABSystem(const real_T rtu_0[3], const real_T
       flat = fabs(localB->dLat);
       latp2 = (flat > 90.0);
       dLon += 180.0;
-      u = localB->dLat * static_cast<real_T>(latp2);
-      if (rtIsNaN(u)) {
-        u = (rtNaN);
-      } else if (u < 0.0) {
-        u = -1.0;
+      r = localB->dLat * static_cast<real_T>(latp2);
+      if (rtIsNaN(r)) {
+        r = (rtNaN);
+      } else if (r < 0.0) {
+        r = -1.0;
       } else {
-        u = (u > 0.0);
+        r = (r > 0.0);
       }
 
-      localB->dLat = (90.0 - (flat * static_cast<real_T>(latp2) - 90.0)) * u *
+      localB->dLat = (90.0 - (flat * static_cast<real_T>(latp2) - 90.0)) * r *
         static_cast<real_T>(latp2) + localB->dLat * static_cast<real_T>(!latp2);
     }
 
     if ((dLon > 180.0) || (dLon < -180.0)) {
       flat = rt_remd_snf(dLon, 360.0);
-      u = flat / 180.0;
-      if (u < 0.0) {
-        u = ceil(u);
+      r = flat / 180.0;
+      if (r < 0.0) {
+        r = ceil(r);
       } else {
-        u = floor(u);
+        r = floor(r);
       }
 
-      dLon = (flat - 360.0 * u) + dLon * 0.0;
+      dLon = (flat - 360.0 * r) + dLon * 0.0;
     }
 
     flat = FLIGHT_HEXA_Hovering_sind(rtu_1[0]);
-    Rn_tmp = 1.0 - 0.0066943799901413165 * flat * flat;
-    flat = 6.378137E+6 / sqrt(Rn_tmp);
+    flat_tmp = 1.0 - 0.0066943799901413165 * flat * flat;
+    flat = 6.378137E+6 / sqrt(flat_tmp);
     if (rtIsInf(rtu_1[0]) || rtIsNaN(rtu_1[0])) {
-      u = (rtNaN);
+      r = (rtNaN);
     } else {
-      u = rt_remd_snf(rtu_1[0], 360.0);
-      absx = fabs(u);
+      r = rt_remd_snf(rtu_1[0], 360.0);
+      absx = fabs(r);
       if (absx > 180.0) {
-        if (u > 0.0) {
-          u -= 360.0;
+        if (r > 0.0) {
+          r -= 360.0;
         } else {
-          u += 360.0;
+          r += 360.0;
         }
 
-        absx = fabs(u);
+        absx = fabs(r);
       }
 
       if (absx <= 45.0) {
-        u = cos(0.017453292519943295 * u);
+        r = cos(0.017453292519943295 * r);
       } else if (absx <= 135.0) {
-        if (u > 0.0) {
-          u = -sin((u - 90.0) * 0.017453292519943295);
+        if (r > 0.0) {
+          r = -sin((r - 90.0) * 0.017453292519943295);
         } else {
-          u = sin((u + 90.0) * 0.017453292519943295);
+          r = sin((r + 90.0) * 0.017453292519943295);
         }
       } else {
-        if (u > 0.0) {
-          u = (u - 180.0) * 0.017453292519943295;
+        if (r > 0.0) {
+          r = (r - 180.0) * 0.017453292519943295;
         } else {
-          u = (u + 180.0) * 0.017453292519943295;
+          r = (r + 180.0) * 0.017453292519943295;
         }
 
-        u = -cos(u);
+        r = -cos(r);
       }
     }
 
-    localB->dLat /= rt_atan2d_snf(1.0, 0.99330562000985867 / Rn_tmp * flat) *
+    localB->dLat /= rt_atan2d_snf(1.0, 0.99330562000985867 / flat_tmp * flat) *
       57.295779513082323;
-    dLon /= rt_atan2d_snf(1.0, flat * u) * 57.295779513082323;
+    dLon /= rt_atan2d_snf(1.0, flat * r) * 57.295779513082323;
     flat = -rtu_0[2] + rtu_1[2];
     b[0] = rtIsNaN(localB->dLat);
     b[1] = rtIsNaN(dLon);
@@ -377,11 +380,14 @@ void FLIGHT_HEXA_Hovering_MATLABSystem(const real_T rtu_0[3], const real_T
       }
     }
 
-    u = 0.0 / static_cast<real_T>(!latp2);
-    localB->MATLABSystem[0] = static_cast<real32_T>(u + localB->dLat);
-    localB->MATLABSystem[1] = static_cast<real32_T>(u + dLon);
-    localB->MATLABSystem[2] = static_cast<real32_T>(u + flat);
+    r = 0.0 / static_cast<real_T>(!latp2);
+
+    // MATLABSystem: '<S42>/MATLAB System'
+    localB->MATLABSystem[0] = static_cast<real32_T>(r + localB->dLat);
+    localB->MATLABSystem[1] = static_cast<real32_T>(r + dLon);
+    localB->MATLABSystem[2] = static_cast<real32_T>(r + flat);
   } else {
+    // MATLABSystem: '<S42>/MATLAB System'
     localB->MATLABSystem[0] = 0.0F;
     localB->MATLABSystem[1] = 0.0F;
     localB->MATLABSystem[2] = 0.0F;
@@ -415,13 +421,13 @@ static real_T FLIGHT_HEXA_Hovering_rt_atan2d_snf(real_T u0, real_T u1)
     }
 
     if (u1 > 0.0) {
-      FLIGHT_HEXA_Hovering_B.i1_c = 1;
+      FLIGHT_HEXA_Hovering_B.i1_b = 1;
     } else {
-      FLIGHT_HEXA_Hovering_B.i1_c = -1;
+      FLIGHT_HEXA_Hovering_B.i1_b = -1;
     }
 
     y = atan2(static_cast<real_T>(FLIGHT_HEXA_Hovering_B.i), static_cast<real_T>
-              (FLIGHT_HEXA_Hovering_B.i1_c));
+              (FLIGHT_HEXA_Hovering_B.i1_b));
   } else if (u1 == 0.0) {
     if (u0 > 0.0) {
       y = RT_PI / 2.0;
@@ -478,24 +484,27 @@ static real_T FLIGHT_HEXA_Hovering_sind_d(real_T x)
     b_x = (rtNaN);
   } else {
     b_x = FLIGHT_HEXA_Hovering_rt_remd_snf(x, 360.0);
-    FLIGHT_HEXA_Hovering_B.absx_m = fabs(b_x);
-    if (FLIGHT_HEXA_Hovering_B.absx_m > 180.0) {
+    FLIGHT_HEXA_Hovering_B.absx_c = fabs(b_x);
+    if (FLIGHT_HEXA_Hovering_B.absx_c > 180.0) {
       if (b_x > 0.0) {
         b_x -= 360.0;
       } else {
         b_x += 360.0;
       }
 
-      FLIGHT_HEXA_Hovering_B.absx_m = fabs(b_x);
+      FLIGHT_HEXA_Hovering_B.absx_c = fabs(b_x);
     }
 
-    if (FLIGHT_HEXA_Hovering_B.absx_m <= 45.0) {
-      b_x = sin(0.017453292519943295 * b_x);
-    } else if (FLIGHT_HEXA_Hovering_B.absx_m <= 135.0) {
+    if (FLIGHT_HEXA_Hovering_B.absx_c <= 45.0) {
+      b_x *= 0.017453292519943295;
+      b_x = sin(b_x);
+    } else if (FLIGHT_HEXA_Hovering_B.absx_c <= 135.0) {
       if (b_x > 0.0) {
-        b_x = cos((b_x - 90.0) * 0.017453292519943295);
+        b_x = (b_x - 90.0) * 0.017453292519943295;
+        b_x = cos(b_x);
       } else {
-        b_x = -cos((b_x + 90.0) * 0.017453292519943295);
+        b_x = (b_x + 90.0) * 0.017453292519943295;
+        b_x = -cos(b_x);
       }
     } else {
       if (b_x > 0.0) {
@@ -525,21 +534,21 @@ static void FLIGHT_HEXA_Hovering_lla2ned(const real_T lla[3], const real_T lla0
     // Start for MATLABSystem: '<S19>/LLA2LocalCoordinates'
     if (rtIsNaN(FLIGHT_HEXA_Hovering_B.dLat + 180.0) || rtIsInf
         (FLIGHT_HEXA_Hovering_B.dLat + 180.0)) {
-      FLIGHT_HEXA_Hovering_B.flat = (rtNaN);
+      FLIGHT_HEXA_Hovering_B.r_m = (rtNaN);
     } else if (FLIGHT_HEXA_Hovering_B.dLat + 180.0 == 0.0) {
-      FLIGHT_HEXA_Hovering_B.flat = 0.0;
+      FLIGHT_HEXA_Hovering_B.r_m = 0.0;
     } else {
-      FLIGHT_HEXA_Hovering_B.flat = fmod(FLIGHT_HEXA_Hovering_B.dLat + 180.0,
+      FLIGHT_HEXA_Hovering_B.r_m = fmod(FLIGHT_HEXA_Hovering_B.dLat + 180.0,
         360.0);
-      if (FLIGHT_HEXA_Hovering_B.flat == 0.0) {
-        FLIGHT_HEXA_Hovering_B.flat = 0.0;
+      if (FLIGHT_HEXA_Hovering_B.r_m == 0.0) {
+        FLIGHT_HEXA_Hovering_B.r_m = 0.0;
       } else if (FLIGHT_HEXA_Hovering_B.dLat + 180.0 < 0.0) {
-        FLIGHT_HEXA_Hovering_B.flat += 360.0;
+        FLIGHT_HEXA_Hovering_B.r_m += 360.0;
       }
     }
 
     FLIGHT_HEXA_Hovering_B.dLat = FLIGHT_HEXA_Hovering_B.dLat * 0.0 +
-      (FLIGHT_HEXA_Hovering_B.flat - 180.0);
+      (FLIGHT_HEXA_Hovering_B.r_m - 180.0);
     FLIGHT_HEXA_Hovering_B.flat = fabs(FLIGHT_HEXA_Hovering_B.dLat);
   }
 
@@ -550,19 +559,19 @@ static void FLIGHT_HEXA_Hovering_lla2ned(const real_T lla[3], const real_T lla0
 
     // Start for MATLABSystem: '<S19>/LLA2LocalCoordinates'
     FLIGHT_HEXA_Hovering_B.dLon += 180.0;
-    FLIGHT_HEXA_Hovering_B.Rn = FLIGHT_HEXA_Hovering_B.dLat * static_cast<real_T>
-      (FLIGHT_HEXA_Hovering_B.latp2);
-    if (rtIsNaN(FLIGHT_HEXA_Hovering_B.Rn)) {
-      FLIGHT_HEXA_Hovering_B.Rn = (rtNaN);
-    } else if (FLIGHT_HEXA_Hovering_B.Rn < 0.0) {
-      FLIGHT_HEXA_Hovering_B.Rn = -1.0;
+    FLIGHT_HEXA_Hovering_B.r_m = FLIGHT_HEXA_Hovering_B.dLat *
+      static_cast<real_T>(FLIGHT_HEXA_Hovering_B.latp2);
+    if (rtIsNaN(FLIGHT_HEXA_Hovering_B.r_m)) {
+      FLIGHT_HEXA_Hovering_B.r_m = (rtNaN);
+    } else if (FLIGHT_HEXA_Hovering_B.r_m < 0.0) {
+      FLIGHT_HEXA_Hovering_B.r_m = -1.0;
     } else {
-      FLIGHT_HEXA_Hovering_B.Rn = (FLIGHT_HEXA_Hovering_B.Rn > 0.0);
+      FLIGHT_HEXA_Hovering_B.r_m = (FLIGHT_HEXA_Hovering_B.r_m > 0.0);
     }
 
     FLIGHT_HEXA_Hovering_B.dLat = (90.0 - (FLIGHT_HEXA_Hovering_B.flat *
       static_cast<real_T>(FLIGHT_HEXA_Hovering_B.latp2) - 90.0)) *
-      FLIGHT_HEXA_Hovering_B.Rn * static_cast<real_T>
+      FLIGHT_HEXA_Hovering_B.r_m * static_cast<real_T>
       (FLIGHT_HEXA_Hovering_B.latp2) + FLIGHT_HEXA_Hovering_B.dLat *
       static_cast<real_T>(!FLIGHT_HEXA_Hovering_B.latp2);
   }
@@ -572,65 +581,66 @@ static void FLIGHT_HEXA_Hovering_lla2ned(const real_T lla[3], const real_T lla0
        -180.0)) {
     FLIGHT_HEXA_Hovering_B.flat = FLIGHT_HEXA_Hovering_rt_remd_snf
       (FLIGHT_HEXA_Hovering_B.dLon, 360.0);
-    FLIGHT_HEXA_Hovering_B.Rn = FLIGHT_HEXA_Hovering_B.flat / 180.0;
-    if (FLIGHT_HEXA_Hovering_B.Rn < 0.0) {
-      FLIGHT_HEXA_Hovering_B.Rn = ceil(FLIGHT_HEXA_Hovering_B.Rn);
+    FLIGHT_HEXA_Hovering_B.r_m = FLIGHT_HEXA_Hovering_B.flat / 180.0;
+    if (FLIGHT_HEXA_Hovering_B.r_m < 0.0) {
+      FLIGHT_HEXA_Hovering_B.r_m = ceil(FLIGHT_HEXA_Hovering_B.r_m);
     } else {
-      FLIGHT_HEXA_Hovering_B.Rn = floor(FLIGHT_HEXA_Hovering_B.Rn);
+      FLIGHT_HEXA_Hovering_B.r_m = floor(FLIGHT_HEXA_Hovering_B.r_m);
     }
 
     FLIGHT_HEXA_Hovering_B.dLon = (FLIGHT_HEXA_Hovering_B.flat - 360.0 *
-      FLIGHT_HEXA_Hovering_B.Rn) + FLIGHT_HEXA_Hovering_B.dLon * 0.0;
+      FLIGHT_HEXA_Hovering_B.r_m) + FLIGHT_HEXA_Hovering_B.dLon * 0.0;
   }
 
   FLIGHT_HEXA_Hovering_B.flat = FLIGHT_HEXA_Hovering_sind_d(lla0[0]);
-  FLIGHT_HEXA_Hovering_B.flat = 1.0 - 0.0066943799901413165 *
+  FLIGHT_HEXA_Hovering_B.flat_tmp = 1.0 - 0.0066943799901413165 *
     FLIGHT_HEXA_Hovering_B.flat * FLIGHT_HEXA_Hovering_B.flat;
-  FLIGHT_HEXA_Hovering_B.Rn = 6.378137E+6 / sqrt(FLIGHT_HEXA_Hovering_B.flat);
+  FLIGHT_HEXA_Hovering_B.flat = 6.378137E+6 / sqrt
+    (FLIGHT_HEXA_Hovering_B.flat_tmp);
   if (rtIsInf(lla0[0]) || rtIsNaN(lla0[0])) {
-    FLIGHT_HEXA_Hovering_B.b_x = (rtNaN);
+    FLIGHT_HEXA_Hovering_B.r_m = (rtNaN);
   } else {
-    FLIGHT_HEXA_Hovering_B.b_x = FLIGHT_HEXA_Hovering_rt_remd_snf(lla0[0], 360.0);
-    FLIGHT_HEXA_Hovering_B.absx = fabs(FLIGHT_HEXA_Hovering_B.b_x);
+    FLIGHT_HEXA_Hovering_B.r_m = FLIGHT_HEXA_Hovering_rt_remd_snf(lla0[0], 360.0);
+    FLIGHT_HEXA_Hovering_B.absx = fabs(FLIGHT_HEXA_Hovering_B.r_m);
     if (FLIGHT_HEXA_Hovering_B.absx > 180.0) {
-      if (FLIGHT_HEXA_Hovering_B.b_x > 0.0) {
-        FLIGHT_HEXA_Hovering_B.b_x -= 360.0;
+      if (FLIGHT_HEXA_Hovering_B.r_m > 0.0) {
+        FLIGHT_HEXA_Hovering_B.r_m -= 360.0;
       } else {
-        FLIGHT_HEXA_Hovering_B.b_x += 360.0;
+        FLIGHT_HEXA_Hovering_B.r_m += 360.0;
       }
 
-      FLIGHT_HEXA_Hovering_B.absx = fabs(FLIGHT_HEXA_Hovering_B.b_x);
+      FLIGHT_HEXA_Hovering_B.absx = fabs(FLIGHT_HEXA_Hovering_B.r_m);
     }
 
     if (FLIGHT_HEXA_Hovering_B.absx <= 45.0) {
-      FLIGHT_HEXA_Hovering_B.b_x = cos(0.017453292519943295 *
-        FLIGHT_HEXA_Hovering_B.b_x);
+      FLIGHT_HEXA_Hovering_B.r_m = cos(0.017453292519943295 *
+        FLIGHT_HEXA_Hovering_B.r_m);
     } else if (FLIGHT_HEXA_Hovering_B.absx <= 135.0) {
-      if (FLIGHT_HEXA_Hovering_B.b_x > 0.0) {
-        FLIGHT_HEXA_Hovering_B.b_x = -sin((FLIGHT_HEXA_Hovering_B.b_x - 90.0) *
+      if (FLIGHT_HEXA_Hovering_B.r_m > 0.0) {
+        FLIGHT_HEXA_Hovering_B.r_m = -sin((FLIGHT_HEXA_Hovering_B.r_m - 90.0) *
           0.017453292519943295);
       } else {
-        FLIGHT_HEXA_Hovering_B.b_x = sin((FLIGHT_HEXA_Hovering_B.b_x + 90.0) *
+        FLIGHT_HEXA_Hovering_B.r_m = sin((FLIGHT_HEXA_Hovering_B.r_m + 90.0) *
           0.017453292519943295);
       }
     } else {
-      if (FLIGHT_HEXA_Hovering_B.b_x > 0.0) {
-        FLIGHT_HEXA_Hovering_B.b_x = (FLIGHT_HEXA_Hovering_B.b_x - 180.0) *
+      if (FLIGHT_HEXA_Hovering_B.r_m > 0.0) {
+        FLIGHT_HEXA_Hovering_B.r_m = (FLIGHT_HEXA_Hovering_B.r_m - 180.0) *
           0.017453292519943295;
       } else {
-        FLIGHT_HEXA_Hovering_B.b_x = (FLIGHT_HEXA_Hovering_B.b_x + 180.0) *
+        FLIGHT_HEXA_Hovering_B.r_m = (FLIGHT_HEXA_Hovering_B.r_m + 180.0) *
           0.017453292519943295;
       }
 
-      FLIGHT_HEXA_Hovering_B.b_x = -cos(FLIGHT_HEXA_Hovering_B.b_x);
+      FLIGHT_HEXA_Hovering_B.r_m = -cos(FLIGHT_HEXA_Hovering_B.r_m);
     }
   }
 
   xyzNED[0] = FLIGHT_HEXA_Hovering_B.dLat / (FLIGHT_HEXA_Hovering_rt_atan2d_snf
-    (1.0, 0.99330562000985867 / FLIGHT_HEXA_Hovering_B.flat *
-     FLIGHT_HEXA_Hovering_B.Rn) * 57.295779513082323);
+    (1.0, 0.99330562000985867 / FLIGHT_HEXA_Hovering_B.flat_tmp *
+     FLIGHT_HEXA_Hovering_B.flat) * 57.295779513082323);
   xyzNED[1] = FLIGHT_HEXA_Hovering_B.dLon / (FLIGHT_HEXA_Hovering_rt_atan2d_snf
-    (1.0, FLIGHT_HEXA_Hovering_B.Rn * FLIGHT_HEXA_Hovering_B.b_x) *
+    (1.0, FLIGHT_HEXA_Hovering_B.flat * FLIGHT_HEXA_Hovering_B.r_m) *
     57.295779513082323);
   xyzNED[2] = -lla[2] + lla0[2];
   FLIGHT_HEXA_Hovering_B.b[0] = rtIsNaN(xyzNED[0]);
@@ -731,7 +741,7 @@ void FLIGHT_HEXA_Hovering_step(void)
     FLIGHT_HEXA_Hovering_P.CompareToConstant_const);
 
   // MATLABSystem: '<S8>/SourceBlock'
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = uORB_read_step
+  FLIGHT_HEXA_Hovering_B.OR_g = uORB_read_step
     (FLIGHT_HEXA_Hovering_DW.obj_gv.orbMetadataObj,
      &FLIGHT_HEXA_Hovering_DW.obj_gv.eventStructObj, &FLIGHT_HEXA_Hovering_B.r3,
      false, 1.0);
@@ -740,7 +750,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   EnablePort: '<S14>/Enable'
 
   // Start for MATLABSystem: '<S8>/SourceBlock'
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
     // SignalConversion generated from: '<S14>/In1'
     FLIGHT_HEXA_Hovering_B.In1_m = FLIGHT_HEXA_Hovering_B.r3;
   }
@@ -748,17 +758,16 @@ void FLIGHT_HEXA_Hovering_step(void)
   // End of Outputs for SubSystem: '<S8>/Enabled Subsystem'
 
   // DataTypeConversion: '<S1>/Data Type Conversion' incorporates:
-  //   Math: '<S341>/Transpose'
+  //   Switch: '<S77>/Switch'
 
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 = FLIGHT_HEXA_Hovering_B.In1_m.q[0];
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 = FLIGHT_HEXA_Hovering_B.In1_m.q[1];
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 = FLIGHT_HEXA_Hovering_B.In1_m.q[2];
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 = FLIGHT_HEXA_Hovering_B.In1_m.q[3];
+  FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 = FLIGHT_HEXA_Hovering_B.In1_m.q[0];
+  FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 = FLIGHT_HEXA_Hovering_B.In1_m.q[1];
+  FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 = FLIGHT_HEXA_Hovering_B.In1_m.q[2];
+  FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 = FLIGHT_HEXA_Hovering_B.In1_m.q[3];
 
   // Switch: '<S77>/Switch' incorporates:
   //   Constant: '<S77>/Constant'
   //   DataTypeConversion: '<S1>/Data Type Conversion'
-  //   Math: '<S341>/Transpose'
   //   Product: '<S603>/Product'
   //   Product: '<S603>/Product1'
   //   Product: '<S603>/Product2'
@@ -772,13 +781,13 @@ void FLIGHT_HEXA_Hovering_step(void)
          FLIGHT_HEXA_Hovering_B.In1_m.q[2]) + static_cast<real_T>
         (FLIGHT_HEXA_Hovering_B.In1_m.q[3]) * FLIGHT_HEXA_Hovering_B.In1_m.q[3] >
         FLIGHT_HEXA_Hovering_P.Switch_Threshold_o)) {
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 =
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 =
       FLIGHT_HEXA_Hovering_P.Constant_Value_pp[0];
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
       FLIGHT_HEXA_Hovering_P.Constant_Value_pp[1];
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 =
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 =
       FLIGHT_HEXA_Hovering_P.Constant_Value_pp[2];
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 =
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 =
       FLIGHT_HEXA_Hovering_P.Constant_Value_pp[3];
   }
 
@@ -792,42 +801,40 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   Sum: '<S611>/Sum'
 
   FLIGHT_HEXA_Hovering_B.Switch2 = sqrt
-    (((FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 *
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 +
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 *
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1) +
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 *
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2) +
-     FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 *
-     FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3);
+    (((FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 *
+       FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 +
+       FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 *
+       FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1) +
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 *
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2) +
+     FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 *
+     FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3);
 
   // Product: '<S605>/Product'
-  FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 /
+  FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 /
     FLIGHT_HEXA_Hovering_B.Switch2;
 
   // Product: '<S605>/Product1'
-  FLIGHT_HEXA_Hovering_B.Switch4 = FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 /
-    FLIGHT_HEXA_Hovering_B.Switch2;
+  FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 /= FLIGHT_HEXA_Hovering_B.Switch2;
 
   // Product: '<S605>/Product2'
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 / FLIGHT_HEXA_Hovering_B.Switch2;
+  FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 =
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 / FLIGHT_HEXA_Hovering_B.Switch2;
 
   // Product: '<S605>/Product3'
-  FLIGHT_HEXA_Hovering_B.Switch2 = FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 /
+  FLIGHT_HEXA_Hovering_B.Switch2 = FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 /
     FLIGHT_HEXA_Hovering_B.Switch2;
 
   // Fcn: '<S78>/fcn2' incorporates:
   //   Fcn: '<S78>/fcn5'
 
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 = FLIGHT_HEXA_Hovering_B.Switch3 *
+  FLIGHT_HEXA_Hovering_B.Gain2 = FLIGHT_HEXA_Hovering_B.Switch3 *
     FLIGHT_HEXA_Hovering_B.Switch3;
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 = FLIGHT_HEXA_Hovering_B.Switch4 *
-    FLIGHT_HEXA_Hovering_B.Switch4;
-  FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 *
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1;
-  FLIGHT_HEXA_Hovering_B.Subtract_f = FLIGHT_HEXA_Hovering_B.Switch2 *
+  FLIGHT_HEXA_Hovering_B.Sum = FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 *
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1;
+  FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 *
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0;
+  FLIGHT_HEXA_Hovering_B.Sum5 = FLIGHT_HEXA_Hovering_B.Switch2 *
     FLIGHT_HEXA_Hovering_B.Switch2;
 
   // Trigonometry: '<S604>/Trigonometric Function1' incorporates:
@@ -835,17 +842,18 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   Fcn: '<S78>/fcn2'
 
   FLIGHT_HEXA_Hovering_B.VectorConcatenate[0] =
-    FLIGHT_HEXA_Hovering_rt_atan2d_snf((FLIGHT_HEXA_Hovering_B.Switch4 *
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 + FLIGHT_HEXA_Hovering_B.Switch3 *
-    FLIGHT_HEXA_Hovering_B.Switch2) * 2.0,
-    ((FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 +
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0) -
-     FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0) - FLIGHT_HEXA_Hovering_B.Subtract_f);
+    FLIGHT_HEXA_Hovering_rt_atan2d_snf
+    ((FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 *
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 +
+      FLIGHT_HEXA_Hovering_B.Switch3 * FLIGHT_HEXA_Hovering_B.Switch2) * 2.0,
+     ((FLIGHT_HEXA_Hovering_B.Gain2 + FLIGHT_HEXA_Hovering_B.Sum) -
+      FLIGHT_HEXA_Hovering_B.Gain_i) - FLIGHT_HEXA_Hovering_B.Sum5);
 
   // Fcn: '<S78>/fcn3'
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 = (FLIGHT_HEXA_Hovering_B.Switch4 *
-    FLIGHT_HEXA_Hovering_B.Switch2 - FLIGHT_HEXA_Hovering_B.Switch3 *
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1) * -2.0;
+  FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 =
+    (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 * FLIGHT_HEXA_Hovering_B.Switch2
+     - FLIGHT_HEXA_Hovering_B.Switch3 *
+     FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0) * -2.0;
 
   // Trigonometry: '<S604>/Trigonometric Function3' incorporates:
   //   Fcn: '<S78>/fcn4'
@@ -853,16 +861,14 @@ void FLIGHT_HEXA_Hovering_step(void)
 
   FLIGHT_HEXA_Hovering_B.VectorConcatenate[2] =
     FLIGHT_HEXA_Hovering_rt_atan2d_snf
-    ((FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 *
+    ((FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 *
       FLIGHT_HEXA_Hovering_B.Switch2 + FLIGHT_HEXA_Hovering_B.Switch3 *
-      FLIGHT_HEXA_Hovering_B.Switch4) * 2.0,
-     ((FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 -
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0) -
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0) +
-     FLIGHT_HEXA_Hovering_B.Subtract_f);
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1) * 2.0,
+     ((FLIGHT_HEXA_Hovering_B.Gain2 - FLIGHT_HEXA_Hovering_B.Sum) -
+      FLIGHT_HEXA_Hovering_B.Gain_i) + FLIGHT_HEXA_Hovering_B.Sum5);
 
   // MATLABSystem: '<S5>/SourceBlock'
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = uORB_read_step
+  FLIGHT_HEXA_Hovering_B.OR_g = uORB_read_step
     (FLIGHT_HEXA_Hovering_DW.obj_p.orbMetadataObj,
      &FLIGHT_HEXA_Hovering_DW.obj_p.eventStructObj, &FLIGHT_HEXA_Hovering_B.r5,
      false, 1.0);
@@ -871,7 +877,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   EnablePort: '<S10>/Enable'
 
   // Start for MATLABSystem: '<S5>/SourceBlock'
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
     // SignalConversion generated from: '<S10>/In1'
     FLIGHT_HEXA_Hovering_B.In1_l = FLIGHT_HEXA_Hovering_B.r5;
   }
@@ -931,7 +937,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   // Gain: '<S4>/Gain1' incorporates:
   //   Saturate: '<S75>/Saturation2'
 
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
+  FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 =
     FLIGHT_HEXA_Hovering_P.Gain1_Gain_h * FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
 
   // Gain: '<S75>/Gain1' incorporates:
@@ -957,27 +963,25 @@ void FLIGHT_HEXA_Hovering_step(void)
   // Gain: '<S4>/Gain2' incorporates:
   //   Saturate: '<S75>/Saturation1'
 
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 =
-    FLIGHT_HEXA_Hovering_P.Gain2_Gain_m * FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+  FLIGHT_HEXA_Hovering_B.Gain2 = FLIGHT_HEXA_Hovering_P.Gain2_Gain_m *
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
 
   // Gain: '<S75>/Gain' incorporates:
   //   Constant: '<S75>/Constant'
   //   Sum: '<S75>/Sum'
 
-  FLIGHT_HEXA_Hovering_B.Switch2 = (static_cast<real_T>
+  FLIGHT_HEXA_Hovering_B.Sum = (static_cast<real_T>
     (FLIGHT_HEXA_Hovering_B.In1_j.values[2]) -
     FLIGHT_HEXA_Hovering_P.Constant_Value_ol) *
     FLIGHT_HEXA_Hovering_P.Gain_Gain_e;
 
   // Saturate: '<S75>/Saturation'
-  if (FLIGHT_HEXA_Hovering_B.Switch2 >
-      FLIGHT_HEXA_Hovering_P.Saturation_UpperSat_ji) {
-    FLIGHT_HEXA_Hovering_B.Switch2 =
-      FLIGHT_HEXA_Hovering_P.Saturation_UpperSat_ji;
-  } else if (FLIGHT_HEXA_Hovering_B.Switch2 <
+  if (FLIGHT_HEXA_Hovering_B.Sum > FLIGHT_HEXA_Hovering_P.Saturation_UpperSat_ji)
+  {
+    FLIGHT_HEXA_Hovering_B.Sum = FLIGHT_HEXA_Hovering_P.Saturation_UpperSat_ji;
+  } else if (FLIGHT_HEXA_Hovering_B.Sum <
              FLIGHT_HEXA_Hovering_P.Saturation_LowerSat_l4) {
-    FLIGHT_HEXA_Hovering_B.Switch2 =
-      FLIGHT_HEXA_Hovering_P.Saturation_LowerSat_l4;
+    FLIGHT_HEXA_Hovering_B.Sum = FLIGHT_HEXA_Hovering_P.Saturation_LowerSat_l4;
   }
 
   // End of Saturate: '<S75>/Saturation'
@@ -1005,11 +1009,11 @@ void FLIGHT_HEXA_Hovering_step(void)
   // Gain: '<S4>/Gain4' incorporates:
   //   Saturate: '<S75>/Saturation3'
 
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 = FLIGHT_HEXA_Hovering_P.Gain4_Gain
-    * FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+  FLIGHT_HEXA_Hovering_B.Switch2 = FLIGHT_HEXA_Hovering_P.Gain4_Gain *
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
 
   // MATLABSystem: '<S9>/SourceBlock'
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = uORB_read_step
+  FLIGHT_HEXA_Hovering_B.OR_g = uORB_read_step
     (FLIGHT_HEXA_Hovering_DW.obj_mg.orbMetadataObj,
      &FLIGHT_HEXA_Hovering_DW.obj_mg.eventStructObj, &FLIGHT_HEXA_Hovering_B.r2,
      false, 1.0);
@@ -1018,7 +1022,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   EnablePort: '<S15>/Enable'
 
   // Start for MATLABSystem: '<S9>/SourceBlock'
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
     // SignalConversion generated from: '<S15>/In1'
     FLIGHT_HEXA_Hovering_B.In1_c = FLIGHT_HEXA_Hovering_B.r2;
   }
@@ -1032,15 +1036,15 @@ void FLIGHT_HEXA_Hovering_step(void)
       FLIGHT_HEXA_Hovering_P.ReadParameter_SampleTime;
   }
 
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = MW_Param_Step
+  FLIGHT_HEXA_Hovering_B.OR_g = MW_Param_Step
     (FLIGHT_HEXA_Hovering_DW.obj_k.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_HEXA_Hovering_B.ParamStep_c);
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
-    FLIGHT_HEXA_Hovering_B.ParamStep_c = 0;
+     &FLIGHT_HEXA_Hovering_B.ParamStep_k);
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
+    FLIGHT_HEXA_Hovering_B.ParamStep_k = 0;
   }
 
   // MATLABSystem: '<S40>/SourceBlock'
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = uORB_read_step
+  FLIGHT_HEXA_Hovering_B.OR_g = uORB_read_step
     (FLIGHT_HEXA_Hovering_DW.obj_e.orbMetadataObj,
      &FLIGHT_HEXA_Hovering_DW.obj_e.eventStructObj, &FLIGHT_HEXA_Hovering_B.r,
      false, 1.0);
@@ -1049,7 +1053,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   EnablePort: '<S41>/Enable'
 
   // Start for MATLABSystem: '<S40>/SourceBlock'
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
     // SignalConversion generated from: '<S41>/In1'
     FLIGHT_HEXA_Hovering_B.In1 = FLIGHT_HEXA_Hovering_B.r;
   }
@@ -1057,7 +1061,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   // End of Outputs for SubSystem: '<S40>/Enabled Subsystem'
 
   // MATLABSystem: '<S38>/SourceBlock'
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = uORB_read_step
+  FLIGHT_HEXA_Hovering_B.OR_g = uORB_read_step
     (FLIGHT_HEXA_Hovering_DW.obj_kz.orbMetadataObj,
      &FLIGHT_HEXA_Hovering_DW.obj_kz.eventStructObj, &FLIGHT_HEXA_Hovering_B.r1,
      false, 1.0);
@@ -1066,7 +1070,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   EnablePort: '<S53>/Enable'
 
   // Start for MATLABSystem: '<S38>/SourceBlock'
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
     // SignalConversion generated from: '<S53>/In1'
     FLIGHT_HEXA_Hovering_B.In1_p = FLIGHT_HEXA_Hovering_B.r1;
   }
@@ -1074,7 +1078,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   // End of Outputs for SubSystem: '<S38>/Enabled Subsystem'
 
   // MATLABSystem: '<S37>/SourceBlock'
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = uORB_read_step
+  FLIGHT_HEXA_Hovering_B.OR_g = uORB_read_step
     (FLIGHT_HEXA_Hovering_DW.obj_gf.orbMetadataObj,
      &FLIGHT_HEXA_Hovering_DW.obj_gf.eventStructObj, &FLIGHT_HEXA_Hovering_B.r4,
      false, 1.0);
@@ -1083,7 +1087,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   EnablePort: '<S52>/Enable'
 
   // Start for MATLABSystem: '<S37>/SourceBlock'
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
     // SignalConversion generated from: '<S52>/In1'
     FLIGHT_HEXA_Hovering_B.In1_f = FLIGHT_HEXA_Hovering_B.r4;
   }
@@ -1119,7 +1123,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   if (FLIGHT_HEXA_Hovering_B.In1_f.valid_hpos &&
       FLIGHT_HEXA_Hovering_B.In1_p.current.valid &&
       (FLIGHT_HEXA_Hovering_B.In1_p.current.type != 5)) {
-    if (FLIGHT_HEXA_Hovering_B.ParamStep_c != 0) {
+    if (FLIGHT_HEXA_Hovering_B.ParamStep_k != 0) {
       FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0] =
         FLIGHT_HEXA_Hovering_B.In1.waypoints[0].position[0];
       FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1] =
@@ -1164,19 +1168,20 @@ void FLIGHT_HEXA_Hovering_step(void)
   FLIGHT_HEXA_Hovering_B.rtPrevAction =
     FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem;
   if (FLIGHT_HEXA_Hovering_B.In1_p.current.type == 3) {
-    FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem = 0;
+    FLIGHT_HEXA_Hovering_B.rtAction = 0;
   } else if (FLIGHT_HEXA_Hovering_B.In1_p.current.type == 4) {
-    FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem = 1;
+    FLIGHT_HEXA_Hovering_B.rtAction = 1;
   } else if (FLIGHT_HEXA_Hovering_B.In1_p.current.type == 0) {
-    FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem = 2;
+    FLIGHT_HEXA_Hovering_B.rtAction = 2;
   } else {
-    FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem = 3;
+    FLIGHT_HEXA_Hovering_B.rtAction = 3;
   }
 
-  switch (FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem) {
+  FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem = FLIGHT_HEXA_Hovering_B.rtAction;
+  switch (FLIGHT_HEXA_Hovering_B.rtAction) {
    case 0:
-    if (FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem !=
-        FLIGHT_HEXA_Hovering_B.rtPrevAction) {
+    if (FLIGHT_HEXA_Hovering_B.rtAction != FLIGHT_HEXA_Hovering_B.rtPrevAction)
+    {
       // InitializeConditions for IfAction SubSystem: '<S18>/Take-off' incorporates:
       //   ActionPort: '<S22>/Action Port'
 
@@ -1199,10 +1204,11 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Constant: '<S30>/Rate'
     //   Delay: '<S30>/Delay'
 
-    FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_c += FLIGHT_HEXA_Hovering_P.Rate_Value;
+    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_P.Rate_Value +
+      FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_c;
 
     // Gain: '<S30>/Gain1'
-    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_P.Gain1_Gain *
+    FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_P.Gain1_Gain *
       FLIGHT_HEXA_Hovering_B.DataTypeConversion2[2];
 
     // Outputs for Enabled SubSystem: '<S31>/Enabled Subsystem2' incorporates:
@@ -1223,17 +1229,15 @@ void FLIGHT_HEXA_Hovering_step(void)
 
     FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
       FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0];
-    FLIGHT_HEXA_Hovering_B.Switch4 = FLIGHT_HEXA_Hovering_B.DataTypeConversion2
-      [1];
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1 =
+      FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1];
 
     // Gain: '<S30>/Gain' incorporates:
-    //   Delay: '<S30>/Delay'
     //   RelationalOperator: '<S30>/Relational Operator'
     //   Switch: '<S30>/Switch'
 
-    if (!(FLIGHT_HEXA_Hovering_B.Switch3 <=
-          FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_c)) {
-      FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_c;
+    if (!(FLIGHT_HEXA_Hovering_B.Gain_i <= FLIGHT_HEXA_Hovering_B.Switch3)) {
+      FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_B.Switch3;
     }
 
     // Reshape: '<S22>/Reshape' incorporates:
@@ -1241,8 +1245,12 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Merge: '<S18>/Merge'
     //   Switch: '<S30>/Switch'
 
-    FLIGHT_HEXA_Hovering_B.Switch3 *= FLIGHT_HEXA_Hovering_P.Gain_Gain;
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 = FLIGHT_HEXA_Hovering_P.Gain_Gain *
+      FLIGHT_HEXA_Hovering_B.Gain_i;
     FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 = FLIGHT_HEXA_Hovering_B.yaw_In_ik;
+
+    // Update for Delay: '<S30>/Delay'
+    FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_c = FLIGHT_HEXA_Hovering_B.Switch3;
 
     // Update for Delay: '<S31>/Delay' incorporates:
     //   Constant: '<S31>/Constant'
@@ -1254,8 +1262,8 @@ void FLIGHT_HEXA_Hovering_step(void)
     break;
 
    case 1:
-    if (FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem !=
-        FLIGHT_HEXA_Hovering_B.rtPrevAction) {
+    if (FLIGHT_HEXA_Hovering_B.rtAction != FLIGHT_HEXA_Hovering_B.rtPrevAction)
+    {
       // InitializeConditions for IfAction SubSystem: '<S18>/Land' incorporates:
       //   ActionPort: '<S21>/Action Port'
 
@@ -1263,7 +1271,6 @@ void FLIGHT_HEXA_Hovering_step(void)
       //   Delay: '<S21>/Delay'
       //   Delay: '<S26>/Delay'
       //   Delay: '<S27>/Delay'
-      //   Gain: '<S26>/Gain1'
 
       FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_l[0] =
         FLIGHT_HEXA_Hovering_P.Delay_InitialCondition_n;
@@ -1280,31 +1287,16 @@ void FLIGHT_HEXA_Hovering_step(void)
     // Outputs for IfAction SubSystem: '<S18>/Land' incorporates:
     //   ActionPort: '<S21>/Action Port'
 
-    // Switch: '<S21>/Switch' incorporates:
-    //   Delay: '<S21>/Delay'
-    //   Logic: '<S21>/OR'
-    //   RelationalOperator: '<S21>/IsNaN'
-
-    if ((!rtIsNaN(FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0])) && (!rtIsNaN
-         (FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1]))) {
-      FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_l[0] =
-        FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0];
-      FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_l[1] =
-        FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1];
-    }
-
-    // End of Switch: '<S21>/Switch'
+    // Delay: '<S26>/Delay'
+    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_n;
 
     // Switch: '<S26>/Switch' incorporates:
     //   Delay: '<S26>/Delay'
+    //   Gain: '<S26>/Gain'
 
     if (!(FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_n >
           FLIGHT_HEXA_Hovering_P.Switch_Threshold)) {
-      // Gain: '<S26>/Gain1' incorporates:
-      //   Gain: '<S26>/Gain'
-
-      FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_n =
-        FLIGHT_HEXA_Hovering_P.Gain_Gain_l *
+      FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_P.Gain_Gain_l *
         FLIGHT_HEXA_Hovering_B.b_startWaypoint[2];
     }
 
@@ -1313,13 +1305,11 @@ void FLIGHT_HEXA_Hovering_step(void)
     // Sum: '<S26>/Subtract' incorporates:
     //   Constant: '<S26>/Rate of descent'
 
-    FLIGHT_HEXA_Hovering_B.Subtract_f = FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_n -
+    FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_B.Switch3 -
       FLIGHT_HEXA_Hovering_P.Rateofdescent_Value;
 
-    // Gain: '<S26>/Gain1' incorporates:
-    //   Gain: '<S26>/Gain2'
-
-    FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_n = FLIGHT_HEXA_Hovering_P.Gain2_Gain *
+    // Gain: '<S26>/Gain2'
+    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_P.Gain2_Gain *
       FLIGHT_HEXA_Hovering_B.DataTypeConversion2[2];
 
     // Outputs for Enabled SubSystem: '<S27>/Enabled Subsystem2' incorporates:
@@ -1334,39 +1324,54 @@ void FLIGHT_HEXA_Hovering_step(void)
 
     // End of Outputs for SubSystem: '<S27>/Enabled Subsystem2'
 
-    // Reshape: '<S21>/Reshape' incorporates:
-    //   Delay: '<S21>/Delay'
+    // Switch: '<S21>/Switch' incorporates:
     //   Delay: '<S27>/Delay'
-    //   Merge: '<S18>/Merge'
+    //   Logic: '<S21>/OR'
+    //   RelationalOperator: '<S21>/IsNaN'
 
-    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-      FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_l[0];
-    FLIGHT_HEXA_Hovering_B.Switch4 = FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_l[1];
+    if (rtIsNaN(FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0]) || rtIsNaN
+        (FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1])) {
+      // Reshape: '<S21>/Reshape' incorporates:
+      //   Delay: '<S21>/Delay'
+      //   Merge: '<S18>/Merge'
 
-    // Switch: '<S26>/Switch1' incorporates:
-    //   RelationalOperator: '<S26>/GreaterThan'
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
+        FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_l[0];
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1 =
+        FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_l[1];
+    } else {
+      // Reshape: '<S21>/Reshape' incorporates:
+      //   Delay: '<S21>/Delay'
+      //   Merge: '<S18>/Merge'
 
-    if (!(FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_n >
-          FLIGHT_HEXA_Hovering_B.Subtract_f)) {
-      // Gain: '<S26>/Gain1'
-      FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_n = FLIGHT_HEXA_Hovering_B.Subtract_f;
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
+        FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0];
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1 =
+        FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1];
     }
+
+    // End of Switch: '<S21>/Switch'
 
     // Reshape: '<S21>/Reshape' incorporates:
     //   Gain: '<S26>/Gain1'
     //   Merge: '<S18>/Merge'
+    //   RelationalOperator: '<S26>/GreaterThan'
     //   Switch: '<S26>/Switch1'
 
-    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_P.Gain1_Gain_a *
-      FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_n;
+    if (!(FLIGHT_HEXA_Hovering_B.Switch3 > FLIGHT_HEXA_Hovering_B.Gain_i)) {
+      FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.Gain_i;
+    }
+
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 = FLIGHT_HEXA_Hovering_P.Gain1_Gain_a
+      * FLIGHT_HEXA_Hovering_B.Switch3;
     FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 = FLIGHT_HEXA_Hovering_B.yaw_In_i;
 
     // Outputs for Enabled SubSystem: '<S26>/Enabled Subsystem' incorporates:
     //   EnablePort: '<S28>/Enable'
 
-    if (FLIGHT_HEXA_Hovering_B.Subtract_f > 0.0) {
+    if (FLIGHT_HEXA_Hovering_B.Gain_i > 0.0) {
       // SignalConversion generated from: '<S28>/In'
-      FLIGHT_HEXA_Hovering_B.In = FLIGHT_HEXA_Hovering_B.Subtract_f;
+      FLIGHT_HEXA_Hovering_B.In = FLIGHT_HEXA_Hovering_B.Gain_i;
     }
 
     // End of Outputs for SubSystem: '<S26>/Enabled Subsystem'
@@ -1377,9 +1382,7 @@ void FLIGHT_HEXA_Hovering_step(void)
     FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_l[0] = FLIGHT_HEXA_Hovering_B.In1_c.x;
     FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_l[1] = FLIGHT_HEXA_Hovering_B.In1_c.y;
 
-    // Update for Gain: '<S26>/Gain1' incorporates:
-    //   Delay: '<S26>/Delay'
-
+    // Update for Delay: '<S26>/Delay'
     FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_n = FLIGHT_HEXA_Hovering_B.In;
 
     // Update for Delay: '<S27>/Delay' incorporates:
@@ -1392,8 +1395,8 @@ void FLIGHT_HEXA_Hovering_step(void)
     break;
 
    case 2:
-    if (FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem !=
-        FLIGHT_HEXA_Hovering_B.rtPrevAction) {
+    if (FLIGHT_HEXA_Hovering_B.rtAction != FLIGHT_HEXA_Hovering_B.rtPrevAction)
+    {
       // SystemReset for IfAction SubSystem: '<S18>/Waypoint' incorporates:
       //   ActionPort: '<S23>/Action Port'
 
@@ -1401,10 +1404,10 @@ void FLIGHT_HEXA_Hovering_step(void)
       //   MATLABSystem: '<S23>/UAV Waypoint Follower'
       //
       FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex = 1.0;
-      for (FLIGHT_HEXA_Hovering_B.j = 0; FLIGHT_HEXA_Hovering_B.j < 9;
-           FLIGHT_HEXA_Hovering_B.j++) {
-        FLIGHT_HEXA_Hovering_DW.obj.WaypointsInternal[FLIGHT_HEXA_Hovering_B.j] *=
-          0.0;
+      for (FLIGHT_HEXA_Hovering_B.i1 = 0; FLIGHT_HEXA_Hovering_B.i1 < 9;
+           FLIGHT_HEXA_Hovering_B.i1++) {
+        FLIGHT_HEXA_Hovering_DW.obj.WaypointsInternal[FLIGHT_HEXA_Hovering_B.i1]
+          *= 0.0;
       }
 
       // End of SystemReset for If: '<S18>/If'
@@ -1450,61 +1453,63 @@ void FLIGHT_HEXA_Hovering_step(void)
     FLIGHT_HEXA_Hovering_DW.obj.InitialPose[2] = 0.0;
     FLIGHT_HEXA_Hovering_DW.obj.InitialPose[3] = 0.0;
     FLIGHT_HEXA_Hovering_DW.obj.NumWaypoints = 3.0;
-    FLIGHT_HEXA_Hovering_B.b_varargout_1 = false;
+    FLIGHT_HEXA_Hovering_B.OR_g = false;
     FLIGHT_HEXA_Hovering_B.Compare = true;
-    FLIGHT_HEXA_Hovering_B.i1 = 0;
+    FLIGHT_HEXA_Hovering_B.iy = 0;
     exitg1 = false;
-    while ((!exitg1) && (FLIGHT_HEXA_Hovering_B.i1 <= 8)) {
-      FLIGHT_HEXA_Hovering_B.j = FLIGHT_HEXA_Hovering_B.i1 / 3 * 3 +
-        FLIGHT_HEXA_Hovering_B.i1 % 3;
-      if (!(FLIGHT_HEXA_Hovering_DW.obj.WaypointsInternal[FLIGHT_HEXA_Hovering_B.j]
+    while ((!exitg1) && (FLIGHT_HEXA_Hovering_B.iy <= 8)) {
+      FLIGHT_HEXA_Hovering_B.i1 = FLIGHT_HEXA_Hovering_B.iy / 3 * 3 +
+        FLIGHT_HEXA_Hovering_B.iy % 3;
+      if (!(FLIGHT_HEXA_Hovering_DW.obj.WaypointsInternal[FLIGHT_HEXA_Hovering_B.i1]
             ==
-            FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[FLIGHT_HEXA_Hovering_B.j]))
+            FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[FLIGHT_HEXA_Hovering_B.i1]))
       {
         FLIGHT_HEXA_Hovering_B.Compare = false;
         exitg1 = true;
       } else {
-        FLIGHT_HEXA_Hovering_B.i1++;
+        FLIGHT_HEXA_Hovering_B.iy++;
       }
     }
 
     if (FLIGHT_HEXA_Hovering_B.Compare) {
-      FLIGHT_HEXA_Hovering_B.b_varargout_1 = true;
+      FLIGHT_HEXA_Hovering_B.OR_g = true;
     }
 
-    if (!FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+    if (!FLIGHT_HEXA_Hovering_B.OR_g) {
       memcpy(&FLIGHT_HEXA_Hovering_DW.obj.WaypointsInternal[0],
              &FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[0], 9U * sizeof(real_T));
       FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex = 1.0;
     }
 
+    FLIGHT_HEXA_Hovering_B.i1 = 0;
+    FLIGHT_HEXA_Hovering_B.iy = 0;
     for (FLIGHT_HEXA_Hovering_B.j = 0; FLIGHT_HEXA_Hovering_B.j < 3;
          FLIGHT_HEXA_Hovering_B.j++) {
       FLIGHT_HEXA_Hovering_B.distinctWptsIdx[FLIGHT_HEXA_Hovering_B.j] = true;
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-        FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[3 * FLIGHT_HEXA_Hovering_B.j
-        + 1];
-      FLIGHT_HEXA_Hovering_B.i1 = FLIGHT_HEXA_Hovering_B.j << 1;
-      FLIGHT_HEXA_Hovering_B.x[FLIGHT_HEXA_Hovering_B.i1] =
-        (FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[3 * FLIGHT_HEXA_Hovering_B.j]
-         != FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0);
-      FLIGHT_HEXA_Hovering_B.x[FLIGHT_HEXA_Hovering_B.i1 + 1] =
-        (FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[3 * FLIGHT_HEXA_Hovering_B.j
-         + 2] != FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0);
+      FLIGHT_HEXA_Hovering_B.Gain_i =
+        FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[FLIGHT_HEXA_Hovering_B.i1 + 1];
+      FLIGHT_HEXA_Hovering_B.x[FLIGHT_HEXA_Hovering_B.iy] =
+        (FLIGHT_HEXA_Hovering_B.Gain_i !=
+         FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[FLIGHT_HEXA_Hovering_B.i1]);
+      FLIGHT_HEXA_Hovering_B.x[FLIGHT_HEXA_Hovering_B.iy + 1] =
+        (FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[FLIGHT_HEXA_Hovering_B.i1 +
+         2] != FLIGHT_HEXA_Hovering_B.Gain_i);
+      FLIGHT_HEXA_Hovering_B.i1 += 3;
+      FLIGHT_HEXA_Hovering_B.iy += 2;
     }
 
     FLIGHT_HEXA_Hovering_B.IsNaN_l[0] = false;
     FLIGHT_HEXA_Hovering_B.IsNaN_l[1] = false;
     FLIGHT_HEXA_Hovering_B.i1 = 0;
-    FLIGHT_HEXA_Hovering_B.i2 = 4;
+    FLIGHT_HEXA_Hovering_B.iy = 4;
     for (FLIGHT_HEXA_Hovering_B.j = 0; FLIGHT_HEXA_Hovering_B.j < 2;
          FLIGHT_HEXA_Hovering_B.j++) {
       FLIGHT_HEXA_Hovering_B.i1++;
-      FLIGHT_HEXA_Hovering_B.i2++;
+      FLIGHT_HEXA_Hovering_B.iy++;
       FLIGHT_HEXA_Hovering_B.ix = FLIGHT_HEXA_Hovering_B.i1;
       exitg1 = false;
       while ((!exitg1) && (FLIGHT_HEXA_Hovering_B.ix <=
-                           FLIGHT_HEXA_Hovering_B.i2)) {
+                           FLIGHT_HEXA_Hovering_B.iy)) {
         if (FLIGHT_HEXA_Hovering_B.x[FLIGHT_HEXA_Hovering_B.ix - 1]) {
           FLIGHT_HEXA_Hovering_B.IsNaN_l[FLIGHT_HEXA_Hovering_B.j] = true;
           exitg1 = true;
@@ -1518,31 +1523,31 @@ void FLIGHT_HEXA_Hovering_step(void)
     FLIGHT_HEXA_Hovering_B.distinctWptsIdx[1] = FLIGHT_HEXA_Hovering_B.IsNaN_l[1];
 
     // End of Outputs for SubSystem: '<S18>/Waypoint'
-    FLIGHT_HEXA_Hovering_B.i1 = 0;
-    for (FLIGHT_HEXA_Hovering_B.j = 0; FLIGHT_HEXA_Hovering_B.j < 3;
-         FLIGHT_HEXA_Hovering_B.j++) {
+    FLIGHT_HEXA_Hovering_B.iy = 0;
+    for (FLIGHT_HEXA_Hovering_B.i1 = 0; FLIGHT_HEXA_Hovering_B.i1 < 3;
+         FLIGHT_HEXA_Hovering_B.i1++) {
       // Outputs for IfAction SubSystem: '<S18>/Waypoint' incorporates:
       //   ActionPort: '<S23>/Action Port'
 
-      if (FLIGHT_HEXA_Hovering_B.distinctWptsIdx[FLIGHT_HEXA_Hovering_B.j]) {
-        FLIGHT_HEXA_Hovering_B.i1++;
+      if (FLIGHT_HEXA_Hovering_B.distinctWptsIdx[FLIGHT_HEXA_Hovering_B.i1]) {
+        FLIGHT_HEXA_Hovering_B.iy++;
       }
 
       // End of Outputs for SubSystem: '<S18>/Waypoint'
     }
 
-    FLIGHT_HEXA_Hovering_B.ix = FLIGHT_HEXA_Hovering_B.i1;
-    FLIGHT_HEXA_Hovering_B.i1 = 0;
-    for (FLIGHT_HEXA_Hovering_B.j = 0; FLIGHT_HEXA_Hovering_B.j < 3;
-         FLIGHT_HEXA_Hovering_B.j++) {
+    FLIGHT_HEXA_Hovering_B.j = FLIGHT_HEXA_Hovering_B.iy;
+    FLIGHT_HEXA_Hovering_B.iy = 0;
+    for (FLIGHT_HEXA_Hovering_B.i1 = 0; FLIGHT_HEXA_Hovering_B.i1 < 3;
+         FLIGHT_HEXA_Hovering_B.i1++) {
       // Outputs for IfAction SubSystem: '<S18>/Waypoint' incorporates:
       //   ActionPort: '<S23>/Action Port'
 
-      if (FLIGHT_HEXA_Hovering_B.distinctWptsIdx[FLIGHT_HEXA_Hovering_B.j]) {
+      if (FLIGHT_HEXA_Hovering_B.distinctWptsIdx[FLIGHT_HEXA_Hovering_B.i1]) {
         // Start for MATLABSystem: '<S23>/UAV Waypoint Follower'
-        FLIGHT_HEXA_Hovering_B.tmp_data[FLIGHT_HEXA_Hovering_B.i1] =
-          static_cast<int8_T>(FLIGHT_HEXA_Hovering_B.j);
-        FLIGHT_HEXA_Hovering_B.i1++;
+        FLIGHT_HEXA_Hovering_B.tmp_data[FLIGHT_HEXA_Hovering_B.iy] =
+          static_cast<int8_T>(FLIGHT_HEXA_Hovering_B.i1);
+        FLIGHT_HEXA_Hovering_B.iy++;
       }
 
       // End of Outputs for SubSystem: '<S18>/Waypoint'
@@ -1556,32 +1561,31 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   DataTypeConversion: '<S1>/Data Type Conversion1'
     //   Reshape: '<S23>/Reshape1'
 
-    for (FLIGHT_HEXA_Hovering_B.j = 0; FLIGHT_HEXA_Hovering_B.j < 3;
-         FLIGHT_HEXA_Hovering_B.j++) {
-      for (FLIGHT_HEXA_Hovering_B.i2 = 0; FLIGHT_HEXA_Hovering_B.i2 <
-           FLIGHT_HEXA_Hovering_B.ix; FLIGHT_HEXA_Hovering_B.i2++) {
-        FLIGHT_HEXA_Hovering_B.b_waypointsIn_data[FLIGHT_HEXA_Hovering_B.i2 +
-          FLIGHT_HEXA_Hovering_B.ix * FLIGHT_HEXA_Hovering_B.j] =
+    for (FLIGHT_HEXA_Hovering_B.i1 = 0; FLIGHT_HEXA_Hovering_B.i1 < 3;
+         FLIGHT_HEXA_Hovering_B.i1++) {
+      for (FLIGHT_HEXA_Hovering_B.iy = 0; FLIGHT_HEXA_Hovering_B.iy <
+           FLIGHT_HEXA_Hovering_B.j; FLIGHT_HEXA_Hovering_B.iy++) {
+        FLIGHT_HEXA_Hovering_B.b_waypointsIn_data[FLIGHT_HEXA_Hovering_B.iy +
+          FLIGHT_HEXA_Hovering_B.j * FLIGHT_HEXA_Hovering_B.i1] =
           FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[3 *
-          FLIGHT_HEXA_Hovering_B.j +
-          FLIGHT_HEXA_Hovering_B.tmp_data[FLIGHT_HEXA_Hovering_B.i2]];
+          FLIGHT_HEXA_Hovering_B.i1 +
+          FLIGHT_HEXA_Hovering_B.tmp_data[FLIGHT_HEXA_Hovering_B.iy]];
       }
     }
 
     FLIGHT_HEXA_Hovering_DW.obj.LookaheadDistance =
       FLIGHT_HEXA_Hovering_B.Switch3;
-    if (FLIGHT_HEXA_Hovering_B.ix == 0) {
+    if (FLIGHT_HEXA_Hovering_B.j == 0) {
       FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0] =
         FLIGHT_HEXA_Hovering_B.In1_c.x;
       FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1] =
         FLIGHT_HEXA_Hovering_B.In1_c.y;
       FLIGHT_HEXA_Hovering_B.DataTypeConversion2[2] =
         FLIGHT_HEXA_Hovering_B.In1_c.z;
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 =
-        FLIGHT_HEXA_Hovering_B.In1_c.heading;
+      FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.In1_c.heading;
     } else {
       guard1 = false;
-      if (FLIGHT_HEXA_Hovering_B.ix == 1) {
+      if (FLIGHT_HEXA_Hovering_B.j == 1) {
         if (FLIGHT_HEXA_Hovering_DW.obj.StartFlag) {
           FLIGHT_HEXA_Hovering_DW.obj.InitialPose[0] =
             FLIGHT_HEXA_Hovering_B.In1_c.x;
@@ -1610,37 +1614,36 @@ void FLIGHT_HEXA_Hovering_step(void)
             FLIGHT_HEXA_Hovering_B.In1_c.y;
           FLIGHT_HEXA_Hovering_B.DataTypeConversion2[2] =
             FLIGHT_HEXA_Hovering_B.In1_c.z;
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 =
-            FLIGHT_HEXA_Hovering_B.In1_c.heading;
+          FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.In1_c.heading;
           FLIGHT_HEXA_Hovering_DW.obj.StartFlag = false;
         } else {
           FLIGHT_HEXA_Hovering_DW.obj.StartFlag = false;
           FLIGHT_HEXA_Hovering_DW.obj.NumWaypoints = 2.0;
-          FLIGHT_HEXA_Hovering_B.i1 = FLIGHT_HEXA_Hovering_B.ix + 1;
-          for (FLIGHT_HEXA_Hovering_B.j = 0; FLIGHT_HEXA_Hovering_B.j < 3;
-               FLIGHT_HEXA_Hovering_B.j++) {
-            FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p
-              [(FLIGHT_HEXA_Hovering_B.ix + 1) * FLIGHT_HEXA_Hovering_B.j] =
-              FLIGHT_HEXA_Hovering_DW.obj.InitialPose[FLIGHT_HEXA_Hovering_B.j];
-            for (FLIGHT_HEXA_Hovering_B.i2 = 0; FLIGHT_HEXA_Hovering_B.i2 <
-                 FLIGHT_HEXA_Hovering_B.ix; FLIGHT_HEXA_Hovering_B.i2++) {
+          FLIGHT_HEXA_Hovering_B.ix = FLIGHT_HEXA_Hovering_B.j + 1;
+          for (FLIGHT_HEXA_Hovering_B.i1 = 0; FLIGHT_HEXA_Hovering_B.i1 < 3;
+               FLIGHT_HEXA_Hovering_B.i1++) {
+            FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[(FLIGHT_HEXA_Hovering_B.j
+              + 1) * FLIGHT_HEXA_Hovering_B.i1] =
+              FLIGHT_HEXA_Hovering_DW.obj.InitialPose[FLIGHT_HEXA_Hovering_B.i1];
+            for (FLIGHT_HEXA_Hovering_B.iy = 0; FLIGHT_HEXA_Hovering_B.iy <
+                 FLIGHT_HEXA_Hovering_B.j; FLIGHT_HEXA_Hovering_B.iy++) {
               FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p
-                [(FLIGHT_HEXA_Hovering_B.i2 + (FLIGHT_HEXA_Hovering_B.ix + 1) *
-                  FLIGHT_HEXA_Hovering_B.j) + 1] =
-                FLIGHT_HEXA_Hovering_B.b_waypointsIn_data[FLIGHT_HEXA_Hovering_B.ix
-                * FLIGHT_HEXA_Hovering_B.j + FLIGHT_HEXA_Hovering_B.i2];
+                [(FLIGHT_HEXA_Hovering_B.iy + (FLIGHT_HEXA_Hovering_B.j + 1) *
+                  FLIGHT_HEXA_Hovering_B.i1) + 1] =
+                FLIGHT_HEXA_Hovering_B.b_waypointsIn_data[FLIGHT_HEXA_Hovering_B.j
+                * FLIGHT_HEXA_Hovering_B.i1 + FLIGHT_HEXA_Hovering_B.iy];
             }
           }
 
           guard1 = true;
         }
       } else {
-        FLIGHT_HEXA_Hovering_B.i1 = FLIGHT_HEXA_Hovering_B.ix;
-        FLIGHT_HEXA_Hovering_B.i2 = FLIGHT_HEXA_Hovering_B.ix * 3;
-        if (FLIGHT_HEXA_Hovering_B.i2 - 1 >= 0) {
+        FLIGHT_HEXA_Hovering_B.ix = FLIGHT_HEXA_Hovering_B.j;
+        FLIGHT_HEXA_Hovering_B.iy = FLIGHT_HEXA_Hovering_B.j * 3;
+        if (FLIGHT_HEXA_Hovering_B.iy - 1 >= 0) {
           memcpy(&FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[0],
                  &FLIGHT_HEXA_Hovering_B.b_waypointsIn_data[0],
-                 static_cast<uint32_T>(FLIGHT_HEXA_Hovering_B.i2) * sizeof
+                 static_cast<uint32_T>(FLIGHT_HEXA_Hovering_B.iy) * sizeof
                  (real_T));
         }
 
@@ -1648,13 +1651,13 @@ void FLIGHT_HEXA_Hovering_step(void)
       }
 
       if (guard1) {
-        FLIGHT_HEXA_Hovering_B.b_varargout_1 = false;
+        FLIGHT_HEXA_Hovering_B.OR_g = false;
         if (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex ==
             FLIGHT_HEXA_Hovering_DW.obj.NumWaypoints) {
-          FLIGHT_HEXA_Hovering_B.b_varargout_1 = true;
+          FLIGHT_HEXA_Hovering_B.OR_g = true;
         }
 
-        if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+        if (FLIGHT_HEXA_Hovering_B.OR_g) {
           FLIGHT_HEXA_Hovering_DW.obj.LastWaypointFlag = true;
           FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex--;
         }
@@ -1664,75 +1667,75 @@ void FLIGHT_HEXA_Hovering_step(void)
           (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex) - 1];
         FLIGHT_HEXA_Hovering_B.b_startWaypoint[0] =
           FLIGHT_HEXA_Hovering_B.Switch3;
-        FLIGHT_HEXA_Hovering_B.Subtract_f =
+        FLIGHT_HEXA_Hovering_B.Gain_i =
           FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[static_cast<int32_T>
           (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex + 1.0) - 1];
         FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0] =
-          FLIGHT_HEXA_Hovering_B.Subtract_f;
+          FLIGHT_HEXA_Hovering_B.Gain_i;
         FLIGHT_HEXA_Hovering_B.virtualWaypoint[0] =
-          FLIGHT_HEXA_Hovering_B.In1_c.x - FLIGHT_HEXA_Hovering_B.Subtract_f;
+          FLIGHT_HEXA_Hovering_B.In1_c.x - FLIGHT_HEXA_Hovering_B.Gain_i;
         FLIGHT_HEXA_Hovering_B.b_startWaypoint[1] =
           FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[(static_cast<int32_T>
           (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex) +
-          FLIGHT_HEXA_Hovering_B.i1) - 1];
-        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
+          FLIGHT_HEXA_Hovering_B.ix) - 1];
+        FLIGHT_HEXA_Hovering_B.Sum5 =
           FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[(static_cast<int32_T>
           (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex + 1.0) +
-          FLIGHT_HEXA_Hovering_B.i1) - 1];
+          FLIGHT_HEXA_Hovering_B.ix) - 1];
         FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1] =
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+          FLIGHT_HEXA_Hovering_B.Sum5;
         FLIGHT_HEXA_Hovering_B.virtualWaypoint[1] =
-          FLIGHT_HEXA_Hovering_B.In1_c.y -
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+          FLIGHT_HEXA_Hovering_B.In1_c.y - FLIGHT_HEXA_Hovering_B.Sum5;
         FLIGHT_HEXA_Hovering_B.b_startWaypoint[2] =
-          FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[((FLIGHT_HEXA_Hovering_B.i1
+          FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[((FLIGHT_HEXA_Hovering_B.ix
           << 1) + static_cast<int32_T>(FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex))
           - 1];
-        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
+        FLIGHT_HEXA_Hovering_B.Sum5 =
           FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[(static_cast<int32_T>
           (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex + 1.0) +
-          (FLIGHT_HEXA_Hovering_B.i1 << 1)) - 1];
+          (FLIGHT_HEXA_Hovering_B.ix << 1)) - 1];
         FLIGHT_HEXA_Hovering_B.DataTypeConversion2[2] =
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+          FLIGHT_HEXA_Hovering_B.Sum5;
         FLIGHT_HEXA_Hovering_B.virtualWaypoint[2] =
-          FLIGHT_HEXA_Hovering_B.In1_c.z -
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+          FLIGHT_HEXA_Hovering_B.In1_c.z - FLIGHT_HEXA_Hovering_B.Sum5;
         FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = FLIGHT_HEXA_Hovering_norm
           (FLIGHT_HEXA_Hovering_B.virtualWaypoint);
         guard2 = false;
         if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 <= 2.0) {
           guard2 = true;
         } else {
-          FLIGHT_HEXA_Hovering_B.lla0[0] = FLIGHT_HEXA_Hovering_B.Subtract_f -
+          FLIGHT_HEXA_Hovering_B.lla0[0] = FLIGHT_HEXA_Hovering_B.Gain_i -
             FLIGHT_HEXA_Hovering_B.Switch3;
           FLIGHT_HEXA_Hovering_B.lla0[1] =
             FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[(static_cast<int32_T>
             (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex + 1.0) +
-            FLIGHT_HEXA_Hovering_B.i1) - 1] -
+            FLIGHT_HEXA_Hovering_B.ix) - 1] -
             FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[(static_cast<int32_T>
             (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex) +
-            FLIGHT_HEXA_Hovering_B.i1) - 1];
-          FLIGHT_HEXA_Hovering_B.Switch3 =
+            FLIGHT_HEXA_Hovering_B.ix) - 1];
+          FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 =
             FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[(static_cast<int32_T>
             (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex + 1.0) +
-            (FLIGHT_HEXA_Hovering_B.i1 << 1)) - 1];
-          FLIGHT_HEXA_Hovering_B.lla0[2] = FLIGHT_HEXA_Hovering_B.Switch3 -
+            (FLIGHT_HEXA_Hovering_B.ix << 1)) - 1];
+          FLIGHT_HEXA_Hovering_B.lla0[2] =
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 -
             FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p
-            [((FLIGHT_HEXA_Hovering_B.i1 << 1) + static_cast<int32_T>
+            [((FLIGHT_HEXA_Hovering_B.ix << 1) + static_cast<int32_T>
               (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex)) - 1];
-          FLIGHT_HEXA_Hovering_B.Subtract_f = FLIGHT_HEXA_Hovering_norm
+          FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_norm
             (FLIGHT_HEXA_Hovering_B.lla0);
           FLIGHT_HEXA_Hovering_B.Switch3 = ((FLIGHT_HEXA_Hovering_B.In1_c.x -
             FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[static_cast<int32_T>
             (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex + 1.0) - 1]) /
             FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 *
-            (FLIGHT_HEXA_Hovering_B.lla0[0] / FLIGHT_HEXA_Hovering_B.Subtract_f)
-            + FLIGHT_HEXA_Hovering_B.lla0[1] / FLIGHT_HEXA_Hovering_B.Subtract_f
-            * (FLIGHT_HEXA_Hovering_B.virtualWaypoint[1] /
-               FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0)) +
-            (FLIGHT_HEXA_Hovering_B.In1_c.z - FLIGHT_HEXA_Hovering_B.Switch3) /
+            (FLIGHT_HEXA_Hovering_B.lla0[0] / FLIGHT_HEXA_Hovering_B.Switch3) +
+            FLIGHT_HEXA_Hovering_B.lla0[1] / FLIGHT_HEXA_Hovering_B.Switch3 *
+            (FLIGHT_HEXA_Hovering_B.virtualWaypoint[1] /
+             FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0)) +
+            (FLIGHT_HEXA_Hovering_B.In1_c.z -
+             FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2) /
             FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 *
-            (FLIGHT_HEXA_Hovering_B.lla0[2] / FLIGHT_HEXA_Hovering_B.Subtract_f);
+            (FLIGHT_HEXA_Hovering_B.lla0[2] / FLIGHT_HEXA_Hovering_B.Switch3);
           if (rtIsNaN(FLIGHT_HEXA_Hovering_B.Switch3) ||
               (FLIGHT_HEXA_Hovering_B.Switch3 < 0.0)) {
           } else {
@@ -1742,13 +1745,13 @@ void FLIGHT_HEXA_Hovering_step(void)
 
         if (guard2) {
           FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex++;
-          FLIGHT_HEXA_Hovering_B.b_varargout_1 = false;
+          FLIGHT_HEXA_Hovering_B.OR_g = false;
           if (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex ==
               FLIGHT_HEXA_Hovering_DW.obj.NumWaypoints) {
-            FLIGHT_HEXA_Hovering_B.b_varargout_1 = true;
+            FLIGHT_HEXA_Hovering_B.OR_g = true;
           }
 
-          if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+          if (FLIGHT_HEXA_Hovering_B.OR_g) {
             FLIGHT_HEXA_Hovering_DW.obj.LastWaypointFlag = true;
             FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex--;
           }
@@ -1762,58 +1765,60 @@ void FLIGHT_HEXA_Hovering_step(void)
           FLIGHT_HEXA_Hovering_B.b_startWaypoint[1] =
             FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[(static_cast<int32_T>
             (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex) +
-            FLIGHT_HEXA_Hovering_B.i1) - 1];
+            FLIGHT_HEXA_Hovering_B.ix) - 1];
           FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1] =
             FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[(static_cast<int32_T>
             (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex + 1.0) +
-            FLIGHT_HEXA_Hovering_B.i1) - 1];
+            FLIGHT_HEXA_Hovering_B.ix) - 1];
           FLIGHT_HEXA_Hovering_B.b_startWaypoint[2] =
             FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p
-            [((FLIGHT_HEXA_Hovering_B.i1 << 1) + static_cast<int32_T>
+            [((FLIGHT_HEXA_Hovering_B.ix << 1) + static_cast<int32_T>
               (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex)) - 1];
           FLIGHT_HEXA_Hovering_B.DataTypeConversion2[2] =
             FLIGHT_HEXA_Hovering_B.MatrixConcatenate_p[(static_cast<int32_T>
             (FLIGHT_HEXA_Hovering_DW.obj.WaypointIndex + 1.0) +
-            (FLIGHT_HEXA_Hovering_B.i1 << 1)) - 1];
+            (FLIGHT_HEXA_Hovering_B.ix << 1)) - 1];
         }
 
-        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = FLIGHT_HEXA_Hovering_B.In1_c.x
-          - FLIGHT_HEXA_Hovering_B.b_startWaypoint[0];
-        FLIGHT_HEXA_Hovering_B.virtualWaypoint[0] =
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
-        FLIGHT_HEXA_Hovering_B.Switch3 =
+        FLIGHT_HEXA_Hovering_B.Sum5 = FLIGHT_HEXA_Hovering_B.In1_c.x -
+          FLIGHT_HEXA_Hovering_B.b_startWaypoint[0];
+        FLIGHT_HEXA_Hovering_B.virtualWaypoint[0] = FLIGHT_HEXA_Hovering_B.Sum5;
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 =
           FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0] -
           FLIGHT_HEXA_Hovering_B.b_startWaypoint[0];
-        FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp =
-          FLIGHT_HEXA_Hovering_B.In1_c.y -
-          FLIGHT_HEXA_Hovering_B.b_startWaypoint[1];
+        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = FLIGHT_HEXA_Hovering_B.In1_c.y
+          - FLIGHT_HEXA_Hovering_B.b_startWaypoint[1];
         FLIGHT_HEXA_Hovering_B.virtualWaypoint[1] =
-          FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp;
-        FLIGHT_HEXA_Hovering_B.Switch_m =
+          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
           FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1] -
           FLIGHT_HEXA_Hovering_B.b_startWaypoint[1];
-        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 = FLIGHT_HEXA_Hovering_B.In1_c.z
-          - FLIGHT_HEXA_Hovering_B.b_startWaypoint[2];
+        FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.In1_c.z -
+          FLIGHT_HEXA_Hovering_B.b_startWaypoint[2];
         FLIGHT_HEXA_Hovering_B.virtualWaypoint[2] =
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3;
-        FLIGHT_HEXA_Hovering_B.Switch4 =
+          FLIGHT_HEXA_Hovering_B.Switch3;
+        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 =
           FLIGHT_HEXA_Hovering_B.DataTypeConversion2[2] -
           FLIGHT_HEXA_Hovering_B.b_startWaypoint[2];
-        FLIGHT_HEXA_Hovering_B.Subtract_f = (FLIGHT_HEXA_Hovering_B.Switch_m *
-          FLIGHT_HEXA_Hovering_B.Switch_m + FLIGHT_HEXA_Hovering_B.Switch3 *
-          FLIGHT_HEXA_Hovering_B.Switch3) + FLIGHT_HEXA_Hovering_B.Switch4 *
-          FLIGHT_HEXA_Hovering_B.Switch4;
-        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 =
-          ((FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp *
-            FLIGHT_HEXA_Hovering_B.Switch_m +
-            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 *
-            FLIGHT_HEXA_Hovering_B.Switch3) +
-           FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 *
-           FLIGHT_HEXA_Hovering_B.Switch4) / FLIGHT_HEXA_Hovering_B.Subtract_f;
-        if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 < 0.0) {
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 = FLIGHT_HEXA_Hovering_norm
+        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1 =
+          (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 *
+           FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 +
+           FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 *
+           FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2) +
+          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 *
+          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2;
+        FLIGHT_HEXA_Hovering_B.Switch3 =
+          ((FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 +
+            FLIGHT_HEXA_Hovering_B.Sum5 *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2) +
+           FLIGHT_HEXA_Hovering_B.Switch3 *
+           FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2) /
+          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1;
+        if (FLIGHT_HEXA_Hovering_B.Switch3 < 0.0) {
+          FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_norm
             (FLIGHT_HEXA_Hovering_B.virtualWaypoint);
-        } else if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 > 1.0) {
+        } else if (FLIGHT_HEXA_Hovering_B.Switch3 > 1.0) {
           FLIGHT_HEXA_Hovering_B.virtualWaypoint[0] =
             FLIGHT_HEXA_Hovering_B.In1_c.x -
             FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0];
@@ -1823,92 +1828,82 @@ void FLIGHT_HEXA_Hovering_step(void)
           FLIGHT_HEXA_Hovering_B.virtualWaypoint[2] =
             FLIGHT_HEXA_Hovering_B.In1_c.z -
             FLIGHT_HEXA_Hovering_B.DataTypeConversion2[2];
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 = FLIGHT_HEXA_Hovering_norm
+          FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_norm
             (FLIGHT_HEXA_Hovering_B.virtualWaypoint);
         } else {
           FLIGHT_HEXA_Hovering_B.virtualWaypoint[0] =
-            FLIGHT_HEXA_Hovering_B.In1_c.x -
-            (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 *
-             FLIGHT_HEXA_Hovering_B.Switch3 +
-             FLIGHT_HEXA_Hovering_B.b_startWaypoint[0]);
+            FLIGHT_HEXA_Hovering_B.In1_c.x - (FLIGHT_HEXA_Hovering_B.Switch3 *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 +
+            FLIGHT_HEXA_Hovering_B.b_startWaypoint[0]);
           FLIGHT_HEXA_Hovering_B.virtualWaypoint[1] =
-            FLIGHT_HEXA_Hovering_B.In1_c.y -
-            (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 *
-             FLIGHT_HEXA_Hovering_B.Switch_m +
-             FLIGHT_HEXA_Hovering_B.b_startWaypoint[1]);
+            FLIGHT_HEXA_Hovering_B.In1_c.y - (FLIGHT_HEXA_Hovering_B.Switch3 *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 +
+            FLIGHT_HEXA_Hovering_B.b_startWaypoint[1]);
           FLIGHT_HEXA_Hovering_B.virtualWaypoint[2] =
-            FLIGHT_HEXA_Hovering_B.In1_c.z -
-            (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 *
-             FLIGHT_HEXA_Hovering_B.Switch4 +
-             FLIGHT_HEXA_Hovering_B.b_startWaypoint[2]);
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 = FLIGHT_HEXA_Hovering_norm
+            FLIGHT_HEXA_Hovering_B.In1_c.z - (FLIGHT_HEXA_Hovering_B.Switch3 *
+            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 +
+            FLIGHT_HEXA_Hovering_B.b_startWaypoint[2]);
+          FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_norm
             (FLIGHT_HEXA_Hovering_B.virtualWaypoint);
         }
 
         if (FLIGHT_HEXA_Hovering_DW.obj.LastWaypointFlag) {
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 =
-            ((FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 *
-              FLIGHT_HEXA_Hovering_B.Switch3 +
-              FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp *
-              FLIGHT_HEXA_Hovering_B.Switch_m) + (FLIGHT_HEXA_Hovering_B.In1_c.z
-              - FLIGHT_HEXA_Hovering_B.b_startWaypoint[2]) *
-             FLIGHT_HEXA_Hovering_B.Switch4) / FLIGHT_HEXA_Hovering_B.Subtract_f;
+          FLIGHT_HEXA_Hovering_B.Switch3 = ((FLIGHT_HEXA_Hovering_B.Sum5 *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 +
+            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1) +
+            (FLIGHT_HEXA_Hovering_B.In1_c.z -
+             FLIGHT_HEXA_Hovering_B.b_startWaypoint[2]) *
+            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2) /
+            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1;
           FLIGHT_HEXA_Hovering_B.virtualWaypoint[0] =
-            FLIGHT_HEXA_Hovering_B.In1_c.x -
-            (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 *
-             FLIGHT_HEXA_Hovering_B.Switch3 +
-             FLIGHT_HEXA_Hovering_B.b_startWaypoint[0]);
+            FLIGHT_HEXA_Hovering_B.In1_c.x - (FLIGHT_HEXA_Hovering_B.Switch3 *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 +
+            FLIGHT_HEXA_Hovering_B.b_startWaypoint[0]);
           FLIGHT_HEXA_Hovering_B.virtualWaypoint[1] =
-            FLIGHT_HEXA_Hovering_B.In1_c.y -
-            (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 *
-             FLIGHT_HEXA_Hovering_B.Switch_m +
-             FLIGHT_HEXA_Hovering_B.b_startWaypoint[1]);
+            FLIGHT_HEXA_Hovering_B.In1_c.y - (FLIGHT_HEXA_Hovering_B.Switch3 *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 +
+            FLIGHT_HEXA_Hovering_B.b_startWaypoint[1]);
           FLIGHT_HEXA_Hovering_B.virtualWaypoint[2] =
-            FLIGHT_HEXA_Hovering_B.In1_c.z -
-            (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 *
-             FLIGHT_HEXA_Hovering_B.Switch4 +
-             FLIGHT_HEXA_Hovering_B.b_startWaypoint[2]);
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 = FLIGHT_HEXA_Hovering_norm
+            FLIGHT_HEXA_Hovering_B.In1_c.z - (FLIGHT_HEXA_Hovering_B.Switch3 *
+            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 +
+            FLIGHT_HEXA_Hovering_B.b_startWaypoint[2]);
+          FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_norm
             (FLIGHT_HEXA_Hovering_B.virtualWaypoint);
         }
 
-        FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp = fabs
-          (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3);
-        if (rtIsInf(FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp) || rtIsNaN
-            (FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp)) {
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (rtNaN);
-          FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp = (rtNaN);
-        } else if (FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp <
-                   4.4501477170144028E-308) {
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = 4.94065645841247E-324;
-          FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp = 4.94065645841247E-324;
+        FLIGHT_HEXA_Hovering_B.Sum5 = fabs(FLIGHT_HEXA_Hovering_B.Gain_i);
+        if (rtIsInf(FLIGHT_HEXA_Hovering_B.Sum5) || rtIsNaN
+            (FLIGHT_HEXA_Hovering_B.Sum5)) {
+          FLIGHT_HEXA_Hovering_B.Switch3 = (rtNaN);
+          FLIGHT_HEXA_Hovering_B.Sum5 = (rtNaN);
+        } else if (FLIGHT_HEXA_Hovering_B.Sum5 < 4.4501477170144028E-308) {
+          FLIGHT_HEXA_Hovering_B.Switch3 = 4.94065645841247E-324;
+          FLIGHT_HEXA_Hovering_B.Sum5 = 4.94065645841247E-324;
         } else {
-          frexp(FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp,
-                &FLIGHT_HEXA_Hovering_B.ParamStep_k);
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = ldexp(1.0,
-            FLIGHT_HEXA_Hovering_B.ParamStep_k - 53);
-          frexp(FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp,
-                &FLIGHT_HEXA_Hovering_B.b_exponent);
-          FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp = ldexp(1.0,
+          frexp(FLIGHT_HEXA_Hovering_B.Sum5, &FLIGHT_HEXA_Hovering_B.ParamStep_c);
+          FLIGHT_HEXA_Hovering_B.Switch3 = ldexp(1.0,
+            FLIGHT_HEXA_Hovering_B.ParamStep_c - 53);
+          frexp(FLIGHT_HEXA_Hovering_B.Sum5, &FLIGHT_HEXA_Hovering_B.b_exponent);
+          FLIGHT_HEXA_Hovering_B.Sum5 = ldexp(1.0,
             FLIGHT_HEXA_Hovering_B.b_exponent - 53);
         }
 
         FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = sqrt
-          (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0);
-        FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp *= 5.0;
+          (FLIGHT_HEXA_Hovering_B.Switch3);
+        FLIGHT_HEXA_Hovering_B.Switch3 = 5.0 * FLIGHT_HEXA_Hovering_B.Sum5;
         if ((FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 >=
-             FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp) || rtIsNaN
-            (FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp)) {
-          FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp =
+             FLIGHT_HEXA_Hovering_B.Switch3) || rtIsNaN
+            (FLIGHT_HEXA_Hovering_B.Switch3)) {
+          FLIGHT_HEXA_Hovering_B.Switch3 =
             FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
         }
 
         if (FLIGHT_HEXA_Hovering_DW.obj.LookaheadDistance <=
-            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 +
-            FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp) {
+            FLIGHT_HEXA_Hovering_B.Gain_i + FLIGHT_HEXA_Hovering_B.Switch3) {
           FLIGHT_HEXA_Hovering_DW.obj.LookaheadDistance =
             FLIGHT_HEXA_Hovering_DW.obj.LookaheadFactor *
-            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3;
+            FLIGHT_HEXA_Hovering_B.Gain_i;
         }
 
         FLIGHT_HEXA_Hovering_B.lla0[0] = FLIGHT_HEXA_Hovering_B.b_startWaypoint
@@ -1917,24 +1912,27 @@ void FLIGHT_HEXA_Hovering_step(void)
           [1] - FLIGHT_HEXA_Hovering_B.In1_c.y;
         FLIGHT_HEXA_Hovering_B.lla0[2] = FLIGHT_HEXA_Hovering_B.b_startWaypoint
           [2] - FLIGHT_HEXA_Hovering_B.In1_c.z;
-        FLIGHT_HEXA_Hovering_B.Switch3 = ((FLIGHT_HEXA_Hovering_B.Switch3 *
-          FLIGHT_HEXA_Hovering_B.lla0[0] + FLIGHT_HEXA_Hovering_B.Switch_m *
-          FLIGHT_HEXA_Hovering_B.lla0[1]) + FLIGHT_HEXA_Hovering_B.Switch4 *
-          FLIGHT_HEXA_Hovering_B.lla0[2]) * 2.0;
-        FLIGHT_HEXA_Hovering_B.Switch_m = sqrt(FLIGHT_HEXA_Hovering_B.Switch3 *
-          FLIGHT_HEXA_Hovering_B.Switch3 - (((FLIGHT_HEXA_Hovering_B.lla0[0] *
+        FLIGHT_HEXA_Hovering_B.Gain_i =
+          ((FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 *
+            FLIGHT_HEXA_Hovering_B.lla0[0] +
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 *
+            FLIGHT_HEXA_Hovering_B.lla0[1]) +
+           FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 * FLIGHT_HEXA_Hovering_B.lla0
+           [2]) * 2.0;
+        FLIGHT_HEXA_Hovering_B.Sum5 = sqrt(FLIGHT_HEXA_Hovering_B.Gain_i *
+          FLIGHT_HEXA_Hovering_B.Gain_i - (((FLIGHT_HEXA_Hovering_B.lla0[0] *
           FLIGHT_HEXA_Hovering_B.lla0[0] + FLIGHT_HEXA_Hovering_B.lla0[1] *
           FLIGHT_HEXA_Hovering_B.lla0[1]) + FLIGHT_HEXA_Hovering_B.lla0[2] *
           FLIGHT_HEXA_Hovering_B.lla0[2]) -
           FLIGHT_HEXA_Hovering_DW.obj.LookaheadDistance *
           FLIGHT_HEXA_Hovering_DW.obj.LookaheadDistance) * (4.0 *
-          FLIGHT_HEXA_Hovering_B.Subtract_f));
-        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-          (-FLIGHT_HEXA_Hovering_B.Switch3 + FLIGHT_HEXA_Hovering_B.Switch_m) /
-          2.0 / FLIGHT_HEXA_Hovering_B.Subtract_f;
-        FLIGHT_HEXA_Hovering_B.Switch3 = (-FLIGHT_HEXA_Hovering_B.Switch3 -
-          FLIGHT_HEXA_Hovering_B.Switch_m) / 2.0 /
-          FLIGHT_HEXA_Hovering_B.Subtract_f;
+          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1));
+        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (-FLIGHT_HEXA_Hovering_B.Gain_i
+          + FLIGHT_HEXA_Hovering_B.Sum5) / 2.0 /
+          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1;
+        FLIGHT_HEXA_Hovering_B.Switch3 = (-FLIGHT_HEXA_Hovering_B.Gain_i -
+          FLIGHT_HEXA_Hovering_B.Sum5) / 2.0 /
+          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1;
         if ((FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 >=
              FLIGHT_HEXA_Hovering_B.Switch3) || rtIsNaN
             (FLIGHT_HEXA_Hovering_B.Switch3)) {
@@ -1957,8 +1955,7 @@ void FLIGHT_HEXA_Hovering_step(void)
           FLIGHT_HEXA_Hovering_B.b_startWaypoint[2] +
           FLIGHT_HEXA_Hovering_B.Switch3 *
           FLIGHT_HEXA_Hovering_B.DataTypeConversion2[2];
-        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 =
-          FLIGHT_HEXA_Hovering_rt_atan2d_snf
+        FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_rt_atan2d_snf
           (FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1] -
            FLIGHT_HEXA_Hovering_B.In1_c.y,
            FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0] -
@@ -1985,12 +1982,12 @@ void FLIGHT_HEXA_Hovering_step(void)
         (FLIGHT_HEXA_Hovering_B.In1_p.current.type ==
          FLIGHT_HEXA_Hovering_P.CompareToConstant_const_dt)) {
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = FLIGHT_HEXA_Hovering_B.In1_c.x;
-      FLIGHT_HEXA_Hovering_B.Switch4 = FLIGHT_HEXA_Hovering_B.In1_c.y;
-      FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.In1_c.z;
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1 = FLIGHT_HEXA_Hovering_B.In1_c.y;
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 = FLIGHT_HEXA_Hovering_B.In1_c.z;
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 =
         FLIGHT_HEXA_Hovering_B.In1_c.heading;
     } else {
-      if (rtIsNaN(FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3)) {
+      if (rtIsNaN(FLIGHT_HEXA_Hovering_B.Switch3)) {
         // Switch: '<S33>/Switch' incorporates:
         //   Constant: '<S33>/Constant'
         //   Merge: '<S18>/Merge'
@@ -1998,6 +1995,12 @@ void FLIGHT_HEXA_Hovering_step(void)
 
         FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 =
           FLIGHT_HEXA_Hovering_P.Constant_Value_jd;
+      } else {
+        // Reshape: '<S33>/Reshape2' incorporates:
+        //   MATLABSystem: '<S23>/UAV Waypoint Follower'
+        //   Merge: '<S18>/Merge'
+
+        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 = FLIGHT_HEXA_Hovering_B.Switch3;
       }
 
       // Math: '<S33>/Transpose1' incorporates:
@@ -2005,9 +2008,9 @@ void FLIGHT_HEXA_Hovering_step(void)
 
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
         FLIGHT_HEXA_Hovering_B.DataTypeConversion2[0];
-      FLIGHT_HEXA_Hovering_B.Switch4 =
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1 =
         FLIGHT_HEXA_Hovering_B.DataTypeConversion2[1];
-      FLIGHT_HEXA_Hovering_B.Switch3 =
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 =
         FLIGHT_HEXA_Hovering_B.DataTypeConversion2[2];
     }
 
@@ -2016,8 +2019,8 @@ void FLIGHT_HEXA_Hovering_step(void)
     break;
 
    default:
-    if (FLIGHT_HEXA_Hovering_DW.If_ActiveSubsystem !=
-        FLIGHT_HEXA_Hovering_B.rtPrevAction) {
+    if (FLIGHT_HEXA_Hovering_B.rtAction != FLIGHT_HEXA_Hovering_B.rtPrevAction)
+    {
       // InitializeConditions for IfAction SubSystem: '<S18>/IDLE' incorporates:
       //   ActionPort: '<S20>/Action Port'
 
@@ -2051,8 +2054,8 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Merge: '<S18>/Merge'
 
     FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = FLIGHT_HEXA_Hovering_B.In1_c.x;
-    FLIGHT_HEXA_Hovering_B.Switch4 = FLIGHT_HEXA_Hovering_B.In1_c.y;
-    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.In1_c.z;
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1 = FLIGHT_HEXA_Hovering_B.In1_c.y;
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 = FLIGHT_HEXA_Hovering_B.In1_c.z;
     FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 = FLIGHT_HEXA_Hovering_B.yaw_In;
 
     // Update for Delay: '<S24>/Delay' incorporates:
@@ -2072,14 +2075,43 @@ void FLIGHT_HEXA_Hovering_step(void)
 
   if (FLIGHT_HEXA_Hovering_B.In1_b.armed) {
     // Trigonometry: '<S341>/SinCos'
-    FLIGHT_HEXA_Hovering_B.Switch_m = sin
-      (FLIGHT_HEXA_Hovering_B.VectorConcatenate[0]);
-    FLIGHT_HEXA_Hovering_B.Subtract_f = cos
+    FLIGHT_HEXA_Hovering_B.Sum5 = sin(FLIGHT_HEXA_Hovering_B.VectorConcatenate[0]);
+    FLIGHT_HEXA_Hovering_B.Gain_i = cos
       (FLIGHT_HEXA_Hovering_B.VectorConcatenate[0]);
 
+    // Math: '<S341>/Transpose' incorporates:
+    //   Gain: '<S341>/Gain'
+    //   Reshape: '<S341>/Reshape1'
+
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
+      FLIGHT_HEXA_Hovering_P.Gain_Gain_a * FLIGHT_HEXA_Hovering_B.Sum5;
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 = FLIGHT_HEXA_Hovering_B.Sum5;
+
     // Sum: '<S76>/Sum5'
-    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 -=
+    FLIGHT_HEXA_Hovering_B.Sum5 = FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 -
       FLIGHT_HEXA_Hovering_B.VectorConcatenate[0];
+
+    // Switch: '<S342>/Switch' incorporates:
+    //   Abs: '<S342>/Abs'
+
+    if (fabs(FLIGHT_HEXA_Hovering_B.Sum5) >
+        FLIGHT_HEXA_Hovering_P.Switch_Threshold_p) {
+      // Switch: '<S342>/Switch1' incorporates:
+      //   Constant: '<S342>/Constant'
+      //   Sum: '<S342>/Add'
+      //   Sum: '<S342>/Subtract'
+
+      if (FLIGHT_HEXA_Hovering_B.Sum5 > FLIGHT_HEXA_Hovering_P.Switch1_Threshold)
+      {
+        FLIGHT_HEXA_Hovering_B.Sum5 -= FLIGHT_HEXA_Hovering_P.Constant_Value_p;
+      } else {
+        FLIGHT_HEXA_Hovering_B.Sum5 += FLIGHT_HEXA_Hovering_P.Constant_Value_p;
+      }
+
+      // End of Switch: '<S342>/Switch1'
+    }
+
+    // End of Switch: '<S342>/Switch'
 
     // Saturate: '<S439>/Saturation' incorporates:
     //   DataTypeConversion: '<S1>/Data Type Conversion1'
@@ -2103,16 +2135,16 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   DataTypeConversion: '<S1>/Data Type Conversion1'
     //   Saturate: '<S439>/Saturation'
 
-    FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp =
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 - FLIGHT_HEXA_Hovering_B.In1_c.vx;
+    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 -
+      FLIGHT_HEXA_Hovering_B.In1_c.vx;
 
     // Saturate: '<S439>/Saturation' incorporates:
     //   DataTypeConversion: '<S1>/Data Type Conversion1'
     //   Gain: '<S437>/Proportional Gain'
     //   Sum: '<S76>/Sum1'
 
-    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (FLIGHT_HEXA_Hovering_B.Switch4 -
-      FLIGHT_HEXA_Hovering_B.In1_c.y) *
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
+      (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1 - FLIGHT_HEXA_Hovering_B.In1_c.y) *
       FLIGHT_HEXA_Hovering_P.PIDController1_P_f;
     if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 >
         FLIGHT_HEXA_Hovering_P.PIDController1_UpperSaturationLimit_e) {
@@ -2128,19 +2160,20 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   DataTypeConversion: '<S1>/Data Type Conversion1'
     //   Saturate: '<S439>/Saturation'
 
-    FLIGHT_HEXA_Hovering_B.Switch4 = FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 -
-      FLIGHT_HEXA_Hovering_B.In1_c.vy;
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1 =
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 - FLIGHT_HEXA_Hovering_B.In1_c.vy;
 
     // Saturate: '<S389>/Saturation' incorporates:
-    //   Gain: '<S341>/Gain'
     //   Gain: '<S387>/Proportional Gain'
+    //   Math: '<S341>/Transpose'
     //   Product: '<S76>/MatrixMultiply'
     //   Reshape: '<S341>/Reshape'
     //   Reshape: '<S341>/Reshape1'
 
-    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (FLIGHT_HEXA_Hovering_B.Subtract_f *
-      FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp +
-      FLIGHT_HEXA_Hovering_B.Switch_m * FLIGHT_HEXA_Hovering_B.Switch4) *
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (FLIGHT_HEXA_Hovering_B.Gain_i *
+      FLIGHT_HEXA_Hovering_B.Switch3 +
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 *
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1) *
       FLIGHT_HEXA_Hovering_P.PIDController_P_b;
     if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 >
         FLIGHT_HEXA_Hovering_P.PIDController_UpperSaturationLimit_e) {
@@ -2158,10 +2191,10 @@ void FLIGHT_HEXA_Hovering_step(void)
         FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
     }
 
-    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (FLIGHT_HEXA_Hovering_P.Gain_Gain_a
-      * FLIGHT_HEXA_Hovering_B.Switch_m *
-      FLIGHT_HEXA_Hovering_B.virtualWaypoint_tmp +
-      FLIGHT_HEXA_Hovering_B.Subtract_f * FLIGHT_HEXA_Hovering_B.Switch4) *
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
+      (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 *
+       FLIGHT_HEXA_Hovering_B.Switch3 + FLIGHT_HEXA_Hovering_B.Gain_i *
+       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_1) *
       FLIGHT_HEXA_Hovering_P.PIDController_P_b;
     if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 >
         FLIGHT_HEXA_Hovering_P.PIDController_UpperSaturationLimit_e) {
@@ -2185,50 +2218,25 @@ void FLIGHT_HEXA_Hovering_step(void)
     FLIGHT_HEXA_Hovering_B.Gain1 = FLIGHT_HEXA_Hovering_P.Gain1_Gain_ad *
       FLIGHT_HEXA_Hovering_B.Saturation[0];
 
-    // Switch: '<S342>/Switch' incorporates:
-    //   Abs: '<S342>/Abs'
-
-    if (fabs(FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3) >
-        FLIGHT_HEXA_Hovering_P.Switch_Threshold_p) {
-      // Switch: '<S342>/Switch1' incorporates:
-      //   Constant: '<S342>/Constant'
-      //   Sum: '<S342>/Add'
-      //   Sum: '<S342>/Subtract'
-
-      if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 >
-          FLIGHT_HEXA_Hovering_P.Switch1_Threshold) {
-        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 -=
-          FLIGHT_HEXA_Hovering_P.Constant_Value_p;
-      } else {
-        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 +=
-          FLIGHT_HEXA_Hovering_P.Constant_Value_p;
-      }
-
-      // End of Switch: '<S342>/Switch1'
-    }
-
-    // Gain: '<S487>/Proportional Gain' incorporates:
-    //   Switch: '<S342>/Switch'
-
-    FLIGHT_HEXA_Hovering_B.Saturation_e =
-      FLIGHT_HEXA_Hovering_P.PIDController5_P *
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3;
+    // Gain: '<S487>/Proportional Gain'
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
+      FLIGHT_HEXA_Hovering_P.PIDController5_P * FLIGHT_HEXA_Hovering_B.Sum5;
 
     // Saturate: '<S489>/Saturation'
-    if (FLIGHT_HEXA_Hovering_B.Saturation_e >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 >
         FLIGHT_HEXA_Hovering_P.PIDController5_UpperSaturationLimit) {
-      // Gain: '<S487>/Proportional Gain' incorporates:
-      //   Saturate: '<S489>/Saturation'
-
+      // Saturate: '<S489>/Saturation'
       FLIGHT_HEXA_Hovering_B.Saturation_e =
         FLIGHT_HEXA_Hovering_P.PIDController5_UpperSaturationLimit;
-    } else if (FLIGHT_HEXA_Hovering_B.Saturation_e <
+    } else if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 <
                FLIGHT_HEXA_Hovering_P.PIDController5_LowerSaturationLimit) {
-      // Gain: '<S487>/Proportional Gain' incorporates:
-      //   Saturate: '<S489>/Saturation'
-
+      // Saturate: '<S489>/Saturation'
       FLIGHT_HEXA_Hovering_B.Saturation_e =
         FLIGHT_HEXA_Hovering_P.PIDController5_LowerSaturationLimit;
+    } else {
+      // Saturate: '<S489>/Saturation'
+      FLIGHT_HEXA_Hovering_B.Saturation_e =
+        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
     }
 
     // End of Saturate: '<S489>/Saturation'
@@ -2236,18 +2244,17 @@ void FLIGHT_HEXA_Hovering_step(void)
     // Gain: '<S340>/Gain1' incorporates:
     //   DataTypeConversion: '<S1>/Data Type Conversion1'
 
-    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = FLIGHT_HEXA_Hovering_P.Gain1_Gain_j
-      * FLIGHT_HEXA_Hovering_B.In1_c.z;
+    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_P.Gain1_Gain_j *
+      FLIGHT_HEXA_Hovering_B.In1_c.z;
 
     // Switch: '<S348>/Switch' incorporates:
     //   Constant: '<S340>/Constant'
     //   RelationalOperator: '<S348>/UpperRelop'
     //   Switch: '<S348>/Switch2'
 
-    if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 <
+    if (FLIGHT_HEXA_Hovering_B.Switch3 <
         FLIGHT_HEXA_Hovering_P.Constant_Value_ag) {
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-        FLIGHT_HEXA_Hovering_P.Constant_Value_ag;
+      FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_P.Constant_Value_ag;
     }
 
     // Sum: '<S76>/Sum2' incorporates:
@@ -2255,27 +2262,27 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Switch: '<S348>/Switch'
     //   Switch: '<S348>/Switch2'
 
-    FLIGHT_HEXA_Hovering_B.Switch_m = FLIGHT_HEXA_Hovering_P.Gain_Gain_k1 *
-      FLIGHT_HEXA_Hovering_B.Switch3 - FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+    FLIGHT_HEXA_Hovering_B.Sum5 = FLIGHT_HEXA_Hovering_P.Gain_Gain_k1 *
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 - FLIGHT_HEXA_Hovering_B.Switch3;
 
     // Gain: '<S539>/Proportional Gain'
-    FLIGHT_HEXA_Hovering_B.Subtract_f = FLIGHT_HEXA_Hovering_P.PID_Altitude_P *
-      FLIGHT_HEXA_Hovering_B.Switch_m;
+    FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_P.PID_Altitude_P *
+      FLIGHT_HEXA_Hovering_B.Sum5;
 
     // Gain: '<S537>/Filter Coefficient' incorporates:
     //   DiscreteIntegrator: '<S529>/Filter'
     //   Gain: '<S527>/Derivative Gain'
     //   Sum: '<S529>/SumD'
 
-    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3 =
-      (FLIGHT_HEXA_Hovering_P.PID_Altitude_D * FLIGHT_HEXA_Hovering_B.Switch_m -
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2 =
+      (FLIGHT_HEXA_Hovering_P.PID_Altitude_D * FLIGHT_HEXA_Hovering_B.Sum5 -
        FLIGHT_HEXA_Hovering_DW.Filter_DSTATE) *
       FLIGHT_HEXA_Hovering_P.PID_Altitude_N;
 
     // Sum: '<S544>/Sum Fdbk'
-    FLIGHT_HEXA_Hovering_B.Switch3 = (FLIGHT_HEXA_Hovering_B.Subtract_f +
+    FLIGHT_HEXA_Hovering_B.Switch3 = (FLIGHT_HEXA_Hovering_B.Gain_i +
       FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE) +
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2;
 
     // DeadZone: '<S526>/DeadZone'
     if (FLIGHT_HEXA_Hovering_B.Switch3 >
@@ -2293,7 +2300,7 @@ void FLIGHT_HEXA_Hovering_step(void)
     // End of DeadZone: '<S526>/DeadZone'
 
     // Gain: '<S531>/Integral Gain'
-    FLIGHT_HEXA_Hovering_B.Switch_m *= FLIGHT_HEXA_Hovering_P.PID_Altitude_I;
+    FLIGHT_HEXA_Hovering_B.Sum5 *= FLIGHT_HEXA_Hovering_P.PID_Altitude_I;
 
     // Switch: '<S524>/Switch1' incorporates:
     //   Constant: '<S524>/Clamping_zero'
@@ -2316,11 +2323,12 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Constant: '<S524>/Constant4'
     //   RelationalOperator: '<S524>/fix for DT propagation issue1'
 
-    if (FLIGHT_HEXA_Hovering_B.Switch_m >
+    if (FLIGHT_HEXA_Hovering_B.Sum5 >
         FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_o) {
-      FLIGHT_HEXA_Hovering_B.i2_b = FLIGHT_HEXA_Hovering_P.Constant3_Value_i;
+      FLIGHT_HEXA_Hovering_B.rtAction = FLIGHT_HEXA_Hovering_P.Constant3_Value_i;
     } else {
-      FLIGHT_HEXA_Hovering_B.i2_b = FLIGHT_HEXA_Hovering_P.Constant4_Value_hf;
+      FLIGHT_HEXA_Hovering_B.rtAction =
+        FLIGHT_HEXA_Hovering_P.Constant4_Value_hf;
     }
 
     // Switch: '<S524>/Switch' incorporates:
@@ -2334,21 +2342,21 @@ void FLIGHT_HEXA_Hovering_step(void)
 
     if ((FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_o !=
          FLIGHT_HEXA_Hovering_B.Switch3) && (FLIGHT_HEXA_Hovering_B.rtPrevAction
-         == FLIGHT_HEXA_Hovering_B.i2_b)) {
-      FLIGHT_HEXA_Hovering_B.Switch_m = FLIGHT_HEXA_Hovering_P.Constant1_Value_c;
+         == FLIGHT_HEXA_Hovering_B.rtAction)) {
+      FLIGHT_HEXA_Hovering_B.Sum5 = FLIGHT_HEXA_Hovering_P.Constant1_Value_c;
     }
 
     // DiscreteIntegrator: '<S534>/Integrator' incorporates:
     //   Switch: '<S524>/Switch'
 
-    FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE +=
-      FLIGHT_HEXA_Hovering_P.Integrator_gainval_p4 *
-      FLIGHT_HEXA_Hovering_B.Switch_m;
+    FLIGHT_HEXA_Hovering_B.Switch3 =
+      FLIGHT_HEXA_Hovering_P.Integrator_gainval_p4 * FLIGHT_HEXA_Hovering_B.Sum5
+      + FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE;
 
     // Sum: '<S543>/Sum'
-    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (FLIGHT_HEXA_Hovering_B.Subtract_f
-      + FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE) +
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3;
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (FLIGHT_HEXA_Hovering_B.Gain_i +
+      FLIGHT_HEXA_Hovering_B.Switch3) +
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2;
 
     // Saturate: '<S541>/Saturation'
     if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 >
@@ -2366,44 +2374,44 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Saturate: '<S541>/Saturation'
     //   UnaryMinus: '<S76>/Unary Minus'
 
-    FLIGHT_HEXA_Hovering_B.Subtract_f = FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 -
-      (-static_cast<real_T>(FLIGHT_HEXA_Hovering_B.In1_c.vz));
+    FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 - (-
+      static_cast<real_T>(FLIGHT_HEXA_Hovering_B.In1_c.vz));
 
     // Gain: '<S591>/Proportional Gain'
-    FLIGHT_HEXA_Hovering_B.Switch_m = FLIGHT_HEXA_Hovering_P.PID_vz_P *
-      FLIGHT_HEXA_Hovering_B.Subtract_f;
+    FLIGHT_HEXA_Hovering_B.Sum5 = FLIGHT_HEXA_Hovering_P.PID_vz_P *
+      FLIGHT_HEXA_Hovering_B.Gain_i;
 
     // Gain: '<S589>/Filter Coefficient' incorporates:
     //   DiscreteIntegrator: '<S581>/Filter'
     //   Gain: '<S579>/Derivative Gain'
     //   Sum: '<S581>/SumD'
 
-    FLIGHT_HEXA_Hovering_B.Switch3 = (FLIGHT_HEXA_Hovering_P.PID_vz_D *
-      FLIGHT_HEXA_Hovering_B.Subtract_f -
-      FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_n) * FLIGHT_HEXA_Hovering_P.PID_vz_N;
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2 = (FLIGHT_HEXA_Hovering_P.PID_vz_D *
+      FLIGHT_HEXA_Hovering_B.Gain_i - FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_n) *
+      FLIGHT_HEXA_Hovering_P.PID_vz_N;
 
     // Sum: '<S596>/Sum Fdbk'
-    FLIGHT_HEXA_Hovering_B.Switch4 = (FLIGHT_HEXA_Hovering_B.Switch_m +
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 = (FLIGHT_HEXA_Hovering_B.Sum5 +
       FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_c) +
-      FLIGHT_HEXA_Hovering_B.Switch3;
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2;
 
     // DeadZone: '<S578>/DeadZone'
-    if (FLIGHT_HEXA_Hovering_B.Switch4 >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 >
         FLIGHT_HEXA_Hovering_P.PID_vz_UpperSaturationLimit) {
-      FLIGHT_HEXA_Hovering_B.Switch4 -=
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 -=
         FLIGHT_HEXA_Hovering_P.PID_vz_UpperSaturationLimit;
-    } else if (FLIGHT_HEXA_Hovering_B.Switch4 >=
+    } else if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 >=
                FLIGHT_HEXA_Hovering_P.PID_vz_LowerSaturationLimit) {
-      FLIGHT_HEXA_Hovering_B.Switch4 = 0.0;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 = 0.0;
     } else {
-      FLIGHT_HEXA_Hovering_B.Switch4 -=
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 -=
         FLIGHT_HEXA_Hovering_P.PID_vz_LowerSaturationLimit;
     }
 
     // End of DeadZone: '<S578>/DeadZone'
 
     // Gain: '<S583>/Integral Gain'
-    FLIGHT_HEXA_Hovering_B.Subtract_f *= FLIGHT_HEXA_Hovering_P.PID_vz_I;
+    FLIGHT_HEXA_Hovering_B.Gain_i *= FLIGHT_HEXA_Hovering_P.PID_vz_I;
 
     // Switch: '<S576>/Switch1' incorporates:
     //   Constant: '<S576>/Clamping_zero'
@@ -2411,7 +2419,7 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Constant: '<S576>/Constant2'
     //   RelationalOperator: '<S576>/fix for DT propagation issue'
 
-    if (FLIGHT_HEXA_Hovering_B.Switch4 >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 >
         FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_bl) {
       FLIGHT_HEXA_Hovering_B.rtPrevAction =
         FLIGHT_HEXA_Hovering_P.Constant_Value_gf;
@@ -2426,11 +2434,12 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Constant: '<S576>/Constant4'
     //   RelationalOperator: '<S576>/fix for DT propagation issue1'
 
-    if (FLIGHT_HEXA_Hovering_B.Subtract_f >
+    if (FLIGHT_HEXA_Hovering_B.Gain_i >
         FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_bl) {
-      FLIGHT_HEXA_Hovering_B.i2_b = FLIGHT_HEXA_Hovering_P.Constant3_Value_b;
+      FLIGHT_HEXA_Hovering_B.rtAction = FLIGHT_HEXA_Hovering_P.Constant3_Value_b;
     } else {
-      FLIGHT_HEXA_Hovering_B.i2_b = FLIGHT_HEXA_Hovering_P.Constant4_Value_fv;
+      FLIGHT_HEXA_Hovering_B.rtAction =
+        FLIGHT_HEXA_Hovering_P.Constant4_Value_fv;
     }
 
     // Switch: '<S576>/Switch' incorporates:
@@ -2443,39 +2452,38 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Switch: '<S576>/Switch2'
 
     if ((FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_bl !=
-         FLIGHT_HEXA_Hovering_B.Switch4) && (FLIGHT_HEXA_Hovering_B.rtPrevAction
-         == FLIGHT_HEXA_Hovering_B.i2_b)) {
-      FLIGHT_HEXA_Hovering_B.Subtract_f =
-        FLIGHT_HEXA_Hovering_P.Constant1_Value_f;
+         FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1) &&
+        (FLIGHT_HEXA_Hovering_B.rtPrevAction == FLIGHT_HEXA_Hovering_B.rtAction))
+    {
+      FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_P.Constant1_Value_f;
     }
 
     // DiscreteIntegrator: '<S586>/Integrator' incorporates:
     //   Switch: '<S576>/Switch'
 
-    FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_c +=
-      FLIGHT_HEXA_Hovering_P.Integrator_gainval_ik *
-      FLIGHT_HEXA_Hovering_B.Subtract_f;
+    FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_P.Integrator_gainval_ik
+      * FLIGHT_HEXA_Hovering_B.Gain_i +
+      FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_c;
 
     // Sum: '<S595>/Sum'
-    FLIGHT_HEXA_Hovering_B.Saturation_f = (FLIGHT_HEXA_Hovering_B.Switch_m +
-      FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_c) +
-      FLIGHT_HEXA_Hovering_B.Switch3;
+    FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (FLIGHT_HEXA_Hovering_B.Sum5 +
+      FLIGHT_HEXA_Hovering_B.Gain_i) + FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2;
 
     // Saturate: '<S593>/Saturation'
-    if (FLIGHT_HEXA_Hovering_B.Saturation_f >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 >
         FLIGHT_HEXA_Hovering_P.PID_vz_UpperSaturationLimit) {
-      // Sum: '<S595>/Sum' incorporates:
-      //   Saturate: '<S593>/Saturation'
-
+      // Saturate: '<S593>/Saturation'
       FLIGHT_HEXA_Hovering_B.Saturation_f =
         FLIGHT_HEXA_Hovering_P.PID_vz_UpperSaturationLimit;
-    } else if (FLIGHT_HEXA_Hovering_B.Saturation_f <
+    } else if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 <
                FLIGHT_HEXA_Hovering_P.PID_vz_LowerSaturationLimit) {
-      // Sum: '<S595>/Sum' incorporates:
-      //   Saturate: '<S593>/Saturation'
-
+      // Saturate: '<S593>/Saturation'
       FLIGHT_HEXA_Hovering_B.Saturation_f =
         FLIGHT_HEXA_Hovering_P.PID_vz_LowerSaturationLimit;
+    } else {
+      // Saturate: '<S593>/Saturation'
+      FLIGHT_HEXA_Hovering_B.Saturation_f =
+        FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
     }
 
     // End of Saturate: '<S593>/Saturation'
@@ -2483,11 +2491,18 @@ void FLIGHT_HEXA_Hovering_step(void)
     // Update for DiscreteIntegrator: '<S529>/Filter'
     FLIGHT_HEXA_Hovering_DW.Filter_DSTATE +=
       FLIGHT_HEXA_Hovering_P.Filter_gainval_i *
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_3;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_2;
+
+    // Update for DiscreteIntegrator: '<S534>/Integrator'
+    FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE = FLIGHT_HEXA_Hovering_B.Switch3;
 
     // Update for DiscreteIntegrator: '<S581>/Filter'
     FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_n +=
-      FLIGHT_HEXA_Hovering_P.Filter_gainval_d * FLIGHT_HEXA_Hovering_B.Switch3;
+      FLIGHT_HEXA_Hovering_P.Filter_gainval_d *
+      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_2;
+
+    // Update for DiscreteIntegrator: '<S586>/Integrator'
+    FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_c = FLIGHT_HEXA_Hovering_B.Gain_i;
   }
 
   // End of Outputs for SubSystem: '<S4>/Position & Altitude controller'
@@ -2503,24 +2518,20 @@ void FLIGHT_HEXA_Hovering_step(void)
       FLIGHT_HEXA_Hovering_DW.is_c3_FLIGHT_HEXA_Hovering =
         FLIGHT_HEXA_Hovering_IN_STABLIZED;
     } else {
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 =
-        FLIGHT_HEXA_Hovering_B.Saturation_e;
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 = FLIGHT_HEXA_Hovering_B.Gain1;
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 =
-        FLIGHT_HEXA_Hovering_B.Saturation[1];
-      FLIGHT_HEXA_Hovering_B.Switch2 = FLIGHT_HEXA_Hovering_B.Saturation_f;
+      FLIGHT_HEXA_Hovering_B.Switch2 = FLIGHT_HEXA_Hovering_B.Saturation_e;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 = FLIGHT_HEXA_Hovering_B.Gain1;
+      FLIGHT_HEXA_Hovering_B.Gain2 = FLIGHT_HEXA_Hovering_B.Saturation[1];
+      FLIGHT_HEXA_Hovering_B.Sum = FLIGHT_HEXA_Hovering_B.Saturation_f;
     }
 
     // case IN_STABLIZED:
   } else if (FLIGHT_HEXA_Hovering_B.In1_j.values[5] > 1400) {
     FLIGHT_HEXA_Hovering_DW.is_c3_FLIGHT_HEXA_Hovering =
       FLIGHT_HEXA_Hovering_IN_MISSION;
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 =
-      FLIGHT_HEXA_Hovering_B.Saturation_e;
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 = FLIGHT_HEXA_Hovering_B.Gain1;
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 =
-      FLIGHT_HEXA_Hovering_B.Saturation[1];
-    FLIGHT_HEXA_Hovering_B.Switch2 = FLIGHT_HEXA_Hovering_B.Saturation_f;
+    FLIGHT_HEXA_Hovering_B.Switch2 = FLIGHT_HEXA_Hovering_B.Saturation_e;
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 = FLIGHT_HEXA_Hovering_B.Gain1;
+    FLIGHT_HEXA_Hovering_B.Gain2 = FLIGHT_HEXA_Hovering_B.Saturation[1];
+    FLIGHT_HEXA_Hovering_B.Sum = FLIGHT_HEXA_Hovering_B.Saturation_f;
   }
 
   // End of Chart: '<S4>/Chart'
@@ -2532,21 +2543,20 @@ void FLIGHT_HEXA_Hovering_step(void)
     // Sum: '<S73>/Sum4' incorporates:
     //   DataTypeConversion: '<S1>/Data Type Conversion2'
 
-    FLIGHT_HEXA_Hovering_B.Switch_m = FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0
-      - FLIGHT_HEXA_Hovering_B.In1_l.xyz[2];
+    FLIGHT_HEXA_Hovering_B.Sum5 = FLIGHT_HEXA_Hovering_B.Switch2 -
+      FLIGHT_HEXA_Hovering_B.In1_l.xyz[2];
 
     // Gain: '<S116>/Integral Gain'
-    FLIGHT_HEXA_Hovering_B.Subtract_f = FLIGHT_HEXA_Hovering_P.PIDController_I *
-      FLIGHT_HEXA_Hovering_B.Switch_m;
+    FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_P.PIDController_I *
+      FLIGHT_HEXA_Hovering_B.Sum5;
 
     // Gain: '<S122>/Filter Coefficient' incorporates:
     //   DiscreteIntegrator: '<S114>/Filter'
     //   Gain: '<S112>/Derivative Gain'
     //   Sum: '<S114>/SumD'
 
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 =
-      (FLIGHT_HEXA_Hovering_P.PIDController_D * FLIGHT_HEXA_Hovering_B.Switch_m
-       - FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_e) *
+    FLIGHT_HEXA_Hovering_B.Switch2 = (FLIGHT_HEXA_Hovering_P.PIDController_D *
+      FLIGHT_HEXA_Hovering_B.Sum5 - FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_e) *
       FLIGHT_HEXA_Hovering_P.PIDController_N;
 
     // Sum: '<S128>/Sum' incorporates:
@@ -2554,20 +2564,21 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Gain: '<S124>/Proportional Gain'
 
     FLIGHT_HEXA_Hovering_B.Switch3 = (FLIGHT_HEXA_Hovering_P.PIDController_P *
-      FLIGHT_HEXA_Hovering_B.Switch_m +
-      FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_k) +
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0;
+      FLIGHT_HEXA_Hovering_B.Sum5 + FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_k)
+      + FLIGHT_HEXA_Hovering_B.Switch2;
 
     // DeadZone: '<S111>/DeadZone'
     if (FLIGHT_HEXA_Hovering_B.Switch3 >
         FLIGHT_HEXA_Hovering_P.PIDController_UpperSaturationLimit) {
-      FLIGHT_HEXA_Hovering_B.Switch4 = FLIGHT_HEXA_Hovering_B.Switch3 -
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
+        FLIGHT_HEXA_Hovering_B.Switch3 -
         FLIGHT_HEXA_Hovering_P.PIDController_UpperSaturationLimit;
     } else if (FLIGHT_HEXA_Hovering_B.Switch3 >=
                FLIGHT_HEXA_Hovering_P.PIDController_LowerSaturationLimit) {
-      FLIGHT_HEXA_Hovering_B.Switch4 = 0.0;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 = 0.0;
     } else {
-      FLIGHT_HEXA_Hovering_B.Switch4 = FLIGHT_HEXA_Hovering_B.Switch3 -
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
+        FLIGHT_HEXA_Hovering_B.Switch3 -
         FLIGHT_HEXA_Hovering_P.PIDController_LowerSaturationLimit;
     }
 
@@ -2579,7 +2590,7 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Constant: '<S109>/Constant2'
     //   RelationalOperator: '<S109>/fix for DT propagation issue'
 
-    if (FLIGHT_HEXA_Hovering_B.Switch4 >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 >
         FLIGHT_HEXA_Hovering_P.Clamping_zero_Value) {
       FLIGHT_HEXA_Hovering_B.rtPrevAction =
         FLIGHT_HEXA_Hovering_P.Constant_Value_ge;
@@ -2594,11 +2605,11 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Constant: '<S109>/Constant4'
     //   RelationalOperator: '<S109>/fix for DT propagation issue1'
 
-    if (FLIGHT_HEXA_Hovering_B.Subtract_f >
+    if (FLIGHT_HEXA_Hovering_B.Gain_i >
         FLIGHT_HEXA_Hovering_P.Clamping_zero_Value) {
-      FLIGHT_HEXA_Hovering_B.i2_b = FLIGHT_HEXA_Hovering_P.Constant3_Value_h;
+      FLIGHT_HEXA_Hovering_B.rtAction = FLIGHT_HEXA_Hovering_P.Constant3_Value_h;
     } else {
-      FLIGHT_HEXA_Hovering_B.i2_b = FLIGHT_HEXA_Hovering_P.Constant4_Value_f;
+      FLIGHT_HEXA_Hovering_B.rtAction = FLIGHT_HEXA_Hovering_P.Constant4_Value_f;
     }
 
     // Switch: '<S109>/Switch' incorporates:
@@ -2611,12 +2622,12 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Switch: '<S109>/Switch2'
 
     if ((FLIGHT_HEXA_Hovering_P.Clamping_zero_Value !=
-         FLIGHT_HEXA_Hovering_B.Switch4) && (FLIGHT_HEXA_Hovering_B.rtPrevAction
-         == FLIGHT_HEXA_Hovering_B.i2_b)) {
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-        FLIGHT_HEXA_Hovering_P.Constant1_Value_k;
+         FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1) &&
+        (FLIGHT_HEXA_Hovering_B.rtPrevAction == FLIGHT_HEXA_Hovering_B.rtAction))
+    {
+      FLIGHT_HEXA_Hovering_B.Sum5 = FLIGHT_HEXA_Hovering_P.Constant1_Value_k;
     } else {
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = FLIGHT_HEXA_Hovering_B.Subtract_f;
+      FLIGHT_HEXA_Hovering_B.Sum5 = FLIGHT_HEXA_Hovering_B.Gain_i;
     }
 
     // End of Switch: '<S109>/Switch'
@@ -2640,26 +2651,25 @@ void FLIGHT_HEXA_Hovering_step(void)
     // End of Saturate: '<S126>/Saturation'
 
     // RateLimiter: '<S73>/Rate Limiter2'
-    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1
+    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0
       - FLIGHT_HEXA_Hovering_DW.PrevY;
     if (FLIGHT_HEXA_Hovering_B.Switch3 >
         FLIGHT_HEXA_Hovering_P.RateLimiter2_RisingLim *
         FLIGHT_HEXA_Hovering_period) {
-      FLIGHT_HEXA_Hovering_B.Subtract_f =
+      FLIGHT_HEXA_Hovering_B.Gain_i =
         FLIGHT_HEXA_Hovering_P.RateLimiter2_RisingLim *
         FLIGHT_HEXA_Hovering_period + FLIGHT_HEXA_Hovering_DW.PrevY;
     } else if (FLIGHT_HEXA_Hovering_B.Switch3 <
                FLIGHT_HEXA_Hovering_P.RateLimiter2_FallingLim *
                FLIGHT_HEXA_Hovering_period) {
-      FLIGHT_HEXA_Hovering_B.Subtract_f =
+      FLIGHT_HEXA_Hovering_B.Gain_i =
         FLIGHT_HEXA_Hovering_P.RateLimiter2_FallingLim *
         FLIGHT_HEXA_Hovering_period + FLIGHT_HEXA_Hovering_DW.PrevY;
     } else {
-      FLIGHT_HEXA_Hovering_B.Subtract_f =
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1;
+      FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0;
     }
 
-    FLIGHT_HEXA_Hovering_DW.PrevY = FLIGHT_HEXA_Hovering_B.Subtract_f;
+    FLIGHT_HEXA_Hovering_DW.PrevY = FLIGHT_HEXA_Hovering_B.Gain_i;
 
     // End of RateLimiter: '<S73>/Rate Limiter2'
 
@@ -2667,32 +2677,32 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Constant: '<S607>/Constant'
     //   Constant: '<S608>/Constant'
 
-    if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 > 1.0) {
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 =
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 > 1.0) {
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 =
         FLIGHT_HEXA_Hovering_P.Constant_Value_c;
-    } else if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 < -1.0) {
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 =
+    } else if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 < -1.0) {
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 =
         FLIGHT_HEXA_Hovering_P.Constant_Value_md;
     }
 
     // Saturate: '<S73>/Saturation1'
-    if (FLIGHT_HEXA_Hovering_B.Subtract_f >
+    if (FLIGHT_HEXA_Hovering_B.Gain_i >
         FLIGHT_HEXA_Hovering_P.Saturation1_UpperSat) {
-      FLIGHT_HEXA_Hovering_B.Subtract_f =
+      FLIGHT_HEXA_Hovering_B.Gain_i =
         FLIGHT_HEXA_Hovering_P.Saturation1_UpperSat;
-    } else if (FLIGHT_HEXA_Hovering_B.Subtract_f <
+    } else if (FLIGHT_HEXA_Hovering_B.Gain_i <
                FLIGHT_HEXA_Hovering_P.Saturation1_LowerSat) {
-      FLIGHT_HEXA_Hovering_B.Subtract_f =
+      FLIGHT_HEXA_Hovering_B.Gain_i =
         FLIGHT_HEXA_Hovering_P.Saturation1_LowerSat;
     }
 
     // If: '<S606>/If' incorporates:
     //   Trigonometry: '<S604>/trigFcn'
 
-    if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 > 1.0) {
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 = 1.0;
-    } else if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 < -1.0) {
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 = -1.0;
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 > 1.0) {
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 = 1.0;
+    } else if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 < -1.0) {
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 = -1.0;
     }
 
     // Sum: '<S73>/Sum' incorporates:
@@ -2702,23 +2712,22 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Sum: '<S73>/Sum2'
     //   Trigonometry: '<S604>/trigFcn'
 
-    FLIGHT_HEXA_Hovering_B.Subtract_f = (FLIGHT_HEXA_Hovering_B.Subtract_f -
-      asin(FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3)) *
+    FLIGHT_HEXA_Hovering_B.Gain_i = (FLIGHT_HEXA_Hovering_B.Gain_i - asin
+      (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3)) *
       FLIGHT_HEXA_Hovering_P.PIDController3_P -
       FLIGHT_HEXA_Hovering_B.In1_l.xyz[1];
 
     // Gain: '<S168>/Integral Gain'
     FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_P.PIDController1_I *
-      FLIGHT_HEXA_Hovering_B.Subtract_f;
+      FLIGHT_HEXA_Hovering_B.Gain_i;
 
     // Gain: '<S174>/Filter Coefficient' incorporates:
     //   DiscreteIntegrator: '<S166>/Filter'
     //   Gain: '<S164>/Derivative Gain'
     //   Sum: '<S166>/SumD'
 
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 =
-      (FLIGHT_HEXA_Hovering_P.PIDController1_D *
-       FLIGHT_HEXA_Hovering_B.Subtract_f -
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 =
+      (FLIGHT_HEXA_Hovering_P.PIDController1_D * FLIGHT_HEXA_Hovering_B.Gain_i -
        FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_ek) *
       FLIGHT_HEXA_Hovering_P.PIDController1_N;
 
@@ -2726,24 +2735,23 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   DiscreteIntegrator: '<S171>/Integrator'
     //   Gain: '<S176>/Proportional Gain'
 
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
-      (FLIGHT_HEXA_Hovering_P.PIDController1_P *
-       FLIGHT_HEXA_Hovering_B.Subtract_f +
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 =
+      (FLIGHT_HEXA_Hovering_P.PIDController1_P * FLIGHT_HEXA_Hovering_B.Gain_i +
        FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_kd) +
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3;
 
     // DeadZone: '<S163>/DeadZone'
-    if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 >
         FLIGHT_HEXA_Hovering_P.PIDController1_UpperSaturationLimit) {
-      FLIGHT_HEXA_Hovering_B.Switch_m =
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 -
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 -
         FLIGHT_HEXA_Hovering_P.PIDController1_UpperSaturationLimit;
-    } else if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 >=
+    } else if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 >=
                FLIGHT_HEXA_Hovering_P.PIDController1_LowerSaturationLimit) {
-      FLIGHT_HEXA_Hovering_B.Switch_m = 0.0;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 = 0.0;
     } else {
-      FLIGHT_HEXA_Hovering_B.Switch_m =
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 -
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 -
         FLIGHT_HEXA_Hovering_P.PIDController1_LowerSaturationLimit;
     }
 
@@ -2755,7 +2763,7 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Constant: '<S161>/Constant2'
     //   RelationalOperator: '<S161>/fix for DT propagation issue'
 
-    if (FLIGHT_HEXA_Hovering_B.Switch_m >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 >
         FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_b) {
       FLIGHT_HEXA_Hovering_B.rtPrevAction =
         FLIGHT_HEXA_Hovering_P.Constant_Value_a1;
@@ -2772,9 +2780,9 @@ void FLIGHT_HEXA_Hovering_step(void)
 
     if (FLIGHT_HEXA_Hovering_B.Switch3 >
         FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_b) {
-      FLIGHT_HEXA_Hovering_B.i2_b = FLIGHT_HEXA_Hovering_P.Constant3_Value_j;
+      FLIGHT_HEXA_Hovering_B.rtAction = FLIGHT_HEXA_Hovering_P.Constant3_Value_j;
     } else {
-      FLIGHT_HEXA_Hovering_B.i2_b = FLIGHT_HEXA_Hovering_P.Constant4_Value_a;
+      FLIGHT_HEXA_Hovering_B.rtAction = FLIGHT_HEXA_Hovering_P.Constant4_Value_a;
     }
 
     // Switch: '<S161>/Switch' incorporates:
@@ -2787,23 +2795,23 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Switch: '<S161>/Switch2'
 
     if ((FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_b !=
-         FLIGHT_HEXA_Hovering_B.Switch_m) &&
-        (FLIGHT_HEXA_Hovering_B.rtPrevAction == FLIGHT_HEXA_Hovering_B.i2_b)) {
-      FLIGHT_HEXA_Hovering_B.Subtract_f =
-        FLIGHT_HEXA_Hovering_P.Constant1_Value_o;
+         FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1) &&
+        (FLIGHT_HEXA_Hovering_B.rtPrevAction == FLIGHT_HEXA_Hovering_B.rtAction))
+    {
+      FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_P.Constant1_Value_o;
     } else {
-      FLIGHT_HEXA_Hovering_B.Subtract_f = FLIGHT_HEXA_Hovering_B.Switch3;
+      FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_B.Switch3;
     }
 
     // End of Switch: '<S161>/Switch'
 
     // Saturate: '<S178>/Saturation'
-    if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 >
         FLIGHT_HEXA_Hovering_P.PIDController1_UpperSaturationLimit) {
       // Saturate: '<S178>/Saturation'
       FLIGHT_HEXA_Hovering_B.Saturation_o =
         FLIGHT_HEXA_Hovering_P.PIDController1_UpperSaturationLimit;
-    } else if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 <
+    } else if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 <
                FLIGHT_HEXA_Hovering_P.PIDController1_LowerSaturationLimit) {
       // Saturate: '<S178>/Saturation'
       FLIGHT_HEXA_Hovering_B.Saturation_o =
@@ -2811,43 +2819,42 @@ void FLIGHT_HEXA_Hovering_step(void)
     } else {
       // Saturate: '<S178>/Saturation'
       FLIGHT_HEXA_Hovering_B.Saturation_o =
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1;
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0;
     }
 
     // End of Saturate: '<S178>/Saturation'
 
     // RateLimiter: '<S73>/Rate Limiter1'
-    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2
-      - FLIGHT_HEXA_Hovering_DW.PrevY_f;
+    FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_B.Gain2 -
+      FLIGHT_HEXA_Hovering_DW.PrevY_f;
     if (FLIGHT_HEXA_Hovering_B.Switch3 >
         FLIGHT_HEXA_Hovering_P.RateLimiter1_RisingLim *
         FLIGHT_HEXA_Hovering_period) {
-      FLIGHT_HEXA_Hovering_B.Switch_m =
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
         FLIGHT_HEXA_Hovering_P.RateLimiter1_RisingLim *
         FLIGHT_HEXA_Hovering_period + FLIGHT_HEXA_Hovering_DW.PrevY_f;
     } else if (FLIGHT_HEXA_Hovering_B.Switch3 <
                FLIGHT_HEXA_Hovering_P.RateLimiter1_FallingLim *
                FLIGHT_HEXA_Hovering_period) {
-      FLIGHT_HEXA_Hovering_B.Switch_m =
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
         FLIGHT_HEXA_Hovering_P.RateLimiter1_FallingLim *
         FLIGHT_HEXA_Hovering_period + FLIGHT_HEXA_Hovering_DW.PrevY_f;
     } else {
-      FLIGHT_HEXA_Hovering_B.Switch_m =
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 = FLIGHT_HEXA_Hovering_B.Gain2;
     }
 
-    FLIGHT_HEXA_Hovering_DW.PrevY_f = FLIGHT_HEXA_Hovering_B.Switch_m;
+    FLIGHT_HEXA_Hovering_DW.PrevY_f = FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1;
 
     // End of RateLimiter: '<S73>/Rate Limiter1'
 
     // Saturate: '<S73>/Saturation'
-    if (FLIGHT_HEXA_Hovering_B.Switch_m >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 >
         FLIGHT_HEXA_Hovering_P.Saturation_UpperSat_m) {
-      FLIGHT_HEXA_Hovering_B.Switch_m =
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
         FLIGHT_HEXA_Hovering_P.Saturation_UpperSat_m;
-    } else if (FLIGHT_HEXA_Hovering_B.Switch_m <
+    } else if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 <
                FLIGHT_HEXA_Hovering_P.Saturation_LowerSat_l) {
-      FLIGHT_HEXA_Hovering_B.Switch_m =
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
         FLIGHT_HEXA_Hovering_P.Saturation_LowerSat_l;
     }
 
@@ -2857,65 +2864,67 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Saturate: '<S73>/Saturation'
     //   Sum: '<S73>/Sum3'
 
-    FLIGHT_HEXA_Hovering_B.Switch_m = (FLIGHT_HEXA_Hovering_B.Switch_m -
-      FLIGHT_HEXA_Hovering_B.VectorConcatenate[2]) *
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
+      (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 -
+       FLIGHT_HEXA_Hovering_B.VectorConcatenate[2]) *
       FLIGHT_HEXA_Hovering_P.PIDController4_P -
       FLIGHT_HEXA_Hovering_B.In1_l.xyz[0];
 
     // Gain: '<S220>/Integral Gain'
     FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_P.PIDController2_I *
-      FLIGHT_HEXA_Hovering_B.Switch_m;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1;
 
     // Gain: '<S226>/Filter Coefficient' incorporates:
     //   DiscreteIntegrator: '<S218>/Filter'
     //   Gain: '<S216>/Derivative Gain'
     //   Sum: '<S218>/SumD'
 
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 =
-      (FLIGHT_HEXA_Hovering_P.PIDController2_D * FLIGHT_HEXA_Hovering_B.Switch_m
-       - FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_j) *
+    FLIGHT_HEXA_Hovering_B.Gain2 = (FLIGHT_HEXA_Hovering_P.PIDController2_D *
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 -
+      FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_j) *
       FLIGHT_HEXA_Hovering_P.PIDController2_N;
 
     // Sum: '<S232>/Sum' incorporates:
     //   DiscreteIntegrator: '<S223>/Integrator'
     //   Gain: '<S228>/Proportional Gain'
 
-    FLIGHT_HEXA_Hovering_B.Saturation_m =
-      (FLIGHT_HEXA_Hovering_P.PIDController2_P * FLIGHT_HEXA_Hovering_B.Switch_m
-       + FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_i) +
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2;
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 =
+      (FLIGHT_HEXA_Hovering_P.PIDController2_P *
+       FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 +
+       FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_i) +
+      FLIGHT_HEXA_Hovering_B.Gain2;
 
     // DeadZone: '<S215>/DeadZone' incorporates:
     //   Saturate: '<S230>/Saturation'
 
-    if (FLIGHT_HEXA_Hovering_B.Saturation_m >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 >
         FLIGHT_HEXA_Hovering_P.PIDController2_UpperSaturationLimit) {
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
-        FLIGHT_HEXA_Hovering_B.Saturation_m -
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 -
         FLIGHT_HEXA_Hovering_P.PIDController2_UpperSaturationLimit;
 
-      // Sum: '<S232>/Sum' incorporates:
-      //   Saturate: '<S230>/Saturation'
-
+      // Saturate: '<S230>/Saturation'
       FLIGHT_HEXA_Hovering_B.Saturation_m =
         FLIGHT_HEXA_Hovering_P.PIDController2_UpperSaturationLimit;
     } else {
-      if (FLIGHT_HEXA_Hovering_B.Saturation_m >=
+      if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 >=
           FLIGHT_HEXA_Hovering_P.PIDController2_LowerSaturationLimit) {
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 = 0.0;
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 = 0.0;
       } else {
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
-          FLIGHT_HEXA_Hovering_B.Saturation_m -
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
+          FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 -
           FLIGHT_HEXA_Hovering_P.PIDController2_LowerSaturationLimit;
       }
 
-      if (FLIGHT_HEXA_Hovering_B.Saturation_m <
+      if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 <
           FLIGHT_HEXA_Hovering_P.PIDController2_LowerSaturationLimit) {
-        // Sum: '<S232>/Sum' incorporates:
-        //   Saturate: '<S230>/Saturation'
-
+        // Saturate: '<S230>/Saturation'
         FLIGHT_HEXA_Hovering_B.Saturation_m =
           FLIGHT_HEXA_Hovering_P.PIDController2_LowerSaturationLimit;
+      } else {
+        // Saturate: '<S230>/Saturation'
+        FLIGHT_HEXA_Hovering_B.Saturation_m =
+          FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0;
       }
     }
 
@@ -2923,23 +2932,21 @@ void FLIGHT_HEXA_Hovering_step(void)
 
     // Update for DiscreteIntegrator: '<S119>/Integrator'
     FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_k +=
-      FLIGHT_HEXA_Hovering_P.Integrator_gainval *
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+      FLIGHT_HEXA_Hovering_P.Integrator_gainval * FLIGHT_HEXA_Hovering_B.Sum5;
 
     // Update for DiscreteIntegrator: '<S114>/Filter'
     FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_e +=
-      FLIGHT_HEXA_Hovering_P.Filter_gainval *
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0;
+      FLIGHT_HEXA_Hovering_P.Filter_gainval * FLIGHT_HEXA_Hovering_B.Switch2;
 
     // Update for DiscreteIntegrator: '<S171>/Integrator'
     FLIGHT_HEXA_Hovering_DW.Integrator_DSTATE_kd +=
       FLIGHT_HEXA_Hovering_P.Integrator_gainval_i *
-      FLIGHT_HEXA_Hovering_B.Subtract_f;
+      FLIGHT_HEXA_Hovering_B.Gain_i;
 
     // Update for DiscreteIntegrator: '<S166>/Filter'
     FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_ek +=
       FLIGHT_HEXA_Hovering_P.Filter_gainval_p *
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3;
 
     // Switch: '<S213>/Switch1' incorporates:
     //   Constant: '<S213>/Clamping_zero'
@@ -2947,7 +2954,7 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Constant: '<S213>/Constant2'
     //   RelationalOperator: '<S213>/fix for DT propagation issue'
 
-    if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 >
+    if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 >
         FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_f) {
       FLIGHT_HEXA_Hovering_B.rtPrevAction =
         FLIGHT_HEXA_Hovering_P.Constant_Value_jj;
@@ -2964,9 +2971,9 @@ void FLIGHT_HEXA_Hovering_step(void)
 
     if (FLIGHT_HEXA_Hovering_B.Switch3 >
         FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_f) {
-      FLIGHT_HEXA_Hovering_B.i2_b = FLIGHT_HEXA_Hovering_P.Constant3_Value_l;
+      FLIGHT_HEXA_Hovering_B.rtAction = FLIGHT_HEXA_Hovering_P.Constant3_Value_l;
     } else {
-      FLIGHT_HEXA_Hovering_B.i2_b = FLIGHT_HEXA_Hovering_P.Constant4_Value_n;
+      FLIGHT_HEXA_Hovering_B.rtAction = FLIGHT_HEXA_Hovering_P.Constant4_Value_n;
     }
 
     // Switch: '<S213>/Switch' incorporates:
@@ -2979,8 +2986,9 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   Switch: '<S213>/Switch2'
 
     if ((FLIGHT_HEXA_Hovering_P.Clamping_zero_Value_f !=
-         FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1) &&
-        (FLIGHT_HEXA_Hovering_B.rtPrevAction == FLIGHT_HEXA_Hovering_B.i2_b)) {
+         FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1) &&
+        (FLIGHT_HEXA_Hovering_B.rtPrevAction == FLIGHT_HEXA_Hovering_B.rtAction))
+    {
       FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_P.Constant1_Value_p;
     }
 
@@ -2993,27 +3001,25 @@ void FLIGHT_HEXA_Hovering_step(void)
 
     // Update for DiscreteIntegrator: '<S218>/Filter'
     FLIGHT_HEXA_Hovering_DW.Filter_DSTATE_j +=
-      FLIGHT_HEXA_Hovering_P.Filter_gainval_k *
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2;
+      FLIGHT_HEXA_Hovering_P.Filter_gainval_k * FLIGHT_HEXA_Hovering_B.Gain2;
   }
 
   // End of Outputs for SubSystem: '<S4>/Attitude controller'
 
   // Gain: '<S3>/Gain'
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 =
-    FLIGHT_HEXA_Hovering_P.Gain_Gain_kw * FLIGHT_HEXA_Hovering_B.Saturation_m;
+  FLIGHT_HEXA_Hovering_B.Gain2 = FLIGHT_HEXA_Hovering_P.Gain_Gain_kw *
+    FLIGHT_HEXA_Hovering_B.Saturation_m;
 
   // Gain: '<S3>/Gain1'
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 =
+  FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 =
     FLIGHT_HEXA_Hovering_P.Gain1_Gain_b * FLIGHT_HEXA_Hovering_B.Saturation_o;
 
   // Gain: '<S3>/Gain2'
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
+  FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 =
     FLIGHT_HEXA_Hovering_P.Gain2_Gain_du * FLIGHT_HEXA_Hovering_B.Saturation_l;
 
   // Gain: '<S3>/Gain3'
-  FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 =
-    FLIGHT_HEXA_Hovering_P.Gain3_Gain_o * FLIGHT_HEXA_Hovering_B.Switch2;
+  FLIGHT_HEXA_Hovering_B.Sum *= FLIGHT_HEXA_Hovering_P.Gain3_Gain_o;
 
   // MATLABSystem: '<S55>/Read Parameter13'
   if (FLIGHT_HEXA_Hovering_DW.obj_b.SampleTime !=
@@ -3022,11 +3028,11 @@ void FLIGHT_HEXA_Hovering_step(void)
       FLIGHT_HEXA_Hovering_P.ReadParameter13_SampleTime;
   }
 
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = MW_Param_Step
+  FLIGHT_HEXA_Hovering_B.OR_g = MW_Param_Step
     (FLIGHT_HEXA_Hovering_DW.obj_b.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_HEXA_Hovering_B.ParamStep_k);
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
-    FLIGHT_HEXA_Hovering_B.ParamStep_k = 0;
+     &FLIGHT_HEXA_Hovering_B.ParamStep_c);
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
+    FLIGHT_HEXA_Hovering_B.ParamStep_c = 0;
   }
 
   // RelationalOperator: '<S61>/Compare' incorporates:
@@ -3043,7 +3049,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   Switch: '<S55>/Switch'
 
   if (FLIGHT_HEXA_Hovering_B.Compare_k) {
-    FLIGHT_HEXA_Hovering_B.Switch_m = FLIGHT_HEXA_Hovering_P.Constant_Value_bd;
+    FLIGHT_HEXA_Hovering_B.Sum5 = FLIGHT_HEXA_Hovering_P.Constant_Value_bd;
   } else {
     if (FLIGHT_HEXA_Hovering_B.Compare) {
       // Switch: '<S55>/Switch' incorporates:
@@ -3051,7 +3057,7 @@ void FLIGHT_HEXA_Hovering_step(void)
       //   MATLABSystem: '<S55>/Read Parameter13'
       //
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-        FLIGHT_HEXA_Hovering_B.ParamStep_k;
+        FLIGHT_HEXA_Hovering_B.ParamStep_c;
     } else {
       // Switch: '<S55>/Switch' incorporates:
       //   Constant: '<S55>/Constant'
@@ -3077,12 +3083,9 @@ void FLIGHT_HEXA_Hovering_step(void)
         FLIGHT_HEXA_Hovering_P.Saturation_LowerSat_av;
     }
 
-    FLIGHT_HEXA_Hovering_B.Switch_m =
-      ((-FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 -
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1) *
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 / 3.0 +
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0) *
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+    FLIGHT_HEXA_Hovering_B.Sum5 = ((-FLIGHT_HEXA_Hovering_B.Gain2 -
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0) * FLIGHT_HEXA_Hovering_B.Sum /
+      3.0 + FLIGHT_HEXA_Hovering_B.Sum) * FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
   }
 
   // End of Switch: '<S54>/Switch'
@@ -3094,11 +3097,11 @@ void FLIGHT_HEXA_Hovering_step(void)
       FLIGHT_HEXA_Hovering_P.ReadParameter1_SampleTime;
   }
 
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = MW_Param_Step
+  FLIGHT_HEXA_Hovering_B.OR_g = MW_Param_Step
     (FLIGHT_HEXA_Hovering_DW.obj_a.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_HEXA_Hovering_B.ParamStep_k);
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
-    FLIGHT_HEXA_Hovering_B.ParamStep_k = 0;
+     &FLIGHT_HEXA_Hovering_B.ParamStep_c);
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
+    FLIGHT_HEXA_Hovering_B.ParamStep_c = 0;
   }
 
   // Switch: '<S54>/Switch1' incorporates:
@@ -3109,7 +3112,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   Switch: '<S55>/Switch1'
 
   if (FLIGHT_HEXA_Hovering_B.Compare_k) {
-    FLIGHT_HEXA_Hovering_B.Subtract_f = FLIGHT_HEXA_Hovering_P.Constant1_Value;
+    FLIGHT_HEXA_Hovering_B.Gain_i = FLIGHT_HEXA_Hovering_P.Constant1_Value;
   } else {
     if (FLIGHT_HEXA_Hovering_B.Compare) {
       // Switch: '<S55>/Switch1' incorporates:
@@ -3117,7 +3120,7 @@ void FLIGHT_HEXA_Hovering_step(void)
       //   MATLABSystem: '<S55>/Read Parameter1'
       //
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-        FLIGHT_HEXA_Hovering_B.ParamStep_k;
+        FLIGHT_HEXA_Hovering_B.ParamStep_c;
     } else {
       // Switch: '<S55>/Switch1' incorporates:
       //   Constant: '<S55>/Constant1'
@@ -3142,12 +3145,9 @@ void FLIGHT_HEXA_Hovering_step(void)
         FLIGHT_HEXA_Hovering_P.Saturation_LowerSat;
     }
 
-    FLIGHT_HEXA_Hovering_B.Subtract_f =
-      ((FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 +
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1) *
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 / 3.0 +
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0) *
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+    FLIGHT_HEXA_Hovering_B.Gain_i = ((FLIGHT_HEXA_Hovering_B.Gain2 +
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0) * FLIGHT_HEXA_Hovering_B.Sum /
+      3.0 + FLIGHT_HEXA_Hovering_B.Sum) * FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
   }
 
   // End of Switch: '<S54>/Switch1'
@@ -3159,11 +3159,11 @@ void FLIGHT_HEXA_Hovering_step(void)
       FLIGHT_HEXA_Hovering_P.ReadParameter2_SampleTime;
   }
 
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = MW_Param_Step
+  FLIGHT_HEXA_Hovering_B.OR_g = MW_Param_Step
     (FLIGHT_HEXA_Hovering_DW.obj_m.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_HEXA_Hovering_B.ParamStep_k);
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
-    FLIGHT_HEXA_Hovering_B.ParamStep_k = 0;
+     &FLIGHT_HEXA_Hovering_B.ParamStep_c);
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
+    FLIGHT_HEXA_Hovering_B.ParamStep_c = 0;
   }
 
   // Switch: '<S54>/Switch2' incorporates:
@@ -3182,7 +3182,7 @@ void FLIGHT_HEXA_Hovering_step(void)
       //   MATLABSystem: '<S55>/Read Parameter2'
       //
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-        FLIGHT_HEXA_Hovering_B.ParamStep_k;
+        FLIGHT_HEXA_Hovering_B.ParamStep_c;
     } else {
       // Switch: '<S55>/Switch2' incorporates:
       //   Constant: '<S55>/Constant2'
@@ -3207,13 +3207,10 @@ void FLIGHT_HEXA_Hovering_step(void)
         FLIGHT_HEXA_Hovering_P.Saturation_LowerSat_p;
     }
 
-    FLIGHT_HEXA_Hovering_B.Switch2 =
-      (((FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 / 2.0 +
-         FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2) -
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1) *
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 / 3.0 +
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0) *
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+    FLIGHT_HEXA_Hovering_B.Switch2 = (((FLIGHT_HEXA_Hovering_B.Gain2 / 2.0 +
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3) -
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0) * FLIGHT_HEXA_Hovering_B.Sum /
+      3.0 + FLIGHT_HEXA_Hovering_B.Sum) * FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
   }
 
   // End of Switch: '<S54>/Switch2'
@@ -3225,11 +3222,11 @@ void FLIGHT_HEXA_Hovering_step(void)
       FLIGHT_HEXA_Hovering_P.ReadParameter3_SampleTime;
   }
 
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = MW_Param_Step
+  FLIGHT_HEXA_Hovering_B.OR_g = MW_Param_Step
     (FLIGHT_HEXA_Hovering_DW.obj_i.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_HEXA_Hovering_B.ParamStep_k);
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
-    FLIGHT_HEXA_Hovering_B.ParamStep_k = 0;
+     &FLIGHT_HEXA_Hovering_B.ParamStep_c);
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
+    FLIGHT_HEXA_Hovering_B.ParamStep_c = 0;
   }
 
   // Switch: '<S54>/Switch3' incorporates:
@@ -3248,7 +3245,7 @@ void FLIGHT_HEXA_Hovering_step(void)
       //   MATLABSystem: '<S55>/Read Parameter3'
       //
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-        FLIGHT_HEXA_Hovering_B.ParamStep_k;
+        FLIGHT_HEXA_Hovering_B.ParamStep_c;
     } else {
       // Switch: '<S55>/Switch3' incorporates:
       //   Constant: '<S55>/Constant3'
@@ -3275,11 +3272,10 @@ void FLIGHT_HEXA_Hovering_step(void)
     }
 
     FLIGHT_HEXA_Hovering_B.Switch3 =
-      (((-FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 -
-         FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 / 2.0) +
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1) *
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 / 3.0 +
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0) *
+      (((-FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 -
+         FLIGHT_HEXA_Hovering_B.Gain2 / 2.0) +
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0) * FLIGHT_HEXA_Hovering_B.Sum
+       / 3.0 + FLIGHT_HEXA_Hovering_B.Sum) *
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
   }
 
@@ -3292,11 +3288,11 @@ void FLIGHT_HEXA_Hovering_step(void)
       FLIGHT_HEXA_Hovering_P.ReadParameter4_SampleTime;
   }
 
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = MW_Param_Step
+  FLIGHT_HEXA_Hovering_B.OR_g = MW_Param_Step
     (FLIGHT_HEXA_Hovering_DW.obj_d.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_HEXA_Hovering_B.ParamStep_k);
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
-    FLIGHT_HEXA_Hovering_B.ParamStep_k = 0;
+     &FLIGHT_HEXA_Hovering_B.ParamStep_c);
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
+    FLIGHT_HEXA_Hovering_B.ParamStep_c = 0;
   }
 
   // Switch: '<S54>/Switch4' incorporates:
@@ -3307,7 +3303,8 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   Switch: '<S55>/Switch4'
 
   if (FLIGHT_HEXA_Hovering_B.Compare_k) {
-    FLIGHT_HEXA_Hovering_B.Switch4 = FLIGHT_HEXA_Hovering_P.Constant4_Value;
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
+      FLIGHT_HEXA_Hovering_P.Constant4_Value;
   } else {
     if (FLIGHT_HEXA_Hovering_B.Compare) {
       // Switch: '<S55>/Switch4' incorporates:
@@ -3315,7 +3312,7 @@ void FLIGHT_HEXA_Hovering_step(void)
       //   MATLABSystem: '<S55>/Read Parameter4'
       //
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-        FLIGHT_HEXA_Hovering_B.ParamStep_k;
+        FLIGHT_HEXA_Hovering_B.ParamStep_c;
     } else {
       // Switch: '<S55>/Switch4' incorporates:
       //   Constant: '<S55>/Constant4'
@@ -3341,12 +3338,11 @@ void FLIGHT_HEXA_Hovering_step(void)
         FLIGHT_HEXA_Hovering_P.Saturation_LowerSat_a;
     }
 
-    FLIGHT_HEXA_Hovering_B.Switch4 =
-      (((FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 -
-         FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 / 2.0) +
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1) *
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 / 3.0 +
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0) *
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 =
+      (((FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 -
+         FLIGHT_HEXA_Hovering_B.Gain2 / 2.0) +
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0) * FLIGHT_HEXA_Hovering_B.Sum
+       / 3.0 + FLIGHT_HEXA_Hovering_B.Sum) *
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
   }
 
@@ -3359,11 +3355,11 @@ void FLIGHT_HEXA_Hovering_step(void)
       FLIGHT_HEXA_Hovering_P.ReadParameter5_SampleTime;
   }
 
-  FLIGHT_HEXA_Hovering_B.b_varargout_1 = MW_Param_Step
+  FLIGHT_HEXA_Hovering_B.OR_g = MW_Param_Step
     (FLIGHT_HEXA_Hovering_DW.obj_c.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_HEXA_Hovering_B.ParamStep_k);
-  if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
-    FLIGHT_HEXA_Hovering_B.ParamStep_k = 0;
+     &FLIGHT_HEXA_Hovering_B.ParamStep_c);
+  if (FLIGHT_HEXA_Hovering_B.OR_g) {
+    FLIGHT_HEXA_Hovering_B.ParamStep_c = 0;
   }
 
   // Switch: '<S54>/Switch5' incorporates:
@@ -3374,7 +3370,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   Switch: '<S55>/Switch5'
 
   if (FLIGHT_HEXA_Hovering_B.Compare_k) {
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 =
       FLIGHT_HEXA_Hovering_P.Constant5_Value;
   } else {
     if (FLIGHT_HEXA_Hovering_B.Compare) {
@@ -3383,7 +3379,7 @@ void FLIGHT_HEXA_Hovering_step(void)
       //   MATLABSystem: '<S55>/Read Parameter5'
       //
       FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-        FLIGHT_HEXA_Hovering_B.ParamStep_k;
+        FLIGHT_HEXA_Hovering_B.ParamStep_c;
     } else {
       // Switch: '<S55>/Switch5' incorporates:
       //   Constant: '<S55>/Constant5'
@@ -3408,13 +3404,10 @@ void FLIGHT_HEXA_Hovering_step(void)
         FLIGHT_HEXA_Hovering_P.Saturation_LowerSat_e;
     }
 
-    FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
-      (((FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 / 2.0 -
-         FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2) -
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1) *
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 / 3.0 +
-       FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0) *
-      FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
+    FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 = (((FLIGHT_HEXA_Hovering_B.Gain2
+      / 2.0 - FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3) -
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0) * FLIGHT_HEXA_Hovering_B.Sum /
+      3.0 + FLIGHT_HEXA_Hovering_B.Sum) * FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0;
   }
 
   // End of Switch: '<S54>/Switch5'
@@ -3429,17 +3422,17 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   DataTypeConversion: '<S59>/Data Type Conversion'
 
   FLIGHT_HEXA_Hovering_B.BusAssignment.control[0] = static_cast<real32_T>
-    (FLIGHT_HEXA_Hovering_B.Switch_m);
+    (FLIGHT_HEXA_Hovering_B.Sum5);
   FLIGHT_HEXA_Hovering_B.BusAssignment.control[1] = static_cast<real32_T>
-    (FLIGHT_HEXA_Hovering_B.Subtract_f);
+    (FLIGHT_HEXA_Hovering_B.Gain_i);
   FLIGHT_HEXA_Hovering_B.BusAssignment.control[2] = static_cast<real32_T>
     (FLIGHT_HEXA_Hovering_B.Switch2);
   FLIGHT_HEXA_Hovering_B.BusAssignment.control[3] = static_cast<real32_T>
     (FLIGHT_HEXA_Hovering_B.Switch3);
   FLIGHT_HEXA_Hovering_B.BusAssignment.control[4] = static_cast<real32_T>
-    (FLIGHT_HEXA_Hovering_B.Switch4);
+    (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1);
   FLIGHT_HEXA_Hovering_B.BusAssignment.control[5] = static_cast<real32_T>
-    (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1);
+    (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0);
   FLIGHT_HEXA_Hovering_B.BusAssignment.control[6] = static_cast<real32_T>
     (FLIGHT_HEXA_Hovering_P.Constant_Value_olz);
   FLIGHT_HEXA_Hovering_B.BusAssignment.control[7] = static_cast<real32_T>
@@ -3464,7 +3457,7 @@ void FLIGHT_HEXA_Hovering_step(void)
   //   EnablePort: '<S36>/Enable'
 
   // Start for MATLABSystem: '<S19>/Read Parameter'
-  if (FLIGHT_HEXA_Hovering_B.ParamStep_c > 0) {
+  if (FLIGHT_HEXA_Hovering_B.ParamStep_k > 0) {
     // BusAssignment: '<S36>/Bus Assignment1' incorporates:
     //   BusAssignment: '<S36>/Bus Assignment'
     //   Constant: '<S46>/Constant'
@@ -3543,10 +3536,10 @@ void FLIGHT_HEXA_Hovering_step(void)
           FLIGHT_HEXA_Hovering_P.ReadParameter_SampleTime_c;
       }
 
-      FLIGHT_HEXA_Hovering_B.b_varargout_1 = MW_Param_Step
+      FLIGHT_HEXA_Hovering_B.OR_g = MW_Param_Step
         (FLIGHT_HEXA_Hovering_DW.obj_g.MW_PARAMHANDLE, MW_SINGLE,
          &FLIGHT_HEXA_Hovering_B.BusAssignment1.waypoints[0].velocity[2]);
-      if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+      if (FLIGHT_HEXA_Hovering_B.OR_g) {
         FLIGHT_HEXA_Hovering_B.BusAssignment1.waypoints[0].velocity[2] = 0.0F;
       }
 
@@ -3570,10 +3563,10 @@ void FLIGHT_HEXA_Hovering_step(void)
           FLIGHT_HEXA_Hovering_P.ReadParameter_SampleTime_g;
       }
 
-      FLIGHT_HEXA_Hovering_B.b_varargout_1 = MW_Param_Step
+      FLIGHT_HEXA_Hovering_B.OR_g = MW_Param_Step
         (FLIGHT_HEXA_Hovering_DW.obj_b4.MW_PARAMHANDLE, MW_SINGLE,
          &FLIGHT_HEXA_Hovering_B.ParamStep);
-      if (FLIGHT_HEXA_Hovering_B.b_varargout_1) {
+      if (FLIGHT_HEXA_Hovering_B.OR_g) {
         FLIGHT_HEXA_Hovering_B.ParamStep = 0.0F;
       }
 
@@ -3728,162 +3721,160 @@ void FLIGHT_HEXA_Hovering_step(void)
     //   SignalConversion generated from: '<S45>/Matrix Concatenate'
     //
     if (FLIGHT_HEXA_Hovering_B.In1_p.next.valid) {
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 =
-        FLIGHT_HEXA_Hovering_B.In1_p.next.lat - FLIGHT_HEXA_Hovering_B.In1_f.lat;
-      FLIGHT_HEXA_Hovering_B.Switch2 = FLIGHT_HEXA_Hovering_B.In1_p.next.lon -
+      FLIGHT_HEXA_Hovering_B.Sum = FLIGHT_HEXA_Hovering_B.In1_p.next.lat -
+        FLIGHT_HEXA_Hovering_B.In1_f.lat;
+      FLIGHT_HEXA_Hovering_B.Gain2 = FLIGHT_HEXA_Hovering_B.In1_p.next.lon -
         FLIGHT_HEXA_Hovering_B.In1_f.lon;
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 = fabs
-        (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3);
-      if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 > 180.0) {
-        if (rtIsNaN(FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 + 180.0) ||
-            rtIsInf(FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 + 180.0)) {
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (rtNaN);
-        } else if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 + 180.0 == 0.0) {
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = 0.0;
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 = fabs
+        (FLIGHT_HEXA_Hovering_B.Sum);
+      if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 > 180.0) {
+        if (rtIsNaN(FLIGHT_HEXA_Hovering_B.Sum + 180.0) || rtIsInf
+            (FLIGHT_HEXA_Hovering_B.Sum + 180.0)) {
+          FLIGHT_HEXA_Hovering_B.Switch3 = (rtNaN);
+        } else if (FLIGHT_HEXA_Hovering_B.Sum + 180.0 == 0.0) {
+          FLIGHT_HEXA_Hovering_B.Switch3 = 0.0;
         } else {
-          FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = fmod
-            (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 + 180.0, 360.0);
-          if (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 == 0.0) {
-            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = 0.0;
-          } else if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 + 180.0 < 0.0) {
-            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 += 360.0;
+          FLIGHT_HEXA_Hovering_B.Switch3 = fmod(FLIGHT_HEXA_Hovering_B.Sum +
+            180.0, 360.0);
+          if (FLIGHT_HEXA_Hovering_B.Switch3 == 0.0) {
+            FLIGHT_HEXA_Hovering_B.Switch3 = 0.0;
+          } else if (FLIGHT_HEXA_Hovering_B.Sum + 180.0 < 0.0) {
+            FLIGHT_HEXA_Hovering_B.Switch3 += 360.0;
           }
         }
 
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 =
-          FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 * 0.0 +
-          (FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 - 180.0);
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 = fabs
-          (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3);
+        FLIGHT_HEXA_Hovering_B.Sum = FLIGHT_HEXA_Hovering_B.Sum * 0.0 +
+          (FLIGHT_HEXA_Hovering_B.Switch3 - 180.0);
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 = fabs
+          (FLIGHT_HEXA_Hovering_B.Sum);
       }
 
-      if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 > 90.0) {
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 = fabs
-          (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3);
-        FLIGHT_HEXA_Hovering_B.Compare_k =
-          (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 > 90.0);
-        FLIGHT_HEXA_Hovering_B.Switch2 += 180.0;
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
-          FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 * static_cast<real_T>
-          (FLIGHT_HEXA_Hovering_B.Compare_k);
-        if (rtIsNaN(FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1)) {
+      if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 > 90.0) {
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 = fabs
+          (FLIGHT_HEXA_Hovering_B.Sum);
+        FLIGHT_HEXA_Hovering_B.OR_g =
+          (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 > 90.0);
+        FLIGHT_HEXA_Hovering_B.Gain2 += 180.0;
+        FLIGHT_HEXA_Hovering_B.Switch2 = FLIGHT_HEXA_Hovering_B.Sum *
+          static_cast<real_T>(FLIGHT_HEXA_Hovering_B.OR_g);
+        if (rtIsNaN(FLIGHT_HEXA_Hovering_B.Switch2)) {
           FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = (rtNaN);
-        } else if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 < 0.0) {
+        } else if (FLIGHT_HEXA_Hovering_B.Switch2 < 0.0) {
           FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = -1.0;
         } else {
           FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 =
-            (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 > 0.0);
+            (FLIGHT_HEXA_Hovering_B.Switch2 > 0.0);
         }
 
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 = (90.0 -
-          (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 * static_cast<real_T>
-           (FLIGHT_HEXA_Hovering_B.Compare_k) - 90.0)) *
+        FLIGHT_HEXA_Hovering_B.Sum = (90.0 -
+          (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 * static_cast<real_T>
+           (FLIGHT_HEXA_Hovering_B.OR_g) - 90.0)) *
           FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 * static_cast<real_T>
-          (FLIGHT_HEXA_Hovering_B.Compare_k) +
-          FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 * static_cast<real_T>
-          (!FLIGHT_HEXA_Hovering_B.Compare_k);
+          (FLIGHT_HEXA_Hovering_B.OR_g) + FLIGHT_HEXA_Hovering_B.Sum *
+          static_cast<real_T>(!FLIGHT_HEXA_Hovering_B.OR_g);
       }
 
-      if ((FLIGHT_HEXA_Hovering_B.Switch2 > 180.0) ||
-          (FLIGHT_HEXA_Hovering_B.Switch2 < -180.0)) {
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 =
-          FLIGHT_HEXA_Hovering_rt_remd_snf(FLIGHT_HEXA_Hovering_B.Switch2, 360.0);
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
-          FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 / 180.0;
-        if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 < 0.0) {
+      if ((FLIGHT_HEXA_Hovering_B.Gain2 > 180.0) ||
+          (FLIGHT_HEXA_Hovering_B.Gain2 < -180.0)) {
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 =
+          FLIGHT_HEXA_Hovering_rt_remd_snf(FLIGHT_HEXA_Hovering_B.Gain2, 360.0);
+        FLIGHT_HEXA_Hovering_B.Switch2 =
+          FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 / 180.0;
+        if (FLIGHT_HEXA_Hovering_B.Switch2 < 0.0) {
           FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = ceil
-            (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1);
+            (FLIGHT_HEXA_Hovering_B.Switch2);
         } else {
           FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 = floor
-            (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1);
+            (FLIGHT_HEXA_Hovering_B.Switch2);
         }
 
-        FLIGHT_HEXA_Hovering_B.Switch2 =
-          (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 - 360.0 *
+        FLIGHT_HEXA_Hovering_B.Gain2 =
+          (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 - 360.0 *
            FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0) +
-          FLIGHT_HEXA_Hovering_B.Switch2 * 0.0;
+          FLIGHT_HEXA_Hovering_B.Gain2 * 0.0;
       }
 
-      FLIGHT_HEXA_Hovering_B.Switch3 = FLIGHT_HEXA_Hovering_sind_d
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 = FLIGHT_HEXA_Hovering_sind_d
         (FLIGHT_HEXA_Hovering_B.In1_f.lat);
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 = 6.378137E+6 / sqrt(1.0 -
-        0.0066943799901413165 * FLIGHT_HEXA_Hovering_B.Switch3 *
-        FLIGHT_HEXA_Hovering_B.Switch3);
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 = 6.378137E+6 / sqrt(1.0 -
+        0.0066943799901413165 * FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 *
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1);
       if (rtIsInf(FLIGHT_HEXA_Hovering_B.In1_f.lat) || rtIsNaN
           (FLIGHT_HEXA_Hovering_B.In1_f.lat)) {
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 = (rtNaN);
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 = (rtNaN);
       } else {
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 =
           FLIGHT_HEXA_Hovering_rt_remd_snf(FLIGHT_HEXA_Hovering_B.In1_f.lat,
           360.0);
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 = fabs
-          (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1);
-        if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 > 180.0) {
-          if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 > 0.0) {
-            FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 -= 360.0;
+        FLIGHT_HEXA_Hovering_B.Switch2 = fabs
+          (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0);
+        if (FLIGHT_HEXA_Hovering_B.Switch2 > 180.0) {
+          if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 > 0.0) {
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 -= 360.0;
           } else {
-            FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 += 360.0;
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 += 360.0;
           }
 
-          FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 = fabs
-            (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1);
+          FLIGHT_HEXA_Hovering_B.Switch2 = fabs
+            (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0);
         }
 
-        if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 <= 45.0) {
-          FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 = cos(0.017453292519943295 *
-            FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1);
-        } else if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_0 <= 135.0) {
-          if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 > 0.0) {
-            FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 = -sin
-              ((FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 - 90.0) *
+        if (FLIGHT_HEXA_Hovering_B.Switch2 <= 45.0) {
+          FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 = cos(0.017453292519943295 *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0);
+        } else if (FLIGHT_HEXA_Hovering_B.Switch2 <= 135.0) {
+          if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 > 0.0) {
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 = -sin
+              ((FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 - 90.0) *
                0.017453292519943295);
           } else {
-            FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 = sin
-              ((FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 + 90.0) *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 = sin
+              ((FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 + 90.0) *
                0.017453292519943295);
           }
         } else {
-          if (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 > 0.0) {
-            FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
-              (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 - 180.0) *
+          if (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 > 0.0) {
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 =
+              (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 - 180.0) *
               0.017453292519943295;
           } else {
-            FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 =
-              (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 + 180.0) *
+            FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 =
+              (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 + 180.0) *
               0.017453292519943295;
           }
 
-          FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1 = -cos
-            (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1);
+          FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 = -cos
+            (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0);
         }
       }
 
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3 /=
-        FLIGHT_HEXA_Hovering_rt_atan2d_snf(1.0, 0.99330562000985867 / (1.0 -
-        0.0066943799901413165 * FLIGHT_HEXA_Hovering_B.Switch3 *
-        FLIGHT_HEXA_Hovering_B.Switch3) *
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2) * 57.295779513082323;
-      FLIGHT_HEXA_Hovering_B.Switch2 /= FLIGHT_HEXA_Hovering_rt_atan2d_snf(1.0,
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 *
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_1) * 57.295779513082323;
-      FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2 = -static_cast<real_T>
+      FLIGHT_HEXA_Hovering_B.Switch2 = FLIGHT_HEXA_Hovering_B.Sum /
+        (FLIGHT_HEXA_Hovering_rt_atan2d_snf(1.0, 0.99330562000985867 / (1.0 -
+           0.0066943799901413165 * FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1 *
+           FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_1) *
+          FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3) * 57.295779513082323);
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0 = FLIGHT_HEXA_Hovering_B.Gain2 /
+        (FLIGHT_HEXA_Hovering_rt_atan2d_snf(1.0,
+          FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 *
+          FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0) * 57.295779513082323);
+      FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3 = -static_cast<real_T>
         (FLIGHT_HEXA_Hovering_B.In1_p.next.alt) +
         FLIGHT_HEXA_Hovering_B.In1_f.alt;
       FLIGHT_HEXA_Hovering_B.distinctWptsIdx[0] = rtIsNaN
-        (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3);
-      FLIGHT_HEXA_Hovering_B.distinctWptsIdx[1] = rtIsNaN
         (FLIGHT_HEXA_Hovering_B.Switch2);
+      FLIGHT_HEXA_Hovering_B.distinctWptsIdx[1] = rtIsNaN
+        (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0);
       FLIGHT_HEXA_Hovering_B.distinctWptsIdx[2] = rtIsNaN
-        (FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2);
+        (FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3);
       FLIGHT_HEXA_Hovering_B.Compare_k = false;
-      FLIGHT_HEXA_Hovering_B.i1 = 0;
+      FLIGHT_HEXA_Hovering_B.iy = 0;
       exitg1 = false;
-      while ((!exitg1) && (FLIGHT_HEXA_Hovering_B.i1 < 3)) {
-        if (FLIGHT_HEXA_Hovering_B.distinctWptsIdx[FLIGHT_HEXA_Hovering_B.i1]) {
+      while ((!exitg1) && (FLIGHT_HEXA_Hovering_B.iy < 3)) {
+        if (FLIGHT_HEXA_Hovering_B.distinctWptsIdx[FLIGHT_HEXA_Hovering_B.iy]) {
           FLIGHT_HEXA_Hovering_B.Compare_k = true;
           exitg1 = true;
         } else {
-          FLIGHT_HEXA_Hovering_B.i1++;
+          FLIGHT_HEXA_Hovering_B.iy++;
         }
       }
 
@@ -3891,13 +3882,13 @@ void FLIGHT_HEXA_Hovering_step(void)
         (!FLIGHT_HEXA_Hovering_B.Compare_k);
       FLIGHT_HEXA_Hovering_B.BusAssignment1.waypoints[2].position[0] =
         static_cast<real32_T>(FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 +
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_3);
+        FLIGHT_HEXA_Hovering_B.Switch2);
       FLIGHT_HEXA_Hovering_B.BusAssignment1.waypoints[2].position[1] =
         static_cast<real32_T>(FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 +
-        FLIGHT_HEXA_Hovering_B.Switch2);
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_0);
       FLIGHT_HEXA_Hovering_B.BusAssignment1.waypoints[2].position[2] =
         static_cast<real32_T>(FLIGHT_HEXA_Hovering_B.rtb_Merge_idx_0 +
-        FLIGHT_HEXA_Hovering_B.rtb_Transpose_idx_2);
+        FLIGHT_HEXA_Hovering_B.rtb_Switch_aw_idx_3);
     } else {
       FLIGHT_HEXA_Hovering_B.BusAssignment1.waypoints[2].position[0] = 0.0F;
       FLIGHT_HEXA_Hovering_B.BusAssignment1.waypoints[2].position[1] = 0.0F;
@@ -3998,10 +3989,11 @@ void FLIGHT_HEXA_Hovering_step(void)
       FLIGHT_HEXA_Hovering_B.In1_p.timestamp;
     FLIGHT_HEXA_Hovering_B.BusAssignment1.type =
       FLIGHT_HEXA_Hovering_P.Constant_Value_fm;
-    for (FLIGHT_HEXA_Hovering_B.j = 0; FLIGHT_HEXA_Hovering_B.j < 7;
-         FLIGHT_HEXA_Hovering_B.j++) {
-      FLIGHT_HEXA_Hovering_B.BusAssignment1._padding0[FLIGHT_HEXA_Hovering_B.j] =
-        FLIGHT_HEXA_Hovering_P.Constant_Value._padding0[FLIGHT_HEXA_Hovering_B.j];
+    for (FLIGHT_HEXA_Hovering_B.i1 = 0; FLIGHT_HEXA_Hovering_B.i1 < 7;
+         FLIGHT_HEXA_Hovering_B.i1++) {
+      FLIGHT_HEXA_Hovering_B.BusAssignment1._padding0[FLIGHT_HEXA_Hovering_B.i1]
+        =
+        FLIGHT_HEXA_Hovering_P.Constant_Value._padding0[FLIGHT_HEXA_Hovering_B.i1];
     }
 
     // BusAssignment: '<S36>/Bus Assignment1' incorporates:
@@ -4168,9 +4160,7 @@ void FLIGHT_HEXA_Hovering_initialize(void)
     FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_l[1] =
       FLIGHT_HEXA_Hovering_P.Delay_InitialCondition_n;
 
-    // InitializeConditions for Gain: '<S26>/Gain1' incorporates:
-    //   Delay: '<S26>/Delay'
-
+    // InitializeConditions for Delay: '<S26>/Delay'
     FLIGHT_HEXA_Hovering_DW.Delay_DSTATE_n =
       FLIGHT_HEXA_Hovering_P.Delay_InitialCondition_m;
 
@@ -4251,15 +4241,13 @@ void FLIGHT_HEXA_Hovering_initialize(void)
 
     FLIGHT_HEXA_Hovering_B.Saturation[1] = FLIGHT_HEXA_Hovering_P.des_roll_Y0;
 
-    // SystemInitialize for Gain: '<S487>/Proportional Gain' incorporates:
+    // SystemInitialize for Saturate: '<S489>/Saturation' incorporates:
     //   Outport: '<S76>/des_yawrate'
-    //   Saturate: '<S489>/Saturation'
 
     FLIGHT_HEXA_Hovering_B.Saturation_e = FLIGHT_HEXA_Hovering_P.des_yawrate_Y0;
 
-    // SystemInitialize for Sum: '<S595>/Sum' incorporates:
+    // SystemInitialize for Saturate: '<S593>/Saturation' incorporates:
     //   Outport: '<S76>/tau_Thrust'
-    //   Saturate: '<S593>/Saturation'
 
     FLIGHT_HEXA_Hovering_B.Saturation_f = FLIGHT_HEXA_Hovering_P.tau_Thrust_Y0;
 
@@ -4306,9 +4294,8 @@ void FLIGHT_HEXA_Hovering_initialize(void)
 
     FLIGHT_HEXA_Hovering_B.Saturation_o = FLIGHT_HEXA_Hovering_P.tau_Pitch_Y0;
 
-    // SystemInitialize for Sum: '<S232>/Sum' incorporates:
+    // SystemInitialize for Saturate: '<S230>/Saturation' incorporates:
     //   Outport: '<S73>/tau_Roll'
-    //   Saturate: '<S230>/Saturation'
 
     FLIGHT_HEXA_Hovering_B.Saturation_m = FLIGHT_HEXA_Hovering_P.tau_Roll_Y0;
 

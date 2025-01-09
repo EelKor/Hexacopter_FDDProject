@@ -9,7 +9,7 @@
 //
 // Model version                  : 5.30
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Wed Jan  8 13:53:58 2025
+// C/C++ source code generated on : Thu Jan  9 13:36:09 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -1591,12 +1591,12 @@ P_FLIGHT_HEXA_Hovering_T FLIGHT_HEXA_Hovering_P = {
   // Computed Parameter: Integrator_gainval
   //  Referenced by: '<S119>/Integrator'
 
-  0.004,
+  0.01,
 
   // Computed Parameter: Filter_gainval
   //  Referenced by: '<S114>/Filter'
 
-  0.004,
+  0.01,
 
   // Expression: 40*pi/180
   //  Referenced by: '<S73>/Rate Limiter2'
@@ -1631,12 +1631,12 @@ P_FLIGHT_HEXA_Hovering_T FLIGHT_HEXA_Hovering_P = {
   // Computed Parameter: Integrator_gainval_i
   //  Referenced by: '<S171>/Integrator'
 
-  0.004,
+  0.01,
 
   // Computed Parameter: Filter_gainval_p
   //  Referenced by: '<S166>/Filter'
 
-  0.004,
+  0.01,
 
   // Expression: 40*pi/180
   //  Referenced by: '<S73>/Rate Limiter1'
@@ -1671,12 +1671,12 @@ P_FLIGHT_HEXA_Hovering_T FLIGHT_HEXA_Hovering_P = {
   // Computed Parameter: Integrator_gainval_p
   //  Referenced by: '<S223>/Integrator'
 
-  0.004,
+  0.01,
 
   // Computed Parameter: Filter_gainval_k
   //  Referenced by: '<S218>/Filter'
 
-  0.004,
+  0.01,
 
   // Expression: 0
   //  Referenced by: '<S340>/Constant'
@@ -1751,12 +1751,12 @@ P_FLIGHT_HEXA_Hovering_T FLIGHT_HEXA_Hovering_P = {
   // Computed Parameter: Filter_gainval_i
   //  Referenced by: '<S529>/Filter'
 
-  0.004,
+  0.01,
 
   // Computed Parameter: Integrator_gainval_p4
   //  Referenced by: '<S534>/Integrator'
 
-  0.004,
+  0.01,
 
   // Expression: 0
   //  Referenced by: '<S576>/Clamping_zero'
@@ -1766,12 +1766,12 @@ P_FLIGHT_HEXA_Hovering_T FLIGHT_HEXA_Hovering_P = {
   // Computed Parameter: Filter_gainval_d
   //  Referenced by: '<S581>/Filter'
 
-  0.004,
+  0.01,
 
   // Computed Parameter: Integrator_gainval_ik
   //  Referenced by: '<S586>/Integrator'
 
-  0.004,
+  0.01,
 
   // Expression: [1 0 0 0]
   //  Referenced by: '<S77>/Constant'

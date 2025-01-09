@@ -9,7 +9,7 @@
 //
 // Model version                  : 5.30
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Wed Jan  8 13:53:58 2025
+// C/C++ source code generated on : Thu Jan  9 13:36:09 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -138,49 +138,51 @@ struct B_FLIGHT_HEXA_Hovering_T {
   real_T yaw_In_i;                     // '<S29>/yaw_In'
   real_T In;                           // '<S28>/In'
   real_T yaw_In_ik;                    // '<S32>/yaw_In'
-  real_T Switch4;                      // '<S54>/Switch4'
   real_T Switch3;                      // '<S54>/Switch3'
   real_T Switch2;                      // '<S54>/Switch2'
-  real_T Switch_m;                     // '<S54>/Switch'
-  real_T Subtract_f;                   // '<S26>/Subtract'
+  real_T Sum;                          // '<S603>/Sum'
+  real_T Gain2;                        // '<S4>/Gain2'
+  real_T Gain_i;                       // '<S30>/Gain'
+  real_T Sum5;                         // '<S76>/Sum5'
   real_T rtb_Merge_idx_3;
-  real_T rtb_Transpose_idx_0;
-  real_T rtb_Transpose_idx_1;
-  real_T rtb_Transpose_idx_2;
-  real_T rtb_Transpose_idx_3;
+  real_T rtb_Switch_aw_idx_0;
+  real_T rtb_Switch_aw_idx_1;
+  real_T rtb_Switch_aw_idx_2;
+  real_T rtb_Switch_aw_idx_3;
+  real_T rtb_Merge_idx_2;
   real_T rtb_Merge_idx_0;
-  real_T virtualWaypoint_tmp;
+  real_T rtb_Merge_idx_1;
   real_T dLat;
   real_T dLon;
-  real_T Rn;
   real_T flat;
-  real_T b_x;
   real_T absx;
-  real_T absx_m;
+  real_T r_m;
+  real_T flat_tmp;
+  real_T absx_c;
   real_T q;
   real_T scale;
   real_T absxk;
   real_T t;
   boolean_T x[6];
   real32_T ParamStep;
-  int32_T ParamStep_c;
   int32_T ParamStep_k;
-  int32_T i2;
+  int32_T ParamStep_c;
+  int32_T iy;
   int32_T i1;
   int32_T j;
   int32_T ix;
   int32_T b_exponent;
   int32_T b_k;
   int32_T i;
-  int32_T i1_c;
+  int32_T i1_b;
   int8_T tmp_data[3];
   boolean_T distinctWptsIdx[3];
   boolean_T b[3];
   boolean_T IsNaN_l[2];                // '<S21>/IsNaN'
   int8_T rtPrevAction;
-  int8_T i2_b;
-  boolean_T b_varargout_1;
+  int8_T rtAction;
   boolean_T Compare_k;                 // '<S60>/Compare'
+  boolean_T OR_g;                      // '<S21>/OR'
   boolean_T Compare;                   // '<S61>/Compare'
   boolean_T latp2;
   B_SourceBlock_FLIGHT_HEXA_Hovering_i_T SourceBlock_g;// '<S12>/SourceBlock'
