@@ -3,21 +3,23 @@
 
 SampleTime = 1/200;
 g = 9.81;
+r2d = 180/pi;
+d2r = pi/180;
 
 % PID_pitch_rate
-Kppr =    0.15;
+Kppr =    0.1;
 Kipr =    0.0;
 Kdpr =    0.0;
 Npr  =    50;
 
 % PID_roll_rate
-Kprr =    0.15;
+Kprr =    0.1;
 Kirr =    0.0;
 Kdrr =    0.0;
 Nrr  =    50;
 
 % PID_yaw_rate 
-Kpyr =    0.2;   % approxi_oid_design.m result
+Kpyr =    0.1;   % approxi_oid_design.m result
 Kiyr =    0.0;
 Kdyr =    0.0;
 Nyr  =    50;
@@ -46,7 +48,7 @@ Kivy = 0.0728/g;
 % PID_vz.
 Kpvz = 0.3191;
 Kivz = 0.6304;
-Kdvz = 0.0254;
+Kdvz = 0.0;
 Nvz  = Npr;
 
 % Position Controller Gains
