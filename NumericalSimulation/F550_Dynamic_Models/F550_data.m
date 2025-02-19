@@ -4,23 +4,31 @@ clc; clear; close all;
 d2r=pi/180;
 r2d=180/pi;
 
-% Add by ETKIM % ----------------------------------------------------
-motorCr = 1148; %Motor throttle-speed curve slope(rad/s)
-motorWb =-141.4;  %Motor speed-throttle curve constant term(rad/s)
-motorTm = 0.02;  %Motor inertia time constant(s)
 
+% Add by SSLEE - T-motor Mn3110 470kv 대충
+motorCr = 628; % 최대 RPM 6000 잡고 선형으로 추력 곡선 계산
+motorWb = -62.8; % pwm 1100에서 돌기 시작
+motorTm = 0.01;  %Motor inertia time constant(s)
 motorJm = 0.0001287;    %Moment of inertia of motor rotor + propeller(kg.m^2)
+rotorCt = 2.487e-05;
+rotorCm = 1.779e-07;
+% Add by ETKIM % ----------------------------------------------------
+%motorCr = 1148; %Motor throttle-speed curve slope(rad/s)
+%motorWb =-141.4;  %Motor speed-throttle curve constant term(rad/s)
+%motorTm = 0.02;
+%rotorCm = 1.779e-07*1.2;    %Rotor torque coefficient(kg.m^2) %M=Cm*w^2
+%rotorCt = 1.105e-05*1.3;    %Rotor thrust coefficient(kg.m^2) %T=Ct**w^2
 
-rotorCm = 1.779e-07;    %Rotor torque coefficient(kg.m^2) %M=Cm*w^2
-rotorCt = 1.105e-05;    %Rotor thrust coefficient(kg.m^2) %T=Ct**w^2
+
+
 
 
 g=9.81;      %Gravity acceleration(m/s^2)
 
 Mass = 2.06; %Mass of UAV(kg)
-Jxx = 0.0211 * 1.47; % F450 관성모멘트에 대충 무게비를 곱함
-Jyy = 0.0219 * 1.47;
-Jzz = 0.0366 * 1.47;
+Jxx = 0.0211; % F450 관성모멘트에 대충 무게비를 곱함
+Jyy = 0.0219;
+Jzz = 0.0366;
 Inertia= [Jxx, 0, 0;...
     0, Jyy, 0;...
     0, 0, Jzz];
@@ -28,9 +36,9 @@ Inertia_inv=inv(Inertia);
 
 
 armLength = 0.275;   %Body radius(m)
-Cd  = 0.055;      %Damping coefficient(N/(m/s)^2)
+Cd  = 0.055*1.5;      %Damping coefficient(N/(m/s)^2)
 Cmd = [0.0035 0.0039 0.0034]; %Damping moment coefficient vector(N/(m/s)^2)
-dzcg = 0.12;
+dzcg = 0.06;
 %% 
 
 
