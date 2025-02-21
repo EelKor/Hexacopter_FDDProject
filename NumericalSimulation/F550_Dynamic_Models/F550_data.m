@@ -6,8 +6,8 @@ r2d=180/pi;
 
 
 % Add by SSLEE - T-motor Mn3110 470kv 대충
-motorCr = 628; % 최대 RPM 6000 잡고 선형으로 추력 곡선 계산
-motorWb = -62.8; % pwm 1100에서 돌기 시작
+motorCr = 732.67; % 최대 RPM 6000 잡고 선형으로 추력 곡선 계산
+motorWb = -73.3; % pwm 1100에서 돌기 시작
 motorTm = 0.01;  %Motor inertia time constant(s)
 motorJm = 0.0001287;    %Moment of inertia of motor rotor + propeller(kg.m^2)
 rotorCt = 2.487e-05;
