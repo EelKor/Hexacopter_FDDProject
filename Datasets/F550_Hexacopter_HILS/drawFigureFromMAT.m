@@ -2,7 +2,7 @@ close all; clear
 r2d = 180/pi;
 
 %% 데이터 선택
-log_filename = 'log174_m1_50fail';
+log_filename = 'log174_m1_70fail';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
@@ -24,7 +24,7 @@ if ~exist(save_dir, 'dir')
 end
 
 %% Plot Fault Injection and Detection Flag
-inject = rc_inject > 1799;
+inject = rc_inject >= 1800;
 inject = double(inject);
 
 figure;
@@ -44,7 +44,7 @@ detectIdx = find(ae_detect == 1, 1, 'first');
 detectTime = ae_time(detectIdx);
 
 anomaly_detect_time_in_s = (detectTime - injectTime);
-title(['M1 50% Fail - ', num2str(anomaly_detect_time_in_s), 's'])
+title(['M1 70% Fail - ', num2str(anomaly_detect_time_in_s), 's'])
 
 %이미지 저장
 saveas(gcf, fullfile(save_dir, 'fault_injection_detection.png'));
@@ -145,4 +145,6 @@ plot(localNED_Time,altitude, 'LineWidth', 3);
 hold on;
 %plot(localNEDTarget_Time,altitude_cmd,'r--', 'LineWidth', 3)
 grid on;
-
+hold off;
+legend("Altitude")
+saveas(gcf, fullfile(save_dir, 'altitude.png'));
