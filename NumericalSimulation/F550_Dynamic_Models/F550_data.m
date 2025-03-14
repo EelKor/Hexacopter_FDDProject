@@ -1,4 +1,4 @@
-% F450_data.m
+% F550_data.m
 clc; clear; close all;
 
 d2r=pi/180;
@@ -19,10 +19,7 @@ rotorCm = 1.779e-07;
 %rotorCm = 1.779e-07*1.2;    %Rotor torque coefficient(kg.m^2) %M=Cm*w^2
 %rotorCt = 1.105e-05*1.3;    %Rotor thrust coefficient(kg.m^2) %T=Ct**w^2
 
-
-
-
-
+%% 
 g=9.81;      %Gravity acceleration(m/s^2)
 
 Mass = 2.06; %Mass of UAV(kg)
@@ -39,8 +36,6 @@ armLength = 0.275;   %Body radius(m)
 Cd  = 0.055*1.5;      %Damping coefficient(N/(m/s)^2)
 Cmd = [0.0035 0.0039 0.0034]; %Damping moment coefficient vector(N/(m/s)^2)
 dzcg = 0.06;
-%% 
-
 
 %% ----------------------------------------------------
 % Initial Condition
@@ -48,7 +43,6 @@ dzcg = 0.06;
 Alt_ground = 0;  % altidude ground
 
 %% Wind ---------------------------------------------------
-
 NoWind=0;
 if NoWind==1;
     Wind_Strength=0;   
@@ -68,12 +62,6 @@ end
 motorRpm0 =[0 0 0 0 0 0];
 x0=[0 0 0 0 0 0 0 0 0 0 0 0];
 u0 = [0 0 0 0];
-
-
-%% 
-%
-
-%   Copyright 2021-2022 The MathWorks, Inc.
 
 
 %% UAV Dynamics Constants
