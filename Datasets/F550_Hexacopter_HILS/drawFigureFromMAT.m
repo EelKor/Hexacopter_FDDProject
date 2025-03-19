@@ -1,8 +1,10 @@
 close all; clear
 r2d = 180/pi;
 
+lineWidth = 2;
+
 %% 데이터 선택
-log_filename = 'log174_m1_70fail';
+log_filename = 'log174_m1_100fail';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
@@ -28,11 +30,12 @@ inject = rc_inject >= 1800;
 inject = double(inject);
 
 figure;
-plot(rc_time, inject, 'LineWidth', 3)
+plot(rc_time, inject, 'LineWidth', lineWidth,'Color','blue')
 hold on;
-plot(ae_time, ae_detect, 'r--', 'LineWidth', 3)
+plot(ae_time, ae_detect, 'r--', 'LineWidth', lineWidth)
 grid on;
 ylim([-0.2 1.2])
+xlim([rc_time(1), rc_time(end)])
 xlabel("Time (s)")
 ylabel("Flag")
 yticks([0 1]);
@@ -58,14 +61,17 @@ roll = AttitudeEuler_Roll.Var1 * r2d;
 roll_cmd = AttitudeTargetEuler_RollTarget.Var1 * r2d;
 
 figure;
-plot(attitude_Time, roll, 'LineWidth', 3);
+plot(attitude_Time, roll, 'LineWidth', lineWidth,'Color','blue');
 hold on;
-plot(attitudeTarget_Time, roll_cmd, 'r--', 'LineWidth', 3);
+plot(attitudeTarget_Time, roll_cmd, 'r--', 'LineWidth', lineWidth);
 grid on;
 hold off;
 legend("Roll", "Roll Command")
 xlabel("Time (s)"); ylabel("Angle (deg)")
 
+xlim([attitude_Time(1), attitude_Time(end)]);
+ylim([-20 60]);
+title("\phi  vs  \phi_{cmd}")
 % 이미지 저장
 saveas(gcf, fullfile(save_dir, 'roll_vs_command.png'));
 
@@ -75,13 +81,17 @@ pitch = AttitudeEuler_Pitch.Var1 * r2d;
 pitch_cmd = AttitudeTargetEuler_PitchTarget.Var1 * r2d;
 
 figure;
-plot(attitude_Time, pitch, 'LineWidth', 3);
+plot(attitude_Time, pitch, 'LineWidth', lineWidth,'Color','blue');
 hold on;
-plot(attitudeTarget_Time, pitch_cmd, 'r--', 'LineWidth', 3);
+plot(attitudeTarget_Time, pitch_cmd, 'r--', 'LineWidth', lineWidth);
 grid on;
 hold off;
 legend("Pitch", "Pitch Command")
 xlabel("Time (s)"); ylabel("Angle (deg)")
+title("\theta  vs  \theta_{cmd}")
+
+xlim([attitude_Time(1), attitude_Time(end)]);
+ylim([-20 60])
 
 % 이미지 저장
 saveas(gcf, fullfile(save_dir, 'pitch_vs_command.png'));
@@ -91,19 +101,32 @@ yaw = AttitudeEuler_Yaw.Var1 * r2d;
 yaw_cmd = AttitudeTargetEuler_YawTarget.Var1 * r2d;
 
 figure;
-plot(attitude_Time, yaw, 'LineWidth', 3);
+plot(attitude_Time, yaw, 'LineWidth', lineWidth,'Color','blue');
 hold on;
-plot(attitudeTarget_Time, yaw_cmd, 'r--', 'LineWidth', 3);
+%plot(attitudeTarget_Time, yaw_cmd, 'r--', 'LineWidth', 3);
 grid on;
 hold off;
 legend("Yaw", "Yaw Command")
 xlabel("Time (s)"); ylabel("Angle (deg)")
+xlim([attitude_Time(1), attitude_Time(end)]);
+title("\psi")
 
 % 이미지 저장
 saveas(gcf, fullfile(save_dir, 'yaw_vs_command.png'));
 
+%% Yawrate
+yawrate = Gyro_GyroZ.Var1 * r2d;
+yawrate_time = Gyro_GyroZ.Time;
+
+figure;
+plot(yawrate_time, yawrate, 'LineWidth', lineWidth,'Color','blue');
+grid on;
+legend("Yawrate");
+title("r");
+xlabel("Time (s)"); ylabel("Angular Velocity (deg/s)")
+xlim([yawrate_time(1), yawrate_time(end)])
+
 %% Display PWM
-pwm_linewidth = 2;
 
 
 pwm_time = seconds(actuator_outputs_output_var9.Time);
@@ -116,22 +139,22 @@ pwm_m5 = actuator_outputs_output_var5.Var1;
 pwm_m6 = actuator_outputs_output_var6.Var1;
 
 figure;
-plot(pwm_time, pwm_m1, 'LineWidth', pwm_linewidth);
+plot(pwm_time, pwm_m1, 'LineWidth', lineWidth);
 hold on;
-plot(pwm_time, pwm_m2, 'LineWidth', pwm_linewidth);
-plot(pwm_time, pwm_m3, 'LineWidth', pwm_linewidth);
-plot(pwm_time, pwm_m4, 'LineWidth', pwm_linewidth);
-plot(pwm_time, pwm_m5, 'LineWidth', pwm_linewidth);
-plot(pwm_time, pwm_m6, 'LineWidth', pwm_linewidth);
+plot(pwm_time, pwm_m2, 'LineWidth', lineWidth);
+plot(pwm_time, pwm_m3, 'LineWidth', lineWidth);
+plot(pwm_time, pwm_m4, 'LineWidth', lineWidth);
+plot(pwm_time, pwm_m5, 'LineWidth', lineWidth);
+plot(pwm_time, pwm_m6, 'LineWidth', lineWidth);
 grid on;
 hold off;
-legend("M1", "M2", "M3", "M4", "M5", "M6", 'Location', 'southeast')
+legend("M1", "M2", "M3", "M4", "M5", "M6", 'Location', 'southwest')
 xlabel("Time (s)"); ylabel("PWM")
 ylim([900 2100]);
-
+xlim([pwm_time(1), pwm_time(end)]);
+title("Actuator PWM")
 % 이미지 저장
 saveas(gcf, fullfile(save_dir, 'pwm_signals.png'));
-
 
 %% Altitude
 localNED_Time = seconds(LocalNED_Z.Time);
@@ -141,10 +164,14 @@ altitude = LocalNED_Z.Var1 * (-1);
 altitude_cmd = LocalNEDTarget_ZTarget.Var1*(-1);
 
 figure;
-plot(localNED_Time,altitude, 'LineWidth', 3);
+plot(localNED_Time,altitude, 'LineWidth', lineWidth, 'Color','blue');
 hold on;
 %plot(localNEDTarget_Time,altitude_cmd,'r--', 'LineWidth', 3)
 grid on;
 hold off;
 legend("Altitude")
+ylabel("Altitude")
+xlabel("Time (s)")
+xlim([localNED_Time(1), localNED_Time(end)]);
+title("Altitude")
 saveas(gcf, fullfile(save_dir, 'altitude.png'));
