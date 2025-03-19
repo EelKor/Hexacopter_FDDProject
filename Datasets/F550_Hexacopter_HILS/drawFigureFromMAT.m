@@ -4,7 +4,7 @@ r2d = 180/pi;
 lineWidth = 2;
 
 %% 데이터 선택
-log_filename = 'log174_m1_100fail';
+log_filename = 'log181_m1_50fail-3';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
@@ -26,7 +26,7 @@ if ~exist(save_dir, 'dir')
 end
 
 %% Plot Fault Injection and Detection Flag
-inject = rc_inject >= 1800;
+inject = rc_inject >= 1200;
 inject = double(inject);
 
 figure;
@@ -42,7 +42,7 @@ yticks([0 1]);
 legend("Fault Injection", "Fault Detection")
 
 injectIdx = find(inject == 1, 1, 'first');
-injectTime = rc_time(injectIdx);
+injectTime = rc_time(injectIdx-1);
 detectIdx = find(ae_detect == 1, 1, 'first');
 detectTime = ae_time(detectIdx);
 
