@@ -4,7 +4,7 @@ r2d = 180/pi;
 lineWidth = 2;
 
 %% 데이터 선택
-log_filename = 'log181_m1_50fail-3';
+log_filename = 'log206_m1_50fail';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
