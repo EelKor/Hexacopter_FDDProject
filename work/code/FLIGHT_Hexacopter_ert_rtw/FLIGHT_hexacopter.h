@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.90
+// Model version                  : 1.95
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Fri Mar  7 17:53:58 2025
+// C/C++ source code generated on : Fri Mar 21 14:04:09 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -142,23 +142,23 @@ struct B_FLIGHT_hexacopter_T {
   uint64_T rtb_PX4Timestamp_m;
   real32_T Merge;                      // '<Root>/Merge'
   real32_T DataTypeConversion;         // '<S561>/Data Type Conversion'
-  real32_T Saturation[2];              // '<S5>/Saturation'
+  real32_T RateLimiter[2];             // '<S5>/Rate Limiter'
   real32_T OutportBufferFordes_xy[2];  // '<S5>/Constant'
   real32_T Add;                        // '<S5>/Add'
   real32_T ParamStep;
-  real32_T ParamStep_c;
   real32_T Filter_a;                   // '<S269>/Filter'
   real32_T Integrator_m;               // '<S274>/Integrator'
   real32_T Saturation3;                // '<S10>/Saturation3'
   real32_T PProdOut_i;                 // '<S163>/PProd Out'
-  real32_T DeadZone;                   // '<S266>/DeadZone'
   real32_T Sum_c;                      // '<S502>/Sum'
   real32_T PProdOut_h;                 // '<S113>/PProd Out'
+  real32_T Sum_a;                      // '<S452>/Sum'
+  real32_T Sum4;                       // '<S9>/Sum4'
+  int32_T ParamStep_c;
   int32_T ParamStep_k;
   int32_T ParamStep_cx;
   int32_T ParamStep_b;
   int32_T ParamStep_p;
-  int32_T ParamStep_cv;
   B_PX4Timestamp_FLIGHT_hexacop_T PX4Timestamp_pna;// '<S12>/PX4 Timestamp'
   B_PX4Timestamp_FLIGHT_hexacop_T PX4Timestamp_p;// '<S12>/PX4 Timestamp'
   B_PX4Timestamp_FLIGHT_hexacop_T PX4Timestamp;// '<S12>/PX4 Timestamp'
@@ -215,6 +215,7 @@ struct DW_FLIGHT_hexacopter_T {
   real32_T Filter_DSTATE_g;            // '<S269>/Filter'
   real32_T Integrator_DSTATE_e;        // '<S55>/Integrator'
   real32_T Filter_DSTATE_i;            // '<S50>/Filter'
+  real32_T PrevY[2];                   // '<S5>/Rate Limiter'
   int32_T clockTickCounter;            // '<S561>/Discrete Pulse Generator'
   int8_T Integrator_PrevResetState;    // '<S274>/Integrator'
   int8_T Filter_PrevResetState;        // '<S269>/Filter'
@@ -436,6 +437,12 @@ struct P_FLIGHT_hexacopter_T_ {
   real_T Constant_Value_m;             // Expression: 100
                                           //  Referenced by: '<S4>/Constant'
 
+  real_T RateLimiter_RisingLim;        // Expression: 2
+                                          //  Referenced by: '<S5>/Rate Limiter'
+
+  real_T RateLimiter_FallingLim;       // Expression: -2
+                                          //  Referenced by: '<S5>/Rate Limiter'
+
   real_T DiscretePulseGenerator_Period;
                             // Computed Parameter: DiscretePulseGenerator_Period
                                //  Referenced by: '<S561>/Discrete Pulse Generator'
@@ -597,11 +604,8 @@ struct P_FLIGHT_hexacopter_T_ {
   real32_T Constant_Value_kn[2];       // Computed Parameter: Constant_Value_kn
                                           //  Referenced by: '<S5>/Constant'
 
-  real32_T Saturation_UpperSat_g;   // Computed Parameter: Saturation_UpperSat_g
-                                       //  Referenced by: '<S5>/Saturation'
-
-  real32_T Saturation_LowerSat_lt; // Computed Parameter: Saturation_LowerSat_lt
-                                      //  Referenced by: '<S5>/Saturation'
+  real32_T RateLimiter_IC;             // Computed Parameter: RateLimiter_IC
+                                          //  Referenced by: '<S5>/Rate Limiter'
 
   real32_T Saturation_UpperSat_e;   // Computed Parameter: Saturation_UpperSat_e
                                        //  Referenced by: '<S186>/Saturation'

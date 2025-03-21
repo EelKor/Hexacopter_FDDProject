@@ -17,7 +17,7 @@ rotorCm = 1.779e-07;
 %motorWb =-141.4;  %Motor speed-throttle curve constant term(rad/s)
 %motorTm = 0.02;
 %rotorCm = 1.779e-07*1.2;    %Rotor torque coefficient(kg.m^2) %M=Cm*w^2
-%rotorCt = 1.105e-05*1.3;    %Rotor thrust coefficient(kg.m^2) %T=Ct**w^2
+%rotorCt = 1.105e-05*1.3;    %Rotor thrust coefficient(kg.m^2) %T=Ct**w^   2
 
 %% 
 g=9.81;      %Gravity acceleration(m/s^2)

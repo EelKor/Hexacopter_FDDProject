@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.90
+// Model version                  : 1.95
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Fri Mar  7 17:53:58 2025
+// C/C++ source code generated on : Fri Mar 21 14:04:09 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -30,6 +30,8 @@ extern "C"
 }
 
 #include "rt_defines.h"
+
+const real_T FLIGHT_hexacopter_period = 0.005;
 
 // Block signals (default storage)
 B_FLIGHT_hexacopter_T FLIGHT_hexacopter_B;
@@ -379,15 +381,15 @@ void FLIGHT_hexacopter_step(void)
 {
   int32_T i;
   real32_T rtb_NProdOut_ef;
-  real32_T rtb_Sum4;
-  real32_T rtb_Sum_e;
+  real32_T rtb_Sum_g;
+  real32_T rtb_Sum_m_idx_0;
+  real32_T rtb_Sum_m_idx_1;
   real32_T rtb_sincos_o2_idx_0;
   real32_T rtb_sincos_o2_idx_1;
   real32_T rtb_sincos_o2_idx_2;
   real32_T rtb_ypr_0;
+  real32_T rtb_ypr_1;
   real32_T rtb_ypr_idx_0;
-  real32_T rtb_ypr_idx_1;
-  real32_T tmp_3;
   uint32_T tmp;
   uint16_T tmp_2;
   int8_T tmp_0;
@@ -446,25 +448,25 @@ void FLIGHT_hexacopter_step(void)
 
     // DeadZone: '<S17>/Dead Zone3'
     if (FLIGHT_hexacopter_B.Merge > FLIGHT_hexacopter_P.DeadZone3_End) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Merge -
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_B.Merge -
         FLIGHT_hexacopter_P.DeadZone3_End;
     } else if (FLIGHT_hexacopter_B.Merge >= FLIGHT_hexacopter_P.DeadZone3_Start)
     {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Merge -
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_B.Merge -
         FLIGHT_hexacopter_P.DeadZone3_Start;
     }
 
     // End of DeadZone: '<S17>/Dead Zone3'
 
     // Saturate: '<S17>/Saturation9'
-    if (FLIGHT_hexacopter_B.ParamStep_c >
+    if (FLIGHT_hexacopter_B.Saturation3 >
         FLIGHT_hexacopter_P.Saturation9_UpperSat) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_P.Saturation9_UpperSat;
-    } else if (FLIGHT_hexacopter_B.ParamStep_c <
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_P.Saturation9_UpperSat;
+    } else if (FLIGHT_hexacopter_B.Saturation3 <
                FLIGHT_hexacopter_P.Saturation9_LowerSat) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_P.Saturation9_LowerSat;
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_P.Saturation9_LowerSat;
     }
 
     // SignalConversion generated from: '<S1>/des_roll' incorporates:
@@ -473,7 +475,7 @@ void FLIGHT_hexacopter_step(void)
     //   Saturate: '<S17>/Saturation9'
 
     FLIGHT_hexacopter_B.Merge1[0] = FLIGHT_hexacopter_P.MAX_CONTROL_ANGLE_ROLL *
-      FLIGHT_hexacopter_B.ParamStep_c;
+      FLIGHT_hexacopter_B.Saturation3;
 
     // Saturate: '<S228>/Saturation' incorporates:
     //   DataTypeConversion: '<S17>/Data Type Conversion11'
@@ -484,26 +486,26 @@ void FLIGHT_hexacopter_step(void)
 
     // DeadZone: '<S17>/Dead Zone4'
     if (FLIGHT_hexacopter_B.Merge > FLIGHT_hexacopter_P.DeadZone4_End) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Merge -
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_B.Merge -
         FLIGHT_hexacopter_P.DeadZone4_End;
     } else if (FLIGHT_hexacopter_B.Merge >= FLIGHT_hexacopter_P.DeadZone4_Start)
     {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Merge -
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_B.Merge -
         FLIGHT_hexacopter_P.DeadZone4_Start;
     }
 
     // End of DeadZone: '<S17>/Dead Zone4'
 
     // Saturate: '<S17>/Saturation10'
-    if (FLIGHT_hexacopter_B.ParamStep_c >
+    if (FLIGHT_hexacopter_B.Saturation3 >
         FLIGHT_hexacopter_P.Saturation10_UpperSat) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.Saturation10_UpperSat;
-    } else if (FLIGHT_hexacopter_B.ParamStep_c <
+    } else if (FLIGHT_hexacopter_B.Saturation3 <
                FLIGHT_hexacopter_P.Saturation10_LowerSat) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.Saturation10_LowerSat;
     }
 
@@ -512,7 +514,7 @@ void FLIGHT_hexacopter_step(void)
     //   Saturate: '<S17>/Saturation10'
 
     FLIGHT_hexacopter_B.Merge = FLIGHT_hexacopter_P.Gain_Gain_e *
-      FLIGHT_hexacopter_B.ParamStep_c;
+      FLIGHT_hexacopter_B.Saturation3;
 
     // Gain: '<S18>/Gain' incorporates:
     //   Sum: '<S18>/Sum3'
@@ -553,13 +555,13 @@ void FLIGHT_hexacopter_step(void)
     // DeadZone: '<S47>/DeadZone'
     if (FLIGHT_hexacopter_B.Saturation3 >
         FLIGHT_hexacopter_P.PIDController4_UpperSaturationL) {
-      FLIGHT_hexacopter_B.DeadZone = FLIGHT_hexacopter_B.Saturation3 -
+      rtb_Sum_m_idx_0 = FLIGHT_hexacopter_B.Saturation3 -
         FLIGHT_hexacopter_P.PIDController4_UpperSaturationL;
     } else if (FLIGHT_hexacopter_B.Saturation3 >=
                FLIGHT_hexacopter_P.PIDController4_LowerSaturationL) {
-      FLIGHT_hexacopter_B.DeadZone = 0.0F;
+      rtb_Sum_m_idx_0 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.DeadZone = FLIGHT_hexacopter_B.Saturation3 -
+      rtb_Sum_m_idx_0 = FLIGHT_hexacopter_B.Saturation3 -
         FLIGHT_hexacopter_P.PIDController4_LowerSaturationL;
     }
 
@@ -571,8 +573,7 @@ void FLIGHT_hexacopter_step(void)
     //   Constant: '<S45>/Constant2'
     //   RelationalOperator: '<S45>/fix for DT propagation issue'
 
-    if (FLIGHT_hexacopter_B.DeadZone > FLIGHT_hexacopter_P.Clamping_zero_Value)
-    {
+    if (rtb_Sum_m_idx_0 > FLIGHT_hexacopter_P.Clamping_zero_Value) {
       tmp_0 = FLIGHT_hexacopter_P.Constant_Value_jc;
     } else {
       tmp_0 = FLIGHT_hexacopter_P.Constant2_Value_mj;
@@ -598,8 +599,8 @@ void FLIGHT_hexacopter_step(void)
     //   Switch: '<S45>/Switch1'
     //   Switch: '<S45>/Switch2'
 
-    rtb_AND3_i = ((FLIGHT_hexacopter_P.Clamping_zero_Value !=
-                   FLIGHT_hexacopter_B.DeadZone) && (tmp_0 == tmp_1));
+    rtb_AND3_i = ((FLIGHT_hexacopter_P.Clamping_zero_Value != rtb_Sum_m_idx_0) &&
+                  (tmp_0 == tmp_1));
     FLIGHT_hexacopter_ReadParameter(&FLIGHT_hexacopter_B.ReadParameter_pn,
       &FLIGHT_hexacopter_DW.ReadParameter_pn);
 
@@ -617,20 +618,18 @@ void FLIGHT_hexacopter_step(void)
     // Sum: '<S18>/Sum6' incorporates:
     //   Saturate: '<S62>/Saturation'
 
-    FLIGHT_hexacopter_B.Saturation3 +=
+    rtb_Sum_m_idx_0 = FLIGHT_hexacopter_B.Saturation3 +
       FLIGHT_hexacopter_B.ReadParameter_pn.ReadParameter_o1;
 
     // Saturate: '<S18>/Saturation1' incorporates:
     //   Merge: '<Root>/Merge1'
 
-    if (FLIGHT_hexacopter_B.Saturation3 >
-        FLIGHT_hexacopter_P.Saturation1_UpperSat) {
+    if (rtb_Sum_m_idx_0 > FLIGHT_hexacopter_P.Saturation1_UpperSat) {
       FLIGHT_hexacopter_B.Merge1[3] = FLIGHT_hexacopter_P.Saturation1_UpperSat;
-    } else if (FLIGHT_hexacopter_B.Saturation3 <
-               FLIGHT_hexacopter_P.Saturation1_LowerSat) {
+    } else if (rtb_Sum_m_idx_0 < FLIGHT_hexacopter_P.Saturation1_LowerSat) {
       FLIGHT_hexacopter_B.Merge1[3] = FLIGHT_hexacopter_P.Saturation1_LowerSat;
     } else {
-      FLIGHT_hexacopter_B.Merge1[3] = FLIGHT_hexacopter_B.Saturation3;
+      FLIGHT_hexacopter_B.Merge1[3] = rtb_Sum_m_idx_0;
     }
 
     // End of Saturate: '<S18>/Saturation1'
@@ -638,30 +637,29 @@ void FLIGHT_hexacopter_step(void)
     // Fcn: '<S17>/Fcn7' incorporates:
     //   DataTypeConversion: '<S17>/Data Type Conversion10'
 
-    FLIGHT_hexacopter_B.DeadZone = (static_cast<real32_T>
-      (FLIGHT_hexacopter_B.In1_n.values[3]) - 1514.0F) / 500.0F;
+    rtb_Sum_m_idx_0 = (static_cast<real32_T>(FLIGHT_hexacopter_B.In1_n.values[3])
+                       - 1514.0F) / 500.0F;
 
     // DeadZone: '<S17>/Dead Zone2'
-    if (FLIGHT_hexacopter_B.DeadZone > FLIGHT_hexacopter_P.DeadZone2_End) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.DeadZone -
+    if (rtb_Sum_m_idx_0 > FLIGHT_hexacopter_P.DeadZone2_End) {
+      FLIGHT_hexacopter_B.Saturation3 = rtb_Sum_m_idx_0 -
         FLIGHT_hexacopter_P.DeadZone2_End;
-    } else if (FLIGHT_hexacopter_B.DeadZone >=
-               FLIGHT_hexacopter_P.DeadZone2_Start) {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+    } else if (rtb_Sum_m_idx_0 >= FLIGHT_hexacopter_P.DeadZone2_Start) {
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.DeadZone -
+      FLIGHT_hexacopter_B.Saturation3 = rtb_Sum_m_idx_0 -
         FLIGHT_hexacopter_P.DeadZone2_Start;
     }
 
     // End of DeadZone: '<S17>/Dead Zone2'
 
     // Saturate: '<S17>/Saturation3'
-    if (FLIGHT_hexacopter_B.ParamStep_c >
+    if (FLIGHT_hexacopter_B.Saturation3 >
         FLIGHT_hexacopter_P.Saturation3_UpperSat) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_P.Saturation3_UpperSat;
-    } else if (FLIGHT_hexacopter_B.ParamStep_c <
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_P.Saturation3_UpperSat;
+    } else if (FLIGHT_hexacopter_B.Saturation3 <
                FLIGHT_hexacopter_P.Saturation3_LowerSat) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_P.Saturation3_LowerSat;
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_P.Saturation3_LowerSat;
     }
 
     // SignalConversion generated from: '<S1>/des_r' incorporates:
@@ -670,36 +668,35 @@ void FLIGHT_hexacopter_step(void)
     //   Saturate: '<S17>/Saturation3'
 
     FLIGHT_hexacopter_B.Merge1[2] = FLIGHT_hexacopter_P.MAX_CONTROL_ANGLE_RATE_Y
-      * FLIGHT_hexacopter_B.ParamStep_c;
+      * FLIGHT_hexacopter_B.Saturation3;
 
     // Fcn: '<S17>/Fcn1' incorporates:
     //   DataTypeConversion: '<S17>/Data Type Conversion2'
 
-    FLIGHT_hexacopter_B.DeadZone = (static_cast<real32_T>
-      (FLIGHT_hexacopter_B.In1_n.values[1]) - 1514.0F) / 500.0F;
+    rtb_Sum_m_idx_0 = (static_cast<real32_T>(FLIGHT_hexacopter_B.In1_n.values[1])
+                       - 1514.0F) / 500.0F;
 
     // DeadZone: '<S17>/Dead Zone1'
-    if (FLIGHT_hexacopter_B.DeadZone > FLIGHT_hexacopter_P.DeadZone1_End) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.DeadZone -
+    if (rtb_Sum_m_idx_0 > FLIGHT_hexacopter_P.DeadZone1_End) {
+      FLIGHT_hexacopter_B.Saturation3 = rtb_Sum_m_idx_0 -
         FLIGHT_hexacopter_P.DeadZone1_End;
-    } else if (FLIGHT_hexacopter_B.DeadZone >=
-               FLIGHT_hexacopter_P.DeadZone1_Start) {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+    } else if (rtb_Sum_m_idx_0 >= FLIGHT_hexacopter_P.DeadZone1_Start) {
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.DeadZone -
+      FLIGHT_hexacopter_B.Saturation3 = rtb_Sum_m_idx_0 -
         FLIGHT_hexacopter_P.DeadZone1_Start;
     }
 
     // End of DeadZone: '<S17>/Dead Zone1'
 
     // Saturate: '<S17>/Saturation1'
-    if (FLIGHT_hexacopter_B.ParamStep_c >
+    if (FLIGHT_hexacopter_B.Saturation3 >
         FLIGHT_hexacopter_P.Saturation1_UpperSat_d) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.Saturation1_UpperSat_d;
-    } else if (FLIGHT_hexacopter_B.ParamStep_c <
+    } else if (FLIGHT_hexacopter_B.Saturation3 <
                FLIGHT_hexacopter_P.Saturation1_LowerSat_b) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.Saturation1_LowerSat_b;
     }
 
@@ -709,7 +706,7 @@ void FLIGHT_hexacopter_step(void)
     //   Saturate: '<S17>/Saturation1'
 
     FLIGHT_hexacopter_B.Merge1[1] = FLIGHT_hexacopter_P.MAX_CONTROL_ANGLE_PITCH *
-      FLIGHT_hexacopter_B.ParamStep_c;
+      FLIGHT_hexacopter_B.Saturation3;
 
     // Switch: '<S45>/Switch' incorporates:
     //   Constant: '<S45>/Constant1'
@@ -746,9 +743,9 @@ void FLIGHT_hexacopter_step(void)
     }
 
     rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_eq.MW_PARAMHANDLE,
-      MW_SINGLE, &FLIGHT_hexacopter_B.ParamStep_c);
+      MW_SINGLE, &FLIGHT_hexacopter_B.Saturation3);
     if (rtb_AND3_i) {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     }
 
     // Product: '<S330>/PProd Out' incorporates:
@@ -756,48 +753,56 @@ void FLIGHT_hexacopter_step(void)
     //   MATLABSystem: '<S185>/Read Parameter'
     //   Sum: '<S185>/Sum'
     //
-    FLIGHT_hexacopter_B.Saturation3 = (FLIGHT_hexacopter_P.Constant_Value_kn[0]
-      - FLIGHT_hexacopter_B.In1.x) * FLIGHT_hexacopter_B.ParamStep_c;
+    rtb_Sum_m_idx_0 = (FLIGHT_hexacopter_P.Constant_Value_kn[0] -
+                       FLIGHT_hexacopter_B.In1.x) *
+      FLIGHT_hexacopter_B.Saturation3;
+    rtb_Sum_m_idx_1 = (FLIGHT_hexacopter_P.Constant_Value_kn[1] -
+                       FLIGHT_hexacopter_B.In1.y) *
+      FLIGHT_hexacopter_B.Saturation3;
 
-    // Saturate: '<S5>/Saturation'
-    if (FLIGHT_hexacopter_B.Saturation3 >
-        FLIGHT_hexacopter_P.Saturation_UpperSat_g) {
-      // Saturate: '<S5>/Saturation'
-      FLIGHT_hexacopter_B.Saturation[0] =
-        FLIGHT_hexacopter_P.Saturation_UpperSat_g;
-    } else if (FLIGHT_hexacopter_B.Saturation3 <
-               FLIGHT_hexacopter_P.Saturation_LowerSat_lt) {
-      // Saturate: '<S5>/Saturation'
-      FLIGHT_hexacopter_B.Saturation[0] =
-        FLIGHT_hexacopter_P.Saturation_LowerSat_lt;
+    // RateLimiter: '<S5>/Rate Limiter'
+    FLIGHT_hexacopter_B.Saturation3 = static_cast<real32_T>
+      (FLIGHT_hexacopter_P.RateLimiter_RisingLim * FLIGHT_hexacopter_period);
+    FLIGHT_hexacopter_B.ParamStep = static_cast<real32_T>
+      (FLIGHT_hexacopter_P.RateLimiter_FallingLim * FLIGHT_hexacopter_period);
+    FLIGHT_hexacopter_B.Sum4 = rtb_Sum_m_idx_0 - FLIGHT_hexacopter_DW.PrevY[0];
+    if (FLIGHT_hexacopter_B.Sum4 > FLIGHT_hexacopter_B.Saturation3) {
+      // RateLimiter: '<S5>/Rate Limiter'
+      FLIGHT_hexacopter_B.Sum4 = FLIGHT_hexacopter_DW.PrevY[0] +
+        FLIGHT_hexacopter_B.Saturation3;
+    } else if (FLIGHT_hexacopter_B.Sum4 < FLIGHT_hexacopter_B.ParamStep) {
+      // RateLimiter: '<S5>/Rate Limiter'
+      FLIGHT_hexacopter_B.Sum4 = FLIGHT_hexacopter_DW.PrevY[0] +
+        FLIGHT_hexacopter_B.ParamStep;
     } else {
-      // Saturate: '<S5>/Saturation'
-      FLIGHT_hexacopter_B.Saturation[0] = FLIGHT_hexacopter_B.Saturation3;
+      // RateLimiter: '<S5>/Rate Limiter'
+      FLIGHT_hexacopter_B.Sum4 = rtb_Sum_m_idx_0;
     }
 
-    // Product: '<S330>/PProd Out' incorporates:
-    //   Constant: '<S5>/Constant'
-    //   MATLABSystem: '<S185>/Read Parameter'
-    //   Sum: '<S185>/Sum'
-    //
-    FLIGHT_hexacopter_B.Saturation3 = (FLIGHT_hexacopter_P.Constant_Value_kn[1]
-      - FLIGHT_hexacopter_B.In1.y) * FLIGHT_hexacopter_B.ParamStep_c;
+    // RateLimiter: '<S5>/Rate Limiter'
+    FLIGHT_hexacopter_B.RateLimiter[0] = FLIGHT_hexacopter_B.Sum4;
 
-    // Saturate: '<S5>/Saturation'
-    if (FLIGHT_hexacopter_B.Saturation3 >
-        FLIGHT_hexacopter_P.Saturation_UpperSat_g) {
-      // Saturate: '<S5>/Saturation'
-      FLIGHT_hexacopter_B.Saturation[1] =
-        FLIGHT_hexacopter_P.Saturation_UpperSat_g;
-    } else if (FLIGHT_hexacopter_B.Saturation3 <
-               FLIGHT_hexacopter_P.Saturation_LowerSat_lt) {
-      // Saturate: '<S5>/Saturation'
-      FLIGHT_hexacopter_B.Saturation[1] =
-        FLIGHT_hexacopter_P.Saturation_LowerSat_lt;
+    // RateLimiter: '<S5>/Rate Limiter'
+    FLIGHT_hexacopter_DW.PrevY[0] = FLIGHT_hexacopter_B.Sum4;
+    FLIGHT_hexacopter_B.Sum4 = rtb_Sum_m_idx_1 - FLIGHT_hexacopter_DW.PrevY[1];
+    if (FLIGHT_hexacopter_B.Sum4 > FLIGHT_hexacopter_B.Saturation3) {
+      // RateLimiter: '<S5>/Rate Limiter'
+      FLIGHT_hexacopter_B.Sum4 = FLIGHT_hexacopter_DW.PrevY[1] +
+        FLIGHT_hexacopter_B.Saturation3;
+    } else if (FLIGHT_hexacopter_B.Sum4 < FLIGHT_hexacopter_B.ParamStep) {
+      // RateLimiter: '<S5>/Rate Limiter'
+      FLIGHT_hexacopter_B.Sum4 = FLIGHT_hexacopter_DW.PrevY[1] +
+        FLIGHT_hexacopter_B.ParamStep;
     } else {
-      // Saturate: '<S5>/Saturation'
-      FLIGHT_hexacopter_B.Saturation[1] = FLIGHT_hexacopter_B.Saturation3;
+      // RateLimiter: '<S5>/Rate Limiter'
+      FLIGHT_hexacopter_B.Sum4 = rtb_Sum_m_idx_1;
     }
+
+    // RateLimiter: '<S5>/Rate Limiter'
+    FLIGHT_hexacopter_B.RateLimiter[1] = FLIGHT_hexacopter_B.Sum4;
+
+    // RateLimiter: '<S5>/Rate Limiter'
+    FLIGHT_hexacopter_DW.PrevY[1] = FLIGHT_hexacopter_B.Sum4;
 
     // MATLABSystem: '<S186>/Read Parameter'
     if (FLIGHT_hexacopter_DW.obj_pi.SampleTime != FLIGHT_hexacopter_P.SampleTime)
@@ -806,15 +811,16 @@ void FLIGHT_hexacopter_step(void)
     }
 
     rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_pi.MW_PARAMHANDLE,
-      MW_SINGLE, &FLIGHT_hexacopter_B.ParamStep_c);
+      MW_SINGLE, &FLIGHT_hexacopter_B.Saturation3);
     if (rtb_AND3_i) {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     }
 
     // Sum: '<S186>/Sum'
-    FLIGHT_hexacopter_B.DeadZone = FLIGHT_hexacopter_B.Saturation[0] -
+    rtb_Sum_m_idx_1 = FLIGHT_hexacopter_B.RateLimiter[0] -
       FLIGHT_hexacopter_B.In1.vx;
-    rtb_Sum4 = FLIGHT_hexacopter_B.Saturation[1] - FLIGHT_hexacopter_B.In1.vy;
+    FLIGHT_hexacopter_B.Sum4 = FLIGHT_hexacopter_B.RateLimiter[1] -
+      FLIGHT_hexacopter_B.In1.vy;
 
     // Saturate: '<S186>/Saturation' incorporates:
     //   MATLABSystem: '<S186>/Read Parameter'
@@ -823,9 +829,9 @@ void FLIGHT_hexacopter_step(void)
     //   Reshape: '<S344>/Reshape'
     //   Reshape: '<S344>/Reshape1'
     //
-    FLIGHT_hexacopter_B.Saturation3 = (FLIGHT_hexacopter_B.Integrator_m *
-      FLIGHT_hexacopter_B.DeadZone + FLIGHT_hexacopter_B.Filter_a * rtb_Sum4) *
-      FLIGHT_hexacopter_B.ParamStep_c;
+    rtb_Sum_m_idx_0 = (FLIGHT_hexacopter_B.Integrator_m * rtb_Sum_m_idx_1 +
+                       FLIGHT_hexacopter_B.Filter_a * FLIGHT_hexacopter_B.Sum4) *
+      FLIGHT_hexacopter_B.Saturation3;
 
     // SignalConversion generated from: '<S5>/des_xy' incorporates:
     //   Constant: '<S5>/Constant'
@@ -840,10 +846,9 @@ void FLIGHT_hexacopter_step(void)
     //   Product: '<S383>/PProd Out'
     //   Reshape: '<S344>/Reshape1'
     //
-    FLIGHT_hexacopter_B.Filter_a = (FLIGHT_hexacopter_P.Gain_Gain_a *
-      FLIGHT_hexacopter_B.Filter_a * FLIGHT_hexacopter_B.DeadZone +
-      FLIGHT_hexacopter_B.Integrator_m * rtb_Sum4) *
-      FLIGHT_hexacopter_B.ParamStep_c;
+    FLIGHT_hexacopter_B.Saturation3 *= FLIGHT_hexacopter_P.Gain_Gain_a *
+      FLIGHT_hexacopter_B.Filter_a * rtb_Sum_m_idx_1 +
+      FLIGHT_hexacopter_B.Integrator_m * FLIGHT_hexacopter_B.Sum4;
 
     // SignalConversion generated from: '<S5>/des_xy' incorporates:
     //   Constant: '<S5>/Constant'
@@ -852,13 +857,13 @@ void FLIGHT_hexacopter_step(void)
       FLIGHT_hexacopter_P.Constant_Value_kn[1];
 
     // Saturate: '<S186>/Saturation'
-    if (FLIGHT_hexacopter_B.Filter_a > FLIGHT_hexacopter_P.Saturation_UpperSat_e)
-    {
+    if (FLIGHT_hexacopter_B.Saturation3 >
+        FLIGHT_hexacopter_P.Saturation_UpperSat_e) {
       // SignalConversion generated from: '<S5>/des_roll' incorporates:
       //   Merge: '<Root>/Merge1'
 
       FLIGHT_hexacopter_B.Merge1[0] = FLIGHT_hexacopter_P.Saturation_UpperSat_e;
-    } else if (FLIGHT_hexacopter_B.Filter_a <
+    } else if (FLIGHT_hexacopter_B.Saturation3 <
                FLIGHT_hexacopter_P.Saturation_LowerSat_a) {
       // SignalConversion generated from: '<S5>/des_roll' incorporates:
       //   Merge: '<Root>/Merge1'
@@ -868,17 +873,13 @@ void FLIGHT_hexacopter_step(void)
       // SignalConversion generated from: '<S5>/des_roll' incorporates:
       //   Merge: '<Root>/Merge1'
 
-      FLIGHT_hexacopter_B.Merge1[0] = FLIGHT_hexacopter_B.Filter_a;
+      FLIGHT_hexacopter_B.Merge1[0] = FLIGHT_hexacopter_B.Saturation3;
     }
 
-    if (FLIGHT_hexacopter_B.Saturation3 >
-        FLIGHT_hexacopter_P.Saturation_UpperSat_e) {
-      FLIGHT_hexacopter_B.Saturation3 =
-        FLIGHT_hexacopter_P.Saturation_UpperSat_e;
-    } else if (FLIGHT_hexacopter_B.Saturation3 <
-               FLIGHT_hexacopter_P.Saturation_LowerSat_a) {
-      FLIGHT_hexacopter_B.Saturation3 =
-        FLIGHT_hexacopter_P.Saturation_LowerSat_a;
+    if (rtb_Sum_m_idx_0 > FLIGHT_hexacopter_P.Saturation_UpperSat_e) {
+      rtb_Sum_m_idx_0 = FLIGHT_hexacopter_P.Saturation_UpperSat_e;
+    } else if (rtb_Sum_m_idx_0 < FLIGHT_hexacopter_P.Saturation_LowerSat_a) {
+      rtb_Sum_m_idx_0 = FLIGHT_hexacopter_P.Saturation_LowerSat_a;
     }
 
     // Gain: '<S186>/Gain1' incorporates:
@@ -886,7 +887,7 @@ void FLIGHT_hexacopter_step(void)
     //   Saturate: '<S186>/Saturation'
 
     FLIGHT_hexacopter_B.Merge1[1] = FLIGHT_hexacopter_P.Gain1_Gain *
-      FLIGHT_hexacopter_B.Saturation3;
+      rtb_Sum_m_idx_0;
 
     // Fcn: '<S183>/Fcn3' incorporates:
     //   DataTypeConversion: '<S183>/Data Type Conversion11'
@@ -896,26 +897,26 @@ void FLIGHT_hexacopter_step(void)
 
     // DeadZone: '<S183>/Dead Zone4'
     if (FLIGHT_hexacopter_B.Filter_a > FLIGHT_hexacopter_P.DeadZone4_End_l) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Filter_a -
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_B.Filter_a -
         FLIGHT_hexacopter_P.DeadZone4_End_l;
     } else if (FLIGHT_hexacopter_B.Filter_a >=
                FLIGHT_hexacopter_P.DeadZone4_Start_d) {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Filter_a -
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_B.Filter_a -
         FLIGHT_hexacopter_P.DeadZone4_Start_d;
     }
 
     // End of DeadZone: '<S183>/Dead Zone4'
 
     // Saturate: '<S183>/Saturation10'
-    if (FLIGHT_hexacopter_B.ParamStep_c >
+    if (FLIGHT_hexacopter_B.Saturation3 >
         FLIGHT_hexacopter_P.Saturation10_UpperSat_m) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.Saturation10_UpperSat_m;
-    } else if (FLIGHT_hexacopter_B.ParamStep_c <
+    } else if (FLIGHT_hexacopter_B.Saturation3 <
                FLIGHT_hexacopter_P.Saturation10_LowerSat_n) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.Saturation10_LowerSat_n;
     }
 
@@ -924,7 +925,7 @@ void FLIGHT_hexacopter_step(void)
     //   Saturate: '<S183>/Saturation10'
 
     FLIGHT_hexacopter_B.Add = FLIGHT_hexacopter_P.Gain_Gain_o *
-      FLIGHT_hexacopter_B.ParamStep_c + FLIGHT_hexacopter_B.In1.z;
+      FLIGHT_hexacopter_B.Saturation3 + FLIGHT_hexacopter_B.In1.z;
 
     // MATLABSystem: '<S182>/Read Parameter1'
     if (FLIGHT_hexacopter_DW.obj_m.SampleTime != FLIGHT_hexacopter_P.SampleTime)
@@ -933,9 +934,9 @@ void FLIGHT_hexacopter_step(void)
     }
 
     rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_m.MW_PARAMHANDLE,
-      MW_SINGLE, &FLIGHT_hexacopter_B.ParamStep_c);
+      MW_SINGLE, &FLIGHT_hexacopter_B.Saturation3);
     if (rtb_AND3_i) {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     }
 
     // Saturate: '<S228>/Saturation' incorporates:
@@ -944,7 +945,7 @@ void FLIGHT_hexacopter_step(void)
     //   Sum: '<S182>/Sum'
     //
     FLIGHT_hexacopter_B.Merge = (FLIGHT_hexacopter_B.Add -
-      FLIGHT_hexacopter_B.In1.z) * FLIGHT_hexacopter_B.ParamStep_c;
+      FLIGHT_hexacopter_B.In1.z) * FLIGHT_hexacopter_B.Saturation3;
 
     // Saturate: '<S228>/Saturation'
     if (FLIGHT_hexacopter_B.Merge >
@@ -1001,59 +1002,53 @@ void FLIGHT_hexacopter_step(void)
     //   DiscreteIntegrator: '<S274>/Integrator'
     //   Product: '<S279>/PProd Out'
 
-    FLIGHT_hexacopter_B.DeadZone = (FLIGHT_hexacopter_B.Filter_a *
-      FLIGHT_hexacopter_B.ReadParameter1_pnaev.ReadParameter1_o1 +
-      FLIGHT_hexacopter_DW.Integrator_DSTATE_k) +
+    rtb_Sum_m_idx_1 = (FLIGHT_hexacopter_B.Filter_a *
+                       FLIGHT_hexacopter_B.ReadParameter1_pnaev.ReadParameter1_o1
+                       + FLIGHT_hexacopter_DW.Integrator_DSTATE_k) +
       FLIGHT_hexacopter_B.Integrator_m;
     FLIGHT_hexacopter_ReadParameter(&FLIGHT_hexacopter_B.ReadParameter_pna,
       &FLIGHT_hexacopter_DW.ReadParameter_pna);
 
     // Saturate: '<S281>/Saturation'
-    if (FLIGHT_hexacopter_B.DeadZone >
-        FLIGHT_hexacopter_P.PIDController4_UpperSaturati_hy) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+    if (rtb_Sum_m_idx_1 > FLIGHT_hexacopter_P.PIDController4_UpperSaturati_hy) {
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.PIDController4_UpperSaturati_hy;
-    } else if (FLIGHT_hexacopter_B.DeadZone <
+    } else if (rtb_Sum_m_idx_1 <
                FLIGHT_hexacopter_P.PIDController4_LowerSaturatio_f) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.PIDController4_LowerSaturatio_f;
     } else {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.DeadZone;
+      FLIGHT_hexacopter_B.Saturation3 = rtb_Sum_m_idx_1;
     }
 
     // Sum: '<S184>/Sum6' incorporates:
     //   Saturate: '<S281>/Saturation'
 
-    FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_B.ParamStep_c +
+    rtb_Sum_m_idx_0 = FLIGHT_hexacopter_B.Saturation3 +
       FLIGHT_hexacopter_B.ReadParameter_pna.ReadParameter_o1;
 
     // Saturate: '<S184>/Saturation1' incorporates:
     //   Merge: '<Root>/Merge1'
 
-    if (FLIGHT_hexacopter_B.Saturation3 >
-        FLIGHT_hexacopter_P.Saturation1_UpperSat_e) {
+    if (rtb_Sum_m_idx_0 > FLIGHT_hexacopter_P.Saturation1_UpperSat_e) {
       FLIGHT_hexacopter_B.Merge1[3] = FLIGHT_hexacopter_P.Saturation1_UpperSat_e;
-    } else if (FLIGHT_hexacopter_B.Saturation3 <
-               FLIGHT_hexacopter_P.Saturation1_LowerSat_bn) {
+    } else if (rtb_Sum_m_idx_0 < FLIGHT_hexacopter_P.Saturation1_LowerSat_bn) {
       FLIGHT_hexacopter_B.Merge1[3] =
         FLIGHT_hexacopter_P.Saturation1_LowerSat_bn;
     } else {
-      FLIGHT_hexacopter_B.Merge1[3] = FLIGHT_hexacopter_B.Saturation3;
+      FLIGHT_hexacopter_B.Merge1[3] = rtb_Sum_m_idx_0;
     }
 
     // End of Saturate: '<S184>/Saturation1'
 
     // DeadZone: '<S266>/DeadZone'
-    if (FLIGHT_hexacopter_B.DeadZone >
-        FLIGHT_hexacopter_P.PIDController4_UpperSaturati_hy) {
-      FLIGHT_hexacopter_B.DeadZone -=
-        FLIGHT_hexacopter_P.PIDController4_UpperSaturati_hy;
-    } else if (FLIGHT_hexacopter_B.DeadZone >=
+    if (rtb_Sum_m_idx_1 > FLIGHT_hexacopter_P.PIDController4_UpperSaturati_hy) {
+      rtb_Sum_m_idx_1 -= FLIGHT_hexacopter_P.PIDController4_UpperSaturati_hy;
+    } else if (rtb_Sum_m_idx_1 >=
                FLIGHT_hexacopter_P.PIDController4_LowerSaturatio_f) {
-      FLIGHT_hexacopter_B.DeadZone = 0.0F;
+      rtb_Sum_m_idx_1 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.DeadZone -=
-        FLIGHT_hexacopter_P.PIDController4_LowerSaturatio_f;
+      rtb_Sum_m_idx_1 -= FLIGHT_hexacopter_P.PIDController4_LowerSaturatio_f;
     }
 
     // End of DeadZone: '<S266>/DeadZone'
@@ -1072,26 +1067,24 @@ void FLIGHT_hexacopter_step(void)
 
     // DeadZone: '<S183>/Dead Zone2'
     if (FLIGHT_hexacopter_B.Saturation3 > FLIGHT_hexacopter_P.DeadZone2_End_k) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Saturation3 -
-        FLIGHT_hexacopter_P.DeadZone2_End_k;
+      FLIGHT_hexacopter_B.Saturation3 -= FLIGHT_hexacopter_P.DeadZone2_End_k;
     } else if (FLIGHT_hexacopter_B.Saturation3 >=
                FLIGHT_hexacopter_P.DeadZone2_Start_k) {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Saturation3 -
-        FLIGHT_hexacopter_P.DeadZone2_Start_k;
+      FLIGHT_hexacopter_B.Saturation3 -= FLIGHT_hexacopter_P.DeadZone2_Start_k;
     }
 
     // End of DeadZone: '<S183>/Dead Zone2'
 
     // Saturate: '<S183>/Saturation3'
-    if (FLIGHT_hexacopter_B.ParamStep_c >
+    if (FLIGHT_hexacopter_B.Saturation3 >
         FLIGHT_hexacopter_P.Saturation3_UpperSat_b) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.Saturation3_UpperSat_b;
-    } else if (FLIGHT_hexacopter_B.ParamStep_c <
+    } else if (FLIGHT_hexacopter_B.Saturation3 <
                FLIGHT_hexacopter_P.Saturation3_LowerSat_a) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.Saturation3_LowerSat_a;
     }
 
@@ -1101,7 +1094,7 @@ void FLIGHT_hexacopter_step(void)
     //   Saturate: '<S183>/Saturation3'
 
     FLIGHT_hexacopter_B.Merge1[2] = FLIGHT_hexacopter_P.MAX_CONTROL_ANGLE_RATE_Y
-      * FLIGHT_hexacopter_B.ParamStep_c;
+      * FLIGHT_hexacopter_B.Saturation3;
 
     // Switch: '<S264>/Switch1' incorporates:
     //   Constant: '<S264>/Clamping_zero'
@@ -1109,8 +1102,7 @@ void FLIGHT_hexacopter_step(void)
     //   Constant: '<S264>/Constant2'
     //   RelationalOperator: '<S264>/fix for DT propagation issue'
 
-    if (FLIGHT_hexacopter_B.DeadZone > FLIGHT_hexacopter_P.Clamping_zero_Value_f)
-    {
+    if (rtb_Sum_m_idx_1 > FLIGHT_hexacopter_P.Clamping_zero_Value_f) {
       tmp_0 = FLIGHT_hexacopter_P.Constant_Value_mn;
     } else {
       tmp_0 = FLIGHT_hexacopter_P.Constant2_Value_p;
@@ -1138,8 +1130,8 @@ void FLIGHT_hexacopter_step(void)
     //   Switch: '<S264>/Switch1'
     //   Switch: '<S264>/Switch2'
 
-    if ((FLIGHT_hexacopter_P.Clamping_zero_Value_f !=
-         FLIGHT_hexacopter_B.DeadZone) && (tmp_0 == tmp_1)) {
+    if ((FLIGHT_hexacopter_P.Clamping_zero_Value_f != rtb_Sum_m_idx_1) && (tmp_0
+         == tmp_1)) {
       FLIGHT_hexacopter_B.Filter_a = FLIGHT_hexacopter_P.Constant1_Value_m;
     }
 
@@ -1223,14 +1215,12 @@ void FLIGHT_hexacopter_step(void)
       //   Switch: '<S10>/Switch'
 
       if (FLIGHT_hexacopter_B.Saturation3 > FLIGHT_hexacopter_P.DeadZone_End) {
-        FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Saturation3 -
-          FLIGHT_hexacopter_P.DeadZone_End;
+        FLIGHT_hexacopter_B.Saturation3 -= FLIGHT_hexacopter_P.DeadZone_End;
       } else if (FLIGHT_hexacopter_B.Saturation3 >=
                  FLIGHT_hexacopter_P.DeadZone_Start) {
-        FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+        FLIGHT_hexacopter_B.Saturation3 = 0.0F;
       } else {
-        FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Saturation3 -
-          FLIGHT_hexacopter_P.DeadZone_Start;
+        FLIGHT_hexacopter_B.Saturation3 -= FLIGHT_hexacopter_P.DeadZone_Start;
       }
 
       // End of DeadZone: '<S10>/Dead Zone'
@@ -1238,13 +1228,13 @@ void FLIGHT_hexacopter_step(void)
       // Saturate: '<S10>/Saturation3' incorporates:
       //   Switch: '<S10>/Switch'
 
-      if (FLIGHT_hexacopter_B.ParamStep_c >
+      if (FLIGHT_hexacopter_B.Saturation3 >
           FLIGHT_hexacopter_P.Saturation3_UpperSat_b4) {
-        FLIGHT_hexacopter_B.ParamStep_c =
+        FLIGHT_hexacopter_B.Saturation3 =
           FLIGHT_hexacopter_P.Saturation3_UpperSat_b4;
-      } else if (FLIGHT_hexacopter_B.ParamStep_c <
+      } else if (FLIGHT_hexacopter_B.Saturation3 <
                  FLIGHT_hexacopter_P.Saturation3_LowerSat_j) {
-        FLIGHT_hexacopter_B.ParamStep_c =
+        FLIGHT_hexacopter_B.Saturation3 =
           FLIGHT_hexacopter_P.Saturation3_LowerSat_j;
       }
 
@@ -1254,7 +1244,7 @@ void FLIGHT_hexacopter_step(void)
       //   Saturate: '<S10>/Saturation3'
 
       FLIGHT_hexacopter_B.Merge1[0] = FLIGHT_hexacopter_P.MAX_CONTROL_ANGLE_ROLL
-        * FLIGHT_hexacopter_B.ParamStep_c;
+        * FLIGHT_hexacopter_B.Saturation3;
     }
 
     // End of Outputs for SubSystem: '<S10>/Enabled Subsystem'
@@ -1269,26 +1259,24 @@ void FLIGHT_hexacopter_step(void)
 
     // DeadZone: '<S10>/Dead Zone3'
     if (FLIGHT_hexacopter_B.Saturation3 > FLIGHT_hexacopter_P.DeadZone3_End_l) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Saturation3 -
-        FLIGHT_hexacopter_P.DeadZone3_End_l;
+      FLIGHT_hexacopter_B.Saturation3 -= FLIGHT_hexacopter_P.DeadZone3_End_l;
     } else if (FLIGHT_hexacopter_B.Saturation3 >=
                FLIGHT_hexacopter_P.DeadZone3_Start_p) {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Saturation3 -
-        FLIGHT_hexacopter_P.DeadZone3_Start_p;
+      FLIGHT_hexacopter_B.Saturation3 -= FLIGHT_hexacopter_P.DeadZone3_Start_p;
     }
 
     // End of DeadZone: '<S10>/Dead Zone3'
 
     // Saturate: '<S10>/Saturation'
-    if (FLIGHT_hexacopter_B.ParamStep_c >
+    if (FLIGHT_hexacopter_B.Saturation3 >
         FLIGHT_hexacopter_P.Saturation_UpperSat_o) {
       // SignalConversion generated from: '<S10>/throttle' incorporates:
       //   Merge: '<Root>/Merge1'
 
       FLIGHT_hexacopter_B.Merge1[3] = FLIGHT_hexacopter_P.Saturation_UpperSat_o;
-    } else if (FLIGHT_hexacopter_B.ParamStep_c <
+    } else if (FLIGHT_hexacopter_B.Saturation3 <
                FLIGHT_hexacopter_P.Saturation_LowerSat_el) {
       // SignalConversion generated from: '<S10>/throttle' incorporates:
       //   Merge: '<Root>/Merge1'
@@ -1298,7 +1286,7 @@ void FLIGHT_hexacopter_step(void)
       // SignalConversion generated from: '<S10>/throttle' incorporates:
       //   Merge: '<Root>/Merge1'
 
-      FLIGHT_hexacopter_B.Merge1[3] = FLIGHT_hexacopter_B.ParamStep_c;
+      FLIGHT_hexacopter_B.Merge1[3] = FLIGHT_hexacopter_B.Saturation3;
     }
 
     // End of Saturate: '<S10>/Saturation'
@@ -1313,26 +1301,24 @@ void FLIGHT_hexacopter_step(void)
 
     // DeadZone: '<S10>/Dead Zone2'
     if (FLIGHT_hexacopter_B.Saturation3 > FLIGHT_hexacopter_P.DeadZone2_End_e) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Saturation3 -
-        FLIGHT_hexacopter_P.DeadZone2_End_e;
+      FLIGHT_hexacopter_B.Saturation3 -= FLIGHT_hexacopter_P.DeadZone2_End_e;
     } else if (FLIGHT_hexacopter_B.Saturation3 >=
                FLIGHT_hexacopter_P.DeadZone2_Start_o) {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Saturation3 -
-        FLIGHT_hexacopter_P.DeadZone2_Start_o;
+      FLIGHT_hexacopter_B.Saturation3 -= FLIGHT_hexacopter_P.DeadZone2_Start_o;
     }
 
     // End of DeadZone: '<S10>/Dead Zone2'
 
     // Saturate: '<S10>/Saturation1'
-    if (FLIGHT_hexacopter_B.ParamStep_c >
+    if (FLIGHT_hexacopter_B.Saturation3 >
         FLIGHT_hexacopter_P.Saturation1_UpperSat_l) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.Saturation1_UpperSat_l;
-    } else if (FLIGHT_hexacopter_B.ParamStep_c <
+    } else if (FLIGHT_hexacopter_B.Saturation3 <
                FLIGHT_hexacopter_P.Saturation1_LowerSat_i) {
-      FLIGHT_hexacopter_B.ParamStep_c =
+      FLIGHT_hexacopter_B.Saturation3 =
         FLIGHT_hexacopter_P.Saturation1_LowerSat_i;
     }
 
@@ -1342,7 +1328,7 @@ void FLIGHT_hexacopter_step(void)
     //   Saturate: '<S10>/Saturation1'
 
     FLIGHT_hexacopter_B.Merge1[2] = FLIGHT_hexacopter_P.MAX_CONTROL_ANGLE_RATE_Y
-      * FLIGHT_hexacopter_B.ParamStep_c;
+      * FLIGHT_hexacopter_B.Saturation3;
 
     // Gain: '<S10>/Gain1' incorporates:
     //   Constant: '<S10>/Constant2'
@@ -1354,25 +1340,23 @@ void FLIGHT_hexacopter_step(void)
 
     // DeadZone: '<S10>/Dead Zone1'
     if (FLIGHT_hexacopter_B.Saturation3 > FLIGHT_hexacopter_P.DeadZone1_End_m) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Saturation3 -
-        FLIGHT_hexacopter_P.DeadZone1_End_m;
+      FLIGHT_hexacopter_B.Saturation3 -= FLIGHT_hexacopter_P.DeadZone1_End_m;
     } else if (FLIGHT_hexacopter_B.Saturation3 >=
                FLIGHT_hexacopter_P.DeadZone1_Start_c) {
-      FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+      FLIGHT_hexacopter_B.Saturation3 = 0.0F;
     } else {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_B.Saturation3 -
-        FLIGHT_hexacopter_P.DeadZone1_Start_c;
+      FLIGHT_hexacopter_B.Saturation3 -= FLIGHT_hexacopter_P.DeadZone1_Start_c;
     }
 
     // End of DeadZone: '<S10>/Dead Zone1'
 
     // Saturate: '<S10>/Saturation2'
-    if (FLIGHT_hexacopter_B.ParamStep_c >
+    if (FLIGHT_hexacopter_B.Saturation3 >
         FLIGHT_hexacopter_P.Saturation2_UpperSat) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_P.Saturation2_UpperSat;
-    } else if (FLIGHT_hexacopter_B.ParamStep_c <
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_P.Saturation2_UpperSat;
+    } else if (FLIGHT_hexacopter_B.Saturation3 <
                FLIGHT_hexacopter_P.Saturation2_LowerSat) {
-      FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_P.Saturation2_LowerSat;
+      FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_P.Saturation2_LowerSat;
     }
 
     // SignalConversion generated from: '<S10>/des_P' incorporates:
@@ -1381,7 +1365,7 @@ void FLIGHT_hexacopter_step(void)
     //   Saturate: '<S10>/Saturation2'
 
     FLIGHT_hexacopter_B.Merge1[1] = FLIGHT_hexacopter_P.MAX_CONTROL_ANGLE_PITCH *
-      FLIGHT_hexacopter_B.ParamStep_c;
+      FLIGHT_hexacopter_B.Saturation3;
 
     // End of Outputs for SubSystem: '<Root>/Stabilized_Mode'
   }
@@ -1411,9 +1395,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_jz.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_hexacopter_B.ParamStep_c);
+    MW_SINGLE, &FLIGHT_hexacopter_B.Saturation3);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+    FLIGHT_hexacopter_B.Saturation3 = 0.0F;
   }
 
   // Product: '<S163>/PProd Out' incorporates:
@@ -1432,7 +1416,7 @@ void FLIGHT_hexacopter_step(void)
                    FLIGHT_hexacopter_B.In1_k.q[2] * FLIGHT_hexacopter_B.In1_k.q
                    [2]) + FLIGHT_hexacopter_B.In1_k.q[3] *
                   FLIGHT_hexacopter_B.In1_k.q[3])) *
-    FLIGHT_hexacopter_B.ParamStep_c;
+    FLIGHT_hexacopter_B.Saturation3;
 
   // MATLABSystem: '<S399>/SourceBlock'
   rtb_AND3_i = uORB_read_step(FLIGHT_hexacopter_DW.obj_l.orbMetadataObj,
@@ -1451,8 +1435,7 @@ void FLIGHT_hexacopter_step(void)
   // End of Outputs for SubSystem: '<S399>/Enabled Subsystem'
 
   // Sum: '<S9>/Sum1'
-  FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_B.PProdOut_i -
-    FLIGHT_hexacopter_B.In1_e.x;
+  rtb_Sum_m_idx_0 = FLIGHT_hexacopter_B.PProdOut_i - FLIGHT_hexacopter_B.In1_e.x;
 
   // MATLABSystem: '<S9>/Read Parameter'
   if (FLIGHT_hexacopter_DW.obj_i.SampleTime != FLIGHT_hexacopter_P.SampleTime) {
@@ -1460,9 +1443,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_i.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_hexacopter_B.ParamStep_c);
+    MW_SINGLE, &FLIGHT_hexacopter_B.Saturation3);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+    FLIGHT_hexacopter_B.Saturation3 = 0.0F;
   }
 
   // MATLABSystem: '<S9>/Read Parameter2'
@@ -1483,7 +1466,7 @@ void FLIGHT_hexacopter_step(void)
   //   Product: '<S486>/DProd Out'
   //   Sum: '<S488>/SumD'
   //
-  FLIGHT_hexacopter_B.Filter_a = (FLIGHT_hexacopter_B.Saturation3 *
+  FLIGHT_hexacopter_B.Filter_a = (rtb_Sum_m_idx_0 *
     FLIGHT_hexacopter_B.ParamStep - FLIGHT_hexacopter_DW.Filter_DSTATE) *
     FLIGHT_hexacopter_P.Constant_Value_j4;
 
@@ -1492,9 +1475,8 @@ void FLIGHT_hexacopter_step(void)
   //   MATLABSystem: '<S9>/Read Parameter'
   //   Product: '<S498>/PProd Out'
   //
-  FLIGHT_hexacopter_B.Sum_c = (FLIGHT_hexacopter_B.Saturation3 *
-    FLIGHT_hexacopter_B.ParamStep_c + FLIGHT_hexacopter_DW.Integrator_DSTATE) +
-    FLIGHT_hexacopter_B.Filter_a;
+  FLIGHT_hexacopter_B.Sum_c = (rtb_Sum_m_idx_0 * FLIGHT_hexacopter_B.Saturation3
+    + FLIGHT_hexacopter_DW.Integrator_DSTATE) + FLIGHT_hexacopter_B.Filter_a;
 
   // MATLABSystem: '<S3>/Read Parameter1'
   if (FLIGHT_hexacopter_DW.obj_o.SampleTime != FLIGHT_hexacopter_P.SampleTime) {
@@ -1502,9 +1484,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_o.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_hexacopter_B.ParamStep_c);
+    MW_SINGLE, &FLIGHT_hexacopter_B.Saturation3);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+    FLIGHT_hexacopter_B.Saturation3 = 0.0F;
   }
 
   // Product: '<S113>/PProd Out' incorporates:
@@ -1516,7 +1498,7 @@ void FLIGHT_hexacopter_step(void)
     static_cast<real32_T>(asin(static_cast<real_T>((FLIGHT_hexacopter_B.In1_k.q
     [1] * FLIGHT_hexacopter_B.In1_k.q[3] - FLIGHT_hexacopter_B.In1_k.q[0] *
     FLIGHT_hexacopter_B.In1_k.q[2]) * -2.0F)))) *
-    FLIGHT_hexacopter_B.ParamStep_c;
+    FLIGHT_hexacopter_B.Saturation3;
 
   // Sum: '<S9>/Sum'
   FLIGHT_hexacopter_B.Integrator_m = FLIGHT_hexacopter_B.PProdOut_h -
@@ -1528,9 +1510,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_b.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_hexacopter_B.ParamStep_c);
+    MW_SINGLE, &FLIGHT_hexacopter_B.Saturation3);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+    FLIGHT_hexacopter_B.Saturation3 = 0.0F;
   }
 
   // MATLABSystem: '<S9>/Read Parameter5'
@@ -1551,8 +1533,9 @@ void FLIGHT_hexacopter_step(void)
   //   Product: '<S436>/DProd Out'
   //   Sum: '<S438>/SumD'
   //
-  FLIGHT_hexacopter_B.DeadZone = (FLIGHT_hexacopter_B.Integrator_m *
-    FLIGHT_hexacopter_B.ParamStep - FLIGHT_hexacopter_DW.Filter_DSTATE_j) *
+  rtb_Sum_m_idx_1 = (FLIGHT_hexacopter_B.Integrator_m *
+                     FLIGHT_hexacopter_B.ParamStep -
+                     FLIGHT_hexacopter_DW.Filter_DSTATE_j) *
     FLIGHT_hexacopter_P.Constant1_Value_f;
 
   // Sum: '<S452>/Sum' incorporates:
@@ -1560,13 +1543,13 @@ void FLIGHT_hexacopter_step(void)
   //   MATLABSystem: '<S9>/Read Parameter3'
   //   Product: '<S448>/PProd Out'
   //
-  rtb_Sum_e = (FLIGHT_hexacopter_B.Integrator_m *
-               FLIGHT_hexacopter_B.ParamStep_c +
-               FLIGHT_hexacopter_DW.Integrator_DSTATE_c) +
-    FLIGHT_hexacopter_B.DeadZone;
+  FLIGHT_hexacopter_B.Sum_a = (FLIGHT_hexacopter_B.Integrator_m *
+    FLIGHT_hexacopter_B.Saturation3 + FLIGHT_hexacopter_DW.Integrator_DSTATE_c)
+    + rtb_Sum_m_idx_1;
 
   // Sum: '<S9>/Sum4'
-  rtb_Sum4 = FLIGHT_hexacopter_B.Merge1[2] - FLIGHT_hexacopter_B.In1_e.z;
+  FLIGHT_hexacopter_B.Sum4 = FLIGHT_hexacopter_B.Merge1[2] -
+    FLIGHT_hexacopter_B.In1_e.z;
 
   // MATLABSystem: '<S9>/Read Parameter6'
   if (FLIGHT_hexacopter_DW.obj_a.SampleTime != FLIGHT_hexacopter_P.SampleTime) {
@@ -1574,9 +1557,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_a.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_hexacopter_B.ParamStep_c);
+    MW_SINGLE, &FLIGHT_hexacopter_B.Saturation3);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+    FLIGHT_hexacopter_B.Saturation3 = 0.0F;
   }
 
   // MATLABSystem: '<S9>/Read Parameter8'
@@ -1597,7 +1580,7 @@ void FLIGHT_hexacopter_step(void)
   //   Product: '<S536>/DProd Out'
   //   Sum: '<S538>/SumD'
   //
-  rtb_NProdOut_ef = (rtb_Sum4 * FLIGHT_hexacopter_B.ParamStep -
+  rtb_NProdOut_ef = (FLIGHT_hexacopter_B.Sum4 * FLIGHT_hexacopter_B.ParamStep -
                      FLIGHT_hexacopter_DW.Filter_DSTATE_h) *
     FLIGHT_hexacopter_P.Constant2_Value_m;
 
@@ -1606,16 +1589,16 @@ void FLIGHT_hexacopter_step(void)
   //   MATLABSystem: '<S9>/Read Parameter6'
   //   Product: '<S548>/PProd Out'
   //
-  FLIGHT_hexacopter_B.ParamStep = (rtb_Sum4 * FLIGHT_hexacopter_B.ParamStep_c +
-    FLIGHT_hexacopter_DW.Integrator_DSTATE_l) + rtb_NProdOut_ef;
+  rtb_Sum_g = (FLIGHT_hexacopter_B.Sum4 * FLIGHT_hexacopter_B.Saturation3 +
+               FLIGHT_hexacopter_DW.Integrator_DSTATE_l) + rtb_NProdOut_ef;
 
   // MATLAB Function: '<S6>/pwm_out2'
-  FLIGHT_hexacopter_B.ParamStep_c = rt_roundf_snf(((-FLIGHT_hexacopter_B.Sum_c -
-    FLIGHT_hexacopter_B.ParamStep) * FLIGHT_hexacopter_B.Merge1[3] / 3.0F +
+  FLIGHT_hexacopter_B.Saturation3 = rt_roundf_snf(((-FLIGHT_hexacopter_B.Sum_c -
+    rtb_Sum_g) * FLIGHT_hexacopter_B.Merge1[3] / 3.0F +
     FLIGHT_hexacopter_B.Merge1[3]) * 1000.0F);
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1624,9 +1607,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   tmp = tmp_2 + 1000U;
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1654,12 +1637,12 @@ void FLIGHT_hexacopter_step(void)
   }
 
   // MATLAB Function: '<S6>/pwm_out2'
-  FLIGHT_hexacopter_B.ParamStep_c = rt_roundf_snf(((FLIGHT_hexacopter_B.Sum_c +
-    FLIGHT_hexacopter_B.ParamStep) * FLIGHT_hexacopter_B.Merge1[3] / 3.0F +
+  FLIGHT_hexacopter_B.Saturation3 = rt_roundf_snf(((FLIGHT_hexacopter_B.Sum_c +
+    rtb_Sum_g) * FLIGHT_hexacopter_B.Merge1[3] / 3.0F +
     FLIGHT_hexacopter_B.Merge1[3]) * 1000.0F);
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1668,9 +1651,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   tmp = tmp_2 + 1000U;
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1698,13 +1681,12 @@ void FLIGHT_hexacopter_step(void)
   }
 
   // MATLAB Function: '<S6>/pwm_out2'
-  FLIGHT_hexacopter_B.ParamStep_c = rt_roundf_snf((((FLIGHT_hexacopter_B.Sum_c /
-    2.0F + rtb_Sum_e) - FLIGHT_hexacopter_B.ParamStep) *
-    FLIGHT_hexacopter_B.Merge1[3] / 3.0F + FLIGHT_hexacopter_B.Merge1[3]) *
-    1000.0F);
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  FLIGHT_hexacopter_B.Saturation3 = rt_roundf_snf((((FLIGHT_hexacopter_B.Sum_c /
+    2.0F + FLIGHT_hexacopter_B.Sum_a) - rtb_Sum_g) * FLIGHT_hexacopter_B.Merge1
+    [3] / 3.0F + FLIGHT_hexacopter_B.Merge1[3]) * 1000.0F);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1713,9 +1695,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   tmp = tmp_2 + 1000U;
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1743,13 +1725,13 @@ void FLIGHT_hexacopter_step(void)
   }
 
   // MATLAB Function: '<S6>/pwm_out2'
-  FLIGHT_hexacopter_B.ParamStep_c = rt_roundf_snf((((-rtb_Sum_e -
-    FLIGHT_hexacopter_B.Sum_c / 2.0F) + FLIGHT_hexacopter_B.ParamStep) *
+  FLIGHT_hexacopter_B.Saturation3 = rt_roundf_snf((((-FLIGHT_hexacopter_B.Sum_a
+    - FLIGHT_hexacopter_B.Sum_c / 2.0F) + rtb_Sum_g) *
     FLIGHT_hexacopter_B.Merge1[3] / 3.0F + FLIGHT_hexacopter_B.Merge1[3]) *
     1000.0F);
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1758,9 +1740,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   tmp = tmp_2 + 1000U;
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1788,13 +1770,12 @@ void FLIGHT_hexacopter_step(void)
   }
 
   // MATLAB Function: '<S6>/pwm_out2'
-  FLIGHT_hexacopter_B.ParamStep_c = rt_roundf_snf((((rtb_Sum_e -
-    FLIGHT_hexacopter_B.Sum_c / 2.0F) + FLIGHT_hexacopter_B.ParamStep) *
-    FLIGHT_hexacopter_B.Merge1[3] / 3.0F + FLIGHT_hexacopter_B.Merge1[3]) *
-    1000.0F);
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  FLIGHT_hexacopter_B.Saturation3 = rt_roundf_snf((((FLIGHT_hexacopter_B.Sum_a -
+    FLIGHT_hexacopter_B.Sum_c / 2.0F) + rtb_Sum_g) * FLIGHT_hexacopter_B.Merge1
+    [3] / 3.0F + FLIGHT_hexacopter_B.Merge1[3]) * 1000.0F);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1803,9 +1784,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   tmp = tmp_2 + 1000U;
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1833,13 +1814,12 @@ void FLIGHT_hexacopter_step(void)
   }
 
   // MATLAB Function: '<S6>/pwm_out2'
-  FLIGHT_hexacopter_B.ParamStep_c = rt_roundf_snf((((FLIGHT_hexacopter_B.Sum_c /
-    2.0F - rtb_Sum_e) - FLIGHT_hexacopter_B.ParamStep) *
-    FLIGHT_hexacopter_B.Merge1[3] / 3.0F + FLIGHT_hexacopter_B.Merge1[3]) *
-    1000.0F);
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  FLIGHT_hexacopter_B.Saturation3 = rt_roundf_snf((((FLIGHT_hexacopter_B.Sum_c /
+    2.0F - FLIGHT_hexacopter_B.Sum_a) - rtb_Sum_g) * FLIGHT_hexacopter_B.Merge1
+    [3] / 3.0F + FLIGHT_hexacopter_B.Merge1[3]) * 1000.0F);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1848,9 +1828,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   tmp = tmp_2 + 1000U;
-  if (FLIGHT_hexacopter_B.ParamStep_c < 65536.0F) {
-    if (FLIGHT_hexacopter_B.ParamStep_c >= 0.0F) {
-      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.ParamStep_c);
+  if (FLIGHT_hexacopter_B.Saturation3 < 65536.0F) {
+    if (FLIGHT_hexacopter_B.Saturation3 >= 0.0F) {
+      tmp_2 = static_cast<uint16_T>(FLIGHT_hexacopter_B.Saturation3);
     } else {
       tmp_2 = 0U;
     }
@@ -1913,9 +1893,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_j5.MW_PARAMHANDLE,
-    MW_INT32, &FLIGHT_hexacopter_B.ParamStep_k);
+    MW_INT32, &FLIGHT_hexacopter_B.ParamStep_c);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_k = 0;
+    FLIGHT_hexacopter_B.ParamStep_c = 0;
   }
 
   // MATLABSystem: '<S4>/Read Parameter2'
@@ -1926,9 +1906,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_ao.MW_PARAMHANDLE,
-    MW_INT32, &FLIGHT_hexacopter_B.ParamStep_cx);
+    MW_INT32, &FLIGHT_hexacopter_B.ParamStep_k);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_cx = 0;
+    FLIGHT_hexacopter_B.ParamStep_k = 0;
   }
 
   // MATLABSystem: '<S4>/Read Parameter3'
@@ -1939,9 +1919,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_n.MW_PARAMHANDLE, MW_INT32,
-    &FLIGHT_hexacopter_B.ParamStep_b);
+    &FLIGHT_hexacopter_B.ParamStep_cx);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_b = 0;
+    FLIGHT_hexacopter_B.ParamStep_cx = 0;
   }
 
   // MATLABSystem: '<S4>/Read Parameter4'
@@ -1952,9 +1932,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_c.MW_PARAMHANDLE, MW_INT32,
-    &FLIGHT_hexacopter_B.ParamStep_p);
+    &FLIGHT_hexacopter_B.ParamStep_b);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_p = 0;
+    FLIGHT_hexacopter_B.ParamStep_b = 0;
   }
 
   // MATLABSystem: '<S4>/Read Parameter5'
@@ -1965,9 +1945,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_aq.MW_PARAMHANDLE,
-    MW_INT32, &FLIGHT_hexacopter_B.ParamStep_cv);
+    MW_INT32, &FLIGHT_hexacopter_B.ParamStep_p);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_cv = 0;
+    FLIGHT_hexacopter_B.ParamStep_p = 0;
   }
 
   // Switch: '<S4>/Switch' incorporates:
@@ -2022,7 +2002,7 @@ void FLIGHT_hexacopter_step(void)
   //   MATLABSystem: '<S4>/Read Parameter1'
   //
   if (rtb_Compare_a) {
-    FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_B.ParamStep_k;
+    FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_B.ParamStep_c;
   } else {
     FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_P.Constant1_Value;
   }
@@ -2068,7 +2048,7 @@ void FLIGHT_hexacopter_step(void)
   //   MATLABSystem: '<S4>/Read Parameter2'
   //
   if (rtb_Compare_a) {
-    FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_B.ParamStep_cx;
+    FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_B.ParamStep_k;
   } else {
     FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_P.Constant2_Value;
   }
@@ -2114,7 +2094,7 @@ void FLIGHT_hexacopter_step(void)
   //   MATLABSystem: '<S4>/Read Parameter3'
   //
   if (rtb_Compare_a) {
-    FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_B.ParamStep_b;
+    FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_B.ParamStep_cx;
   } else {
     FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_P.Constant3_Value;
   }
@@ -2160,7 +2140,7 @@ void FLIGHT_hexacopter_step(void)
   //   MATLABSystem: '<S4>/Read Parameter4'
   //
   if (rtb_Compare_a) {
-    FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_B.ParamStep_p;
+    FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_B.ParamStep_b;
   } else {
     FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_P.Constant4_Value;
   }
@@ -2206,7 +2186,7 @@ void FLIGHT_hexacopter_step(void)
   //   MATLABSystem: '<S4>/Read Parameter5'
   //
   if (rtb_Compare_a) {
-    FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_B.ParamStep_cv;
+    FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_B.ParamStep_p;
   } else {
     FLIGHT_hexacopter_B.Add1 = FLIGHT_hexacopter_P.Constant5_Value;
   }
@@ -2300,8 +2280,9 @@ void FLIGHT_hexacopter_step(void)
 
   rtb_ypr_idx_0 = FLIGHT_hexacopter_P.u2_Gain *
     FLIGHT_hexacopter_P.Constant_Value_a;
-  rtb_ypr_idx_1 = FLIGHT_hexacopter_P.u2_Gain * FLIGHT_hexacopter_B.Merge1[1];
-  FLIGHT_hexacopter_B.ParamStep_c = FLIGHT_hexacopter_P.u2_Gain *
+  FLIGHT_hexacopter_B.ParamStep = FLIGHT_hexacopter_P.u2_Gain *
+    FLIGHT_hexacopter_B.Merge1[1];
+  FLIGHT_hexacopter_B.Saturation3 = FLIGHT_hexacopter_P.u2_Gain *
     FLIGHT_hexacopter_B.Merge1[0];
 
   // Trigonometry: '<S566>/sincos'
@@ -2309,12 +2290,13 @@ void FLIGHT_hexacopter_step(void)
     (rtb_ypr_idx_0)));
   rtb_ypr_idx_0 = static_cast<real32_T>(sin(static_cast<real_T>(rtb_ypr_idx_0)));
   rtb_sincos_o2_idx_1 = static_cast<real32_T>(cos(static_cast<real_T>
-    (rtb_ypr_idx_1)));
-  rtb_ypr_idx_1 = static_cast<real32_T>(sin(static_cast<real_T>(rtb_ypr_idx_1)));
-  rtb_sincos_o2_idx_2 = static_cast<real32_T>(cos(static_cast<real_T>
-    (FLIGHT_hexacopter_B.ParamStep_c)));
+    (FLIGHT_hexacopter_B.ParamStep)));
   rtb_ypr_0 = static_cast<real32_T>(sin(static_cast<real_T>
-    (FLIGHT_hexacopter_B.ParamStep_c)));
+    (FLIGHT_hexacopter_B.ParamStep)));
+  rtb_sincos_o2_idx_2 = static_cast<real32_T>(cos(static_cast<real_T>
+    (FLIGHT_hexacopter_B.Saturation3)));
+  rtb_ypr_1 = static_cast<real32_T>(sin(static_cast<real_T>
+    (FLIGHT_hexacopter_B.Saturation3)));
   FLIGHT_hexacopter_PX4Timestamp(&FLIGHT_hexacopter_B.PX4Timestamp_p);
 
   // BusAssignment: '<S13>/Bus Assignment' incorporates:
@@ -2343,35 +2325,35 @@ void FLIGHT_hexacopter_step(void)
   //   Fcn: '<S566>/q1'
   //   Trigonometry: '<S566>/sincos'
 
-  FLIGHT_hexacopter_B.ParamStep_c = rtb_sincos_o2_idx_0 * rtb_sincos_o2_idx_1;
-  tmp_3 = rtb_ypr_idx_0 * rtb_ypr_idx_1;
+  FLIGHT_hexacopter_B.Saturation3 = rtb_sincos_o2_idx_0 * rtb_sincos_o2_idx_1;
+  FLIGHT_hexacopter_B.ParamStep = rtb_ypr_idx_0 * rtb_ypr_0;
 
   // BusAssignment: '<S13>/Bus Assignment' incorporates:
   //   Fcn: '<S566>/q0'
   //   Fcn: '<S566>/q1'
   //   Trigonometry: '<S566>/sincos'
 
-  FLIGHT_hexacopter_B.BusAssignment_d.q_d[0] = FLIGHT_hexacopter_B.ParamStep_c *
-    rtb_sincos_o2_idx_2 + tmp_3 * rtb_ypr_0;
-  FLIGHT_hexacopter_B.BusAssignment_d.q_d[1] = FLIGHT_hexacopter_B.ParamStep_c *
-    rtb_ypr_0 - tmp_3 * rtb_sincos_o2_idx_2;
+  FLIGHT_hexacopter_B.BusAssignment_d.q_d[0] = FLIGHT_hexacopter_B.Saturation3 *
+    rtb_sincos_o2_idx_2 + FLIGHT_hexacopter_B.ParamStep * rtb_ypr_1;
+  FLIGHT_hexacopter_B.BusAssignment_d.q_d[1] = FLIGHT_hexacopter_B.Saturation3 *
+    rtb_ypr_1 - FLIGHT_hexacopter_B.ParamStep * rtb_sincos_o2_idx_2;
 
   // Fcn: '<S566>/q2' incorporates:
   //   Fcn: '<S566>/q3'
   //   Trigonometry: '<S566>/sincos'
 
-  FLIGHT_hexacopter_B.ParamStep_c = rtb_ypr_idx_0 * rtb_sincos_o2_idx_1;
-  tmp_3 = rtb_sincos_o2_idx_0 * rtb_ypr_idx_1;
+  FLIGHT_hexacopter_B.Saturation3 = rtb_ypr_idx_0 * rtb_sincos_o2_idx_1;
+  FLIGHT_hexacopter_B.ParamStep = rtb_sincos_o2_idx_0 * rtb_ypr_0;
 
   // BusAssignment: '<S13>/Bus Assignment' incorporates:
   //   Fcn: '<S566>/q2'
   //   Fcn: '<S566>/q3'
   //   Trigonometry: '<S566>/sincos'
 
-  FLIGHT_hexacopter_B.BusAssignment_d.q_d[2] = tmp_3 * rtb_sincos_o2_idx_2 +
-    FLIGHT_hexacopter_B.ParamStep_c * rtb_ypr_0;
-  FLIGHT_hexacopter_B.BusAssignment_d.q_d[3] = FLIGHT_hexacopter_B.ParamStep_c *
-    rtb_sincos_o2_idx_2 - tmp_3 * rtb_ypr_0;
+  FLIGHT_hexacopter_B.BusAssignment_d.q_d[2] = FLIGHT_hexacopter_B.ParamStep *
+    rtb_sincos_o2_idx_2 + FLIGHT_hexacopter_B.Saturation3 * rtb_ypr_1;
+  FLIGHT_hexacopter_B.BusAssignment_d.q_d[3] = FLIGHT_hexacopter_B.Saturation3 *
+    rtb_sincos_o2_idx_2 - FLIGHT_hexacopter_B.ParamStep * rtb_ypr_1;
 
   // MATLABSystem: '<S565>/SinkBlock' incorporates:
   //   BusAssignment: '<S13>/Bus Assignment'
@@ -2427,8 +2409,8 @@ void FLIGHT_hexacopter_step(void)
 
   // BusAssignment: '<S16>/Bus Assignment'
   FLIGHT_hexacopter_B.BusAssignment_n.xyz[0] = FLIGHT_hexacopter_B.Sum_c;
-  FLIGHT_hexacopter_B.BusAssignment_n.xyz[1] = rtb_Sum_e;
-  FLIGHT_hexacopter_B.BusAssignment_n.xyz[2] = FLIGHT_hexacopter_B.ParamStep;
+  FLIGHT_hexacopter_B.BusAssignment_n.xyz[1] = FLIGHT_hexacopter_B.Sum_a;
+  FLIGHT_hexacopter_B.BusAssignment_n.xyz[2] = rtb_Sum_g;
 
   // MATLABSystem: '<S572>/SinkBlock' incorporates:
   //   BusAssignment: '<S16>/Bus Assignment'
@@ -2443,9 +2425,9 @@ void FLIGHT_hexacopter_step(void)
   }
 
   rtb_AND3_i = MW_Param_Step(FLIGHT_hexacopter_DW.obj_j.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_hexacopter_B.ParamStep_c);
+    MW_SINGLE, &FLIGHT_hexacopter_B.Saturation3);
   if (rtb_AND3_i) {
-    FLIGHT_hexacopter_B.ParamStep_c = 0.0F;
+    FLIGHT_hexacopter_B.Saturation3 = 0.0F;
   }
 
   // MATLABSystem: '<S9>/Read Parameter4'
@@ -2513,8 +2495,8 @@ void FLIGHT_hexacopter_step(void)
 
   FLIGHT_hexacopter_B.BusAssignment_g.timestamp =
     FLIGHT_hexacopter_B.rtb_PX4Timestamp_m;
-  FLIGHT_hexacopter_B.BusAssignment_g.vx = FLIGHT_hexacopter_B.Saturation[0];
-  FLIGHT_hexacopter_B.BusAssignment_g.vy = FLIGHT_hexacopter_B.Saturation[1];
+  FLIGHT_hexacopter_B.BusAssignment_g.vx = FLIGHT_hexacopter_B.RateLimiter[0];
+  FLIGHT_hexacopter_B.BusAssignment_g.vy = FLIGHT_hexacopter_B.RateLimiter[1];
   FLIGHT_hexacopter_B.BusAssignment_g.vz = FLIGHT_hexacopter_B.Merge;
   FLIGHT_hexacopter_B.BusAssignment_g.x =
     FLIGHT_hexacopter_B.OutportBufferFordes_xy[0];
@@ -2533,7 +2515,7 @@ void FLIGHT_hexacopter_step(void)
   //   MATLABSystem: '<S9>/Read Parameter1'
   //   Product: '<S490>/IProd Out'
   //
-  FLIGHT_hexacopter_DW.Integrator_DSTATE += FLIGHT_hexacopter_B.Saturation3 *
+  FLIGHT_hexacopter_DW.Integrator_DSTATE += rtb_Sum_m_idx_0 *
     FLIGHT_hexacopter_B.PProdOut_i * FLIGHT_hexacopter_P.Integrator_gainval_i;
 
   // Update for DiscreteIntegrator: '<S488>/Filter'
@@ -2549,14 +2531,14 @@ void FLIGHT_hexacopter_step(void)
 
   // Update for DiscreteIntegrator: '<S438>/Filter'
   FLIGHT_hexacopter_DW.Filter_DSTATE_j += FLIGHT_hexacopter_P.Filter_gainval_f *
-    FLIGHT_hexacopter_B.DeadZone;
+    rtb_Sum_m_idx_1;
 
   // Update for DiscreteIntegrator: '<S543>/Integrator' incorporates:
   //   MATLABSystem: '<S9>/Read Parameter7'
   //   Product: '<S540>/IProd Out'
   //
-  FLIGHT_hexacopter_DW.Integrator_DSTATE_l += rtb_Sum4 *
-    FLIGHT_hexacopter_B.ParamStep_c * FLIGHT_hexacopter_P.Integrator_gainval_e;
+  FLIGHT_hexacopter_DW.Integrator_DSTATE_l += FLIGHT_hexacopter_B.Sum4 *
+    FLIGHT_hexacopter_B.Saturation3 * FLIGHT_hexacopter_P.Integrator_gainval_e;
 
   // Update for DiscreteIntegrator: '<S538>/Filter'
   FLIGHT_hexacopter_DW.Filter_DSTATE_h += FLIGHT_hexacopter_P.Filter_gainval_m *
@@ -2645,11 +2627,21 @@ void FLIGHT_hexacopter_initialize(void)
       FLIGHT_hexacopter_P.PIDController4_InitialConditi_l;
     FLIGHT_hexacopter_DW.Filter_PrevResetState = 2;
 
+    // InitializeConditions for RateLimiter: '<S5>/Rate Limiter'
+    FLIGHT_hexacopter_DW.PrevY[0] = FLIGHT_hexacopter_P.RateLimiter_IC;
+
     // SystemInitialize for SignalConversion generated from: '<S5>/des_xy' incorporates:
     //   Constant: '<S5>/Constant'
 
     FLIGHT_hexacopter_B.OutportBufferFordes_xy[0] =
       FLIGHT_hexacopter_P.Constant_Value_kn[0];
+
+    // InitializeConditions for RateLimiter: '<S5>/Rate Limiter'
+    FLIGHT_hexacopter_DW.PrevY[1] = FLIGHT_hexacopter_P.RateLimiter_IC;
+
+    // SystemInitialize for SignalConversion generated from: '<S5>/des_xy' incorporates:
+    //   Constant: '<S5>/Constant'
+
     FLIGHT_hexacopter_B.OutportBufferFordes_xy[1] =
       FLIGHT_hexacopter_P.Constant_Value_kn[1];
 
@@ -2710,11 +2702,11 @@ void FLIGHT_hexacopter_initialize(void)
 
     FLIGHT_hexacopter_B.Add = FLIGHT_hexacopter_P.des_z_Y0;
 
-    // SystemInitialize for Saturate: '<S5>/Saturation' incorporates:
+    // SystemInitialize for RateLimiter: '<S5>/Rate Limiter' incorporates:
     //   Outport: '<S5>/des_vxvy'
 
-    FLIGHT_hexacopter_B.Saturation[0] = FLIGHT_hexacopter_P.des_vxvy_Y0;
-    FLIGHT_hexacopter_B.Saturation[1] = FLIGHT_hexacopter_P.des_vxvy_Y0;
+    FLIGHT_hexacopter_B.RateLimiter[0] = FLIGHT_hexacopter_P.des_vxvy_Y0;
+    FLIGHT_hexacopter_B.RateLimiter[1] = FLIGHT_hexacopter_P.des_vxvy_Y0;
 
     // End of SystemInitialize for SubSystem: '<Root>/If Action Subsystem'
 

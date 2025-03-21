@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.90
+// Model version                  : 1.95
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Fri Mar  7 17:53:58 2025
+// C/C++ source code generated on : Fri Mar 21 14:04:09 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -637,6 +637,16 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
 
   100.0,
 
+  // Expression: 2
+  //  Referenced by: '<S5>/Rate Limiter'
+
+  2.0,
+
+  // Expression: -2
+  //  Referenced by: '<S5>/Rate Limiter'
+
+  -2.0,
+
   // Computed Parameter: DiscretePulseGenerator_Period
   //  Referenced by: '<S561>/Discrete Pulse Generator'
 
@@ -902,25 +912,20 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
 
   { 0.0F, 0.0F },
 
-  // Computed Parameter: Saturation_UpperSat_g
-  //  Referenced by: '<S5>/Saturation'
+  // Computed Parameter: RateLimiter_IC
+  //  Referenced by: '<S5>/Rate Limiter'
 
-  12.0F,
-
-  // Computed Parameter: Saturation_LowerSat_lt
-  //  Referenced by: '<S5>/Saturation'
-
-  -12.0F,
+  0.0F,
 
   // Computed Parameter: Saturation_UpperSat_e
   //  Referenced by: '<S186>/Saturation'
 
-  0.17453292F,
+  0.610865235F,
 
   // Computed Parameter: Saturation_LowerSat_a
   //  Referenced by: '<S186>/Saturation'
 
-  -0.17453292F,
+  -0.610865235F,
 
   // Computed Parameter: Gain1_Gain
   //  Referenced by: '<S186>/Gain1'
