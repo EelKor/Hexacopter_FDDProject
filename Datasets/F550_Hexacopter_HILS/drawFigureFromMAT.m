@@ -4,7 +4,7 @@ r2d = 180/pi;
 lineWidth = 2;
 
 %% 데이터 선택
-log_filename = 'log206_m1_50fail';
+log_filename = 'log236_m1_70fail-7';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
@@ -26,7 +26,7 @@ if ~exist(save_dir, 'dir')
 end
 
 %% Plot Fault Injection and Detection Flag
-inject = rc_inject >= 1200;
+inject = rc_inject >= 1400;
 inject = double(inject);
 
 figure;
