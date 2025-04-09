@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.95
+// Model version                  : 1.96
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Fri Mar 21 14:04:09 2025
+// C/C++ source code generated on : Wed Apr  9 15:25:53 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -45,7 +45,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   //    '<S185>/Read Parameter'
   //    '<S186>/Read Parameter'
 
-  0.005,
+  0.0025,
 
   // Variable: d2r
   //  Referenced by:
@@ -637,25 +637,15 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
 
   100.0,
 
-  // Expression: 2
-  //  Referenced by: '<S5>/Rate Limiter'
-
-  2.0,
-
-  // Expression: -2
-  //  Referenced by: '<S5>/Rate Limiter'
-
-  -2.0,
-
   // Computed Parameter: DiscretePulseGenerator_Period
   //  Referenced by: '<S561>/Discrete Pulse Generator'
 
-  1200.0,
+  2400.0,
 
   // Computed Parameter: DiscretePulseGenerator_Duty
   //  Referenced by: '<S561>/Discrete Pulse Generator'
 
-  600.0,
+  1200.0,
 
   // Expression: 0
   //  Referenced by: '<S561>/Discrete Pulse Generator'
@@ -825,7 +815,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   // Computed Parameter: Integrator_gainval
   //  Referenced by: '<S55>/Integrator'
 
-  0.005F,
+  0.0025F,
 
   // Computed Parameter: Constant_Value_bi
   //  Referenced by: '<S18>/Constant'
@@ -835,7 +825,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   // Computed Parameter: Filter_gainval
   //  Referenced by: '<S50>/Filter'
 
-  0.005F,
+  0.0025F,
 
   // Computed Parameter: Saturation1_UpperSat
   //  Referenced by: '<S18>/Saturation1'
@@ -912,11 +902,6 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
 
   { 0.0F, 0.0F },
 
-  // Computed Parameter: RateLimiter_IC
-  //  Referenced by: '<S5>/Rate Limiter'
-
-  0.0F,
-
   // Computed Parameter: Saturation_UpperSat_e
   //  Referenced by: '<S186>/Saturation'
 
@@ -965,7 +950,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   // Computed Parameter: Integrator_gainval_l
   //  Referenced by: '<S274>/Integrator'
 
-  0.005F,
+  0.0025F,
 
   // Computed Parameter: Constant_Value_e
   //  Referenced by: '<S184>/Constant'
@@ -975,7 +960,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   // Computed Parameter: Filter_gainval_h
   //  Referenced by: '<S269>/Filter'
 
-  0.005F,
+  0.0025F,
 
   // Computed Parameter: Saturation1_UpperSat_e
   //  Referenced by: '<S184>/Saturation1'
@@ -1135,12 +1120,12 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   // Computed Parameter: Integrator_gainval_i
   //  Referenced by: '<S493>/Integrator'
 
-  0.005F,
+  0.0025F,
 
   // Computed Parameter: Filter_gainval_o
   //  Referenced by: '<S488>/Filter'
 
-  0.005F,
+  0.0025F,
 
   // Computed Parameter: Constant_Value_j4
   //  Referenced by: '<S9>/Constant'
@@ -1150,12 +1135,12 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   // Computed Parameter: Integrator_gainval_im
   //  Referenced by: '<S443>/Integrator'
 
-  0.005F,
+  0.0025F,
 
   // Computed Parameter: Filter_gainval_f
   //  Referenced by: '<S438>/Filter'
 
-  0.005F,
+  0.0025F,
 
   // Computed Parameter: Constant1_Value_f
   //  Referenced by: '<S9>/Constant1'
@@ -1165,12 +1150,12 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   // Computed Parameter: Integrator_gainval_e
   //  Referenced by: '<S543>/Integrator'
 
-  0.005F,
+  0.0025F,
 
   // Computed Parameter: Filter_gainval_m
   //  Referenced by: '<S538>/Filter'
 
-  0.005F,
+  0.0025F,
 
   // Computed Parameter: Constant2_Value_m
   //  Referenced by: '<S9>/Constant2'

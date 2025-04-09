@@ -1,7 +1,7 @@
 % Controller Gains by Adding Angular Rate Feedback
 % NCMS Quad 
 
-SampleTime = 1/200;
+SampleTime = 1/400;
 g = 9.81;
 r2d = 180/pi;
 d2r = pi/180;
