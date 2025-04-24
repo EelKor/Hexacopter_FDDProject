@@ -1,0 +1,9 @@
+165>
+Doublet Generator 실험
+pitch, roll doublet 기동 수행
+
+166
+1번모터 20% 고장 주입후 해제, 착륙
+
+167 
+1번모터 30% 고장 주입후 착륙
