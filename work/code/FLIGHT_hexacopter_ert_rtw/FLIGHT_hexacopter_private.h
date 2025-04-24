@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.114
+// Model version                  : 1.142
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Sat Apr 12 17:48:33 2025
+// C/C++ source code generated on : Wed Apr 23 15:33:57 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -21,16 +21,6 @@
 #include "rtwtypes.h"
 #include "FLIGHT_hexacopter.h"
 #include "FLIGHT_hexacopter_types.h"
-
-// Used by FromWorkspace Block: '<S21>/fromWS_Signal 1'
-#ifndef rtInterpolate
-# define rtInterpolate(v1,v2,f1,f2)    (((v1)==(v2))?((double)(v1)): (((f1)*((double)(v1)))+((f2)*((double)(v2)))))
-#endif
-
-#ifndef rtRound
-# define rtRound(v)                    ( ((v) >= 0) ? floor((v) + 0.5) : ceil((v) - 0.5) )
-#endif
-
 #ifndef UCHAR_MAX
 #include <limits.h>
 #endif
@@ -82,14 +72,14 @@ preprocessor word size checks.
 // Skipping ulong_long/long_long check: insufficient preprocessor integer range. 
 extern real32_T rt_atan2f_snf(real32_T u0, real32_T u1);
 extern real32_T rt_roundf_snf(real32_T u);
+extern void FLIGHT_hexaco_PX4Timestamp_Init(DW_PX4Timestamp_FLIGHT_hexaco_T
+  *localDW);
+extern void FLIGHT_hexacopter_PX4Timestamp(B_PX4Timestamp_FLIGHT_hexacop_T
+  *localB);
 extern void FLIGHT_hexac_ReadParameter_Init(DW_ReadParameter_FLIGHT_hexac_T
   *localDW);
-extern void FLIGHT_hexacopter_ReadParameter(DW_ReadParameter_FLIGHT_hexac_T
-  *localDW);
-extern void FLIGHT_hex_ReadParameter_e_Init(DW_ReadParameter_FLIGHT_hex_f_T
-  *localDW);
-extern void FLIGHT_hexacopt_ReadParameter_p(B_ReadParameter_FLIGHT_hexa_c_T
-  *localB, DW_ReadParameter_FLIGHT_hex_f_T *localDW);
+extern void FLIGHT_hexacopter_ReadParameter(B_ReadParameter_FLIGHT_hexaco_T
+  *localB, DW_ReadParameter_FLIGHT_hexac_T *localDW);
 extern void FLIGHT_hexa_ReadParameter1_Init(DW_ReadParameter1_FLIGHT_hexa_T
   *localDW);
 extern void FLIGHT_hexacopte_ReadParameter1(B_ReadParameter1_FLIGHT_hexac_T
@@ -102,13 +92,13 @@ extern void FLIGHT_hexa_ReadParameter3_Init(DW_ReadParameter3_FLIGHT_hexa_T
   *localDW);
 extern void FLIGHT_hexacopte_ReadParameter3(B_ReadParameter3_FLIGHT_hexac_T
   *localB, DW_ReadParameter3_FLIGHT_hexa_T *localDW);
-extern void FLIGHT_hexaco_PX4Timestamp_Init(DW_PX4Timestamp_FLIGHT_hexaco_T
+extern void FLIGHT_hexa_PX4Timestamp_f_Init(DW_PX4Timestamp_FLIGHT_hexa_b_T
   *localDW);
-extern void FLIGHT_hexacopter_PX4Timestamp(B_PX4Timestamp_FLIGHT_hexacop_T
+extern void FLIGHT_hexacopte_PX4Timestamp_o(B_PX4Timestamp_FLIGHT_hexac_l_T
   *localB);
-extern void FLIGHT_hexac_ReadParameter_Term(DW_ReadParameter_FLIGHT_hexac_T
+extern void FLIGHT_hexaco_PX4Timestamp_Term(DW_PX4Timestamp_FLIGHT_hexaco_T
   *localDW);
-extern void FLIGHT_hex_ReadParameter_a_Term(DW_ReadParameter_FLIGHT_hex_f_T
+extern void FLIGHT_hexac_ReadParameter_Term(DW_ReadParameter_FLIGHT_hexac_T
   *localDW);
 extern void FLIGHT_hexa_ReadParameter1_Term(DW_ReadParameter1_FLIGHT_hexa_T
   *localDW);
@@ -116,7 +106,7 @@ extern void FLIGHT_hexa_ReadParameter2_Term(DW_ReadParameter2_FLIGHT_hexa_T
   *localDW);
 extern void FLIGHT_hexa_ReadParameter3_Term(DW_ReadParameter3_FLIGHT_hexa_T
   *localDW);
-extern void FLIGHT_hexaco_PX4Timestamp_Term(DW_PX4Timestamp_FLIGHT_hexaco_T
+extern void FLIGHT_hexa_PX4Timestamp_m_Term(DW_PX4Timestamp_FLIGHT_hexa_b_T
   *localDW);
 
 #endif                                 // FLIGHT_hexacopter_private_h_

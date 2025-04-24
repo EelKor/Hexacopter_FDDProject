@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.114
+// Model version                  : 1.142
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Sat Apr 12 17:48:33 2025
+// C/C++ source code generated on : Wed Apr 23 15:33:57 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -24,29 +24,13 @@
 #include <uORB/topics/vehicle_angular_velocity.h>
 #include <uORB/topics/vehicle_odometry.h>
 #include <uORB/topics/input_rc.h>
+#include <uORB/topics/actuator_controls_status.h>
 #include <uORB/topics/actuator_motors.h>
 #include <uORB/topics/actuator_outputs.h>
 #include <uORB/topics/vehicle_attitude_setpoint.h>
 #include <uORB/topics/vehicle_local_position_setpoint.h>
 #include <uORB/topics/vehicle_rates_setpoint.h>
 #include <uORB/topics/vehicle_torque_setpoint.h>
-
-// Custom Type definition for MATLABSystem: '<S18>/Read Parameter'
-#include "MW_Parameter.h"
-#ifndef struct_px4_internal_block_ParameterU_T
-#define struct_px4_internal_block_ParameterU_T
-
-struct px4_internal_block_ParameterU_T
-{
-  boolean_T matlabCodegenIsDeleted;
-  int32_T isInitialized;
-  boolean_T isSetupComplete;
-  real_T SampleTime;
-  MW_Param_Handle MW_PARAMHANDLE;
-};
-
-#endif                                // struct_px4_internal_block_ParameterU_T
-
 #ifndef struct_e_px4_internal_block_SampleTi_T
 #define struct_e_px4_internal_block_SampleTi_T
 
@@ -69,6 +53,22 @@ struct px4_internal_block_getPX4Abso_T
 };
 
 #endif                                // struct_px4_internal_block_getPX4Abso_T
+
+// Custom Type definition for MATLABSystem: '<S19>/Read Parameter'
+#include "MW_Parameter.h"
+#ifndef struct_px4_internal_block_ParameterU_T
+#define struct_px4_internal_block_ParameterU_T
+
+struct px4_internal_block_ParameterU_T
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  real_T SampleTime;
+  MW_Param_Handle MW_PARAMHANDLE;
+};
+
+#endif                                // struct_px4_internal_block_ParameterU_T
 
 #ifndef struct_px4_internal_block_PWM_FLIGHT_T
 #define struct_px4_internal_block_PWM_FLIGHT_T
