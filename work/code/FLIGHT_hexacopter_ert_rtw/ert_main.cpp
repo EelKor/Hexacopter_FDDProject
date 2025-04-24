@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.142
+// Model version                  : 1.146
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Wed Apr 23 15:33:57 2025
+// C/C++ source code generated on : Thu Apr 24 17:45:28 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -37,22 +37,63 @@ volatile boolean_T stopRequested = false;
 volatile boolean_T runModel = true;
 px4_sem_t stopSem;
 px4_sem_t baserateTaskSem;
+px4_sem_t subrateTaskSem[1];
+int taskId[1];
 pthread_t schedulerThread;
 pthread_t baseRateThread;
 void *threadJoinStatus;
 int terminatingmodel = 0;
+pthread_t subRateThread[1];
+int subratePriority[1];
+void *subrateTask(void *arg)
+{
+  int tid = *((int *) arg);
+  int subRateId;
+  subRateId = tid + 1;
+  while (runModel) {
+    px4_sem_wait(&subrateTaskSem[tid]);
+    if (terminatingmodel)
+      break;
+
+#ifdef MW_RTOS_DEBUG
+
+    printf(" -subrate task %d semaphore received\n", subRateId);
+
+#endif
+
+    FLIGHT_hexacopter_step(subRateId);
+
+    // Get model outputs here
+  }
+
+  pthread_exit((void *)0);
+  return NULL;
+}
+
 void *baseRateTask(void *arg)
 {
   runModel = (rtmGetErrorStatus(FLIGHT_hexacopter_M) == (NULL));
   while (runModel) {
     px4_sem_wait(&baserateTaskSem);
-    FLIGHT_hexacopter_step();
+
+#ifdef MW_RTOS_DEBUG
+
+    printf("*base rate task semaphore received\n");
+    fflush(stdout);
+
+#endif
+
+    if (rtmStepTask(FLIGHT_hexacopter_M, 1)
+        ) {
+      px4_sem_post(&subrateTaskSem[0]);
+    }
+
+    FLIGHT_hexacopter_step(0);
 
     // Get model outputs here
     stopRequested = !((rtmGetErrorStatus(FLIGHT_hexacopter_M) == (NULL)));
   }
 
-  runModel = 0;
   terminateTask(arg);
   pthread_exit((void *)0);
   return NULL;
@@ -71,6 +112,20 @@ void *terminateTask(void *arg)
   terminatingmodel = 1;
 
   {
+    int i;
+
+    // Signal all periodic tasks to complete
+    for (i=0; i<1; i++) {
+      CHECK_STATUS(px4_sem_post(&subrateTaskSem[i]), 0, "px4_sem_post");
+      CHECK_STATUS(px4_sem_destroy(&subrateTaskSem[i]), 0, "px4_sem_destroy");
+    }
+
+    // Wait for all periodic tasks to complete
+    for (i=0; i<1; i++) {
+      CHECK_STATUS(pthread_join(subRateThread[i], &threadJoinStatus), 0,
+                   "pthread_join");
+    }
+
     runModel = 0;
   }
 
@@ -84,6 +139,7 @@ void *terminateTask(void *arg)
 
 int px4_simulink_app_task_main (int argc, char *argv[])
 {
+  subratePriority[0] = 249;
   px4_simulink_app_control_MAVLink();
   rtmSetErrorStatus(FLIGHT_hexacopter_M, 0);
 
@@ -91,7 +147,7 @@ int px4_simulink_app_task_main (int argc, char *argv[])
   FLIGHT_hexacopter_initialize();
 
   // Call RTOS Initialization function
-  nuttxRTOSInit(0.0025, 0);
+  nuttxRTOSInit(0.001, 1);
 
   // Wait for stop semaphore
   px4_sem_wait(&stopSem);

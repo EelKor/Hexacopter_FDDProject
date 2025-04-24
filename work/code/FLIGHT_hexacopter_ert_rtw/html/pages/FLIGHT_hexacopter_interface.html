@@ -171,16 +171,28 @@ void <a href="javascript: void(0)" onclick="postParentWindowMessage({message:'ju
 <p>
 Periodic entry-point functions implement model behavior that occurs at a fixed sampling rate. For a rate-based model, the code generator produces a periodic entry-point function for each rate used in the model. In a function-call (export-function) model, Function Call Subsystem blocks that specify a sampling rate represent periodic functions.
 </p>
-<div id="fcn_FLIGHT_hexacopter_step">
+<div id="fcn_FLIGHT_hexacopter_step0">
 <h4 class="function">
-FLIGHT_hexacopter_step
+FLIGHT_hexacopter_step0
 </h4>
 <span class="description">
-Output entry point of generated code. Must be called periodically, every 0.0025 seconds. 
+Output entry point of generated code. Must be called periodically, every 0.001 seconds. 
 </span>
 <div class="programlisting">
 <code class="usage"><span class="include">#include "<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'FLIGHT_hexacopter.h'})" class="include">FLIGHT_hexacopter.h</a>"</span>
-void <a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'FLIGHT_hexacopter_step'})" class="fcn">FLIGHT_hexacopter_step</a>(void)</code>
+void <a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'FLIGHT_hexacopter_step0'})" class="fcn">FLIGHT_hexacopter_step0</a>(void)</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_step1">
+<h4 class="function">
+FLIGHT_hexacopter_step1
+</h4>
+<span class="description">
+Output entry point of generated code. Must be called periodically, every 0.005 seconds. 
+</span>
+<div class="programlisting">
+<code class="usage"><span class="include">#include "<a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'FLIGHT_hexacopter.h'})" class="include">FLIGHT_hexacopter.h</a>"</span>
+void <a href="javascript: void(0)" onclick="postParentWindowMessage({message:'jumpToCode',location:'FLIGHT_hexacopter_step1'})" class="fcn">FLIGHT_hexacopter_step1</a>(void)</code>
 </div>
 </div>
 </section>
@@ -244,6 +256,21 @@ Parameters for SampleTime
 <code class="usage">struct {
   ...
   real_T SampleTime;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.SampleTime_SAS">
+<h4 class="function">
+FLIGHT_hexacopter_P.SampleTime_SAS
+</h4>
+<span class="description">
+Parameters for SampleTime_SAS
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real_T SampleTime_SAS;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
@@ -323,47 +350,47 @@ Parameters for &lt;S189&gt;/PID Controller4
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.PIDController2_InitialCondition">
+<div id="fcn_FLIGHT_hexacopter_P.pid_ctrl_rollrate_InitialCondit">
 <h4 class="function">
-FLIGHT_hexacopter_P.PIDController2_InitialCondition
+FLIGHT_hexacopter_P.pid_ctrl_rollrate_InitialCondit
 </h4>
 <span class="description">
-Parameters for &lt;S9&gt;/PID Controller2
+Parameters for &lt;S9&gt;/pid_ctrl_rollrate
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  real32_T PIDController2_InitialCondition;
+  real32_T pid_ctrl_rollrate_InitialCondit;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.PIDController1_InitialCondition">
+<div id="fcn_FLIGHT_hexacopter_P.pid_ctrl_pitchrate_InitialCondi">
 <h4 class="function">
-FLIGHT_hexacopter_P.PIDController1_InitialCondition
+FLIGHT_hexacopter_P.pid_ctrl_pitchrate_InitialCondi
 </h4>
 <span class="description">
-Parameters for &lt;S9&gt;/PID Controller1
+Parameters for &lt;S9&gt;/pid_ctrl_pitchrate
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  real32_T PIDController1_InitialCondition;
+  real32_T pid_ctrl_pitchrate_InitialCondi;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.PIDController6_InitialCondition">
+<div id="fcn_FLIGHT_hexacopter_P.pid_ctrl_yawrate_InitialConditi">
 <h4 class="function">
-FLIGHT_hexacopter_P.PIDController6_InitialCondition
+FLIGHT_hexacopter_P.pid_ctrl_yawrate_InitialConditi
 </h4>
 <span class="description">
-Parameters for &lt;S9&gt;/PID Controller6
+Parameters for &lt;S9&gt;/pid_ctrl_yawrate
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  real32_T PIDController6_InitialCondition;
+  real32_T pid_ctrl_yawrate_InitialConditi;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
@@ -398,47 +425,47 @@ Parameters for &lt;S189&gt;/PID Controller4
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.PIDController2_InitialConditi_c">
+<div id="fcn_FLIGHT_hexacopter_P.pid_ctrl_rollrate_InitialCond_c">
 <h4 class="function">
-FLIGHT_hexacopter_P.PIDController2_InitialConditi_c
+FLIGHT_hexacopter_P.pid_ctrl_rollrate_InitialCond_c
 </h4>
 <span class="description">
-Parameters for &lt;S9&gt;/PID Controller2
+Parameters for &lt;S9&gt;/pid_ctrl_rollrate
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  real32_T PIDController2_InitialConditi_c;
+  real32_T pid_ctrl_rollrate_InitialCond_c;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.PIDController1_InitialConditi_c">
+<div id="fcn_FLIGHT_hexacopter_P.pid_ctrl_pitchrate_InitialCon_c">
 <h4 class="function">
-FLIGHT_hexacopter_P.PIDController1_InitialConditi_c
+FLIGHT_hexacopter_P.pid_ctrl_pitchrate_InitialCon_c
 </h4>
 <span class="description">
-Parameters for &lt;S9&gt;/PID Controller1
+Parameters for &lt;S9&gt;/pid_ctrl_pitchrate
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  real32_T PIDController1_InitialConditi_c;
+  real32_T pid_ctrl_pitchrate_InitialCon_c;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.PIDController6_InitialConditi_h">
+<div id="fcn_FLIGHT_hexacopter_P.pid_ctrl_yawrate_InitialCondi_h">
 <h4 class="function">
-FLIGHT_hexacopter_P.PIDController6_InitialConditi_h
+FLIGHT_hexacopter_P.pid_ctrl_yawrate_InitialCondi_h
 </h4>
 <span class="description">
-Parameters for &lt;S9&gt;/PID Controller6
+Parameters for &lt;S9&gt;/pid_ctrl_yawrate
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  real32_T PIDController6_InitialConditi_h;
+  real32_T pid_ctrl_yawrate_InitialCondi_h;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
@@ -533,27 +560,12 @@ Parameters for &lt;S189&gt;/PID Controller4
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.CompareToConstant3_const">
-<h4 class="function">
-FLIGHT_hexacopter_P.CompareToConstant3_const
-</h4>
-<span class="description">
-Parameters for &lt;S408&gt;/Compare To Constant3
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  uint16_T CompareToConstant3_const;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
 <div id="fcn_FLIGHT_hexacopter_P.CompareToConstant_const">
 <h4 class="function">
 FLIGHT_hexacopter_P.CompareToConstant_const
 </h4>
 <span class="description">
-Parameters for &lt;S8&gt;/Compare To Constant
+Parameters for &lt;S4&gt;/Compare To Constant
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -563,17 +575,32 @@ Parameters for &lt;S8&gt;/Compare To Constant
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.CompareToConstant_const_g">
+<div id="fcn_FLIGHT_hexacopter_P.CompareToConstant3_const">
 <h4 class="function">
-FLIGHT_hexacopter_P.CompareToConstant_const_g
+FLIGHT_hexacopter_P.CompareToConstant3_const
 </h4>
 <span class="description">
-Parameters for &lt;S4&gt;/Compare To Constant
+Parameters for &lt;S406&gt;/Compare To Constant3
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  uint16_T CompareToConstant_const_g;
+  uint16_T CompareToConstant3_const;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.CompareToConstant_const_n">
+<h4 class="function">
+FLIGHT_hexacopter_P.CompareToConstant_const_n
+</h4>
+<span class="description">
+Parameters for &lt;S8&gt;/Compare To Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  uint16_T CompareToConstant_const_n;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
@@ -583,7 +610,7 @@ Parameters for &lt;S4&gt;/Compare To Constant
 FLIGHT_hexacopter_P.Out1_Y0
 </h4>
 <span class="description">
-Parameters for &lt;S404&gt;/Out1
+Parameters for &lt;S403&gt;/Out1
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -613,7 +640,7 @@ Parameters for &lt;S401&gt;/Constant
 FLIGHT_hexacopter_P.Out1_Y0_d
 </h4>
 <span class="description">
-Parameters for &lt;S407&gt;/Out1
+Parameters for &lt;S405&gt;/Out1
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -628,7 +655,7 @@ Parameters for &lt;S407&gt;/Out1
 FLIGHT_hexacopter_P.Constant_Value_g
 </h4>
 <span class="description">
-Parameters for &lt;S406&gt;/Constant
+Parameters for &lt;S404&gt;/Constant
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -643,7 +670,7 @@ Parameters for &lt;S406&gt;/Constant
 FLIGHT_hexacopter_P.Constant_Value_f
 </h4>
 <span class="description">
-Parameters for &lt;S575&gt;/Constant
+Parameters for &lt;S573&gt;/Constant
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -658,7 +685,7 @@ Parameters for &lt;S575&gt;/Constant
 FLIGHT_hexacopter_P.Constant_Value_m
 </h4>
 <span class="description">
-Parameters for &lt;S573&gt;/Constant
+Parameters for &lt;S571&gt;/Constant
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -673,7 +700,7 @@ Parameters for &lt;S573&gt;/Constant
 FLIGHT_hexacopter_P.Out1_Y0_p
 </h4>
 <span class="description">
-Parameters for &lt;S413&gt;/Out1
+Parameters for &lt;S411&gt;/Out1
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -688,7 +715,7 @@ Parameters for &lt;S413&gt;/Out1
 FLIGHT_hexacopter_P.Constant_Value_b
 </h4>
 <span class="description">
-Parameters for &lt;S412&gt;/Constant
+Parameters for &lt;S410&gt;/Constant
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -733,7 +760,7 @@ Parameters for &lt;S577&gt;/Constant
 FLIGHT_hexacopter_P.Out1_Y0_pn
 </h4>
 <span class="description">
-Parameters for &lt;S405&gt;/Out1
+Parameters for &lt;S576&gt;/Out1
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -748,7 +775,7 @@ Parameters for &lt;S405&gt;/Out1
 FLIGHT_hexacopter_P.Constant_Value_gk
 </h4>
 <span class="description">
-Parameters for &lt;S402&gt;/Constant
+Parameters for &lt;S575&gt;/Constant
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -773,122 +800,17 @@ Parameters for &lt;S582&gt;/Constant
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.Constant_Value_n1">
-<h4 class="function">
-FLIGHT_hexacopter_P.Constant_Value_n1
-</h4>
-<span class="description">
-Parameters for &lt;S584&gt;/Constant
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  px4_Bus_vehicle_torque_setpoint Constant_Value_n1;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
 <div id="fcn_FLIGHT_hexacopter_P.Constant_Value_a">
 <h4 class="function">
 FLIGHT_hexacopter_P.Constant_Value_a
 </h4>
 <span class="description">
-Parameters for &lt;S568&gt;/Constant
+Parameters for &lt;S566&gt;/Constant
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
   px4_Bus_actuator_controls_status Constant_Value_a;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
-<div id="fcn_FLIGHT_hexacopter_P.ReadParameter1_SampleTime">
-<h4 class="function">
-FLIGHT_hexacopter_P.ReadParameter1_SampleTime
-</h4>
-<span class="description">
-Parameters for &lt;S4&gt;/Read Parameter1
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real_T ReadParameter1_SampleTime;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
-<div id="fcn_FLIGHT_hexacopter_P.ReadParameter13_SampleTime">
-<h4 class="function">
-FLIGHT_hexacopter_P.ReadParameter13_SampleTime
-</h4>
-<span class="description">
-Parameters for &lt;S4&gt;/Read Parameter13
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real_T ReadParameter13_SampleTime;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
-<div id="fcn_FLIGHT_hexacopter_P.ReadParameter2_SampleTime">
-<h4 class="function">
-FLIGHT_hexacopter_P.ReadParameter2_SampleTime
-</h4>
-<span class="description">
-Parameters for &lt;S4&gt;/Read Parameter2
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real_T ReadParameter2_SampleTime;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
-<div id="fcn_FLIGHT_hexacopter_P.ReadParameter3_SampleTime">
-<h4 class="function">
-FLIGHT_hexacopter_P.ReadParameter3_SampleTime
-</h4>
-<span class="description">
-Parameters for &lt;S4&gt;/Read Parameter3
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real_T ReadParameter3_SampleTime;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
-<div id="fcn_FLIGHT_hexacopter_P.ReadParameter4_SampleTime">
-<h4 class="function">
-FLIGHT_hexacopter_P.ReadParameter4_SampleTime
-</h4>
-<span class="description">
-Parameters for &lt;S4&gt;/Read Parameter4
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real_T ReadParameter4_SampleTime;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
-<div id="fcn_FLIGHT_hexacopter_P.ReadParameter5_SampleTime">
-<h4 class="function">
-FLIGHT_hexacopter_P.ReadParameter5_SampleTime
-</h4>
-<span class="description">
-Parameters for &lt;S4&gt;/Read Parameter5
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real_T ReadParameter5_SampleTime;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
@@ -2593,7 +2515,7 @@ Parameters for &lt;S9&gt;/Constant
 FLIGHT_hexacopter_P.Filter_gainval_o
 </h4>
 <span class="description">
-Parameters for &lt;S495&gt;/Filter
+Parameters for &lt;S493&gt;/Filter
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -2608,7 +2530,7 @@ Parameters for &lt;S495&gt;/Filter
 FLIGHT_hexacopter_P.Integrator_gainval_i
 </h4>
 <span class="description">
-Parameters for &lt;S500&gt;/Integrator
+Parameters for &lt;S498&gt;/Integrator
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -2638,7 +2560,7 @@ Parameters for &lt;S9&gt;/Constant1
 FLIGHT_hexacopter_P.Filter_gainval_f
 </h4>
 <span class="description">
-Parameters for &lt;S445&gt;/Filter
+Parameters for &lt;S443&gt;/Filter
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -2653,7 +2575,7 @@ Parameters for &lt;S445&gt;/Filter
 FLIGHT_hexacopter_P.Integrator_gainval_im
 </h4>
 <span class="description">
-Parameters for &lt;S450&gt;/Integrator
+Parameters for &lt;S448&gt;/Integrator
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -2683,7 +2605,7 @@ Parameters for &lt;S9&gt;/Constant2
 FLIGHT_hexacopter_P.Filter_gainval_m
 </h4>
 <span class="description">
-Parameters for &lt;S545&gt;/Filter
+Parameters for &lt;S543&gt;/Filter
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -2698,7 +2620,7 @@ Parameters for &lt;S545&gt;/Filter
 FLIGHT_hexacopter_P.Integrator_gainval_e
 </h4>
 <span class="description">
-Parameters for &lt;S550&gt;/Integrator
+Parameters for &lt;S548&gt;/Integrator
 </span>
 <div class="programlisting">
 <code class="usage">struct {
@@ -2708,107 +2630,62 @@ Parameters for &lt;S550&gt;/Integrator
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.Merge1_InitialOutput">
+<div id="fcn_FLIGHT_hexacopter_P.RateTransition_InitialCondition">
 <h4 class="function">
-FLIGHT_hexacopter_P.Merge1_InitialOutput
+FLIGHT_hexacopter_P.RateTransition_InitialCondition
 </h4>
 <span class="description">
-Parameters for &lt;Root&gt;/Merge1
+Parameters for &lt;Root&gt;/Rate Transition
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  real32_T Merge1_InitialOutput;
+  real32_T RateTransition_InitialCondition;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.Constant1_Value_i">
+<div id="fcn_FLIGHT_hexacopter_P.RateTransition1_InitialConditio">
 <h4 class="function">
-FLIGHT_hexacopter_P.Constant1_Value_i
+FLIGHT_hexacopter_P.RateTransition1_InitialConditio
 </h4>
 <span class="description">
-Parameters for &lt;S12&gt;/Constant1
+Parameters for &lt;Root&gt;/Rate Transition1
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  real32_T Constant1_Value_i[1][6];
+  real32_T RateTransition1_InitialConditio;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.Saturation_UpperSat_ep">
+<div id="fcn_FLIGHT_hexacopter_P.RateTransition2_InitialConditio">
 <h4 class="function">
-FLIGHT_hexacopter_P.Saturation_UpperSat_ep
+FLIGHT_hexacopter_P.RateTransition2_InitialConditio
 </h4>
 <span class="description">
-Parameters for &lt;S570&gt;/Saturation
+Parameters for &lt;Root&gt;/Rate Transition2
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  real32_T Saturation_UpperSat_ep;
+  real32_T RateTransition2_InitialConditio;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.Saturation_LowerSat_p">
+<div id="fcn_FLIGHT_hexacopter_P.RateTransition3_InitialConditio">
 <h4 class="function">
-FLIGHT_hexacopter_P.Saturation_LowerSat_p
+FLIGHT_hexacopter_P.RateTransition3_InitialConditio
 </h4>
 <span class="description">
-Parameters for &lt;S570&gt;/Saturation
+Parameters for &lt;Root&gt;/Rate Transition3
 </span>
 <div class="programlisting">
 <code class="usage">struct {
   ...
-  real32_T Saturation_LowerSat_p;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
-<div id="fcn_FLIGHT_hexacopter_P.Constant_Value_ez">
-<h4 class="function">
-FLIGHT_hexacopter_P.Constant_Value_ez
-</h4>
-<span class="description">
-Parameters for &lt;S570&gt;/Constant
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real32_T Constant_Value_ez;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
-<div id="fcn_FLIGHT_hexacopter_P.Gain_Gain_mg">
-<h4 class="function">
-FLIGHT_hexacopter_P.Gain_Gain_mg
-</h4>
-<span class="description">
-Parameters for &lt;S570&gt;/Gain
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real32_T Gain_Gain_mg;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
-<div id="fcn_FLIGHT_hexacopter_P.Constant_Value_bm">
-<h4 class="function">
-FLIGHT_hexacopter_P.Constant_Value_bm
-</h4>
-<span class="description">
-Parameters for &lt;S12&gt;/Constant
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real32_T Constant_Value_bm[1][10];
+  real32_T RateTransition3_InitialConditio;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
@@ -2903,6 +2780,126 @@ Parameters for &lt;S186&gt;/Constant
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
+<div id="fcn_FLIGHT_hexacopter_P.Constant1_Value_i">
+<h4 class="function">
+FLIGHT_hexacopter_P.Constant1_Value_i
+</h4>
+<span class="description">
+Parameters for &lt;S12&gt;/Constant1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant1_Value_i[1][6];
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.Saturation_UpperSat_ep">
+<h4 class="function">
+FLIGHT_hexacopter_P.Saturation_UpperSat_ep
+</h4>
+<span class="description">
+Parameters for &lt;S568&gt;/Saturation
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Saturation_UpperSat_ep;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.Saturation_LowerSat_p">
+<h4 class="function">
+FLIGHT_hexacopter_P.Saturation_LowerSat_p
+</h4>
+<span class="description">
+Parameters for &lt;S568&gt;/Saturation
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Saturation_LowerSat_p;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.Constant_Value_ez">
+<h4 class="function">
+FLIGHT_hexacopter_P.Constant_Value_ez
+</h4>
+<span class="description">
+Parameters for &lt;S568&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant_Value_ez;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.Gain_Gain_mg">
+<h4 class="function">
+FLIGHT_hexacopter_P.Gain_Gain_mg
+</h4>
+<span class="description">
+Parameters for &lt;S568&gt;/Gain
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Gain_Gain_mg;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.Constant_Value_bm">
+<h4 class="function">
+FLIGHT_hexacopter_P.Constant_Value_bm
+</h4>
+<span class="description">
+Parameters for &lt;S12&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant_Value_bm[1][10];
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.Merge1_InitialOutput">
+<h4 class="function">
+FLIGHT_hexacopter_P.Merge1_InitialOutput
+</h4>
+<span class="description">
+Parameters for &lt;Root&gt;/Merge1
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Merge1_InitialOutput;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.Constant_Value_gq">
+<h4 class="function">
+FLIGHT_hexacopter_P.Constant_Value_gq
+</h4>
+<span class="description">
+Parameters for &lt;S15&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant_Value_gq;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
 <div id="fcn_FLIGHT_hexacopter_P.Constant_Value_a5">
 <h4 class="function">
 FLIGHT_hexacopter_P.Constant_Value_a5
@@ -2933,36 +2930,6 @@ Parameters for &lt;S579&gt;/1//2
 } FLIGHT_hexacopter_P;</code>
 </div>
 </div>
-<div id="fcn_FLIGHT_hexacopter_P.Constant_Value_gq">
-<h4 class="function">
-FLIGHT_hexacopter_P.Constant_Value_gq
-</h4>
-<span class="description">
-Parameters for &lt;S14&gt;/Constant
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real32_T Constant_Value_gq;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
-<div id="fcn_FLIGHT_hexacopter_P.Constant_Value_ll">
-<h4 class="function">
-FLIGHT_hexacopter_P.Constant_Value_ll
-</h4>
-<span class="description">
-Parameters for &lt;S16&gt;/Constant
-</span>
-<div class="programlisting">
-<code class="usage">struct {
-  ...
-  real32_T Constant_Value_ll;
-  ...
-} FLIGHT_hexacopter_P;</code>
-</div>
-</div>
 <div id="fcn_FLIGHT_hexacopter_P.Merge_InitialOutput">
 <h4 class="function">
 FLIGHT_hexacopter_P.Merge_InitialOutput
@@ -2974,6 +2941,21 @@ Parameters for &lt;Root&gt;/Merge
 <code class="usage">struct {
   ...
   real32_T Merge_InitialOutput;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.Constant_Value_ll">
+<h4 class="function">
+FLIGHT_hexacopter_P.Constant_Value_ll
+</h4>
+<span class="description">
+Parameters for &lt;S17&gt;/Constant
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  real32_T Constant_Value_ll;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>
@@ -3034,6 +3016,51 @@ Parameters for &lt;S6&gt;/Output_Limits1
 <code class="usage">struct {
   ...
   uint16_T Output_Limits1_LowerSat;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.RateTransition4_InitialConditio">
+<h4 class="function">
+FLIGHT_hexacopter_P.RateTransition4_InitialConditio
+</h4>
+<span class="description">
+Parameters for &lt;Root&gt;/Rate Transition4
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  uint16_T RateTransition4_InitialConditio;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.RateTransition5_InitialConditio">
+<h4 class="function">
+FLIGHT_hexacopter_P.RateTransition5_InitialConditio
+</h4>
+<span class="description">
+Parameters for &lt;Root&gt;/Rate Transition5
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  boolean_T RateTransition5_InitialConditio;
+  ...
+} FLIGHT_hexacopter_P;</code>
+</div>
+</div>
+<div id="fcn_FLIGHT_hexacopter_P.RateTransition6_InitialConditio">
+<h4 class="function">
+FLIGHT_hexacopter_P.RateTransition6_InitialConditio
+</h4>
+<span class="description">
+Parameters for &lt;Root&gt;/Rate Transition6
+</span>
+<div class="programlisting">
+<code class="usage">struct {
+  ...
+  boolean_T RateTransition6_InitialConditio;
   ...
 } FLIGHT_hexacopter_P;</code>
 </div>

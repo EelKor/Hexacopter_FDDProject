@@ -11,7 +11,6 @@
 #include <uORB/topics/vehicle_local_position_setpoint.h>
 #include <uORB/topics/vehicle_odometry.h>
 #include <uORB/topics/vehicle_rates_setpoint.h>
-#include <uORB/topics/vehicle_torque_setpoint.h>
 
 typedef struct actuator_controls_status_s  px4_Bus_actuator_controls_status ;
 typedef struct actuator_motors_s  px4_Bus_actuator_motors ;
@@ -23,6 +22,5 @@ typedef struct vehicle_local_position_s  px4_Bus_vehicle_local_position ;
 typedef struct vehicle_local_position_setpoint_s  px4_Bus_vehicle_local_position_setpoint ;
 typedef struct vehicle_odometry_s  px4_Bus_vehicle_odometry ;
 typedef struct vehicle_rates_setpoint_s  px4_Bus_vehicle_rates_setpoint ;
-typedef struct vehicle_torque_setpoint_s  px4_Bus_vehicle_torque_setpoint ;
 
 #endif

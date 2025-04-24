@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.142
+// Model version                  : 1.146
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Wed Apr 23 15:33:57 2025
+// C/C++ source code generated on : Thu Apr 24 17:45:28 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -37,7 +37,6 @@
 #include <uORB/topics/vehicle_attitude_setpoint.h>
 #include <uORB/topics/vehicle_angular_velocity.h>
 #include <uORB/topics/vehicle_rates_setpoint.h>
-#include <uORB/topics/vehicle_torque_setpoint.h>
 #include <uORB/topics/actuator_controls_status.h>
 
 extern "C"
@@ -63,6 +62,14 @@ extern "C"
 
 #ifndef rtmSetErrorStatus
 #define rtmSetErrorStatus(rtm, val)    ((rtm)->errorStatus = (val))
+#endif
+
+#ifndef rtmStepTask
+#define rtmStepTask(rtm, idx)          ((rtm)->Timing.TaskCounters.TID[(idx)] == 0)
+#endif
+
+#ifndef rtmTaskCounter
+#define rtmTaskCounter(rtm, idx)       ((rtm)->Timing.TaskCounters.TID[(idx)])
 #endif
 
 // Block signals for system '<S3>/PX4 Timestamp'
@@ -120,47 +127,62 @@ struct DW_ReadParameter3_FLIGHT_hexa_T {
   boolean_T objisempty;                // '<S19>/Read Parameter3'
 };
 
-// Block signals for system '<S567>/PX4 Timestamp'
+// Block signals for system '<S565>/PX4 Timestamp'
 struct B_PX4Timestamp_FLIGHT_hexac_l_T {
-  uint64_T PX4Timestamp;               // '<S567>/PX4 Timestamp'
+  uint64_T PX4Timestamp;               // '<S565>/PX4 Timestamp'
 };
 
-// Block states (default storage) for system '<S567>/PX4 Timestamp'
+// Block states (default storage) for system '<S565>/PX4 Timestamp'
 struct DW_PX4Timestamp_FLIGHT_hexa_b_T {
-  px4_internal_block_getPX4Abso_T obj; // '<S567>/PX4 Timestamp'
-  boolean_T objisempty;                // '<S567>/PX4 Timestamp'
+  px4_internal_block_getPX4Abso_T obj; // '<S565>/PX4 Timestamp'
+  boolean_T objisempty;                // '<S565>/PX4 Timestamp'
+};
+
+// Block signals for system '<S15>/PX4 Timestamp'
+struct B_PX4Timestamp_FLIGHT_hexac_c_T {
+  uint64_T PX4Timestamp;               // '<S15>/PX4 Timestamp'
+};
+
+// Block states (default storage) for system '<S15>/PX4 Timestamp'
+struct DW_PX4Timestamp_FLIGHT_hexa_f_T {
+  px4_internal_block_getPX4Abso_T obj; // '<S15>/PX4 Timestamp'
+  boolean_T objisempty;                // '<S15>/PX4 Timestamp'
 };
 
 // Block signals (default storage)
 struct B_FLIGHT_hexacopter_T {
-  px4_Bus_vehicle_local_position In1;  // '<S404>/In1'
+  px4_Bus_vehicle_local_position In1;  // '<S403>/In1'
   px4_Bus_vehicle_local_position r;
-  px4_Bus_vehicle_odometry In1_k;      // '<S407>/In1'
+  px4_Bus_vehicle_odometry In1_k;      // '<S405>/In1'
   px4_Bus_vehicle_odometry r1;
-  px4_Bus_actuator_outputs BusAssignment;// '<S572>/Bus Assignment'
-  px4_Bus_input_rc In1_n;              // '<S413>/In1'
+  px4_Bus_actuator_outputs BusAssignment;// '<S570>/Bus Assignment'
+  px4_Bus_input_rc In1_n;              // '<S411>/In1'
   px4_Bus_input_rc r2;
-  px4_Bus_actuator_motors BusAssignment_f;// '<S571>/Bus Assignment'
-  px4_Bus_vehicle_local_position_setpoint BusAssignment_g;// '<S15>/Bus Assignment' 
-  px4_Bus_vehicle_attitude_setpoint BusAssignment_d;// '<S14>/Bus Assignment'
-  px4_Bus_vehicle_angular_velocity In1_h;// '<S405>/In1'
+  px4_Bus_actuator_motors BusAssignment_f;// '<S569>/Bus Assignment'
+  px4_Bus_vehicle_local_position_setpoint BusAssignment_g;// '<S16>/Bus Assignment' 
+  px4_Bus_vehicle_attitude_setpoint BusAssignment_d;// '<S15>/Bus Assignment'
+  px4_Bus_vehicle_angular_velocity In1_h;// '<S576>/In1'
   px4_Bus_vehicle_angular_velocity r3;
-  px4_Bus_vehicle_rates_setpoint BusAssignment_e;// '<S16>/Bus Assignment'
-  px4_Bus_vehicle_torque_setpoint BusAssignment_n;// '<S17>/Bus Assignment'
-  px4_Bus_actuator_controls_status BusAssignment_gi;// '<S567>/Bus Assignment'
+  px4_Bus_vehicle_rates_setpoint BusAssignment_e;// '<S17>/Bus Assignment'
+  uint16_T values[18];
+  px4_Bus_actuator_controls_status BusAssignment_gi;// '<S565>/Bus Assignment'
   uint16_T pwmValue[8];
-  real32_T Merge1[4];                  // '<Root>/Merge1'
   uint16_T DataTypeConversion6[6];     // '<S4>/Data Type Conversion6'
   uint16_T DataTypeConversion7_k[6];   // '<S4>/Data Type Conversion7'
   real_T reletive_time_sec;
   real_T peak_angle_rad;
   real_T out_roll;                     // '<S3>/MATLAB Function'
   real_T out_pitch;                    // '<S3>/MATLAB Function'
-  real_T out_yawrate;                  // '<S3>/MATLAB Function'
+  real_T u0;
+  real32_T RateTransition;             // '<Root>/Rate Transition'
+  real32_T RateTransition1;            // '<Root>/Rate Transition1'
+  real32_T RateTransition2;            // '<Root>/Rate Transition2'
+  real32_T RateTransition3;            // '<Root>/Rate Transition3'
+  real32_T Merge1[4];                  // '<Root>/Merge1'
   real32_T Merge;                      // '<Root>/Merge'
-  real32_T Sum;                        // '<S509>/Sum'
-  real32_T Sum_a;                      // '<S459>/Sum'
-  real32_T Sum_i;                      // '<S559>/Sum'
+  real32_T Sum;                        // '<S507>/Sum'
+  real32_T Sum_a;                      // '<S457>/Sum'
+  real32_T Sum2;                       // '<S9>/Sum2'
   real32_T OutportBufferFordes_xy[2];  // '<S5>/Constant'
   real32_T Add;                        // '<S5>/Add'
   real32_T Saturation[2];              // '<S191>/Saturation'
@@ -171,17 +193,17 @@ struct B_FLIGHT_hexacopter_T {
   real32_T Saturation1_i;              // '<S19>/Saturation1'
   real32_T Switch2;                    // '<S169>/Switch2'
   real32_T Switch2_i;                  // '<S118>/Switch2'
+  uint16_T RateTransition4;            // '<Root>/Rate Transition4'
   uint16_T Output_Limits1[6];          // '<S6>/Output_Limits1'
-  int32_T ParamStep;
-  int32_T ParamStep_m;
-  int32_T ParamStep_c;
-  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_pnae;// '<S567>/PX4 Timestamp'
+  boolean_T RateTransition5;           // '<Root>/Rate Transition5'
+  boolean_T RateTransition6;           // '<Root>/Rate Transition6'
+  B_PX4Timestamp_FLIGHT_hexac_c_T PX4Timestamp_pnae;// '<S15>/PX4 Timestamp'
   B_PX4Timestamp_FLIGHT_hexacop_T PX4Timestamp_pna;// '<S3>/PX4 Timestamp'
-  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_pn;// '<S567>/PX4 Timestamp'
-  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_ok;// '<S567>/PX4 Timestamp'
-  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_n;// '<S567>/PX4 Timestamp'
-  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_p;// '<S567>/PX4 Timestamp'
-  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_o;// '<S567>/PX4 Timestamp'
+  B_PX4Timestamp_FLIGHT_hexac_c_T PX4Timestamp_pn;// '<S15>/PX4 Timestamp'
+  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_ok;// '<S565>/PX4 Timestamp'
+  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_n;// '<S565>/PX4 Timestamp'
+  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_p;// '<S565>/PX4 Timestamp'
+  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_o;// '<S565>/PX4 Timestamp'
   B_ReadParameter3_FLIGHT_hexac_T ReadParameter3_pn;// '<S19>/Read Parameter3'
   B_ReadParameter2_FLIGHT_hexac_T ReadParameter2_pna;// '<S19>/Read Parameter2'
   B_ReadParameter1_FLIGHT_hexac_T ReadParameter1_pnaev;// '<S19>/Read Parameter1' 
@@ -195,15 +217,16 @@ struct B_FLIGHT_hexacopter_T {
 
 // Block states (default storage) for system '<Root>'
 struct DW_FLIGHT_hexacopter_T {
-  px4_internal_block_ParameterU_T obj; // '<S9>/Read Parameter8'
+  px4_internal_block_ParameterU_T obj; // '<S9>/read_mc_rollrate_p'
+  px4_internal_block_ParameterU_T obj_e;// '<S9>/Read Parameter9'
+  px4_internal_block_ParameterU_T obj_i;// '<S9>/Read Parameter8'
   px4_internal_block_ParameterU_T obj_j;// '<S9>/Read Parameter7'
   px4_internal_block_ParameterU_T obj_a;// '<S9>/Read Parameter6'
   px4_internal_block_ParameterU_T obj_h;// '<S9>/Read Parameter5'
   px4_internal_block_ParameterU_T obj_p;// '<S9>/Read Parameter4'
   px4_internal_block_ParameterU_T obj_b;// '<S9>/Read Parameter3'
   px4_internal_block_ParameterU_T obj_d;// '<S9>/Read Parameter2'
-  px4_internal_block_ParameterU_T obj_e;// '<S9>/Read Parameter1'
-  px4_internal_block_ParameterU_T obj_i;// '<S9>/Read Parameter'
+  px4_internal_block_ParameterU_T obj_ea;// '<S9>/Read Parameter1'
   px4_internal_block_ParameterU_T obj_pi;// '<S191>/Read Parameter'
   px4_internal_block_ParameterU_T obj_eq;// '<S190>/Read Parameter'
   px4_internal_block_ParameterU_T obj_m;// '<S187>/Read Parameter1'
@@ -220,38 +243,44 @@ struct DW_FLIGHT_hexacopter_T {
   px4_internal_block_ParameterU_T obj_ds;// '<S2>/Read Parameter10'
   px4_internal_block_ParameterU_T obj_o;// '<S2>/Read Parameter1'
   px4_internal_block_ParameterU_T obj_jz;// '<S2>/Read Parameter'
-  px4_internal_block_Subscriber_T obj_p2;// '<S412>/SourceBlock'
-  px4_internal_block_Subscriber_T obj_ab;// '<S406>/SourceBlock'
-  px4_internal_block_Subscriber_T obj_pe;// '<S402>/SourceBlock'
+  px4_internal_block_Subscriber_T obj_pe;// '<S575>/SourceBlock'
+  px4_internal_block_Subscriber_T obj_p2;// '<S410>/SourceBlock'
+  px4_internal_block_Subscriber_T obj_ab;// '<S404>/SourceBlock'
   px4_internal_block_Subscriber_T obj_kk;// '<S401>/SourceBlock'
   px4_internal_block_PWM_FLIGHT_T obj_dl;// '<Root>/PX4 PWM Output'
-  px4_internal_block_Publisher__T obj_my;// '<S585>/SinkBlock'
   px4_internal_block_Publisher__T obj_a4;// '<S583>/SinkBlock'
   px4_internal_block_Publisher__T obj_pa;// '<S581>/SinkBlock'
   px4_internal_block_Publisher__T obj_pt;// '<S578>/SinkBlock'
-  px4_internal_block_Publisher__T obj_px;// '<S576>/SinkBlock'
-  px4_internal_block_Publisher__T obj_hf;// '<S574>/SinkBlock'
-  px4_internal_block_Publisher__T obj_jk;// '<S569>/SinkBlock'
+  px4_internal_block_Publisher__T obj_px;// '<S574>/SinkBlock'
+  px4_internal_block_Publisher__T obj_hf;// '<S572>/SinkBlock'
+  px4_internal_block_Publisher__T obj_jk;// '<S567>/SinkBlock'
   real_T start_time_usec;              // '<S3>/MATLAB Function'
-  real32_T Filter_DSTATE;              // '<S495>/Filter'
-  real32_T Integrator_DSTATE;          // '<S500>/Integrator'
-  real32_T Filter_DSTATE_j;            // '<S445>/Filter'
-  real32_T Integrator_DSTATE_c;        // '<S450>/Integrator'
-  real32_T Filter_DSTATE_h;            // '<S545>/Filter'
-  real32_T Integrator_DSTATE_l;        // '<S550>/Integrator'
+  real32_T Filter_DSTATE;              // '<S493>/Filter'
+  real32_T Integrator_DSTATE;          // '<S498>/Integrator'
+  real32_T Filter_DSTATE_j;            // '<S443>/Filter'
+  real32_T Integrator_DSTATE_c;        // '<S448>/Integrator'
+  real32_T Filter_DSTATE_h;            // '<S543>/Filter'
+  real32_T Integrator_DSTATE_l;        // '<S548>/Integrator'
   real32_T Filter_DSTATE_g;            // '<S274>/Filter'
   real32_T Integrator_DSTATE_k;        // '<S279>/Integrator'
   real32_T Filter_DSTATE_i;            // '<S51>/Filter'
   real32_T Integrator_DSTATE_e;        // '<S56>/Integrator'
+  real32_T RateTransition_Buffer0;     // '<Root>/Rate Transition'
+  real32_T RateTransition1_Buffer0;    // '<Root>/Rate Transition1'
+  real32_T RateTransition2_Buffer0;    // '<Root>/Rate Transition2'
+  real32_T RateTransition3_Buffer0;    // '<Root>/Rate Transition3'
+  uint16_T RateTransition4_Buffer0;    // '<Root>/Rate Transition4'
   int8_T Filter_PrevResetState;        // '<S274>/Filter'
   int8_T Integrator_PrevResetState;    // '<S279>/Integrator'
-  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_pnae;// '<S567>/PX4 Timestamp'
+  boolean_T RateTransition5_Buffer0;   // '<Root>/Rate Transition5'
+  boolean_T RateTransition6_Buffer0;   // '<Root>/Rate Transition6'
+  DW_PX4Timestamp_FLIGHT_hexa_f_T PX4Timestamp_pnae;// '<S15>/PX4 Timestamp'
   DW_PX4Timestamp_FLIGHT_hexaco_T PX4Timestamp_pna;// '<S3>/PX4 Timestamp'
-  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_pn;// '<S567>/PX4 Timestamp'
-  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_ok;// '<S567>/PX4 Timestamp'
-  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_n;// '<S567>/PX4 Timestamp'
-  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_p;// '<S567>/PX4 Timestamp'
-  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_o;// '<S567>/PX4 Timestamp'
+  DW_PX4Timestamp_FLIGHT_hexa_f_T PX4Timestamp_pn;// '<S15>/PX4 Timestamp'
+  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_ok;// '<S565>/PX4 Timestamp'
+  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_n;// '<S565>/PX4 Timestamp'
+  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_p;// '<S565>/PX4 Timestamp'
+  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_o;// '<S565>/PX4 Timestamp'
   DW_ReadParameter3_FLIGHT_hexa_T ReadParameter3_pn;// '<S19>/Read Parameter3'
   DW_ReadParameter2_FLIGHT_hexa_T ReadParameter2_pna;// '<S19>/Read Parameter2'
   DW_ReadParameter1_FLIGHT_hexa_T ReadParameter1_pnaev;// '<S19>/Read Parameter1' 
@@ -274,15 +303,6 @@ struct P_FLIGHT_hexacopter_T_ {
                                           //    '<S3>/Read Parameter'
                                           //    '<S3>/Read Parameter1'
                                           //    '<S3>/Read Parameter2'
-                                          //    '<S9>/Read Parameter'
-                                          //    '<S9>/Read Parameter1'
-                                          //    '<S9>/Read Parameter2'
-                                          //    '<S9>/Read Parameter3'
-                                          //    '<S9>/Read Parameter4'
-                                          //    '<S9>/Read Parameter5'
-                                          //    '<S9>/Read Parameter6'
-                                          //    '<S9>/Read Parameter7'
-                                          //    '<S9>/Read Parameter8'
                                           //    '<S19>/Read Parameter'
                                           //    '<S19>/Read Parameter1'
                                           //    '<S19>/Read Parameter2'
@@ -294,6 +314,25 @@ struct P_FLIGHT_hexacopter_T_ {
                                           //    '<S189>/Read Parameter3'
                                           //    '<S190>/Read Parameter'
                                           //    '<S191>/Read Parameter'
+
+  real_T SampleTime_SAS;               // Variable: SampleTime_SAS
+                                          //  Referenced by:
+                                          //    '<S4>/Read Parameter1'
+                                          //    '<S4>/Read Parameter13'
+                                          //    '<S4>/Read Parameter2'
+                                          //    '<S4>/Read Parameter3'
+                                          //    '<S4>/Read Parameter4'
+                                          //    '<S4>/Read Parameter5'
+                                          //    '<S9>/Read Parameter1'
+                                          //    '<S9>/Read Parameter2'
+                                          //    '<S9>/Read Parameter3'
+                                          //    '<S9>/Read Parameter4'
+                                          //    '<S9>/Read Parameter5'
+                                          //    '<S9>/Read Parameter6'
+                                          //    '<S9>/Read Parameter7'
+                                          //    '<S9>/Read Parameter8'
+                                          //    '<S9>/Read Parameter9'
+                                          //    '<S9>/read_mc_rollrate_p'
 
   real32_T MAX_CONTROL_ANGLE_PITCH;    // Variable: MAX_CONTROL_ANGLE_PITCH
                                           //  Referenced by:
@@ -319,17 +358,17 @@ struct P_FLIGHT_hexacopter_T_ {
                               // Mask Parameter: PIDController4_InitialConditi_l
                                  //  Referenced by: '<S274>/Filter'
 
-  real32_T PIDController2_InitialCondition;
-                              // Mask Parameter: PIDController2_InitialCondition
-                                 //  Referenced by: '<S495>/Filter'
+  real32_T pid_ctrl_rollrate_InitialCondit;
+                              // Mask Parameter: pid_ctrl_rollrate_InitialCondit
+                                 //  Referenced by: '<S493>/Filter'
 
-  real32_T PIDController1_InitialCondition;
-                              // Mask Parameter: PIDController1_InitialCondition
-                                 //  Referenced by: '<S445>/Filter'
+  real32_T pid_ctrl_pitchrate_InitialCondi;
+                              // Mask Parameter: pid_ctrl_pitchrate_InitialCondi
+                                 //  Referenced by: '<S443>/Filter'
 
-  real32_T PIDController6_InitialCondition;
-                              // Mask Parameter: PIDController6_InitialCondition
-                                 //  Referenced by: '<S545>/Filter'
+  real32_T pid_ctrl_yawrate_InitialConditi;
+                              // Mask Parameter: pid_ctrl_yawrate_InitialConditi
+                                 //  Referenced by: '<S543>/Filter'
 
   real32_T PIDController4_InitialConditi_a;
                               // Mask Parameter: PIDController4_InitialConditi_a
@@ -339,17 +378,17 @@ struct P_FLIGHT_hexacopter_T_ {
                               // Mask Parameter: PIDController4_InitialConditi_i
                                  //  Referenced by: '<S279>/Integrator'
 
-  real32_T PIDController2_InitialConditi_c;
-                              // Mask Parameter: PIDController2_InitialConditi_c
-                                 //  Referenced by: '<S500>/Integrator'
+  real32_T pid_ctrl_rollrate_InitialCond_c;
+                              // Mask Parameter: pid_ctrl_rollrate_InitialCond_c
+                                 //  Referenced by: '<S498>/Integrator'
 
-  real32_T PIDController1_InitialConditi_c;
-                              // Mask Parameter: PIDController1_InitialConditi_c
-                                 //  Referenced by: '<S450>/Integrator'
+  real32_T pid_ctrl_pitchrate_InitialCon_c;
+                              // Mask Parameter: pid_ctrl_pitchrate_InitialCon_c
+                                 //  Referenced by: '<S448>/Integrator'
 
-  real32_T PIDController6_InitialConditi_h;
-                              // Mask Parameter: PIDController6_InitialConditi_h
-                                 //  Referenced by: '<S550>/Integrator'
+  real32_T pid_ctrl_yawrate_InitialCondi_h;
+                              // Mask Parameter: pid_ctrl_yawrate_InitialCondi_h
+                                 //  Referenced by: '<S548>/Integrator'
 
   real32_T PIDController4_LowerSaturationL;
                               // Mask Parameter: PIDController4_LowerSaturationL
@@ -383,39 +422,39 @@ struct P_FLIGHT_hexacopter_T_ {
                                  //    '<S286>/Saturation'
                                  //    '<S271>/DeadZone'
 
-  uint16_T CompareToConstant3_const; // Mask Parameter: CompareToConstant3_const
-                                        //  Referenced by: '<S411>/Constant'
-
   uint16_T CompareToConstant_const;   // Mask Parameter: CompareToConstant_const
-                                         //  Referenced by: '<S409>/Constant'
+                                         //  Referenced by: '<S180>/Constant'
 
-  uint16_T CompareToConstant_const_g;
-                                    // Mask Parameter: CompareToConstant_const_g
-                                       //  Referenced by: '<S180>/Constant'
+  uint16_T CompareToConstant3_const; // Mask Parameter: CompareToConstant3_const
+                                        //  Referenced by: '<S409>/Constant'
+
+  uint16_T CompareToConstant_const_n;
+                                    // Mask Parameter: CompareToConstant_const_n
+                                       //  Referenced by: '<S407>/Constant'
 
   px4_Bus_vehicle_local_position Out1_Y0;// Computed Parameter: Out1_Y0
-                                            //  Referenced by: '<S404>/Out1'
+                                            //  Referenced by: '<S403>/Out1'
 
   px4_Bus_vehicle_local_position Constant_Value;// Computed Parameter: Constant_Value
                                                    //  Referenced by: '<S401>/Constant'
 
   px4_Bus_vehicle_odometry Out1_Y0_d;  // Computed Parameter: Out1_Y0_d
-                                          //  Referenced by: '<S407>/Out1'
+                                          //  Referenced by: '<S405>/Out1'
 
   px4_Bus_vehicle_odometry Constant_Value_g;// Computed Parameter: Constant_Value_g
-                                               //  Referenced by: '<S406>/Constant'
+                                               //  Referenced by: '<S404>/Constant'
 
   px4_Bus_actuator_outputs Constant_Value_f;// Computed Parameter: Constant_Value_f
-                                               //  Referenced by: '<S575>/Constant'
+                                               //  Referenced by: '<S573>/Constant'
 
   px4_Bus_actuator_motors Constant_Value_m;// Computed Parameter: Constant_Value_m
-                                              //  Referenced by: '<S573>/Constant'
+                                              //  Referenced by: '<S571>/Constant'
 
   px4_Bus_input_rc Out1_Y0_p;          // Computed Parameter: Out1_Y0_p
-                                          //  Referenced by: '<S413>/Out1'
+                                          //  Referenced by: '<S411>/Out1'
 
   px4_Bus_input_rc Constant_Value_b;   // Computed Parameter: Constant_Value_b
-                                          //  Referenced by: '<S412>/Constant'
+                                          //  Referenced by: '<S410>/Constant'
 
   px4_Bus_vehicle_local_position_setpoint Constant_Value_n;// Computed Parameter: Constant_Value_n
                                                               //  Referenced by: '<S580>/Constant'
@@ -424,37 +463,16 @@ struct P_FLIGHT_hexacopter_T_ {
                                                         //  Referenced by: '<S577>/Constant'
 
   px4_Bus_vehicle_angular_velocity Out1_Y0_pn;// Computed Parameter: Out1_Y0_pn
-                                                 //  Referenced by: '<S405>/Out1'
+                                                 //  Referenced by: '<S576>/Out1'
 
   px4_Bus_vehicle_angular_velocity Constant_Value_gk;// Computed Parameter: Constant_Value_gk
-                                                        //  Referenced by: '<S402>/Constant'
+                                                        //  Referenced by: '<S575>/Constant'
 
   px4_Bus_vehicle_rates_setpoint Constant_Value_i;// Computed Parameter: Constant_Value_i
                                                      //  Referenced by: '<S582>/Constant'
 
-  px4_Bus_vehicle_torque_setpoint Constant_Value_n1;// Computed Parameter: Constant_Value_n1
-                                                       //  Referenced by: '<S584>/Constant'
-
   px4_Bus_actuator_controls_status Constant_Value_a;// Computed Parameter: Constant_Value_a
-                                                       //  Referenced by: '<S568>/Constant'
-
-  real_T ReadParameter1_SampleTime;    // Expression: -1
-                                          //  Referenced by: '<S4>/Read Parameter1'
-
-  real_T ReadParameter13_SampleTime;   // Expression: -1
-                                          //  Referenced by: '<S4>/Read Parameter13'
-
-  real_T ReadParameter2_SampleTime;    // Expression: -1
-                                          //  Referenced by: '<S4>/Read Parameter2'
-
-  real_T ReadParameter3_SampleTime;    // Expression: -1
-                                          //  Referenced by: '<S4>/Read Parameter3'
-
-  real_T ReadParameter4_SampleTime;    // Expression: -1
-                                          //  Referenced by: '<S4>/Read Parameter4'
-
-  real_T ReadParameter5_SampleTime;    // Expression: -1
-                                          //  Referenced by: '<S4>/Read Parameter5'
+                                                       //  Referenced by: '<S566>/Constant'
 
   real_T Constant1_Value;              // Expression: 100
                                           //  Referenced by: '<S4>/Constant1'
@@ -800,49 +818,44 @@ struct P_FLIGHT_hexacopter_T_ {
                                           //  Referenced by: '<S9>/Constant'
 
   real32_T Filter_gainval_o;           // Computed Parameter: Filter_gainval_o
-                                          //  Referenced by: '<S495>/Filter'
+                                          //  Referenced by: '<S493>/Filter'
 
   real32_T Integrator_gainval_i;     // Computed Parameter: Integrator_gainval_i
-                                        //  Referenced by: '<S500>/Integrator'
+                                        //  Referenced by: '<S498>/Integrator'
 
   real32_T Constant1_Value_f;          // Computed Parameter: Constant1_Value_f
                                           //  Referenced by: '<S9>/Constant1'
 
   real32_T Filter_gainval_f;           // Computed Parameter: Filter_gainval_f
-                                          //  Referenced by: '<S445>/Filter'
+                                          //  Referenced by: '<S443>/Filter'
 
   real32_T Integrator_gainval_im;   // Computed Parameter: Integrator_gainval_im
-                                       //  Referenced by: '<S450>/Integrator'
+                                       //  Referenced by: '<S448>/Integrator'
 
   real32_T Constant2_Value_m;          // Computed Parameter: Constant2_Value_m
                                           //  Referenced by: '<S9>/Constant2'
 
   real32_T Filter_gainval_m;           // Computed Parameter: Filter_gainval_m
-                                          //  Referenced by: '<S545>/Filter'
+                                          //  Referenced by: '<S543>/Filter'
 
   real32_T Integrator_gainval_e;     // Computed Parameter: Integrator_gainval_e
-                                        //  Referenced by: '<S550>/Integrator'
+                                        //  Referenced by: '<S548>/Integrator'
 
-  real32_T Merge1_InitialOutput;     // Computed Parameter: Merge1_InitialOutput
-                                        //  Referenced by: '<Root>/Merge1'
+  real32_T RateTransition_InitialCondition;
+                          // Computed Parameter: RateTransition_InitialCondition
+                             //  Referenced by: '<Root>/Rate Transition'
 
-  real32_T Constant1_Value_i[6];       // Computed Parameter: Constant1_Value_i
-                                          //  Referenced by: '<S12>/Constant1'
+  real32_T RateTransition1_InitialConditio;
+                          // Computed Parameter: RateTransition1_InitialConditio
+                             //  Referenced by: '<Root>/Rate Transition1'
 
-  real32_T Saturation_UpperSat_ep; // Computed Parameter: Saturation_UpperSat_ep
-                                      //  Referenced by: '<S570>/Saturation'
+  real32_T RateTransition2_InitialConditio;
+                          // Computed Parameter: RateTransition2_InitialConditio
+                             //  Referenced by: '<Root>/Rate Transition2'
 
-  real32_T Saturation_LowerSat_p;   // Computed Parameter: Saturation_LowerSat_p
-                                       //  Referenced by: '<S570>/Saturation'
-
-  real32_T Constant_Value_ez;          // Computed Parameter: Constant_Value_ez
-                                          //  Referenced by: '<S570>/Constant'
-
-  real32_T Gain_Gain_mg;               // Computed Parameter: Gain_Gain_mg
-                                          //  Referenced by: '<S570>/Gain'
-
-  real32_T Constant_Value_bm[10];      // Computed Parameter: Constant_Value_bm
-                                          //  Referenced by: '<S12>/Constant'
+  real32_T RateTransition3_InitialConditio;
+                          // Computed Parameter: RateTransition3_InitialConditio
+                             //  Referenced by: '<Root>/Rate Transition3'
 
   real32_T Constant_Value_kf;          // Computed Parameter: Constant_Value_kf
                                           //  Referenced by: '<S181>/Constant'
@@ -862,20 +875,41 @@ struct P_FLIGHT_hexacopter_T_ {
   real32_T Constant_Value_o;           // Computed Parameter: Constant_Value_o
                                           //  Referenced by: '<S186>/Constant'
 
+  real32_T Constant1_Value_i[6];       // Computed Parameter: Constant1_Value_i
+                                          //  Referenced by: '<S12>/Constant1'
+
+  real32_T Saturation_UpperSat_ep; // Computed Parameter: Saturation_UpperSat_ep
+                                      //  Referenced by: '<S568>/Saturation'
+
+  real32_T Saturation_LowerSat_p;   // Computed Parameter: Saturation_LowerSat_p
+                                       //  Referenced by: '<S568>/Saturation'
+
+  real32_T Constant_Value_ez;          // Computed Parameter: Constant_Value_ez
+                                          //  Referenced by: '<S568>/Constant'
+
+  real32_T Gain_Gain_mg;               // Computed Parameter: Gain_Gain_mg
+                                          //  Referenced by: '<S568>/Gain'
+
+  real32_T Constant_Value_bm[10];      // Computed Parameter: Constant_Value_bm
+                                          //  Referenced by: '<S12>/Constant'
+
+  real32_T Merge1_InitialOutput;     // Computed Parameter: Merge1_InitialOutput
+                                        //  Referenced by: '<Root>/Merge1'
+
+  real32_T Constant_Value_gq;          // Computed Parameter: Constant_Value_gq
+                                          //  Referenced by: '<S15>/Constant'
+
   real32_T Constant_Value_a5;          // Computed Parameter: Constant_Value_a5
                                           //  Referenced by: '<Root>/Constant'
 
   real32_T u2_Gain;                    // Computed Parameter: u2_Gain
                                           //  Referenced by: '<S579>/1//2'
 
-  real32_T Constant_Value_gq;          // Computed Parameter: Constant_Value_gq
-                                          //  Referenced by: '<S14>/Constant'
-
-  real32_T Constant_Value_ll;          // Computed Parameter: Constant_Value_ll
-                                          //  Referenced by: '<S16>/Constant'
-
   real32_T Merge_InitialOutput;       // Computed Parameter: Merge_InitialOutput
                                          //  Referenced by: '<Root>/Merge'
+
+  real32_T Constant_Value_ll;          // Computed Parameter: Constant_Value_ll
+                                          //  Referenced by: '<S17>/Constant'
 
   uint32_T Constant2_Value_e;          // Computed Parameter: Constant2_Value_e
                                           //  Referenced by: '<S12>/Constant2'
@@ -890,6 +924,18 @@ struct P_FLIGHT_hexacopter_T_ {
   uint16_T Output_Limits1_LowerSat;
                                   // Computed Parameter: Output_Limits1_LowerSat
                                      //  Referenced by: '<S6>/Output_Limits1'
+
+  uint16_T RateTransition4_InitialConditio;
+                          // Computed Parameter: RateTransition4_InitialConditio
+                             //  Referenced by: '<Root>/Rate Transition4'
+
+  boolean_T RateTransition5_InitialConditio;
+                          // Computed Parameter: RateTransition5_InitialConditio
+                             //  Referenced by: '<Root>/Rate Transition5'
+
+  boolean_T RateTransition6_InitialConditio;
+                          // Computed Parameter: RateTransition6_InitialConditio
+                             //  Referenced by: '<Root>/Rate Transition6'
 
   int8_T Constant_Value_jc;            // Computed Parameter: Constant_Value_jc
                                           //  Referenced by: '<S46>/Constant'
@@ -920,6 +966,21 @@ struct P_FLIGHT_hexacopter_T_ {
 // Real-time Model Data Structure
 struct tag_RTM_FLIGHT_hexacopter_T {
   const char_T * volatile errorStatus;
+
+  //
+  //  Timing:
+  //  The following substructure contains information regarding
+  //  the timing information for the model.
+
+  struct {
+    struct {
+      uint8_T TID[2];
+    } TaskCounters;
+
+    struct {
+      boolean_T TID0_1;
+    } RateInteraction;
+  } Timing;
 };
 
 // Block parameters (default storage)
@@ -957,6 +1018,22 @@ extern "C"
 // Block states (default storage)
 extern struct DW_FLIGHT_hexacopter_T FLIGHT_hexacopter_DW;
 
+// External function called from main
+#ifdef __cplusplus
+
+extern "C"
+{
+
+#endif
+
+  extern void FLIGHT_hexacopter_SetEventsForThisBaseStep(boolean_T *eventFlags);
+
+#ifdef __cplusplus
+
+}
+
+#endif
+
 #ifdef __cplusplus
 
 extern "C"
@@ -966,7 +1043,9 @@ extern "C"
 
   // Model entry point functions
   extern void FLIGHT_hexacopter_initialize(void);
-  extern void FLIGHT_hexacopter_step(void);
+  extern void FLIGHT_hexacopter_step0(void);
+  extern void FLIGHT_hexacopter_step1(void);
+  extern void FLIGHT_hexacopter_step(int_T tid);
   extern void FLIGHT_hexacopter_terminate(void);
 
 #ifdef __cplusplus
@@ -1021,19 +1100,17 @@ extern volatile boolean_T runModel;
 //  Block '<S188>/Saturation1' : Unused code path elimination
 //  Block '<S188>/Saturation9' : Unused code path elimination
 //  Block '<S401>/NOT' : Unused code path elimination
-//  Block '<S402>/NOT' : Unused code path elimination
-//  Block '<S406>/NOT' : Unused code path elimination
-//  Block '<S403>/Signal Copy' : Unused code path elimination
-//  Block '<S403>/Signal Copy1' : Unused code path elimination
-//  Block '<S403>/Signal Copy2' : Unused code path elimination
-//  Block '<S410>/Bitwise Operator' : Unused code path elimination
-//  Block '<S410>/Data Type Conversion' : Unused code path elimination
-//  Block '<S410>/Data Type Conversion1' : Unused code path elimination
-//  Block '<S410>/Data Type Conversion2' : Unused code path elimination
-//  Block '<S410>/Gain' : Unused code path elimination
-//  Block '<S410>/Gain1' : Unused code path elimination
-//  Block '<S412>/NOT' : Unused code path elimination
-//  Block '<Root>/Scope1' : Unused code path elimination
+//  Block '<S404>/NOT' : Unused code path elimination
+//  Block '<S402>/Signal Copy' : Unused code path elimination
+//  Block '<S402>/Signal Copy1' : Unused code path elimination
+//  Block '<S402>/Signal Copy2' : Unused code path elimination
+//  Block '<S408>/Bitwise Operator' : Unused code path elimination
+//  Block '<S408>/Data Type Conversion' : Unused code path elimination
+//  Block '<S408>/Data Type Conversion1' : Unused code path elimination
+//  Block '<S408>/Data Type Conversion2' : Unused code path elimination
+//  Block '<S408>/Gain' : Unused code path elimination
+//  Block '<S408>/Gain1' : Unused code path elimination
+//  Block '<S410>/NOT' : Unused code path elimination
 //  Block '<Root>/Scope2' : Unused code path elimination
 //  Block '<S10>/Display' : Unused code path elimination
 //  Block '<S10>/Display1' : Unused code path elimination
@@ -1042,6 +1119,7 @@ extern volatile boolean_T runModel;
 //  Block '<S10>/Display5' : Unused code path elimination
 //  Block '<S10>/Display6' : Unused code path elimination
 //  Block '<S10>/Display7' : Unused code path elimination
+//  Block '<S575>/NOT' : Unused code path elimination
 //  Block '<Root>/Scope' : Unused code path elimination
 //  Block '<S7>/Data Type Conversion' : Eliminate redundant data type conversion
 //  Block '<S7>/Data Type Conversion9' : Eliminate redundant data type conversion
@@ -1078,10 +1156,10 @@ extern volatile boolean_T runModel;
 //  '<S11>'  : 'FLIGHT_hexacopter/actuator_controls'
 //  '<S12>'  : 'FLIGHT_hexacopter/actuator_outputs_motors'
 //  '<S13>'  : 'FLIGHT_hexacopter/quat2eul'
-//  '<S14>'  : 'FLIGHT_hexacopter/vehicle_attitude_setpoint'
-//  '<S15>'  : 'FLIGHT_hexacopter/vehicle_local_position_setpoint'
-//  '<S16>'  : 'FLIGHT_hexacopter/vehicle_rate_setpoint'
-//  '<S17>'  : 'FLIGHT_hexacopter/vehicle_torque_setpoint'
+//  '<S14>'  : 'FLIGHT_hexacopter/sub_vehicle_angular_velocity'
+//  '<S15>'  : 'FLIGHT_hexacopter/vehicle_attitude_setpoint'
+//  '<S16>'  : 'FLIGHT_hexacopter/vehicle_local_position_setpoint'
+//  '<S17>'  : 'FLIGHT_hexacopter/vehicle_rate_setpoint'
 //  '<S18>'  : 'FLIGHT_hexacopter/Altitude_Mode/Altitude_Mode_Stick2Command'
 //  '<S19>'  : 'FLIGHT_hexacopter/Altitude_Mode/Vz Controller'
 //  '<S20>'  : 'FLIGHT_hexacopter/Altitude_Mode/Vz Controller/PID Controller4'
@@ -1466,181 +1544,181 @@ extern volatile boolean_T runModel;
 //  '<S399>' : 'FLIGHT_hexacopter/If Action Subsystem/XY Velocity Controller/PID_Altitude/preSat Signal/Forward_Path'
 //  '<S400>' : 'FLIGHT_hexacopter/Mixer/pwm_out2'
 //  '<S401>' : 'FLIGHT_hexacopter/Read uORB/PX4 uORB Read'
-//  '<S402>' : 'FLIGHT_hexacopter/Read uORB/PX4 uORB Read1'
-//  '<S403>' : 'FLIGHT_hexacopter/Read uORB/Vehicle Attitude'
-//  '<S404>' : 'FLIGHT_hexacopter/Read uORB/PX4 uORB Read/Enabled Subsystem'
-//  '<S405>' : 'FLIGHT_hexacopter/Read uORB/PX4 uORB Read1/Enabled Subsystem'
-//  '<S406>' : 'FLIGHT_hexacopter/Read uORB/Vehicle Attitude/PX4 uORB Read'
-//  '<S407>' : 'FLIGHT_hexacopter/Read uORB/Vehicle Attitude/PX4 uORB Read/Enabled Subsystem'
-//  '<S408>' : 'FLIGHT_hexacopter/Remote Control/Arm1'
-//  '<S409>' : 'FLIGHT_hexacopter/Remote Control/Compare To Constant'
-//  '<S410>' : 'FLIGHT_hexacopter/Remote Control/Radio Control Transmitter'
-//  '<S411>' : 'FLIGHT_hexacopter/Remote Control/Arm1/Compare To Constant3'
-//  '<S412>' : 'FLIGHT_hexacopter/Remote Control/Radio Control Transmitter/PX4 uORB Read'
-//  '<S413>' : 'FLIGHT_hexacopter/Remote Control/Radio Control Transmitter/PX4 uORB Read/Enabled Subsystem'
-//  '<S414>' : 'FLIGHT_hexacopter/SAS/PID Controller1'
-//  '<S415>' : 'FLIGHT_hexacopter/SAS/PID Controller2'
-//  '<S416>' : 'FLIGHT_hexacopter/SAS/PID Controller6'
-//  '<S417>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Anti-windup'
-//  '<S418>' : 'FLIGHT_hexacopter/SAS/PID Controller1/D Gain'
-//  '<S419>' : 'FLIGHT_hexacopter/SAS/PID Controller1/External Derivative'
-//  '<S420>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Filter'
-//  '<S421>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Filter ICs'
-//  '<S422>' : 'FLIGHT_hexacopter/SAS/PID Controller1/I Gain'
-//  '<S423>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Ideal P Gain'
-//  '<S424>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Ideal P Gain Fdbk'
-//  '<S425>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Integrator'
-//  '<S426>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Integrator ICs'
-//  '<S427>' : 'FLIGHT_hexacopter/SAS/PID Controller1/N Copy'
-//  '<S428>' : 'FLIGHT_hexacopter/SAS/PID Controller1/N Gain'
-//  '<S429>' : 'FLIGHT_hexacopter/SAS/PID Controller1/P Copy'
-//  '<S430>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Parallel P Gain'
-//  '<S431>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Reset Signal'
-//  '<S432>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Saturation'
-//  '<S433>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Saturation Fdbk'
-//  '<S434>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Sum'
-//  '<S435>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Sum Fdbk'
-//  '<S436>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Tracking Mode'
-//  '<S437>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Tracking Mode Sum'
-//  '<S438>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Tsamp - Integral'
-//  '<S439>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Tsamp - Ngain'
-//  '<S440>' : 'FLIGHT_hexacopter/SAS/PID Controller1/postSat Signal'
-//  '<S441>' : 'FLIGHT_hexacopter/SAS/PID Controller1/preSat Signal'
-//  '<S442>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Anti-windup/Passthrough'
-//  '<S443>' : 'FLIGHT_hexacopter/SAS/PID Controller1/D Gain/External Parameters'
-//  '<S444>' : 'FLIGHT_hexacopter/SAS/PID Controller1/External Derivative/Error'
-//  '<S445>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Filter/Disc. Forward Euler Filter'
-//  '<S446>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Filter ICs/Internal IC - Filter'
-//  '<S447>' : 'FLIGHT_hexacopter/SAS/PID Controller1/I Gain/External Parameters'
-//  '<S448>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Ideal P Gain/Passthrough'
-//  '<S449>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Ideal P Gain Fdbk/Disabled'
-//  '<S450>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Integrator/Discrete'
-//  '<S451>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Integrator ICs/Internal IC'
-//  '<S452>' : 'FLIGHT_hexacopter/SAS/PID Controller1/N Copy/Disabled'
-//  '<S453>' : 'FLIGHT_hexacopter/SAS/PID Controller1/N Gain/External Parameters'
-//  '<S454>' : 'FLIGHT_hexacopter/SAS/PID Controller1/P Copy/Disabled'
-//  '<S455>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Parallel P Gain/External Parameters'
-//  '<S456>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Reset Signal/Disabled'
-//  '<S457>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Saturation/Passthrough'
-//  '<S458>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Saturation Fdbk/Disabled'
-//  '<S459>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Sum/Sum_PID'
-//  '<S460>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Sum Fdbk/Disabled'
-//  '<S461>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Tracking Mode/Disabled'
-//  '<S462>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Tracking Mode Sum/Passthrough'
-//  '<S463>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Tsamp - Integral/TsSignalSpecification'
-//  '<S464>' : 'FLIGHT_hexacopter/SAS/PID Controller1/Tsamp - Ngain/Passthrough'
-//  '<S465>' : 'FLIGHT_hexacopter/SAS/PID Controller1/postSat Signal/Forward_Path'
-//  '<S466>' : 'FLIGHT_hexacopter/SAS/PID Controller1/preSat Signal/Forward_Path'
-//  '<S467>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Anti-windup'
-//  '<S468>' : 'FLIGHT_hexacopter/SAS/PID Controller2/D Gain'
-//  '<S469>' : 'FLIGHT_hexacopter/SAS/PID Controller2/External Derivative'
-//  '<S470>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Filter'
-//  '<S471>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Filter ICs'
-//  '<S472>' : 'FLIGHT_hexacopter/SAS/PID Controller2/I Gain'
-//  '<S473>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Ideal P Gain'
-//  '<S474>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Ideal P Gain Fdbk'
-//  '<S475>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Integrator'
-//  '<S476>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Integrator ICs'
-//  '<S477>' : 'FLIGHT_hexacopter/SAS/PID Controller2/N Copy'
-//  '<S478>' : 'FLIGHT_hexacopter/SAS/PID Controller2/N Gain'
-//  '<S479>' : 'FLIGHT_hexacopter/SAS/PID Controller2/P Copy'
-//  '<S480>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Parallel P Gain'
-//  '<S481>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Reset Signal'
-//  '<S482>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Saturation'
-//  '<S483>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Saturation Fdbk'
-//  '<S484>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Sum'
-//  '<S485>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Sum Fdbk'
-//  '<S486>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Tracking Mode'
-//  '<S487>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Tracking Mode Sum'
-//  '<S488>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Tsamp - Integral'
-//  '<S489>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Tsamp - Ngain'
-//  '<S490>' : 'FLIGHT_hexacopter/SAS/PID Controller2/postSat Signal'
-//  '<S491>' : 'FLIGHT_hexacopter/SAS/PID Controller2/preSat Signal'
-//  '<S492>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Anti-windup/Passthrough'
-//  '<S493>' : 'FLIGHT_hexacopter/SAS/PID Controller2/D Gain/External Parameters'
-//  '<S494>' : 'FLIGHT_hexacopter/SAS/PID Controller2/External Derivative/Error'
-//  '<S495>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Filter/Disc. Forward Euler Filter'
-//  '<S496>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Filter ICs/Internal IC - Filter'
-//  '<S497>' : 'FLIGHT_hexacopter/SAS/PID Controller2/I Gain/External Parameters'
-//  '<S498>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Ideal P Gain/Passthrough'
-//  '<S499>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Ideal P Gain Fdbk/Disabled'
-//  '<S500>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Integrator/Discrete'
-//  '<S501>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Integrator ICs/Internal IC'
-//  '<S502>' : 'FLIGHT_hexacopter/SAS/PID Controller2/N Copy/Disabled'
-//  '<S503>' : 'FLIGHT_hexacopter/SAS/PID Controller2/N Gain/External Parameters'
-//  '<S504>' : 'FLIGHT_hexacopter/SAS/PID Controller2/P Copy/Disabled'
-//  '<S505>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Parallel P Gain/External Parameters'
-//  '<S506>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Reset Signal/Disabled'
-//  '<S507>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Saturation/Passthrough'
-//  '<S508>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Saturation Fdbk/Disabled'
-//  '<S509>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Sum/Sum_PID'
-//  '<S510>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Sum Fdbk/Disabled'
-//  '<S511>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Tracking Mode/Disabled'
-//  '<S512>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Tracking Mode Sum/Passthrough'
-//  '<S513>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Tsamp - Integral/TsSignalSpecification'
-//  '<S514>' : 'FLIGHT_hexacopter/SAS/PID Controller2/Tsamp - Ngain/Passthrough'
-//  '<S515>' : 'FLIGHT_hexacopter/SAS/PID Controller2/postSat Signal/Forward_Path'
-//  '<S516>' : 'FLIGHT_hexacopter/SAS/PID Controller2/preSat Signal/Forward_Path'
-//  '<S517>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Anti-windup'
-//  '<S518>' : 'FLIGHT_hexacopter/SAS/PID Controller6/D Gain'
-//  '<S519>' : 'FLIGHT_hexacopter/SAS/PID Controller6/External Derivative'
-//  '<S520>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Filter'
-//  '<S521>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Filter ICs'
-//  '<S522>' : 'FLIGHT_hexacopter/SAS/PID Controller6/I Gain'
-//  '<S523>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Ideal P Gain'
-//  '<S524>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Ideal P Gain Fdbk'
-//  '<S525>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Integrator'
-//  '<S526>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Integrator ICs'
-//  '<S527>' : 'FLIGHT_hexacopter/SAS/PID Controller6/N Copy'
-//  '<S528>' : 'FLIGHT_hexacopter/SAS/PID Controller6/N Gain'
-//  '<S529>' : 'FLIGHT_hexacopter/SAS/PID Controller6/P Copy'
-//  '<S530>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Parallel P Gain'
-//  '<S531>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Reset Signal'
-//  '<S532>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Saturation'
-//  '<S533>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Saturation Fdbk'
-//  '<S534>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Sum'
-//  '<S535>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Sum Fdbk'
-//  '<S536>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Tracking Mode'
-//  '<S537>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Tracking Mode Sum'
-//  '<S538>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Tsamp - Integral'
-//  '<S539>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Tsamp - Ngain'
-//  '<S540>' : 'FLIGHT_hexacopter/SAS/PID Controller6/postSat Signal'
-//  '<S541>' : 'FLIGHT_hexacopter/SAS/PID Controller6/preSat Signal'
-//  '<S542>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Anti-windup/Passthrough'
-//  '<S543>' : 'FLIGHT_hexacopter/SAS/PID Controller6/D Gain/External Parameters'
-//  '<S544>' : 'FLIGHT_hexacopter/SAS/PID Controller6/External Derivative/Error'
-//  '<S545>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Filter/Disc. Forward Euler Filter'
-//  '<S546>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Filter ICs/Internal IC - Filter'
-//  '<S547>' : 'FLIGHT_hexacopter/SAS/PID Controller6/I Gain/External Parameters'
-//  '<S548>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Ideal P Gain/Passthrough'
-//  '<S549>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Ideal P Gain Fdbk/Disabled'
-//  '<S550>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Integrator/Discrete'
-//  '<S551>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Integrator ICs/Internal IC'
-//  '<S552>' : 'FLIGHT_hexacopter/SAS/PID Controller6/N Copy/Disabled'
-//  '<S553>' : 'FLIGHT_hexacopter/SAS/PID Controller6/N Gain/External Parameters'
-//  '<S554>' : 'FLIGHT_hexacopter/SAS/PID Controller6/P Copy/Disabled'
-//  '<S555>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Parallel P Gain/External Parameters'
-//  '<S556>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Reset Signal/Disabled'
-//  '<S557>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Saturation/Passthrough'
-//  '<S558>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Saturation Fdbk/Disabled'
-//  '<S559>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Sum/Sum_PID'
-//  '<S560>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Sum Fdbk/Disabled'
-//  '<S561>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Tracking Mode/Disabled'
-//  '<S562>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Tracking Mode Sum/Passthrough'
-//  '<S563>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Tsamp - Integral/TsSignalSpecification'
-//  '<S564>' : 'FLIGHT_hexacopter/SAS/PID Controller6/Tsamp - Ngain/Passthrough'
-//  '<S565>' : 'FLIGHT_hexacopter/SAS/PID Controller6/postSat Signal/Forward_Path'
-//  '<S566>' : 'FLIGHT_hexacopter/SAS/PID Controller6/preSat Signal/Forward_Path'
-//  '<S567>' : 'FLIGHT_hexacopter/actuator_controls/PX4 ULog'
-//  '<S568>' : 'FLIGHT_hexacopter/actuator_controls/PX4 ULog/PX4 uORB Message'
-//  '<S569>' : 'FLIGHT_hexacopter/actuator_controls/PX4 ULog/PX4_log_write'
-//  '<S570>' : 'FLIGHT_hexacopter/actuator_outputs_motors/Normalize_pwm6'
-//  '<S571>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog'
-//  '<S572>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog1'
-//  '<S573>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog/PX4 uORB Message'
-//  '<S574>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog/PX4_log_write'
-//  '<S575>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog1/PX4 uORB Message'
-//  '<S576>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog1/PX4_log_write'
+//  '<S402>' : 'FLIGHT_hexacopter/Read uORB/Vehicle Attitude'
+//  '<S403>' : 'FLIGHT_hexacopter/Read uORB/PX4 uORB Read/Enabled Subsystem'
+//  '<S404>' : 'FLIGHT_hexacopter/Read uORB/Vehicle Attitude/PX4 uORB Read'
+//  '<S405>' : 'FLIGHT_hexacopter/Read uORB/Vehicle Attitude/PX4 uORB Read/Enabled Subsystem'
+//  '<S406>' : 'FLIGHT_hexacopter/Remote Control/Arm1'
+//  '<S407>' : 'FLIGHT_hexacopter/Remote Control/Compare To Constant'
+//  '<S408>' : 'FLIGHT_hexacopter/Remote Control/Radio Control Transmitter'
+//  '<S409>' : 'FLIGHT_hexacopter/Remote Control/Arm1/Compare To Constant3'
+//  '<S410>' : 'FLIGHT_hexacopter/Remote Control/Radio Control Transmitter/PX4 uORB Read'
+//  '<S411>' : 'FLIGHT_hexacopter/Remote Control/Radio Control Transmitter/PX4 uORB Read/Enabled Subsystem'
+//  '<S412>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate'
+//  '<S413>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate'
+//  '<S414>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate'
+//  '<S415>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Anti-windup'
+//  '<S416>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/D Gain'
+//  '<S417>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/External Derivative'
+//  '<S418>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Filter'
+//  '<S419>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Filter ICs'
+//  '<S420>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/I Gain'
+//  '<S421>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Ideal P Gain'
+//  '<S422>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Ideal P Gain Fdbk'
+//  '<S423>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Integrator'
+//  '<S424>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Integrator ICs'
+//  '<S425>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/N Copy'
+//  '<S426>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/N Gain'
+//  '<S427>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/P Copy'
+//  '<S428>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Parallel P Gain'
+//  '<S429>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Reset Signal'
+//  '<S430>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Saturation'
+//  '<S431>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Saturation Fdbk'
+//  '<S432>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Sum'
+//  '<S433>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Sum Fdbk'
+//  '<S434>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Tracking Mode'
+//  '<S435>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Tracking Mode Sum'
+//  '<S436>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Tsamp - Integral'
+//  '<S437>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Tsamp - Ngain'
+//  '<S438>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/postSat Signal'
+//  '<S439>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/preSat Signal'
+//  '<S440>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Anti-windup/Passthrough'
+//  '<S441>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/D Gain/External Parameters'
+//  '<S442>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/External Derivative/Error'
+//  '<S443>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Filter/Disc. Forward Euler Filter'
+//  '<S444>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Filter ICs/Internal IC - Filter'
+//  '<S445>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/I Gain/External Parameters'
+//  '<S446>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Ideal P Gain/Passthrough'
+//  '<S447>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Ideal P Gain Fdbk/Disabled'
+//  '<S448>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Integrator/Discrete'
+//  '<S449>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Integrator ICs/Internal IC'
+//  '<S450>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/N Copy/Disabled'
+//  '<S451>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/N Gain/External Parameters'
+//  '<S452>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/P Copy/Disabled'
+//  '<S453>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Parallel P Gain/External Parameters'
+//  '<S454>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Reset Signal/Disabled'
+//  '<S455>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Saturation/Passthrough'
+//  '<S456>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Saturation Fdbk/Disabled'
+//  '<S457>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Sum/Sum_PID'
+//  '<S458>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Sum Fdbk/Disabled'
+//  '<S459>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Tracking Mode/Disabled'
+//  '<S460>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Tracking Mode Sum/Passthrough'
+//  '<S461>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Tsamp - Integral/TsSignalSpecification'
+//  '<S462>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/Tsamp - Ngain/Passthrough'
+//  '<S463>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/postSat Signal/Forward_Path'
+//  '<S464>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_pitchrate/preSat Signal/Forward_Path'
+//  '<S465>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Anti-windup'
+//  '<S466>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/D Gain'
+//  '<S467>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/External Derivative'
+//  '<S468>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Filter'
+//  '<S469>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Filter ICs'
+//  '<S470>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/I Gain'
+//  '<S471>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Ideal P Gain'
+//  '<S472>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Ideal P Gain Fdbk'
+//  '<S473>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Integrator'
+//  '<S474>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Integrator ICs'
+//  '<S475>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/N Copy'
+//  '<S476>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/N Gain'
+//  '<S477>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/P Copy'
+//  '<S478>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Parallel P Gain'
+//  '<S479>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Reset Signal'
+//  '<S480>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Saturation'
+//  '<S481>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Saturation Fdbk'
+//  '<S482>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Sum'
+//  '<S483>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Sum Fdbk'
+//  '<S484>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Tracking Mode'
+//  '<S485>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Tracking Mode Sum'
+//  '<S486>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Tsamp - Integral'
+//  '<S487>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Tsamp - Ngain'
+//  '<S488>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/postSat Signal'
+//  '<S489>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/preSat Signal'
+//  '<S490>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Anti-windup/Passthrough'
+//  '<S491>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/D Gain/External Parameters'
+//  '<S492>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/External Derivative/Error'
+//  '<S493>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Filter/Disc. Forward Euler Filter'
+//  '<S494>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Filter ICs/Internal IC - Filter'
+//  '<S495>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/I Gain/External Parameters'
+//  '<S496>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Ideal P Gain/Passthrough'
+//  '<S497>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Ideal P Gain Fdbk/Disabled'
+//  '<S498>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Integrator/Discrete'
+//  '<S499>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Integrator ICs/Internal IC'
+//  '<S500>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/N Copy/Disabled'
+//  '<S501>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/N Gain/External Parameters'
+//  '<S502>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/P Copy/Disabled'
+//  '<S503>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Parallel P Gain/External Parameters'
+//  '<S504>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Reset Signal/Disabled'
+//  '<S505>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Saturation/Passthrough'
+//  '<S506>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Saturation Fdbk/Disabled'
+//  '<S507>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Sum/Sum_PID'
+//  '<S508>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Sum Fdbk/Disabled'
+//  '<S509>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Tracking Mode/Disabled'
+//  '<S510>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Tracking Mode Sum/Passthrough'
+//  '<S511>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Tsamp - Integral/TsSignalSpecification'
+//  '<S512>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/Tsamp - Ngain/Passthrough'
+//  '<S513>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/postSat Signal/Forward_Path'
+//  '<S514>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_rollrate/preSat Signal/Forward_Path'
+//  '<S515>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Anti-windup'
+//  '<S516>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/D Gain'
+//  '<S517>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/External Derivative'
+//  '<S518>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Filter'
+//  '<S519>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Filter ICs'
+//  '<S520>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/I Gain'
+//  '<S521>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Ideal P Gain'
+//  '<S522>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Ideal P Gain Fdbk'
+//  '<S523>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Integrator'
+//  '<S524>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Integrator ICs'
+//  '<S525>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/N Copy'
+//  '<S526>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/N Gain'
+//  '<S527>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/P Copy'
+//  '<S528>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Parallel P Gain'
+//  '<S529>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Reset Signal'
+//  '<S530>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Saturation'
+//  '<S531>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Saturation Fdbk'
+//  '<S532>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Sum'
+//  '<S533>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Sum Fdbk'
+//  '<S534>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Tracking Mode'
+//  '<S535>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Tracking Mode Sum'
+//  '<S536>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Tsamp - Integral'
+//  '<S537>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Tsamp - Ngain'
+//  '<S538>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/postSat Signal'
+//  '<S539>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/preSat Signal'
+//  '<S540>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Anti-windup/Passthrough'
+//  '<S541>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/D Gain/External Parameters'
+//  '<S542>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/External Derivative/Error'
+//  '<S543>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Filter/Disc. Forward Euler Filter'
+//  '<S544>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Filter ICs/Internal IC - Filter'
+//  '<S545>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/I Gain/External Parameters'
+//  '<S546>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Ideal P Gain/Passthrough'
+//  '<S547>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Ideal P Gain Fdbk/Disabled'
+//  '<S548>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Integrator/Discrete'
+//  '<S549>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Integrator ICs/Internal IC'
+//  '<S550>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/N Copy/Disabled'
+//  '<S551>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/N Gain/External Parameters'
+//  '<S552>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/P Copy/Disabled'
+//  '<S553>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Parallel P Gain/External Parameters'
+//  '<S554>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Reset Signal/Disabled'
+//  '<S555>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Saturation/Passthrough'
+//  '<S556>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Saturation Fdbk/Disabled'
+//  '<S557>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Sum/Sum_PID'
+//  '<S558>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Sum Fdbk/Disabled'
+//  '<S559>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Tracking Mode/Disabled'
+//  '<S560>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Tracking Mode Sum/Passthrough'
+//  '<S561>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Tsamp - Integral/TsSignalSpecification'
+//  '<S562>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/Tsamp - Ngain/Passthrough'
+//  '<S563>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/postSat Signal/Forward_Path'
+//  '<S564>' : 'FLIGHT_hexacopter/SAS/pid_ctrl_yawrate/preSat Signal/Forward_Path'
+//  '<S565>' : 'FLIGHT_hexacopter/actuator_controls/PX4 ULog'
+//  '<S566>' : 'FLIGHT_hexacopter/actuator_controls/PX4 ULog/PX4 uORB Message'
+//  '<S567>' : 'FLIGHT_hexacopter/actuator_controls/PX4 ULog/PX4_log_write'
+//  '<S568>' : 'FLIGHT_hexacopter/actuator_outputs_motors/Normalize_pwm6'
+//  '<S569>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog'
+//  '<S570>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog1'
+//  '<S571>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog/PX4 uORB Message'
+//  '<S572>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog/PX4_log_write'
+//  '<S573>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog1/PX4 uORB Message'
+//  '<S574>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog1/PX4_log_write'
+//  '<S575>' : 'FLIGHT_hexacopter/sub_vehicle_angular_velocity/PX4 uORB Read1'
+//  '<S576>' : 'FLIGHT_hexacopter/sub_vehicle_angular_velocity/PX4 uORB Read1/Enabled Subsystem'
 //  '<S577>' : 'FLIGHT_hexacopter/vehicle_attitude_setpoint/PX4 uORB Message'
 //  '<S578>' : 'FLIGHT_hexacopter/vehicle_attitude_setpoint/PX4 uORB Write'
 //  '<S579>' : 'FLIGHT_hexacopter/vehicle_attitude_setpoint/Rotation Angles to Quaternions'
@@ -1648,8 +1726,6 @@ extern volatile boolean_T runModel;
 //  '<S581>' : 'FLIGHT_hexacopter/vehicle_local_position_setpoint/PX4 uORB Write'
 //  '<S582>' : 'FLIGHT_hexacopter/vehicle_rate_setpoint/PX4 uORB Message'
 //  '<S583>' : 'FLIGHT_hexacopter/vehicle_rate_setpoint/PX4 uORB Write'
-//  '<S584>' : 'FLIGHT_hexacopter/vehicle_torque_setpoint/PX4 uORB Message'
-//  '<S585>' : 'FLIGHT_hexacopter/vehicle_torque_setpoint/PX4 uORB Write'
 
 #endif                                 // FLIGHT_hexacopter_h_
 

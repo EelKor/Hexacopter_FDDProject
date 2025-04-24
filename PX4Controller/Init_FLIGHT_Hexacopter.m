@@ -1,69 +1,12 @@
 % Controller Gains by Adding Angular Rate Feedback
 % NCMS Quad 
 
-SampleTime = 1/400;
+SampleTime = 1/200;
+SampleTime_SAS = 1/1000;
+
 g = 9.81;
 r2d = 180/pi;
 d2r = pi/180;
-
-% PID_pitch_rate
-Kppr =    0.1;
-Kipr =    0.0;
-Kdpr =    0.0;
-Npr  =    50;
-
-% PID_roll_rate
-Kprr =    0.1;
-Kirr =    0.0;
-Kdrr =    0.0;
-Nrr  =    50;
-
-% PID_yaw_rate 
-Kpyr =    0.1;   % approxi_oid_design.m result
-Kiyr =    0.0;
-Kdyr =    0.0;
-Nyr  =    50;
-
-% Angle Controller Gains
-
-% P_pitch_angle
-Kpp = 6.0;
-
-% P_roll_angle
-Kpr = 6.0;
-
-% P_yaw_angle
-Kpy = 2.8;
-
-% Velocity Controller Gains
-
-% % PID_vx
-Kpvx = 2.1109/g;
-Kivx = 0.0728/g;
-% 
-% % PID_vy
-Kpvy = 2.1109/g;
-Kivy = 0.0728/g;
-
-% PID_vz.
-Kpvz = 0.3191;
-Kivz = 0.6304;
-Kdvz = 0.0;
-Nvz  = Npr;
-
-% Position Controller Gains
-
-% % P_x
-Kpx = 1;
-Kix = 0.02;
-% 
-% % P_y
-Kpyaxis = 1;
-Kiyaxis = 0.02;
-
-% % P_z.
-Kpz = 2.4;
-Kiz = 0.09;
 
 %max control angle,default 10deg
 MAX_CONTROL_ANGLE_ROLL = 20*pi/180;

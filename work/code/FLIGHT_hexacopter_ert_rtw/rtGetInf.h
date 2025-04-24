@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.142
+// Model version                  : 1.146
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Wed Apr 23 15:33:57 2025
+// C/C++ source code generated on : Thu Apr 24 17:45:28 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
