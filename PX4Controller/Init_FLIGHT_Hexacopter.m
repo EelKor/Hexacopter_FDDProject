@@ -9,8 +9,8 @@ r2d = 180/pi;
 d2r = pi/180;
 
 %max control angle,default 10deg
-MAX_CONTROL_ANGLE_ROLL = 20*pi/180;
-MAX_CONTROL_ANGLE_PITCH  = 20*pi/180;
+MAX_CONTROL_ANGLE_ROLL = 30*pi/180;
+MAX_CONTROL_ANGLE_PITCH  = 30*pi/180;
 
 %max control angle rate,rad/s 
 MAX_CONTROL_ANGLE_RATE_PITCH = 360*pi/180;

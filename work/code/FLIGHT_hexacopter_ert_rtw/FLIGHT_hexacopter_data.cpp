@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.146
+// Model version                  : 1.150
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Thu Apr 24 17:45:28 2025
+// C/C++ source code generated on : Fri Apr 25 14:30:21 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -69,7 +69,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   //    '<S10>/Gain5'
   //    '<S18>/Gain2'
 
-  0.34906584F,
+  0.52359879F,
 
   // Variable: MAX_CONTROL_ANGLE_RATE_Y
   //  Referenced by:
@@ -84,7 +84,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   //    '<S10>/Gain4'
   //    '<S18>/Gain1'
 
-  0.34906584F,
+  0.52359879F,
 
   // Mask Parameter: PIDController4_InitialCondition
   //  Referenced by: '<S51>/Filter'
@@ -395,25 +395,8 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
     // _padding0
   },
 
-  // Computed Parameter: Constant_Value_f
-  //  Referenced by: '<S573>/Constant'
-
-  {
-    (0ULL),                            // timestamp
-    0U,                                // noutputs
-
-    {
-      0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-      0.0F, 0.0F, 0.0F, 0.0F }
-    ,                                  // output
-
-    {
-      0U, 0U, 0U, 0U }
-    // _padding0
-  },
-
   // Computed Parameter: Constant_Value_m
-  //  Referenced by: '<S571>/Constant'
+  //  Referenced by: '<S570>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -476,7 +459,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   },
 
   // Computed Parameter: Constant_Value_n
-  //  Referenced by: '<S580>/Constant'
+  //  Referenced by: '<S577>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -499,7 +482,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   },
 
   // Computed Parameter: Constant_Value_j
-  //  Referenced by: '<S577>/Constant'
+  //  Referenced by: '<S574>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -524,7 +507,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   },
 
   // Computed Parameter: Out1_Y0_pn
-  //  Referenced by: '<S576>/Out1'
+  //  Referenced by: '<S573>/Out1'
 
   {
     (0ULL),                            // timestamp
@@ -540,7 +523,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   },
 
   // Computed Parameter: Constant_Value_gk
-  //  Referenced by: '<S575>/Constant'
+  //  Referenced by: '<S572>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -556,7 +539,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   },
 
   // Computed Parameter: Constant_Value_i
-  //  Referenced by: '<S582>/Constant'
+  //  Referenced by: '<S579>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -1152,7 +1135,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   // Computed Parameter: Constant_Value_j4
   //  Referenced by: '<S9>/Constant'
 
-  50.0F,
+  100.0F,
 
   // Computed Parameter: Filter_gainval_o
   //  Referenced by: '<S493>/Filter'
@@ -1167,7 +1150,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   // Computed Parameter: Constant1_Value_f
   //  Referenced by: '<S9>/Constant1'
 
-  50.0F,
+  100.0F,
 
   // Computed Parameter: Filter_gainval_f
   //  Referenced by: '<S443>/Filter'
@@ -1182,7 +1165,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   // Computed Parameter: Constant2_Value_m
   //  Referenced by: '<S9>/Constant2'
 
-  50.0F,
+  100.0F,
 
   // Computed Parameter: Filter_gainval_m
   //  Referenced by: '<S543>/Filter'
@@ -1269,11 +1252,6 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
 
   0.001F,
 
-  // Computed Parameter: Constant_Value_bm
-  //  Referenced by: '<S12>/Constant'
-
-  { 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F },
-
   // Computed Parameter: Merge1_InitialOutput
   //  Referenced by: '<Root>/Merge1'
 
@@ -1290,7 +1268,7 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   0.0F,
 
   // Computed Parameter: u2_Gain
-  //  Referenced by: '<S579>/1//2'
+  //  Referenced by: '<S576>/1//2'
 
   0.5F,
 
@@ -1303,11 +1281,6 @@ P_FLIGHT_hexacopter_T FLIGHT_hexacopter_P = {
   //  Referenced by: '<S17>/Constant'
 
   0.0F,
-
-  // Computed Parameter: Constant2_Value_e
-  //  Referenced by: '<S12>/Constant2'
-
-  12U,
 
   // Computed Parameter: PWM_Y0
   //  Referenced by: '<S6>/PWM'

@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.146
+// Model version                  : 1.150
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Thu Apr 24 17:45:28 2025
+// C/C++ source code generated on : Fri Apr 25 14:30:21 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -30,7 +30,6 @@
 #include "FLIGHT_hexacopter_types.h"
 #include <uORB/topics/vehicle_local_position.h>
 #include <uORB/topics/vehicle_odometry.h>
-#include <uORB/topics/actuator_outputs.h>
 #include <uORB/topics/input_rc.h>
 #include <uORB/topics/actuator_motors.h>
 #include <uORB/topics/vehicle_local_position_setpoint.h>
@@ -155,25 +154,28 @@ struct B_FLIGHT_hexacopter_T {
   px4_Bus_vehicle_local_position r;
   px4_Bus_vehicle_odometry In1_k;      // '<S405>/In1'
   px4_Bus_vehicle_odometry r1;
-  px4_Bus_actuator_outputs BusAssignment;// '<S570>/Bus Assignment'
   px4_Bus_input_rc In1_n;              // '<S411>/In1'
   px4_Bus_input_rc r2;
-  px4_Bus_actuator_motors BusAssignment_f;// '<S569>/Bus Assignment'
+  px4_Bus_actuator_motors BusAssignment;// '<S569>/Bus Assignment'
   px4_Bus_vehicle_local_position_setpoint BusAssignment_g;// '<S16>/Bus Assignment' 
   px4_Bus_vehicle_attitude_setpoint BusAssignment_d;// '<S15>/Bus Assignment'
-  px4_Bus_vehicle_angular_velocity In1_h;// '<S576>/In1'
   px4_Bus_vehicle_angular_velocity r3;
   px4_Bus_vehicle_rates_setpoint BusAssignment_e;// '<S17>/Bus Assignment'
+  px4_Bus_vehicle_angular_velocity In1_h;// '<S573>/In1'
   uint16_T values[18];
   px4_Bus_actuator_controls_status BusAssignment_gi;// '<S565>/Bus Assignment'
   uint16_T pwmValue[8];
   uint16_T DataTypeConversion6[6];     // '<S4>/Data Type Conversion6'
-  uint16_T DataTypeConversion7_k[6];   // '<S4>/Data Type Conversion7'
   real_T reletive_time_sec;
   real_T peak_angle_rad;
   real_T out_roll;                     // '<S3>/MATLAB Function'
   real_T out_pitch;                    // '<S3>/MATLAB Function'
   real_T u0;
+  real_T d;
+  real_T d1;
+  real_T d2;
+  real_T d3;
+  real_T d4;
   real32_T RateTransition;             // '<Root>/Rate Transition'
   real32_T RateTransition1;            // '<Root>/Rate Transition1'
   real32_T RateTransition2;            // '<Root>/Rate Transition2'
@@ -200,7 +202,6 @@ struct B_FLIGHT_hexacopter_T {
   B_PX4Timestamp_FLIGHT_hexac_c_T PX4Timestamp_pnae;// '<S15>/PX4 Timestamp'
   B_PX4Timestamp_FLIGHT_hexacop_T PX4Timestamp_pna;// '<S3>/PX4 Timestamp'
   B_PX4Timestamp_FLIGHT_hexac_c_T PX4Timestamp_pn;// '<S15>/PX4 Timestamp'
-  B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_ok;// '<S565>/PX4 Timestamp'
   B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_n;// '<S565>/PX4 Timestamp'
   B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_p;// '<S565>/PX4 Timestamp'
   B_PX4Timestamp_FLIGHT_hexac_l_T PX4Timestamp_o;// '<S565>/PX4 Timestamp'
@@ -243,16 +244,15 @@ struct DW_FLIGHT_hexacopter_T {
   px4_internal_block_ParameterU_T obj_ds;// '<S2>/Read Parameter10'
   px4_internal_block_ParameterU_T obj_o;// '<S2>/Read Parameter1'
   px4_internal_block_ParameterU_T obj_jz;// '<S2>/Read Parameter'
-  px4_internal_block_Subscriber_T obj_pe;// '<S575>/SourceBlock'
+  px4_internal_block_Subscriber_T obj_pe;// '<S572>/SourceBlock'
   px4_internal_block_Subscriber_T obj_p2;// '<S410>/SourceBlock'
   px4_internal_block_Subscriber_T obj_ab;// '<S404>/SourceBlock'
   px4_internal_block_Subscriber_T obj_kk;// '<S401>/SourceBlock'
   px4_internal_block_PWM_FLIGHT_T obj_dl;// '<Root>/PX4 PWM Output'
-  px4_internal_block_Publisher__T obj_a4;// '<S583>/SinkBlock'
-  px4_internal_block_Publisher__T obj_pa;// '<S581>/SinkBlock'
-  px4_internal_block_Publisher__T obj_pt;// '<S578>/SinkBlock'
-  px4_internal_block_Publisher__T obj_px;// '<S574>/SinkBlock'
-  px4_internal_block_Publisher__T obj_hf;// '<S572>/SinkBlock'
+  px4_internal_block_Publisher__T obj_a4;// '<S580>/SinkBlock'
+  px4_internal_block_Publisher__T obj_pa;// '<S578>/SinkBlock'
+  px4_internal_block_Publisher__T obj_pt;// '<S575>/SinkBlock'
+  px4_internal_block_Publisher__T obj_hf;// '<S571>/SinkBlock'
   px4_internal_block_Publisher__T obj_jk;// '<S567>/SinkBlock'
   real_T start_time_usec;              // '<S3>/MATLAB Function'
   real32_T Filter_DSTATE;              // '<S493>/Filter'
@@ -277,7 +277,6 @@ struct DW_FLIGHT_hexacopter_T {
   DW_PX4Timestamp_FLIGHT_hexa_f_T PX4Timestamp_pnae;// '<S15>/PX4 Timestamp'
   DW_PX4Timestamp_FLIGHT_hexaco_T PX4Timestamp_pna;// '<S3>/PX4 Timestamp'
   DW_PX4Timestamp_FLIGHT_hexa_f_T PX4Timestamp_pn;// '<S15>/PX4 Timestamp'
-  DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_ok;// '<S565>/PX4 Timestamp'
   DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_n;// '<S565>/PX4 Timestamp'
   DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_p;// '<S565>/PX4 Timestamp'
   DW_PX4Timestamp_FLIGHT_hexa_b_T PX4Timestamp_o;// '<S565>/PX4 Timestamp'
@@ -444,11 +443,8 @@ struct P_FLIGHT_hexacopter_T_ {
   px4_Bus_vehicle_odometry Constant_Value_g;// Computed Parameter: Constant_Value_g
                                                //  Referenced by: '<S404>/Constant'
 
-  px4_Bus_actuator_outputs Constant_Value_f;// Computed Parameter: Constant_Value_f
-                                               //  Referenced by: '<S573>/Constant'
-
   px4_Bus_actuator_motors Constant_Value_m;// Computed Parameter: Constant_Value_m
-                                              //  Referenced by: '<S571>/Constant'
+                                              //  Referenced by: '<S570>/Constant'
 
   px4_Bus_input_rc Out1_Y0_p;          // Computed Parameter: Out1_Y0_p
                                           //  Referenced by: '<S411>/Out1'
@@ -457,19 +453,19 @@ struct P_FLIGHT_hexacopter_T_ {
                                           //  Referenced by: '<S410>/Constant'
 
   px4_Bus_vehicle_local_position_setpoint Constant_Value_n;// Computed Parameter: Constant_Value_n
-                                                              //  Referenced by: '<S580>/Constant'
+                                                              //  Referenced by: '<S577>/Constant'
 
   px4_Bus_vehicle_attitude_setpoint Constant_Value_j;// Computed Parameter: Constant_Value_j
-                                                        //  Referenced by: '<S577>/Constant'
+                                                        //  Referenced by: '<S574>/Constant'
 
   px4_Bus_vehicle_angular_velocity Out1_Y0_pn;// Computed Parameter: Out1_Y0_pn
-                                                 //  Referenced by: '<S576>/Out1'
+                                                 //  Referenced by: '<S573>/Out1'
 
   px4_Bus_vehicle_angular_velocity Constant_Value_gk;// Computed Parameter: Constant_Value_gk
-                                                        //  Referenced by: '<S575>/Constant'
+                                                        //  Referenced by: '<S572>/Constant'
 
   px4_Bus_vehicle_rates_setpoint Constant_Value_i;// Computed Parameter: Constant_Value_i
-                                                     //  Referenced by: '<S582>/Constant'
+                                                     //  Referenced by: '<S579>/Constant'
 
   px4_Bus_actuator_controls_status Constant_Value_a;// Computed Parameter: Constant_Value_a
                                                        //  Referenced by: '<S566>/Constant'
@@ -890,9 +886,6 @@ struct P_FLIGHT_hexacopter_T_ {
   real32_T Gain_Gain_mg;               // Computed Parameter: Gain_Gain_mg
                                           //  Referenced by: '<S568>/Gain'
 
-  real32_T Constant_Value_bm[10];      // Computed Parameter: Constant_Value_bm
-                                          //  Referenced by: '<S12>/Constant'
-
   real32_T Merge1_InitialOutput;     // Computed Parameter: Merge1_InitialOutput
                                         //  Referenced by: '<Root>/Merge1'
 
@@ -903,16 +896,13 @@ struct P_FLIGHT_hexacopter_T_ {
                                           //  Referenced by: '<Root>/Constant'
 
   real32_T u2_Gain;                    // Computed Parameter: u2_Gain
-                                          //  Referenced by: '<S579>/1//2'
+                                          //  Referenced by: '<S576>/1//2'
 
   real32_T Merge_InitialOutput;       // Computed Parameter: Merge_InitialOutput
                                          //  Referenced by: '<Root>/Merge'
 
   real32_T Constant_Value_ll;          // Computed Parameter: Constant_Value_ll
                                           //  Referenced by: '<S17>/Constant'
-
-  uint32_T Constant2_Value_e;          // Computed Parameter: Constant2_Value_e
-                                          //  Referenced by: '<S12>/Constant2'
 
   uint16_T PWM_Y0;                     // Computed Parameter: PWM_Y0
                                           //  Referenced by: '<S6>/PWM'
@@ -1111,7 +1101,6 @@ extern volatile boolean_T runModel;
 //  Block '<S408>/Gain' : Unused code path elimination
 //  Block '<S408>/Gain1' : Unused code path elimination
 //  Block '<S410>/NOT' : Unused code path elimination
-//  Block '<Root>/Scope2' : Unused code path elimination
 //  Block '<S10>/Display' : Unused code path elimination
 //  Block '<S10>/Display1' : Unused code path elimination
 //  Block '<S10>/Display2' : Unused code path elimination
@@ -1119,13 +1108,11 @@ extern volatile boolean_T runModel;
 //  Block '<S10>/Display5' : Unused code path elimination
 //  Block '<S10>/Display6' : Unused code path elimination
 //  Block '<S10>/Display7' : Unused code path elimination
-//  Block '<S575>/NOT' : Unused code path elimination
+//  Block '<S572>/NOT' : Unused code path elimination
 //  Block '<Root>/Scope' : Unused code path elimination
 //  Block '<S7>/Data Type Conversion' : Eliminate redundant data type conversion
 //  Block '<S7>/Data Type Conversion9' : Eliminate redundant data type conversion
 //  Block '<S12>/Data Type Conversion1' : Eliminate redundant data type conversion
-//  Block '<S12>/Data Type Conversion2' : Eliminate redundant data type conversion
-//  Block '<S12>/Data Type Conversion3' : Eliminate redundant data type conversion
 
 
 //-
@@ -1712,20 +1699,17 @@ extern volatile boolean_T runModel;
 //  '<S567>' : 'FLIGHT_hexacopter/actuator_controls/PX4 ULog/PX4_log_write'
 //  '<S568>' : 'FLIGHT_hexacopter/actuator_outputs_motors/Normalize_pwm6'
 //  '<S569>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog'
-//  '<S570>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog1'
-//  '<S571>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog/PX4 uORB Message'
-//  '<S572>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog/PX4_log_write'
-//  '<S573>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog1/PX4 uORB Message'
-//  '<S574>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog1/PX4_log_write'
-//  '<S575>' : 'FLIGHT_hexacopter/sub_vehicle_angular_velocity/PX4 uORB Read1'
-//  '<S576>' : 'FLIGHT_hexacopter/sub_vehicle_angular_velocity/PX4 uORB Read1/Enabled Subsystem'
-//  '<S577>' : 'FLIGHT_hexacopter/vehicle_attitude_setpoint/PX4 uORB Message'
-//  '<S578>' : 'FLIGHT_hexacopter/vehicle_attitude_setpoint/PX4 uORB Write'
-//  '<S579>' : 'FLIGHT_hexacopter/vehicle_attitude_setpoint/Rotation Angles to Quaternions'
-//  '<S580>' : 'FLIGHT_hexacopter/vehicle_local_position_setpoint/PX4 uORB Message'
-//  '<S581>' : 'FLIGHT_hexacopter/vehicle_local_position_setpoint/PX4 uORB Write'
-//  '<S582>' : 'FLIGHT_hexacopter/vehicle_rate_setpoint/PX4 uORB Message'
-//  '<S583>' : 'FLIGHT_hexacopter/vehicle_rate_setpoint/PX4 uORB Write'
+//  '<S570>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog/PX4 uORB Message'
+//  '<S571>' : 'FLIGHT_hexacopter/actuator_outputs_motors/PX4 ULog/PX4_log_write'
+//  '<S572>' : 'FLIGHT_hexacopter/sub_vehicle_angular_velocity/PX4 uORB Read1'
+//  '<S573>' : 'FLIGHT_hexacopter/sub_vehicle_angular_velocity/PX4 uORB Read1/Enabled Subsystem'
+//  '<S574>' : 'FLIGHT_hexacopter/vehicle_attitude_setpoint/PX4 uORB Message'
+//  '<S575>' : 'FLIGHT_hexacopter/vehicle_attitude_setpoint/PX4 uORB Write'
+//  '<S576>' : 'FLIGHT_hexacopter/vehicle_attitude_setpoint/Rotation Angles to Quaternions'
+//  '<S577>' : 'FLIGHT_hexacopter/vehicle_local_position_setpoint/PX4 uORB Message'
+//  '<S578>' : 'FLIGHT_hexacopter/vehicle_local_position_setpoint/PX4 uORB Write'
+//  '<S579>' : 'FLIGHT_hexacopter/vehicle_rate_setpoint/PX4 uORB Message'
+//  '<S580>' : 'FLIGHT_hexacopter/vehicle_rate_setpoint/PX4 uORB Write'
 
 #endif                                 // FLIGHT_hexacopter_h_
 

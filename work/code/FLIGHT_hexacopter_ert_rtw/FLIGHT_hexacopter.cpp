@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_hexacopter'.
 //
-// Model version                  : 1.146
+// Model version                  : 1.150
 // Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Thu Apr 24 17:45:28 2025
+// C/C++ source code generated on : Fri Apr 25 14:30:21 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -523,21 +523,21 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
 
   // End of RateTransition: '<Root>/Rate Transition5'
 
-  // MATLABSystem: '<S575>/SourceBlock'
+  // MATLABSystem: '<S572>/SourceBlock'
   b_varargout_1 = uORB_read_step(FLIGHT_hexacopter_DW.obj_pe.orbMetadataObj,
     &FLIGHT_hexacopter_DW.obj_pe.eventStructObj, &FLIGHT_hexacopter_B.r3, false,
     1.0);
 
-  // Outputs for Enabled SubSystem: '<S575>/Enabled Subsystem' incorporates:
-  //   EnablePort: '<S576>/Enable'
+  // Outputs for Enabled SubSystem: '<S572>/Enabled Subsystem' incorporates:
+  //   EnablePort: '<S573>/Enable'
 
-  // Start for MATLABSystem: '<S575>/SourceBlock'
+  // Start for MATLABSystem: '<S572>/SourceBlock'
   if (b_varargout_1) {
-    // SignalConversion generated from: '<S576>/In1'
+    // SignalConversion generated from: '<S573>/In1'
     FLIGHT_hexacopter_B.In1_h = FLIGHT_hexacopter_B.r3;
   }
 
-  // End of Outputs for SubSystem: '<S575>/Enabled Subsystem'
+  // End of Outputs for SubSystem: '<S572>/Enabled Subsystem'
 
   // RateTransition: '<Root>/Rate Transition6'
   if (FLIGHT_hexacopter_M->Timing.RateInteraction.TID0_1) {
@@ -1222,15 +1222,16 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   MATLABSystem: '<S4>/Read Parameter13'
   //
   if (rtb_Compare_a) {
-    FLIGHT_hexacopter_B.u0 = i;
+    FLIGHT_hexacopter_B.d = i;
   } else {
-    FLIGHT_hexacopter_B.u0 = FLIGHT_hexacopter_P.Constant_Value_mc;
+    FLIGHT_hexacopter_B.d = FLIGHT_hexacopter_P.Constant_Value_mc;
   }
 
   // Gain: '<S181>/Gain' incorporates:
   //   Switch: '<S4>/Switch'
 
-  FLIGHT_hexacopter_B.u0 *= FLIGHT_hexacopter_P.Gain_Gain_j;
+  FLIGHT_hexacopter_B.u0 = FLIGHT_hexacopter_P.Gain_Gain_j *
+    FLIGHT_hexacopter_B.d;
 
   // Saturate: '<S181>/Saturation'
   if (FLIGHT_hexacopter_B.u0 > FLIGHT_hexacopter_P.Saturation_UpperSat) {
@@ -1246,20 +1247,15 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   Sum: '<S181>/Sum'
   //   Sum: '<S181>/Sum1'
 
-  FLIGHT_hexacopter_B.u0 = floor((static_cast<real_T>
+  FLIGHT_hexacopter_B.d = floor((static_cast<real_T>
     (FLIGHT_hexacopter_B.DataTypeConversion6[0]) -
     FLIGHT_hexacopter_P.Constant_Value_kf) * FLIGHT_hexacopter_B.u0 +
     FLIGHT_hexacopter_P.Constant_Value_kf);
-  if (rtIsNaN(FLIGHT_hexacopter_B.u0) || rtIsInf(FLIGHT_hexacopter_B.u0)) {
-    FLIGHT_hexacopter_B.u0 = 0.0;
+  if (rtIsNaN(FLIGHT_hexacopter_B.d) || rtIsInf(FLIGHT_hexacopter_B.d)) {
+    FLIGHT_hexacopter_B.d = 0.0;
   } else {
-    FLIGHT_hexacopter_B.u0 = fmod(FLIGHT_hexacopter_B.u0, 65536.0);
+    FLIGHT_hexacopter_B.d = fmod(FLIGHT_hexacopter_B.d, 65536.0);
   }
-
-  FLIGHT_hexacopter_B.DataTypeConversion7_k[0] = static_cast<uint16_T>
-    (FLIGHT_hexacopter_B.u0 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-
-       static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_hexacopter_B.u0)))) :
-     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_hexacopter_B.u0)));
 
   // Switch: '<S4>/Switch1' incorporates:
   //   Constant: '<S4>/Constant1'
@@ -1267,15 +1263,16 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   MATLABSystem: '<S4>/Read Parameter1'
   //
   if (rtb_Compare_a) {
-    FLIGHT_hexacopter_B.u0 = ParamStep;
+    FLIGHT_hexacopter_B.d1 = ParamStep;
   } else {
-    FLIGHT_hexacopter_B.u0 = FLIGHT_hexacopter_P.Constant1_Value;
+    FLIGHT_hexacopter_B.d1 = FLIGHT_hexacopter_P.Constant1_Value;
   }
 
   // Gain: '<S182>/Gain' incorporates:
   //   Switch: '<S4>/Switch1'
 
-  FLIGHT_hexacopter_B.u0 *= FLIGHT_hexacopter_P.Gain_Gain_h;
+  FLIGHT_hexacopter_B.u0 = FLIGHT_hexacopter_P.Gain_Gain_h *
+    FLIGHT_hexacopter_B.d1;
 
   // Saturate: '<S182>/Saturation'
   if (FLIGHT_hexacopter_B.u0 > FLIGHT_hexacopter_P.Saturation_UpperSat_m) {
@@ -1292,20 +1289,15 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   Sum: '<S182>/Sum'
   //   Sum: '<S182>/Sum1'
 
-  FLIGHT_hexacopter_B.u0 = floor((static_cast<real_T>
+  FLIGHT_hexacopter_B.d1 = floor((static_cast<real_T>
     (FLIGHT_hexacopter_B.DataTypeConversion6[1]) -
     FLIGHT_hexacopter_P.Constant_Value_ms) * FLIGHT_hexacopter_B.u0 +
     FLIGHT_hexacopter_P.Constant_Value_ms);
-  if (rtIsNaN(FLIGHT_hexacopter_B.u0) || rtIsInf(FLIGHT_hexacopter_B.u0)) {
-    FLIGHT_hexacopter_B.u0 = 0.0;
+  if (rtIsNaN(FLIGHT_hexacopter_B.d1) || rtIsInf(FLIGHT_hexacopter_B.d1)) {
+    FLIGHT_hexacopter_B.d1 = 0.0;
   } else {
-    FLIGHT_hexacopter_B.u0 = fmod(FLIGHT_hexacopter_B.u0, 65536.0);
+    FLIGHT_hexacopter_B.d1 = fmod(FLIGHT_hexacopter_B.d1, 65536.0);
   }
-
-  FLIGHT_hexacopter_B.DataTypeConversion7_k[1] = static_cast<uint16_T>
-    (FLIGHT_hexacopter_B.u0 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-
-       static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_hexacopter_B.u0)))) :
-     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_hexacopter_B.u0)));
 
   // Switch: '<S4>/Switch2' incorporates:
   //   Constant: '<S4>/Constant2'
@@ -1313,15 +1305,16 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   MATLABSystem: '<S4>/Read Parameter2'
   //
   if (rtb_Compare_a) {
-    FLIGHT_hexacopter_B.u0 = ParamStep_0;
+    FLIGHT_hexacopter_B.d2 = ParamStep_0;
   } else {
-    FLIGHT_hexacopter_B.u0 = FLIGHT_hexacopter_P.Constant2_Value;
+    FLIGHT_hexacopter_B.d2 = FLIGHT_hexacopter_P.Constant2_Value;
   }
 
   // Gain: '<S183>/Gain' incorporates:
   //   Switch: '<S4>/Switch2'
 
-  FLIGHT_hexacopter_B.u0 *= FLIGHT_hexacopter_P.Gain_Gain_c;
+  FLIGHT_hexacopter_B.u0 = FLIGHT_hexacopter_P.Gain_Gain_c *
+    FLIGHT_hexacopter_B.d2;
 
   // Saturate: '<S183>/Saturation'
   if (FLIGHT_hexacopter_B.u0 > FLIGHT_hexacopter_P.Saturation_UpperSat_b) {
@@ -1338,20 +1331,15 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   Sum: '<S183>/Sum'
   //   Sum: '<S183>/Sum1'
 
-  FLIGHT_hexacopter_B.u0 = floor((static_cast<real_T>
+  FLIGHT_hexacopter_B.d2 = floor((static_cast<real_T>
     (FLIGHT_hexacopter_B.DataTypeConversion6[2]) -
     FLIGHT_hexacopter_P.Constant_Value_ii) * FLIGHT_hexacopter_B.u0 +
     FLIGHT_hexacopter_P.Constant_Value_ii);
-  if (rtIsNaN(FLIGHT_hexacopter_B.u0) || rtIsInf(FLIGHT_hexacopter_B.u0)) {
-    FLIGHT_hexacopter_B.u0 = 0.0;
+  if (rtIsNaN(FLIGHT_hexacopter_B.d2) || rtIsInf(FLIGHT_hexacopter_B.d2)) {
+    FLIGHT_hexacopter_B.d2 = 0.0;
   } else {
-    FLIGHT_hexacopter_B.u0 = fmod(FLIGHT_hexacopter_B.u0, 65536.0);
+    FLIGHT_hexacopter_B.d2 = fmod(FLIGHT_hexacopter_B.d2, 65536.0);
   }
-
-  FLIGHT_hexacopter_B.DataTypeConversion7_k[2] = static_cast<uint16_T>
-    (FLIGHT_hexacopter_B.u0 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-
-       static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_hexacopter_B.u0)))) :
-     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_hexacopter_B.u0)));
 
   // Switch: '<S4>/Switch3' incorporates:
   //   Constant: '<S4>/Constant3'
@@ -1359,15 +1347,16 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   MATLABSystem: '<S4>/Read Parameter3'
   //
   if (rtb_Compare_a) {
-    FLIGHT_hexacopter_B.u0 = ParamStep_1;
+    FLIGHT_hexacopter_B.d3 = ParamStep_1;
   } else {
-    FLIGHT_hexacopter_B.u0 = FLIGHT_hexacopter_P.Constant3_Value;
+    FLIGHT_hexacopter_B.d3 = FLIGHT_hexacopter_P.Constant3_Value;
   }
 
   // Gain: '<S184>/Gain' incorporates:
   //   Switch: '<S4>/Switch3'
 
-  FLIGHT_hexacopter_B.u0 *= FLIGHT_hexacopter_P.Gain_Gain_n;
+  FLIGHT_hexacopter_B.u0 = FLIGHT_hexacopter_P.Gain_Gain_n *
+    FLIGHT_hexacopter_B.d3;
 
   // Saturate: '<S184>/Saturation'
   if (FLIGHT_hexacopter_B.u0 > FLIGHT_hexacopter_P.Saturation_UpperSat_be) {
@@ -1384,20 +1373,15 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   Sum: '<S184>/Sum'
   //   Sum: '<S184>/Sum1'
 
-  FLIGHT_hexacopter_B.u0 = floor((static_cast<real_T>
+  FLIGHT_hexacopter_B.d3 = floor((static_cast<real_T>
     (FLIGHT_hexacopter_B.DataTypeConversion6[3]) -
     FLIGHT_hexacopter_P.Constant_Value_j4x) * FLIGHT_hexacopter_B.u0 +
     FLIGHT_hexacopter_P.Constant_Value_j4x);
-  if (rtIsNaN(FLIGHT_hexacopter_B.u0) || rtIsInf(FLIGHT_hexacopter_B.u0)) {
-    FLIGHT_hexacopter_B.u0 = 0.0;
+  if (rtIsNaN(FLIGHT_hexacopter_B.d3) || rtIsInf(FLIGHT_hexacopter_B.d3)) {
+    FLIGHT_hexacopter_B.d3 = 0.0;
   } else {
-    FLIGHT_hexacopter_B.u0 = fmod(FLIGHT_hexacopter_B.u0, 65536.0);
+    FLIGHT_hexacopter_B.d3 = fmod(FLIGHT_hexacopter_B.d3, 65536.0);
   }
-
-  FLIGHT_hexacopter_B.DataTypeConversion7_k[3] = static_cast<uint16_T>
-    (FLIGHT_hexacopter_B.u0 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-
-       static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_hexacopter_B.u0)))) :
-     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_hexacopter_B.u0)));
 
   // Switch: '<S4>/Switch4' incorporates:
   //   Constant: '<S4>/Constant4'
@@ -1405,15 +1389,16 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   MATLABSystem: '<S4>/Read Parameter4'
   //
   if (rtb_Compare_a) {
-    FLIGHT_hexacopter_B.u0 = ParamStep_2;
+    FLIGHT_hexacopter_B.d4 = ParamStep_2;
   } else {
-    FLIGHT_hexacopter_B.u0 = FLIGHT_hexacopter_P.Constant4_Value;
+    FLIGHT_hexacopter_B.d4 = FLIGHT_hexacopter_P.Constant4_Value;
   }
 
   // Gain: '<S185>/Gain' incorporates:
   //   Switch: '<S4>/Switch4'
 
-  FLIGHT_hexacopter_B.u0 *= FLIGHT_hexacopter_P.Gain_Gain_f;
+  FLIGHT_hexacopter_B.u0 = FLIGHT_hexacopter_P.Gain_Gain_f *
+    FLIGHT_hexacopter_B.d4;
 
   // Saturate: '<S185>/Saturation'
   if (FLIGHT_hexacopter_B.u0 > FLIGHT_hexacopter_P.Saturation_UpperSat_d) {
@@ -1430,20 +1415,15 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   Sum: '<S185>/Sum'
   //   Sum: '<S185>/Sum1'
 
-  FLIGHT_hexacopter_B.u0 = floor((static_cast<real_T>
+  FLIGHT_hexacopter_B.d4 = floor((static_cast<real_T>
     (FLIGHT_hexacopter_B.DataTypeConversion6[4]) -
     FLIGHT_hexacopter_P.Constant_Value_l) * FLIGHT_hexacopter_B.u0 +
     FLIGHT_hexacopter_P.Constant_Value_l);
-  if (rtIsNaN(FLIGHT_hexacopter_B.u0) || rtIsInf(FLIGHT_hexacopter_B.u0)) {
-    FLIGHT_hexacopter_B.u0 = 0.0;
+  if (rtIsNaN(FLIGHT_hexacopter_B.d4) || rtIsInf(FLIGHT_hexacopter_B.d4)) {
+    FLIGHT_hexacopter_B.d4 = 0.0;
   } else {
-    FLIGHT_hexacopter_B.u0 = fmod(FLIGHT_hexacopter_B.u0, 65536.0);
+    FLIGHT_hexacopter_B.d4 = fmod(FLIGHT_hexacopter_B.d4, 65536.0);
   }
-
-  FLIGHT_hexacopter_B.DataTypeConversion7_k[4] = static_cast<uint16_T>
-    (FLIGHT_hexacopter_B.u0 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-
-       static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_hexacopter_B.u0)))) :
-     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_hexacopter_B.u0)));
 
   // Switch: '<S4>/Switch5' incorporates:
   //   Constant: '<S4>/Constant5'
@@ -1486,24 +1466,38 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
     FLIGHT_hexacopter_B.u0 = fmod(FLIGHT_hexacopter_B.u0, 65536.0);
   }
 
-  FLIGHT_hexacopter_B.DataTypeConversion7_k[5] = static_cast<uint16_T>
-    (FLIGHT_hexacopter_B.u0 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-
-       static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_hexacopter_B.u0)))) :
-     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_hexacopter_B.u0)));
-
   // MATLABSystem: '<Root>/PX4 PWM Output' incorporates:
+  //   DataTypeConversion: '<S4>/Data Type Conversion7'
   //   Logic: '<Root>/NOT'
 
   for (i = 0; i < 8; i++) {
     FLIGHT_hexacopter_B.pwmValue[i] = 0U;
   }
 
-  FLIGHT_hexacopter_B.pwmValue[0] = FLIGHT_hexacopter_B.DataTypeConversion7_k[0];
-  FLIGHT_hexacopter_B.pwmValue[1] = FLIGHT_hexacopter_B.DataTypeConversion7_k[1];
-  FLIGHT_hexacopter_B.pwmValue[2] = FLIGHT_hexacopter_B.DataTypeConversion7_k[2];
-  FLIGHT_hexacopter_B.pwmValue[3] = FLIGHT_hexacopter_B.DataTypeConversion7_k[3];
-  FLIGHT_hexacopter_B.pwmValue[4] = FLIGHT_hexacopter_B.DataTypeConversion7_k[4];
-  FLIGHT_hexacopter_B.pwmValue[5] = FLIGHT_hexacopter_B.DataTypeConversion7_k[5];
+  FLIGHT_hexacopter_B.pwmValue[0] = static_cast<uint16_T>(FLIGHT_hexacopter_B.d <
+    0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-static_cast<int16_T>(
+    static_cast<uint16_T>(-FLIGHT_hexacopter_B.d)))) : static_cast<int32_T>(
+    static_cast<uint16_T>(FLIGHT_hexacopter_B.d)));
+  FLIGHT_hexacopter_B.pwmValue[1] = static_cast<uint16_T>(FLIGHT_hexacopter_B.d1
+    < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-static_cast<int16_T>(
+    static_cast<uint16_T>(-FLIGHT_hexacopter_B.d1)))) : static_cast<int32_T>(
+    static_cast<uint16_T>(FLIGHT_hexacopter_B.d1)));
+  FLIGHT_hexacopter_B.pwmValue[2] = static_cast<uint16_T>(FLIGHT_hexacopter_B.d2
+    < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-static_cast<int16_T>(
+    static_cast<uint16_T>(-FLIGHT_hexacopter_B.d2)))) : static_cast<int32_T>(
+    static_cast<uint16_T>(FLIGHT_hexacopter_B.d2)));
+  FLIGHT_hexacopter_B.pwmValue[3] = static_cast<uint16_T>(FLIGHT_hexacopter_B.d3
+    < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-static_cast<int16_T>(
+    static_cast<uint16_T>(-FLIGHT_hexacopter_B.d3)))) : static_cast<int32_T>(
+    static_cast<uint16_T>(FLIGHT_hexacopter_B.d3)));
+  FLIGHT_hexacopter_B.pwmValue[4] = static_cast<uint16_T>(FLIGHT_hexacopter_B.d4
+    < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-static_cast<int16_T>(
+    static_cast<uint16_T>(-FLIGHT_hexacopter_B.d4)))) : static_cast<int32_T>(
+    static_cast<uint16_T>(FLIGHT_hexacopter_B.d4)));
+  FLIGHT_hexacopter_B.pwmValue[5] = static_cast<uint16_T>(FLIGHT_hexacopter_B.u0
+    < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>(-static_cast<int16_T>(
+    static_cast<uint16_T>(-FLIGHT_hexacopter_B.u0)))) : static_cast<int32_T>(
+    static_cast<uint16_T>(FLIGHT_hexacopter_B.u0)));
   if (FLIGHT_hexacopter_B.RateTransition5) {
     if (!FLIGHT_hexacopter_DW.obj_dl.isArmed) {
       FLIGHT_hexacopter_DW.obj_dl.isArmed = true;
@@ -1567,11 +1561,11 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
   //   Saturate: '<S568>/Saturation'
   //   Sum: '<S568>/Subtract'
 
-  FLIGHT_hexacopter_B.BusAssignment_f.timestamp =
+  FLIGHT_hexacopter_B.BusAssignment.timestamp =
     FLIGHT_hexacopter_B.PX4Timestamp_n.PX4Timestamp;
-  FLIGHT_hexacopter_B.BusAssignment_f.timestamp_sample =
+  FLIGHT_hexacopter_B.BusAssignment.timestamp_sample =
     FLIGHT_hexacopter_B.PX4Timestamp_p.PX4Timestamp;
-  FLIGHT_hexacopter_B.BusAssignment_f.reversible_flags = 0U;
+  FLIGHT_hexacopter_B.BusAssignment.reversible_flags = 0U;
   for (i = 0; i < 6; i++) {
     // DataTypeConversion: '<Root>/Data Type Conversion'
     ParamStep = FLIGHT_hexacopter_B.Output_Limits1[i];
@@ -1585,7 +1579,7 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
       ParamStep_4 = static_cast<real32_T>(ParamStep);
     }
 
-    FLIGHT_hexacopter_B.BusAssignment_f.control[i] = (ParamStep_4 -
+    FLIGHT_hexacopter_B.BusAssignment.control[i] = (ParamStep_4 -
       FLIGHT_hexacopter_P.Constant_Value_ez) * FLIGHT_hexacopter_P.Gain_Gain_mg;
 
     // Saturate: '<S568>/Saturation' incorporates:
@@ -1601,53 +1595,18 @@ void FLIGHT_hexacopter_step0(void)     // Sample time: [0.001s, 0.0s]
       ParamStep_4 = FLIGHT_hexacopter_P.Saturation_LowerSat_p;
     }
 
-    FLIGHT_hexacopter_B.BusAssignment_f.control[i + 6] = (ParamStep_4 -
+    FLIGHT_hexacopter_B.BusAssignment.control[i + 6] = (ParamStep_4 -
       FLIGHT_hexacopter_P.Constant_Value_ez) * FLIGHT_hexacopter_P.Gain_Gain_mg;
-    FLIGHT_hexacopter_B.BusAssignment_f._padding0[i] = 0U;
+    FLIGHT_hexacopter_B.BusAssignment._padding0[i] = 0U;
   }
 
   // End of BusAssignment: '<S569>/Bus Assignment'
 
-  // MATLABSystem: '<S572>/SinkBlock' incorporates:
+  // MATLABSystem: '<S571>/SinkBlock' incorporates:
   //   BusAssignment: '<S569>/Bus Assignment'
 
   uORB_write_step(FLIGHT_hexacopter_DW.obj_hf.orbMetadataObj,
                   &FLIGHT_hexacopter_DW.obj_hf.orbAdvertiseObj,
-                  &FLIGHT_hexacopter_B.BusAssignment_f);
-  FLIGHT_hexac_PX4Timestamp_o(&FLIGHT_hexacopter_B.PX4Timestamp_ok);
-
-  // BusAssignment: '<S570>/Bus Assignment' incorporates:
-  //   Constant: '<S12>/Constant'
-  //   Constant: '<S12>/Constant2'
-  //   DataTypeConversion: '<Root>/Data Type Conversion1'
-  //   MATLABSystem: '<S570>/PX4 Timestamp'
-
-  FLIGHT_hexacopter_B.BusAssignment.timestamp =
-    FLIGHT_hexacopter_B.PX4Timestamp_ok.PX4Timestamp;
-  FLIGHT_hexacopter_B.BusAssignment.noutputs =
-    FLIGHT_hexacopter_P.Constant2_Value_e;
-  for (i = 0; i < 6; i++) {
-    FLIGHT_hexacopter_B.BusAssignment.output[i] =
-      FLIGHT_hexacopter_B.DataTypeConversion7_k[i];
-  }
-
-  for (i = 0; i < 10; i++) {
-    FLIGHT_hexacopter_B.BusAssignment.output[i + 6] =
-      FLIGHT_hexacopter_P.Constant_Value_bm[i];
-  }
-
-  FLIGHT_hexacopter_B.BusAssignment._padding0[0] = 0U;
-  FLIGHT_hexacopter_B.BusAssignment._padding0[1] = 0U;
-  FLIGHT_hexacopter_B.BusAssignment._padding0[2] = 0U;
-  FLIGHT_hexacopter_B.BusAssignment._padding0[3] = 0U;
-
-  // End of BusAssignment: '<S570>/Bus Assignment'
-
-  // MATLABSystem: '<S574>/SinkBlock' incorporates:
-  //   BusAssignment: '<S570>/Bus Assignment'
-
-  uORB_write_step(FLIGHT_hexacopter_DW.obj_px.orbMetadataObj,
-                  &FLIGHT_hexacopter_DW.obj_px.orbAdvertiseObj,
                   &FLIGHT_hexacopter_B.BusAssignment);
 }
 
@@ -2683,7 +2642,7 @@ void FLIGHT_hexacopter_step1(void)     // Sample time: [0.005s, 0.0s]
 
   // End of MATLAB Function: '<S3>/MATLAB Function'
 
-  // Gain: '<S579>/1//2' incorporates:
+  // Gain: '<S576>/1//2' incorporates:
   //   Constant: '<Root>/Constant'
   //   DataTypeConversion: '<S3>/Data Type Conversion7'
   //   DataTypeConversion: '<S3>/Data Type Conversion8'
@@ -2695,7 +2654,7 @@ void FLIGHT_hexacopter_step1(void)     // Sample time: [0.005s, 0.0s]
   ParamStep = FLIGHT_hexacopter_P.u2_Gain * static_cast<real32_T>
     (FLIGHT_hexacopter_B.out_roll);
 
-  // Trigonometry: '<S579>/sincos'
+  // Trigonometry: '<S576>/sincos'
   rtb_SinCos_o2 = static_cast<real32_T>(cos(static_cast<real_T>(rtb_DeadZone)));
   rtb_DeadZone = static_cast<real32_T>(sin(static_cast<real_T>(rtb_DeadZone)));
   rtb_sincos_o2_idx_1 = static_cast<real32_T>(cos(static_cast<real_T>
@@ -2706,7 +2665,7 @@ void FLIGHT_hexacopter_step1(void)     // Sample time: [0.005s, 0.0s]
   rtb_sincos_o1_0 = static_cast<real32_T>(sin(static_cast<real_T>(ParamStep)));
 
   // BusAssignment: '<S15>/Bus Assignment' incorporates:
-  //   Constant: '<S577>/Constant'
+  //   Constant: '<S574>/Constant'
 
   FLIGHT_hexacopter_B.BusAssignment_d = FLIGHT_hexacopter_P.Constant_Value_j;
 
@@ -2732,41 +2691,41 @@ void FLIGHT_hexacopter_step1(void)     // Sample time: [0.005s, 0.0s]
   FLIGHT_hexacopter_B.BusAssignment_d.thrust_body[2] =
     FLIGHT_hexacopter_B.Merge1[3];
 
-  // Fcn: '<S579>/q0' incorporates:
-  //   Fcn: '<S579>/q1'
-  //   Trigonometry: '<S579>/sincos'
+  // Fcn: '<S576>/q0' incorporates:
+  //   Fcn: '<S576>/q1'
+  //   Trigonometry: '<S576>/sincos'
 
   ParamStep = rtb_SinCos_o2 * rtb_sincos_o2_idx_1;
   tmp_1 = rtb_DeadZone * rtb_sincos_o1_idx_1;
 
   // BusAssignment: '<S15>/Bus Assignment' incorporates:
-  //   Fcn: '<S579>/q0'
-  //   Fcn: '<S579>/q1'
-  //   Trigonometry: '<S579>/sincos'
+  //   Fcn: '<S576>/q0'
+  //   Fcn: '<S576>/q1'
+  //   Trigonometry: '<S576>/sincos'
 
   FLIGHT_hexacopter_B.BusAssignment_d.q_d[0] = ParamStep * rtb_Saturation3 +
     tmp_1 * rtb_sincos_o1_0;
   FLIGHT_hexacopter_B.BusAssignment_d.q_d[1] = ParamStep * rtb_sincos_o1_0 -
     tmp_1 * rtb_Saturation3;
 
-  // Fcn: '<S579>/q2' incorporates:
-  //   Fcn: '<S579>/q3'
-  //   Trigonometry: '<S579>/sincos'
+  // Fcn: '<S576>/q2' incorporates:
+  //   Fcn: '<S576>/q3'
+  //   Trigonometry: '<S576>/sincos'
 
   ParamStep = rtb_DeadZone * rtb_sincos_o2_idx_1;
   tmp_1 = rtb_SinCos_o2 * rtb_sincos_o1_idx_1;
 
   // BusAssignment: '<S15>/Bus Assignment' incorporates:
-  //   Fcn: '<S579>/q2'
-  //   Fcn: '<S579>/q3'
-  //   Trigonometry: '<S579>/sincos'
+  //   Fcn: '<S576>/q2'
+  //   Fcn: '<S576>/q3'
+  //   Trigonometry: '<S576>/sincos'
 
   FLIGHT_hexacopter_B.BusAssignment_d.q_d[2] = tmp_1 * rtb_Saturation3 +
     ParamStep * rtb_sincos_o1_0;
   FLIGHT_hexacopter_B.BusAssignment_d.q_d[3] = ParamStep * rtb_Saturation3 -
     tmp_1 * rtb_sincos_o1_0;
 
-  // MATLABSystem: '<S578>/SinkBlock' incorporates:
+  // MATLABSystem: '<S575>/SinkBlock' incorporates:
   //   BusAssignment: '<S15>/Bus Assignment'
 
   uORB_write_step(FLIGHT_hexacopter_DW.obj_pt.orbMetadataObj,
@@ -2775,7 +2734,7 @@ void FLIGHT_hexacopter_step1(void)     // Sample time: [0.005s, 0.0s]
   FLIGHT_hexacop_PX4Timestamp(&FLIGHT_hexacopter_B.PX4Timestamp_pna);
 
   // BusAssignment: '<S16>/Bus Assignment' incorporates:
-  //   Constant: '<S580>/Constant'
+  //   Constant: '<S577>/Constant'
 
   FLIGHT_hexacopter_B.BusAssignment_g = FLIGHT_hexacopter_P.Constant_Value_n;
 
@@ -2793,7 +2752,7 @@ void FLIGHT_hexacopter_step1(void)     // Sample time: [0.005s, 0.0s]
     FLIGHT_hexacopter_B.OutportBufferFordes_xy[1];
   FLIGHT_hexacopter_B.BusAssignment_g.z = FLIGHT_hexacopter_B.Add;
 
-  // MATLABSystem: '<S581>/SinkBlock' incorporates:
+  // MATLABSystem: '<S578>/SinkBlock' incorporates:
   //   BusAssignment: '<S16>/Bus Assignment'
 
   uORB_write_step(FLIGHT_hexacopter_DW.obj_pa.orbMetadataObj,
@@ -2968,7 +2927,7 @@ void FLIGHT_hexacopter_step1(void)     // Sample time: [0.005s, 0.0s]
   // End of Outputs for SubSystem: '<Root>/CAS'
 
   // BusAssignment: '<S17>/Bus Assignment' incorporates:
-  //   Constant: '<S582>/Constant'
+  //   Constant: '<S579>/Constant'
 
   FLIGHT_hexacopter_B.BusAssignment_e = FLIGHT_hexacopter_P.Constant_Value_i;
 
@@ -2990,7 +2949,7 @@ void FLIGHT_hexacopter_step1(void)     // Sample time: [0.005s, 0.0s]
   FLIGHT_hexacopter_B.BusAssignment_e.thrust_body[2] =
     FLIGHT_hexacopter_B.Merge1[3];
 
-  // MATLABSystem: '<S583>/SinkBlock' incorporates:
+  // MATLABSystem: '<S580>/SinkBlock' incorporates:
   //   BusAssignment: '<S17>/Bus Assignment'
 
   uORB_write_step(FLIGHT_hexacopter_DW.obj_a4.orbMetadataObj,
@@ -3601,15 +3560,15 @@ void FLIGHT_hexacopter_initialize(void)
 
     // End of SystemInitialize for SubSystem: '<Root>/SAS'
 
-    // SystemInitialize for Enabled SubSystem: '<S575>/Enabled Subsystem'
-    // SystemInitialize for SignalConversion generated from: '<S576>/In1' incorporates:
-    //   Outport: '<S576>/Out1'
+    // SystemInitialize for Enabled SubSystem: '<S572>/Enabled Subsystem'
+    // SystemInitialize for SignalConversion generated from: '<S573>/In1' incorporates:
+    //   Outport: '<S573>/Out1'
 
     FLIGHT_hexacopter_B.In1_h = FLIGHT_hexacopter_P.Out1_Y0_pn;
 
-    // End of SystemInitialize for SubSystem: '<S575>/Enabled Subsystem'
+    // End of SystemInitialize for SubSystem: '<S572>/Enabled Subsystem'
 
-    // Start for MATLABSystem: '<S575>/SourceBlock'
+    // Start for MATLABSystem: '<S572>/SourceBlock'
     FLIGHT_hexacopter_DW.obj_pe.matlabCodegenIsDeleted = false;
     FLIGHT_hexacopter_DW.obj_pe.isInitialized = 1;
     FLIGHT_hexacopter_DW.obj_pe.orbMetadataObj = ORB_ID(vehicle_angular_velocity);
@@ -3735,7 +3694,7 @@ void FLIGHT_hexacopter_initialize(void)
     FLIGHT__PX4Timestamp_b_Init(&FLIGHT_hexacopter_DW.PX4Timestamp_n);
     FLIGHT__PX4Timestamp_b_Init(&FLIGHT_hexacopter_DW.PX4Timestamp_p);
 
-    // Start for MATLABSystem: '<S572>/SinkBlock' incorporates:
+    // Start for MATLABSystem: '<S571>/SinkBlock' incorporates:
     //   BusAssignment: '<S569>/Bus Assignment'
 
     FLIGHT_hexacopter_DW.obj_hf.matlabCodegenIsDeleted = false;
@@ -3743,20 +3702,8 @@ void FLIGHT_hexacopter_initialize(void)
     FLIGHT_hexacopter_DW.obj_hf.orbMetadataObj = ORB_ID(actuator_motors);
     uORB_write_initialize(FLIGHT_hexacopter_DW.obj_hf.orbMetadataObj,
                           &FLIGHT_hexacopter_DW.obj_hf.orbAdvertiseObj,
-                          &FLIGHT_hexacopter_B.BusAssignment_f, 1);
-    FLIGHT_hexacopter_DW.obj_hf.isSetupComplete = true;
-    FLIGHT__PX4Timestamp_b_Init(&FLIGHT_hexacopter_DW.PX4Timestamp_ok);
-
-    // Start for MATLABSystem: '<S574>/SinkBlock' incorporates:
-    //   BusAssignment: '<S570>/Bus Assignment'
-
-    FLIGHT_hexacopter_DW.obj_px.matlabCodegenIsDeleted = false;
-    FLIGHT_hexacopter_DW.obj_px.isInitialized = 1;
-    FLIGHT_hexacopter_DW.obj_px.orbMetadataObj = ORB_ID(actuator_outputs);
-    uORB_write_initialize(FLIGHT_hexacopter_DW.obj_px.orbMetadataObj,
-                          &FLIGHT_hexacopter_DW.obj_px.orbAdvertiseObj,
                           &FLIGHT_hexacopter_B.BusAssignment, 1);
-    FLIGHT_hexacopter_DW.obj_px.isSetupComplete = true;
+    FLIGHT_hexacopter_DW.obj_hf.isSetupComplete = true;
     FLIGHT__PX4Timestamp_l_Init(&FLIGHT_hexacopter_DW.PX4Timestamp_pn);
 
     // Start for MATLABSystem: '<S410>/SourceBlock'
@@ -3824,7 +3771,7 @@ void FLIGHT_hexacopter_initialize(void)
 
     // End of Start for MATLABSystem: '<S3>/Read Parameter2'
 
-    // Start for MATLABSystem: '<S578>/SinkBlock' incorporates:
+    // Start for MATLABSystem: '<S575>/SinkBlock' incorporates:
     //   BusAssignment: '<S15>/Bus Assignment'
 
     FLIGHT_hexacopter_DW.obj_pt.matlabCodegenIsDeleted = false;
@@ -3837,7 +3784,7 @@ void FLIGHT_hexacopter_initialize(void)
     FLIGHT_hexacopter_DW.obj_pt.isSetupComplete = true;
     FLIGHT_he_PX4Timestamp_Init(&FLIGHT_hexacopter_DW.PX4Timestamp_pna);
 
-    // Start for MATLABSystem: '<S581>/SinkBlock' incorporates:
+    // Start for MATLABSystem: '<S578>/SinkBlock' incorporates:
     //   BusAssignment: '<S16>/Bus Assignment'
 
     FLIGHT_hexacopter_DW.obj_pa.matlabCodegenIsDeleted = false;
@@ -3858,7 +3805,7 @@ void FLIGHT_hexacopter_initialize(void)
                          &FLIGHT_hexacopter_DW.obj_ab.eventStructObj);
     FLIGHT_hexacopter_DW.obj_ab.isSetupComplete = true;
 
-    // Start for MATLABSystem: '<S583>/SinkBlock' incorporates:
+    // Start for MATLABSystem: '<S580>/SinkBlock' incorporates:
     //   BusAssignment: '<S17>/Bus Assignment'
 
     FLIGHT_hexacopter_DW.obj_a4.matlabCodegenIsDeleted = false;
@@ -3874,7 +3821,7 @@ void FLIGHT_hexacopter_initialize(void)
 // Model terminate function
 void FLIGHT_hexacopter_terminate(void)
 {
-  // Terminate for MATLABSystem: '<S575>/SourceBlock'
+  // Terminate for MATLABSystem: '<S572>/SourceBlock'
   if (!FLIGHT_hexacopter_DW.obj_pe.matlabCodegenIsDeleted) {
     FLIGHT_hexacopter_DW.obj_pe.matlabCodegenIsDeleted = true;
     if ((FLIGHT_hexacopter_DW.obj_pe.isInitialized == 1) &&
@@ -3883,7 +3830,7 @@ void FLIGHT_hexacopter_terminate(void)
     }
   }
 
-  // End of Terminate for MATLABSystem: '<S575>/SourceBlock'
+  // End of Terminate for MATLABSystem: '<S572>/SourceBlock'
 
   // Terminate for Enabled SubSystem: '<Root>/SAS'
   // Terminate for MATLABSystem: '<S9>/Read Parameter2'
@@ -4030,7 +3977,7 @@ void FLIGHT_hexacopter_terminate(void)
   FLIGHT__PX4Timestamp_o_Term(&FLIGHT_hexacopter_DW.PX4Timestamp_n);
   FLIGHT__PX4Timestamp_o_Term(&FLIGHT_hexacopter_DW.PX4Timestamp_p);
 
-  // Terminate for MATLABSystem: '<S572>/SinkBlock'
+  // Terminate for MATLABSystem: '<S571>/SinkBlock'
   if (!FLIGHT_hexacopter_DW.obj_hf.matlabCodegenIsDeleted) {
     FLIGHT_hexacopter_DW.obj_hf.matlabCodegenIsDeleted = true;
     if ((FLIGHT_hexacopter_DW.obj_hf.isInitialized == 1) &&
@@ -4039,19 +3986,7 @@ void FLIGHT_hexacopter_terminate(void)
     }
   }
 
-  // End of Terminate for MATLABSystem: '<S572>/SinkBlock'
-  FLIGHT__PX4Timestamp_o_Term(&FLIGHT_hexacopter_DW.PX4Timestamp_ok);
-
-  // Terminate for MATLABSystem: '<S574>/SinkBlock'
-  if (!FLIGHT_hexacopter_DW.obj_px.matlabCodegenIsDeleted) {
-    FLIGHT_hexacopter_DW.obj_px.matlabCodegenIsDeleted = true;
-    if ((FLIGHT_hexacopter_DW.obj_px.isInitialized == 1) &&
-        FLIGHT_hexacopter_DW.obj_px.isSetupComplete) {
-      uORB_write_terminate(&FLIGHT_hexacopter_DW.obj_px.orbAdvertiseObj);
-    }
-  }
-
-  // End of Terminate for MATLABSystem: '<S574>/SinkBlock'
+  // End of Terminate for MATLABSystem: '<S571>/SinkBlock'
   FLIGHT__PX4Timestamp_b_Term(&FLIGHT_hexacopter_DW.PX4Timestamp_pn);
 
   // Terminate for MATLABSystem: '<S410>/SourceBlock'
@@ -4145,7 +4080,7 @@ void FLIGHT_hexacopter_terminate(void)
 
   // End of Terminate for MATLABSystem: '<S3>/Read Parameter2'
 
-  // Terminate for MATLABSystem: '<S578>/SinkBlock'
+  // Terminate for MATLABSystem: '<S575>/SinkBlock'
   if (!FLIGHT_hexacopter_DW.obj_pt.matlabCodegenIsDeleted) {
     FLIGHT_hexacopter_DW.obj_pt.matlabCodegenIsDeleted = true;
     if ((FLIGHT_hexacopter_DW.obj_pt.isInitialized == 1) &&
@@ -4154,10 +4089,10 @@ void FLIGHT_hexacopter_terminate(void)
     }
   }
 
-  // End of Terminate for MATLABSystem: '<S578>/SinkBlock'
+  // End of Terminate for MATLABSystem: '<S575>/SinkBlock'
   FLIGHT_he_PX4Timestamp_Term(&FLIGHT_hexacopter_DW.PX4Timestamp_pna);
 
-  // Terminate for MATLABSystem: '<S581>/SinkBlock'
+  // Terminate for MATLABSystem: '<S578>/SinkBlock'
   if (!FLIGHT_hexacopter_DW.obj_pa.matlabCodegenIsDeleted) {
     FLIGHT_hexacopter_DW.obj_pa.matlabCodegenIsDeleted = true;
     if ((FLIGHT_hexacopter_DW.obj_pa.isInitialized == 1) &&
@@ -4166,7 +4101,7 @@ void FLIGHT_hexacopter_terminate(void)
     }
   }
 
-  // End of Terminate for MATLABSystem: '<S581>/SinkBlock'
+  // End of Terminate for MATLABSystem: '<S578>/SinkBlock'
   FLIGHT__PX4Timestamp_b_Term(&FLIGHT_hexacopter_DW.PX4Timestamp_pnae);
 
   // Terminate for MATLABSystem: '<S404>/SourceBlock'
@@ -4210,7 +4145,7 @@ void FLIGHT_hexacopter_terminate(void)
   // End of Terminate for MATLABSystem: '<S2>/Read Parameter1'
   // End of Terminate for SubSystem: '<Root>/CAS'
 
-  // Terminate for MATLABSystem: '<S583>/SinkBlock'
+  // Terminate for MATLABSystem: '<S580>/SinkBlock'
   if (!FLIGHT_hexacopter_DW.obj_a4.matlabCodegenIsDeleted) {
     FLIGHT_hexacopter_DW.obj_a4.matlabCodegenIsDeleted = true;
     if ((FLIGHT_hexacopter_DW.obj_a4.isInitialized == 1) &&
@@ -4219,7 +4154,7 @@ void FLIGHT_hexacopter_terminate(void)
     }
   }
 
-  // End of Terminate for MATLABSystem: '<S583>/SinkBlock'
+  // End of Terminate for MATLABSystem: '<S580>/SinkBlock'
 }
 
 //
