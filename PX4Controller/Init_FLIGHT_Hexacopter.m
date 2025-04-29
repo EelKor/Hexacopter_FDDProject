@@ -1,7 +1,7 @@
 % Controller Gains by Adding Angular Rate Feedback
-% NCMS Quad 
+%CNU 고장진단 Hexacopter
 
-SampleTime = 1/200;
+SampleTime = 1/250;
 SampleTime_SAS = 1/1000;
 
 g = 9.81;
@@ -24,16 +24,3 @@ MAX_CONTROL_VELOCITY_Z = 1;
 %Throttle amplitude
 MAX_MAN_THR = 0.9;
 MIN_MAN_THR = 0.05;
-
-%throttle when UAV is hovering
-THR_HOVER = 0.6085;
-THR_IDLE = 0.2;
-%THR_HOVER = 0;
-
-TAKEOFF_VEL = 1; % [m/s]
-
-%Preceision Landing velocity
-LAND_PRES_VEL = 0.2; % [m/s]
-
-Transition_radius = 2; % This parameter should be similar to NAV_ACC_RAD
-
