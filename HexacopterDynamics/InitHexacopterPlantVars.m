@@ -1,8 +1,8 @@
 %
 
 %   Copyright 2021-2022 The MathWorks, Inc.
-
-
+clear
+F550_data
 %% UAV Dynamics Constants
 
 % Rotor Position (PX4 Generic X-configuration Hexacopter)
