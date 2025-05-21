@@ -4,7 +4,7 @@ r2d = 180/pi;
 lineWidth = 2;
 
 %% 데이터 선택
-log_filename = 'log_167_m1_30fail_flight';
+log_filename = '20250429_rt_log_12_m1_30fail_flight';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
@@ -12,12 +12,12 @@ load([log_filename,'.mat'])
 rc_time = seconds(input_rc_values_var8.Time);
 rc_inject = input_rc_values_var8.Var1;
 
-%ae_time = seconds(failure_detector_status_fd_motor.Time);
-%ae_detect = failure_detector_status_fd_motor.Var1;
+ae_time = seconds(failure_detector_status_fd_motor.Time);
+ae_detect = failure_detector_status_fd_motor.Var1;
 
-%start_t = seconds(input_rc_values_var8.Time(1));
-%end_t = seconds(input_rc_values_var8.Time(end));
-%time = start_t:0.001:end_t;
+start_t = seconds(input_rc_values_var8.Time(1));
+end_t = seconds(input_rc_values_var8.Time(end));
+
 
 %% 결과 저장 디렉토리 생성
 
@@ -32,7 +32,7 @@ inject = double(inject);
 figure;
 plot(rc_time, inject, 'LineWidth', lineWidth,'Color','blue')
 hold on;
-plot(ae_time, ae_detect, 'r--', 'LineWidth', lineWidth)
+plot(ae_time, ae_detect, 'r-x')
 grid on;
 ylim([-0.2 1.2])
 xlim([rc_time(1), rc_time(end)])
@@ -47,7 +47,7 @@ detectIdx = find(ae_detect == 1, 1, 'first');
 detectTime = ae_time(detectIdx);
 
 anomaly_detect_time_in_s = (detectTime - injectTime);
-title(['M1 70% Fail - ', num2str(anomaly_detect_time_in_s), 's'])
+title(['M1 30% Fail - ', num2str(anomaly_detect_time_in_s), 's'])
 
 %이미지 저장
 saveas(gcf, fullfile(save_dir, 'fault_injection_detection.png'));
@@ -151,7 +151,7 @@ saveas(gcf, fullfile(save_dir, 'pitchrate.png'));
 yawrate = Gyro_GyroZ.Var1 * r2d;
 yawrate_time = Gyro_GyroZ.Time;
 yawrate_cmd_t = vehicle_rates_setpoint_yaw.Time;
-yawrate_cmd = vehicle_rates_setpoint_yaw.Var1;
+yawrate_cmd = vehicle_rates_setpoint_yaw.Var1 * r2d;
 
 figure;
 plot(yawrate_time, yawrate, 'LineWidth', lineWidth,'Color','blue');
@@ -162,6 +162,8 @@ legend("Yawrate");
 title("r vs r_{sp}");
 xlabel("Time (s)"); ylabel("Angular Velocity (deg/s)")
 xlim([yawrate_time(1), yawrate_time(end)])
+
+saveas(gcf, fullfile(save_dir, 'yawrate.png'));
 
 %% Display PWM
 
