@@ -60,8 +60,9 @@ end
 
 %% Initial data
 motorRpm0 =[0 0 0 0 0 0];
-x0=[0 0 0 0 0 0 0 0 0 0 0 0];
+x0=[0 0 0 0 0 0 0 0 0 0 0 -10];
 u0 = [0 0 0 0];
+
 
 
 %% UAV Dynamics Constants
@@ -95,12 +96,12 @@ control.rotation.maxMoment = 0.1;
 control.rotation.friction = 0.025;
 control.rotation.vd = 0.2;
 
-% Initial states
-init.equilibriumZ =  Mass*g/contact.translation.spring;
-init.posNED = [0, 0, init.equilibriumZ]; % m
-init.vb = [0 0 0]'; %m/s
-init.euler = [0, 0, 0]'; %Roll Pitch Yaw Rads
-init.angRates = [0, 0, 0]; %rad/s
+% % Initial states
+% init.equilibriumZ =  Mass*g/contact.translation.spring;
+% init.posNED = [0, 0, init.equilibriumZ]; % m
+% init.vb = [0 0 0]'; %m/s
+% init.euler = [0, 0, 0]'; %Roll Pitch Yaw Rads
+% init.angRates = [0, 0, 0]; %rad/s
 
 %Computed from above values
 rotorPositions = zeros(3,6);
