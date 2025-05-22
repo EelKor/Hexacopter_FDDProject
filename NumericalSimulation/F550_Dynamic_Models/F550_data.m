@@ -6,18 +6,20 @@ r2d=180/pi;
 
 
 % Add by SSLEE - T-motor Mn3110 470kv 대충
-motorCr = 732.67; % 최대 RPM 6000 잡고 선형으로 추력 곡선 계산
-motorWb = -73.3; % pwm 1100에서 돌기 시작
-motorTm = 0.01;  %Motor inertia time constant(s)
-motorJm = 0.0001287;    %Moment of inertia of motor rotor + propeller(kg.m^2)
-rotorCt = 2.487e-05;
-rotorCm = 1.779e-07;
+% motorCr = 732.67; % 최대 RPM 6000 잡고 선형으로 추력 곡선 계산
+% motorWb = -73.3; % pwm 1100에서 돌기 시작
+% motorTm = 0.01;  %Motor inertia time constant(s)
+% motorJm = 0.0001287;    %Moment of inertia of motor rotor + propeller(kg.m^2)
+% rotorCt = 2.487e-05;
+% rotorCm = 1.779e-07;
+
 % Add by ETKIM % ----------------------------------------------------
-%motorCr = 1148; %Motor throttle-speed curve slope(rad/s)
-%motorWb =-141.4;  %Motor speed-throttle curve constant term(rad/s)
-%motorTm = 0.02;
-%rotorCm = 1.779e-07*1.2;    %Rotor torque coefficient(kg.m^2) %M=Cm*w^2
-%rotorCt = 1.105e-05*1.3;    %Rotor thrust coefficient(kg.m^2) %T=Ct**w^   2
+motorCr = 1148; %Motor throttle-speed curve slope(rad/s)
+motorWb =-141.4;  %Motor speed-throttle curve constant term(rad/s)
+motorTm = 0.02;
+rotorCm = 1.779e-07*1.2;    %Rotor torque coefficient(kg.m^2) %M=Cm*w^2
+rotorCt = 1.105e-05*1.3;    %Rotor thrust coefficient(kg.m^2) %T=Ct**w^   2
+motorJm = 0.0001287;    %Moment of inertia of motor rotor + propeller(kg.m^2)
 
 %% 
 g=9.81;      %Gravity acceleration(m/s^2)
