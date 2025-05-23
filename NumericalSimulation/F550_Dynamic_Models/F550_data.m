@@ -4,6 +4,10 @@ clc; clear; close all;
 d2r=pi/180;
 r2d=180/pi;
 
+load R2218_810KV_RPMvsThrust_Table
+load R2218_810KV_PWMvsThrust_Table
+load R2218_810KV_PWMvsRPM_Table
+load R2218_810KV_RPMvsTorque_Table.mat
 
 % Add by SSLEE - T-motor Mn3110 470kv 대충
 % motorCr = 732.67; % 최대 RPM 6000 잡고 선형으로 추력 곡선 계산
