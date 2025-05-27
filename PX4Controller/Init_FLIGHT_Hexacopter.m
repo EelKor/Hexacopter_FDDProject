@@ -8,6 +8,10 @@ g = 9.81;
 r2d = 180/pi;
 d2r = pi/180;
 
+Jxx = 0.0211; % F450 관성모멘트에 대충 무게비를 곱함
+Jyy = 0.0219;
+Jzz = 0.0366;
+
 %max control angle,default 10deg
 MAX_CONTROL_ANGLE_ROLL = 30*pi/180;
 MAX_CONTROL_ANGLE_PITCH  = 30*pi/180;
