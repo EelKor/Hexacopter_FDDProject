@@ -4,20 +4,10 @@ r2d = 180/pi;
 lineWidth = 2;
 
 %% 데이터 선택
-log_filename = 'log_149_groundtest_smcTest';
+log_filename = 'log_01_smc_2025-5-27-21-11-52';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
-
-rc_time = seconds(input_rc_values_var8.Time);
-rc_inject = input_rc_values_var8.Var1;
-
-ae_time = seconds(failure_detector_status_fd_motor.Time);
-ae_detect = failure_detector_status_fd_motor.Var1;
-
-start_t = seconds(input_rc_values_var8.Time(1));
-end_t = seconds(input_rc_values_var8.Time(end));
-
 
 %% 결과 저장 디렉토리 생성
 
@@ -25,32 +15,108 @@ if ~exist(save_dir, 'dir')
     mkdir(save_dir);
 end
 
-%% Plot Fault Injection and Detection Flag
-inject = rc_inject >= 1400;
-inject = double(inject);
+%% SMC 관련 결과 Plotting
+smc_time = seconds(vehicle_attitude_smc_setpoint_e.Time);
+
+% tau_roll
+smc_tau_roll = vehicle_attitude_smc_setpoint_tau_roll.Var1;
+figure;
+plot(smc_time,smc_tau_roll, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)"); ylabel("");
+grid on;
+xlim([smc_time(1), smc_time(end)]);
+title("SMC \tau_{\phi}")
+saveas(gcf, fullfile(save_dir, 'smc_tau_roll.png'));
+
+% S
+smc_s = vehicle_attitude_smc_setpoint_s.Var1;
+figure;
+plot(smc_time,smc_s, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)"); ylabel("");
+grid on;
+xlim([smc_time(1), smc_time(end)]);
+title("Sliding Surface (s)")
+saveas(gcf, fullfile(save_dir, 'smc_sliding_surface.png'));
+
+% R
+smc_r = vehicle_attitude_smc_setpoint_r.Var1;
+figure;
+plot(smc_time,smc_r, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)"); ylabel("");
+grid on;
+xlim([smc_time(1), smc_time(end)]);
+title("Reachability Condition (R)")
+saveas(gcf, fullfile(save_dir, 'smc_r.png'));
+
+
+% H(x)
+smc_hx = vehicle_attitude_smc_setpoint_hx.Var1;
 
 figure;
-plot(rc_time, inject, 'LineWidth', lineWidth,'Color','blue')
-hold on;
-plot(ae_time, ae_detect, 'r-x')
+plot(smc_time,smc_hx, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)"); ylabel("");
 grid on;
-ylim([-0.2 1.2])
-xlim([rc_time(1), rc_time(end)])
-xlabel("Time (s)")
-ylabel("Flag")
-yticks([0 1]);
-legend("Fault Injection", "Fault Detection")
+xlim([smc_time(1), smc_time(end)]);
+title("H(x)")
+saveas(gcf, fullfile(save_dir, 'smc_hx.png'));
 
-injectIdx = find(inject == 1, 1, 'first');
-injectTime = rc_time(injectIdx-1);
-detectIdx = find(ae_detect == 1, 1, 'first');
-detectTime = ae_time(detectIdx);
+% e
+smc_e = vehicle_attitude_smc_setpoint_e.Var1;
+smc_e_dot = vehicle_attitude_smc_setpoint_e_dot.Var1;
+smc_integral_e = vehicle_attitude_smc_setpoint_integral_e.Var1;
 
-anomaly_detect_time_in_s = (detectTime - injectTime);
-title(['M1 30% Fail - ', num2str(anomaly_detect_time_in_s), 's'])
+figure;
+subplot(311)
+plot(smc_time,smc_e, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)"); ylabel("");
+grid on;
+xlim([smc_time(1), smc_time(end)]);
+title("e")
 
-%이미지 저장
-saveas(gcf, fullfile(save_dir, 'fault_injection_detection.png'));
+subplot(312)
+plot(smc_time,smc_e_dot, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)"); ylabel("");
+grid on;
+xlim([smc_time(1), smc_time(end)]);
+title("e dot")
+
+subplot(313)
+plot(smc_time,smc_integral_e, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)"); ylabel("");
+grid on;
+xlim([smc_time(1), smc_time(end)]);
+title("Integral e")
+
+saveas(gcf, fullfile(save_dir, 'smc_error.png'));
+
+% Phi_cmd, dot, ddot
+smc_phi_cmd = vehicle_attitude_smc_setpoint_phi_cmd.Var1;
+smc_phi_cmd_dot = vehicle_attitude_smc_setpoint_phi_cmd_dot.Var1;
+smc_phi_cmd_ddot = vehicle_attitude_smc_setpoint_phi_cmd_ddot.Var1;
+
+figure;
+subplot(311)
+plot(smc_time,smc_phi_cmd, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)"); ylabel("");
+grid on;
+xlim([smc_time(1), smc_time(end)]);
+title("phi command")
+
+subplot(312)
+plot(smc_time,smc_phi_cmd_dot, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)"); ylabel("");
+grid on;
+xlim([smc_time(1), smc_time(end)]);
+title("phi command dot")
+
+subplot(313)
+plot(smc_time,smc_phi_cmd_ddot, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)"); ylabel("");
+grid on;
+xlim([smc_time(1), smc_time(end)]);
+title("phi command ddot")
+
+saveas(gcf, fullfile(save_dir, 'phi_commands.png'));
 
 %% Display Attitude vs Attitude Command (Roll)
 
@@ -242,3 +308,6 @@ xlabel("Time (s)")
 xlim([localNED_Time(1), localNED_Time(end)]);
 title("Altitude")
 saveas(gcf, fullfile(save_dir, 'altitude.png'));
+
+%%
+close all;
