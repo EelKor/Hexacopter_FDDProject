@@ -29,9 +29,11 @@ motorJm = 0.0001287;    %Moment of inertia of motor rotor + propeller(kg.m^2)
 g=9.81;      %Gravity acceleration(m/s^2)
 
 Mass = 2.06; %Mass of UAV(kg)
-Jxx = 0.0211; % F450 관성모멘트에 대충 무게비를 곱함
-Jyy = 0.0219;
-Jzz = 0.0366;
+% F550 Moment of Inertia from 
+% Nguyen, N. P., Mung, N. X., & Hong, S. K. (2019). Actuator Fault Detection and Fault-Tolerant Control for Hexacopter. Sensors (Basel), 19(21). https://doi.org/10.3390/s19214721 
+Jxx = 0.00915;
+Jyy = 0.00915;
+Jzz = 0.01187;
 Inertia= [Jxx, 0, 0;...
     0, Jyy, 0;...
     0, 0, Jzz];
@@ -41,7 +43,7 @@ Inertia_inv=inv(Inertia);
 armLength = 0.275;   %Body radius(m)
 Cd  = 0.055*1.5;      %Damping coefficient(N/(m/s)^2)
 Cmd = [0.0035 0.0039 0.0034]; %Damping moment coefficient vector(N/(m/s)^2)
-dzcg = 0.06;
+dzcg = 0.12;
 
 %% ----------------------------------------------------
 % Initial Condition

@@ -20,6 +20,16 @@ MC_YAWRATE_P = 0.2;
 MC_YAWRATE_I = 0.1;
 MC_YAWRATE_D = 0.0;
 
+%% Define SMC Gains
+k_smc_p = 10;
+k_smc_i = 3;
+k_smc_d = 1.5;
+
+ks = 30;
+kp = 30;
+
+epsilon = 0.03;
+
 %% Run Simulation
 model = 'F550_Attitude_ctrl_ver2023b';
 simout = sim(model, 30);
