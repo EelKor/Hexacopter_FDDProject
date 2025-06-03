@@ -4,7 +4,7 @@ r2d = 180/pi;
 lineWidth = 2;
 
 %% 데이터 선택
-log_filename = 'log_7_2025-6-1-20-33-14';
+log_filename = 'log_25_2025-6-3_pid_doublet_1';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
@@ -33,7 +33,7 @@ legend("Roll", "Roll Command")
 xlabel("Time (s)"); ylabel("Angle (deg)")
 
 xlim([attitude_Time(1), attitude_Time(end)]);
-%ylim([-40 40]);
+ylim([-20 20]);
 title("\phi  vs  \phi_{cmd}")
 % 이미지 저장
 saveas(gcf, fullfile(save_dir, '1_roll_vs_command.png'));
@@ -319,6 +319,24 @@ title('$\mathbf{\ddot{\phi}_{cmd}}$', 'Interpreter', 'latex', 'FontSize', 12);
 saveas(gcf, fullfile(save_dir, '15_phi_cmd_derivates.png'));
 
 
+%% RC Switch
+rc_time = input_rc_values_var10.Time;
+rc_ctrl_sw = input_rc_values_var10.Var1;
+flag_rc_ctrl_sw = input_rc_values_var10.Var1 > 1800;
 
-%%
-close all
+rc_doublet = input_rc_values_var7.Var1;
+flag_rc_doublet = input_rc_values_var7.Var1 > 1800;
+
+figure;
+plot(rc_time, flag_rc_ctrl_sw, 'LineWidth', lineWidth,'Color','red');
+grid on;
+hold on;
+plot(rc_time, flag_rc_doublet, 'LineWidth', lineWidth,'Color','blue');
+xlabel("Time (s)");
+xlim([rc_time(1), rc_time(end)]);
+yticks([0 1]);
+title("RC Command");
+legend("SMC", "Doublet");
+% 이미지 저장
+saveas(gcf, fullfile(save_dir, '15_flag_ctrl_sw_doublet.png'));
+

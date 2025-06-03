@@ -27,7 +27,7 @@ MC_YAWRATE_D = 0.0;
 
 %% Define SMC Gains
 k_smc_p = 10;
-k_smc_i = 3;
+k_smc_i = 0;
 k_smc_d = 1.5;
 
 ks = 30;
@@ -41,11 +41,10 @@ model = 'F550_Attitude_ctrl_SMC';
 result = {};
 labels = {"\phi_{cmd}"};
 
-for k_smc_p = 10:20:100
+for k_smc_i = 0:2:10
     simout = sim(model, 30);
     result{end+1} = simout;
     labels{end+1} = sprintf('k_{ss,p} = %d', k_smc_p);
-    disp()
 end
 
 
@@ -81,3 +80,10 @@ xlabel("t [s]" , Interpreter="latex", FontSize=14);
 ylabel("$\phi$ [rad]", Interpreter="latex", FontSize=14)
 legend(labels)
 saveas(gcf, fullfile(save_dir, 'roll_at_every_k_smc_p.png'));
+
+figure;
+for idx = 1:length(result)
+    data = result{idx};
+    plot(data.SCAS.smc_s, 'linewidth',linewidth);
+    grid on;
+end
