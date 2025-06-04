@@ -4,10 +4,14 @@ r2d = 180/pi;
 lineWidth = 1;
 
 %% 데이터 선택
-log_filename = 'log_5_2025-6-4-18-01-24-SMC-M1_30';
+log_filename = 'log_6_2025-6-4-18-13-16-PID-M1_30';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
+
+%% 그래프 최대값 설정
+lim_attitude_max = 20; % deg
+lim_rate_max = 180; %deg/s
 
 %% 결과 저장 디렉토리 생성
 
@@ -33,7 +37,7 @@ legend("Roll", "Roll Command")
 xlabel("Time (s)"); ylabel("Angle (deg)")
 
 xlim([attitude_Time(1), attitude_Time(end)]);
-ylim([-20 20]);
+ylim([-lim_attitude_max lim_attitude_max]);
 
 highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
 title("\phi  vs  \phi_{cmd}")
@@ -55,7 +59,7 @@ hold off;
 legend("Pitch", "Pitch Command")
 xlabel("Time (s)"); ylabel("Angle (deg)")
 xlim([attitude_Time(1), attitude_Time(end)]);
-ylim([-20 20])
+ylim([-lim_attitude_max lim_attitude_max])
 
 highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
 title("\theta  vs  \theta_{cmd}")
@@ -75,8 +79,8 @@ grid on;
 
 hold off;
 legend("Yaw", "Yaw Command")
-xlabel("Time (s)"); ylabel("Angle (deg)")
-xlim([attitude_Time(1), attitude_Time(end)]);
+xlabel("Time (s)"); ylabel("Heading (deg)")
+xlim([attitude_Time(1), attitude_Time(end)]); ylim([-90 90])
 
 highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
 title("\psi")
@@ -98,6 +102,7 @@ plot(rollrate_cmd_t, rollrate_cmd,'r--', 'LineWidth', lineWidth);
 
 legend("p","p_{sp}");
 xlabel("Time (s)"); ylabel("Angular Rate (deg/s)")
+xlim([rollrate_t(1), rollrate_t(end)]); ylim([-lim_rate_max, lim_rate_max])
 
 title("p vs p_{sp}");
 highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
@@ -117,6 +122,7 @@ hold on;
 plot(pitchrate_cmd_t, pitchrate_cmd,'r--', 'LineWidth', lineWidth);
 legend("q","q_{sp}");
 xlabel("Time (s)"); ylabel("Angular Rate (deg/s)")
+xlim([pitchrate_t(1), pitchrate_t(end)]); ylim([-lim_rate_max, lim_rate_max]); 
 
 highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
 saveas(gcf, fullfile(save_dir, '5_pitchrate.png'));
@@ -135,7 +141,7 @@ plot(yawrate_cmd_t, yawrate_cmd,'r--', 'LineWidth', lineWidth);
 legend("Yawrate");
 title("r vs r_{sp}");
 xlabel("Time (s)"); ylabel("Angular Velocity (deg/s)")
-xlim([yawrate_time(1), yawrate_time(end)])
+xlim([yawrate_time(1), yawrate_time(end)]); ylim([-lim_rate_max, lim_rate_max]);
 
 highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
 saveas(gcf, fullfile(save_dir, '6_yawrate.png'));
@@ -287,7 +293,7 @@ highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,180
 % 이미지 저장
 saveas(gcf, fullfile(save_dir, '12_tau_roll_smc_pid.png'));
 
-%%
+%% Roll Error
 smc_time = vehicle_attitude_smc_setpoint_e.Time;
 smc_e = vehicle_attitude_smc_setpoint_e.Var1;
 
@@ -303,7 +309,7 @@ highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,180
 % 이미지 저장
 saveas(gcf, fullfile(save_dir, '13_error.png'));
 
-%%
+%% Roll Error dot
 smc_time = vehicle_attitude_smc_setpoint_e_dot.Time;
 smc_e_dot = vehicle_attitude_smc_setpoint_e_dot.Var1;
 
@@ -379,4 +385,3 @@ title("RC Command");
 legend("SMC", "Doublet", "Fault Injection");
 % 이미지 저장
 saveas(gcf, fullfile(save_dir, '15_flag_ctrl_sw_doublet.png'));
-
