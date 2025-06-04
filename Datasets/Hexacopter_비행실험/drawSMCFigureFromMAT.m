@@ -4,7 +4,7 @@ r2d = 180/pi;
 lineWidth = 1;
 
 %% 데이터 선택
-log_filename = 'log_6_2025-6-4-18-13-16-PID-M1_30';
+log_filename = 'log_5_2025-6-4-18-01-24-SMC-M1_30';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
@@ -279,7 +279,7 @@ pid_tau_roll_time = actuator_controls_control_power_var1.Time;
 pid_tau_roll = actuator_controls_control_power_var1.Var1;
 
 figure;
-plot(smc_time, smc_s, 'LineWidth', lineWidth,'Color','blue');
+plot(smc_time, smc_tau, 'LineWidth', lineWidth,'Color','blue');
 grid on;
 hold on;
 
