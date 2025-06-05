@@ -4,7 +4,7 @@ r2d = 180/pi;
 lineWidth = 1;
 
 %% 데이터 선택
-log_filename = 'log_16_2025-6-5-14-10-52-SMC-M1_30-2';
+log_filename = 'log_17_2025-6-5-14-28-34-SMC-M1_30-5';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
