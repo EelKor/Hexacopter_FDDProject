@@ -4,7 +4,7 @@ r2d = 180/pi;
 lineWidth = 1;
 
 %% 데이터 선택
-log_filename = 'log_5_2025-6-4-18-01-24-SMC-M1_30';
+log_filename = 'log_3_UnknownDate-SMC-M1_10-2';
 
 save_dir = [log_filename, '_fig']; % 저장할 디렉토리 이름
 load([log_filename,'.mat'])
@@ -265,8 +265,6 @@ grid on;
 xlabel("Time (s)");
 xlim([smc_time(1), smc_time(end)]);
 title("Sliding Surface");
-
-
 highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
 
 % 이미지 저장
@@ -293,37 +291,50 @@ highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,180
 % 이미지 저장
 saveas(gcf, fullfile(save_dir, '12_tau_roll_smc_pid.png'));
 
-%% Roll Error
+%% Sliding Surface, Roll Error & Roll Error dot
 smc_time = vehicle_attitude_smc_setpoint_e.Time;
+smc_s = vehicle_attitude_smc_setpoint_s.Var1;
 smc_e = vehicle_attitude_smc_setpoint_e.Var1;
+smc_e_dot = vehicle_attitude_smc_setpoint_e_dot.Var1;
+smc_e_integral = vehicle_attitude_smc_setpoint_integral_e.Var1;
 
-figure;
+figure('Position',[100 100 800 800]);
+
+subplot(411)
+plot(smc_time, smc_s, 'LineWidth', lineWidth,'Color','blue');
+grid on;
+xlabel("Time (s)");
+xlim([smc_time(1), smc_time(end)]);
+title('$\mathbf{s}$',  'Interpreter', 'latex', 'FontSize', 12);
+highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
+
+subplot(412)
 plot(smc_time, smc_e * r2d, 'LineWidth', lineWidth,'Color','blue');
 grid on;
-
 xlabel("Time (s)"); ylabel("deg");
 xlim([smc_time(1), smc_time(end)]);
-title("e");
-
+title('$\mathbf{e}$',  'Interpreter', 'latex', 'FontSize', 12);
 highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
-% 이미지 저장
-saveas(gcf, fullfile(save_dir, '13_error.png'));
 
-%% Roll Error dot
-smc_time = vehicle_attitude_smc_setpoint_e_dot.Time;
-smc_e_dot = vehicle_attitude_smc_setpoint_e_dot.Var1;
-
-figure;
+subplot(413);
 plot(smc_time, smc_e_dot * r2d, 'LineWidth', lineWidth,'Color','blue');
 grid on;
-
 xlabel("Time (s)"); ylabel("deg/s");
 xlim([smc_time(1), smc_time(end)]);
 title('$\mathbf{\dot{e}}$', 'Interpreter', 'latex', 'FontSize', 12);
-
 highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
+
+subplot(414);
+plot(smc_time, smc_e_integral * r2d, 'LineWidth', lineWidth,'Color','blue');
+grid on;
+xlabel("Time (s)"); ylabel("deg");
+xlim([smc_time(1), smc_time(end)]); ylim([-20 20]);
+title('$\mathbf{\int{e}}$', 'Interpreter', 'latex', 'FontSize', 12);
+highlight_fault_regions(input_rc_values_var8.Time, input_rc_values_var8.Var1,1800, 'red');
+
+
 % 이미지 저장
-saveas(gcf, fullfile(save_dir, '14_error_dot.png'));
+saveas(gcf, fullfile(save_dir, '13_sliding_surface_and_errors.png'));
 
 %% Phi Command의 미분값들
 
@@ -382,6 +393,6 @@ xlabel("Time (s)");
 xlim([rc_time(1), rc_time(end)]);
 yticks([0 1]);
 title("RC Command");
-legend("SMC", "Doublet", "Fault Injection");
+legend("SMC", "Doublet", "Fault Injection",'Location', 'southwest');
 % 이미지 저장
 saveas(gcf, fullfile(save_dir, '15_flag_ctrl_sw_doublet.png'));
