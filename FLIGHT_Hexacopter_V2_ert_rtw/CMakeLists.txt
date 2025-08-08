@@ -13,7 +13,7 @@ px4_add_module(
     STACK_MAIN 2000
 SRCS
    MW_PX4_PWM.cpp
-   MW_ParameterRead.cpp
+   MW_PX4_Parameter.cpp
    MW_uORB_Write.cpp
    MW_uORB_Read.cpp
    ert_main.cpp
@@ -35,13 +35,13 @@ SRCS
        ${MAVLINK_LIBRARY_DIR}/${CONFIG_MAVLINK_DIALECT}
        ${MAVLINK_LIBRARY_DIR}/${MAVLINK_DIALECT_UAVIONIX}
        /home/sslee/Hexacopter_FDDProject
-       /home/sslee/Documents/MATLAB/SupportPackages/R2024a/toolbox/target/supportpackages/px4/include
+       /home/sslee/Documents/MATLAB/SupportPackages/R2025a/toolbox/target/supportpackages/px4/core/include
        /home/sslee/Hexacopter_FDDProject/FLIGHT_Hexacopter_V2_ert_rtw
-       /usr/local/MATLAB/R2024a/extern/include
-       /usr/local/MATLAB/R2024a/simulink/include
-       /usr/local/MATLAB/R2024a/rtw/c/src
-       /usr/local/MATLAB/R2024a/rtw/c/src/ext_mode/common
-       /usr/local/MATLAB/R2024a/rtw/c/ert
+       /usr/local/MATLAB/R2025a/extern/include
+       /usr/local/MATLAB/R2025a/simulink/include
+       /usr/local/MATLAB/R2025a/rtw/c/src
+       /usr/local/MATLAB/R2025a/rtw/c/src/ext_mode/common
+       /usr/local/MATLAB/R2025a/rtw/c/ert
 )
 
 get_target_property(PX4_SL_APP_COMPILE_FLAGS modules__px4_simulink_app COMPILE_OPTIONS)

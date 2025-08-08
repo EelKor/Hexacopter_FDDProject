@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_Hexacopter_V2'.
 //
-// Model version                  : 1.186
-// Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Mon Jun 30 16:37:43 2025
+// Model version                  : 3.5
+// Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
+// C/C++ source code generated on : Wed Aug  6 11:25:39 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -32,15 +32,15 @@
 #include <uORB/topics/vehicle_status.h>
 #include <uORB/topics/vehicle_local_position.h>
 #include <uORB/topics/vehicle_odometry.h>
-#ifndef struct_e_px4_internal_block_SampleTi_T
-#define struct_e_px4_internal_block_SampleTi_T
+#ifndef struct_d_px4_internal_block_SampleTi_T
+#define struct_d_px4_internal_block_SampleTi_T
 
-struct e_px4_internal_block_SampleTi_T
+struct d_px4_internal_block_SampleTi_T
 {
   int32_T __dummy;
 };
 
-#endif                                // struct_e_px4_internal_block_SampleTi_T
+#endif                                // struct_d_px4_internal_block_SampleTi_T
 
 #ifndef struct_px4_internal_block_getPX4Abso_T
 #define struct_px4_internal_block_getPX4Abso_T
@@ -50,7 +50,7 @@ struct px4_internal_block_getPX4Abso_T
   boolean_T matlabCodegenIsDeleted;
   int32_T isInitialized;
   boolean_T isSetupComplete;
-  e_px4_internal_block_SampleTi_T SampleTimeHandler;
+  d_px4_internal_block_SampleTi_T SampleTimeHandler;
 };
 
 #endif                                // struct_px4_internal_block_getPX4Abso_T
@@ -63,7 +63,7 @@ struct px4_internal_block_Subscriber_T
   boolean_T matlabCodegenIsDeleted;
   int32_T isInitialized;
   boolean_T isSetupComplete;
-  e_px4_internal_block_SampleTi_T SampleTimeHandler;
+  d_px4_internal_block_SampleTi_T SampleTimeHandler;
   pollfd_t eventStructObj;
   orb_metadata_t * orbMetadataObj;
 };
@@ -98,7 +98,6 @@ struct px4_internal_block_ParameterU_T
   boolean_T matlabCodegenIsDeleted;
   int32_T isInitialized;
   boolean_T isSetupComplete;
-  real_T SampleTime;
   MW_Param_Handle MW_PARAMHANDLE;
 };
 

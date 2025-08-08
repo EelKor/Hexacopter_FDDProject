@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_Hexacopter_V2'.
 //
-// Model version                  : 1.186
-// Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
-// C/C++ source code generated on : Mon Jun 30 16:37:43 2025
+// Model version                  : 3.5
+// Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
+// C/C++ source code generated on : Wed Aug  6 11:25:39 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -47,8 +47,8 @@ pthread_t subRateThread[1];
 int subratePriority[1];
 void *subrateTask(void *arg)
 {
-  int tid = *((int *) arg);
-  int subRateId;
+  int_T tid = *((int_T *) arg);
+  int_T subRateId;
   subRateId = tid + 1;
   while (runModel) {
     px4_sem_wait(&subrateTaskSem[tid]);
@@ -72,7 +72,7 @@ void *subrateTask(void *arg)
 
 void *baseRateTask(void *arg)
 {
-  runModel = (rtmGetErrorStatus(FLIGHT_Hexacopter_V2_M) == (NULL));
+  runModel = (FLIGHT_Hexacopter_V2_M->getErrorStatus() == (NULL));
   while (runModel) {
     px4_sem_wait(&baserateTaskSem);
 
@@ -83,7 +83,7 @@ void *baseRateTask(void *arg)
 
 #endif
 
-    if (rtmStepTask(FLIGHT_Hexacopter_V2_M, 1)
+    if (FLIGHT_Hexacopter_V2_M->StepTask(1)
         ) {
       px4_sem_post(&subrateTaskSem[0]);
     }
@@ -91,7 +91,7 @@ void *baseRateTask(void *arg)
     FLIGHT_Hexacopter_V2_step(0);
 
     // Get model outputs here
-    stopRequested = !((rtmGetErrorStatus(FLIGHT_Hexacopter_V2_M) == (NULL)));
+    stopRequested = !((FLIGHT_Hexacopter_V2_M->getErrorStatus() == (NULL)));
   }
 
   terminateTask(arg);
@@ -102,7 +102,7 @@ void *baseRateTask(void *arg)
 void exitFcn(int sig)
 {
   UNUSED(sig);
-  rtmSetErrorStatus(FLIGHT_Hexacopter_V2_M, "stopping the model");
+  FLIGHT_Hexacopter_V2_M->setErrorStatus("stopping the model");
   runModel = 0;
 }
 
@@ -141,7 +141,7 @@ int px4_simulink_app_task_main (int argc, char *argv[])
 {
   subratePriority[0] = 249;
   px4_simulink_app_control_MAVLink();
-  rtmSetErrorStatus(FLIGHT_Hexacopter_V2_M, 0);
+  FLIGHT_Hexacopter_V2_M->setErrorStatus(0);
 
   // Initialize model
   FLIGHT_Hexacopter_V2_initialize();
