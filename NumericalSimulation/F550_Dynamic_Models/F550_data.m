@@ -29,11 +29,10 @@ motorJm = 0.0001287;    %Moment of inertia of motor rotor + propeller(kg.m^2)
 g=9.81;      %Gravity acceleration(m/s^2)
 
 Mass = 2.06; %Mass of UAV(kg)
-% F550 Moment of Inertia from 
-% Nguyen, N. P., Mung, N. X., & Hong, S. K. (2019). Actuator Fault Detection and Fault-Tolerant Control for Hexacopter. Sensors (Basel), 19(21). https://doi.org/10.3390/s19214721 
-Jxx = 0.00915;
-Jyy = 0.00915;
-Jzz = 0.01187;
+% F550 Moment of Inertia from  
+Jxx = 0.03259;
+Jyy = 0.03259;
+Jzz = 0.06059;
 Inertia= [Jxx, 0, 0;...
     0, Jyy, 0;...
     0, 0, Jzz];
@@ -41,7 +40,7 @@ Inertia_inv=inv(Inertia);
 
 
 armLength = 0.275;   %Body radius(m)
-Cd  = 0.055*1.5;      %Damping coefficient(N/(m/s)^2)
+Cd  = 0.010*1.0;      %Damping coefficient(N/(m/s)^2)
 Cmd = [0.0035 0.0039 0.0034]; %Damping moment coefficient vector(N/(m/s)^2)
 dzcg = 0.12;
 
@@ -75,15 +74,6 @@ u0 = [0 0 0 0];
 
 %% UAV Dynamics Constants
 
-% Rotor Position (PX4 Generic X-configuration Hexacopter)
-l1 = 0.275; l2 = 0.275; l3 = 0.275; 
-l4 = 0.275; l5 = 0.275; l6 = 0.275; % m
-gamma1 = 0; gamma2 = 180; gamma3 = 120; 
-gamma4 = 300; gamma5 = 60; gamma6 = 240; %deg
-
-rotorThrustMax = 4; %N
-rotorTorqueMax = 0.05 ;%Nm
-rotorTimeConst = 0.050 ;% time constant of rotor (motor + propeller)
 
 %rotorOffset = [0 0 0]; % Rotors position offsets from Gravity center
 dragCoeffMov = 0.01; %drag coefficient for linear motion of quadcopter
@@ -110,15 +100,6 @@ control.rotation.vd = 0.2;
 % init.vb = [0 0 0]'; %m/s
 % init.euler = [0, 0, 0]'; %Roll Pitch Yaw Rads
 % init.angRates = [0, 0, 0]; %rad/s
-
-%Computed from above values
-rotorPositions = zeros(3,6);
-rotorPositions(:,1) = [l1*sind(gamma1), l1*cosd(gamma1), 0]';
-rotorPositions(:,2) = [l2*sind(gamma2), l2*cosd(gamma2), 0]';
-rotorPositions(:,3) = [l3*sind(gamma3), l3*cosd(gamma3), 0]';
-rotorPositions(:,4) = [l4*sind(gamma4), l4*cosd(gamma4), 0]';
-rotorPositions(:,5) = [l5*sind(gamma5), l5*cosd(gamma5), 0]';
-rotorPositions(:,6) = [l6*sind(gamma6), l6*cosd(gamma6), 0]';
 
 rotorDir = [1 -1 1 -1 -1 1];
 
