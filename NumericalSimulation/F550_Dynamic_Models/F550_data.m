@@ -4,11 +4,6 @@ clc; clear; close all;
 d2r=pi/180;
 r2d=180/pi;
 
-load R2218_810KV_RPMvsThrust_Table
-load R2218_810KV_PWMvsThrust_Table
-load R2218_810KV_PWMvsRPM_Table
-load R2218_810KV_RPMvsTorque_Table.mat
-
 % Add by SSLEE - T-motor Mn3110 470kv 대충
 % motorCr = 732.67; % 최대 RPM 6000 잡고 선형으로 추력 곡선 계산
 % motorWb = -73.3; % pwm 1100에서 돌기 시작
@@ -17,30 +12,30 @@ load R2218_810KV_RPMvsTorque_Table.mat
 % rotorCt = 2.487e-05;
 % rotorCm = 1.779e-07;
 
-% Add by ETKIM % ----------------------------------------------------
-motorCr = 1148; %Motor throttle-speed curve slope(rad/s)
-motorWb =-141.4;  %Motor speed-throttle curve constant term(rad/s)
-motorTm = 0.02;
-rotorCm = 1.779e-07*1.2;    %Rotor torque coefficient(kg.m^2) %M=Cm*w^2
-rotorCt = 1.105e-05*1.3;    %Rotor thrust coefficient(kg.m^2) %T=Ct**w^   2
+% % Add by ETKIM % ----------------------------------------------------
+% motorCr = 1148; %Motor throttle-speed curve slope(rad/s)
+% motorWb =-141.4;  %Motor speed-throttle curve constant term(rad/s)
+% motorTm = 0.02;
+% rotorCm = 1.779e-07*1.2;    %Rotor torque coefficient(kg.m^2) %M=Cm*w^2
+% rotorCt = 1.105e-05*1.3;    %Rotor thrust coefficient(kg.m^2) %T=Ct**w^   2
 motorJm = 0.0001287;    %Moment of inertia of motor rotor + propeller(kg.m^2)
 
 %% 
 g=9.81;      %Gravity acceleration(m/s^2)
 
 Mass = 2.06; %Mass of UAV(kg)
+
 % F550 Moment of Inertia from  
 Jxx = 0.03259;
 Jyy = 0.03259;
-Jzz = 0.06059;
+Jzz = 0.06059*0.8*0.85;
 Inertia= [Jxx, 0, 0;...
     0, Jyy, 0;...
     0, 0, Jzz];
 Inertia_inv=inv(Inertia);
 
-
 armLength = 0.275;   %Body radius(m)
-Cd  = 0.010*1.0;      %Damping coefficient(N/(m/s)^2)
+Cd  = 0.010;      %Damping coefficient(N/(m/s)^2)
 Cmd = [0.0035 0.0039 0.0034]; %Damping moment coefficient vector(N/(m/s)^2)
 dzcg = 0.12;
 
@@ -67,13 +62,12 @@ end
 
 %% Initial data
 motorRpm0 =[0 0 0 0 0 0];
-x0=[0 0 0 0 0 0 0 0 0 0 0 -10];
+x0=[0 0 0 0 0 0 0 0 0 0 0 -0.01];
 u0 = [0 0 0 0];
 
 
 
 %% UAV Dynamics Constants
-
 
 %rotorOffset = [0 0 0]; % Rotors position offsets from Gravity center
 dragCoeffMov = 0.01; %drag coefficient for linear motion of quadcopter
