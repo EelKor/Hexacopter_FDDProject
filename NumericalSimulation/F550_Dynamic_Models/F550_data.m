@@ -97,6 +97,20 @@ control.rotation.vd = 0.2;
 
 rotorDir = [1 -1 1 -1 -1 1];
 
+% Rotor Position (PX4 Generic X-configuration Hexacopter)
+l1 = 0.275; l2 = 0.275; l3 = 0.275; 
+l4 = 0.275; l5 = 0.275; l6 = 0.275; % m
+gamma1 = 90; gamma2 = 270; gamma3 = 330; 
+gamma4 = 150; gamma5 = 30; gamma6 = 210; %deg, BODY FRAME의 X축을 0도, Y축방향으로 회전을 +
+rotor_dz = -0.1; % m, C.G점과 추력면의 Z축 거리
+rotorPositions = [l1*cosd(gamma1), l1*sind(gamma1), rotor_dz;
+                  l2*cosd(gamma2), l2*sind(gamma2), rotor_dz;
+                  l3*cosd(gamma3), l3*sind(gamma3), rotor_dz;
+                  l4*cosd(gamma4), l4*sind(gamma4), rotor_dz;
+                  l5*cosd(gamma5), l5*sind(gamma5), rotor_dz;
+                  l6*cosd(gamma6), l6*sind(gamma6), rotor_dz;
+    ];
+
 %Reference location: Chuungnam National Univ.
 % This is the home position also 
 ref_lat = 36.364905;

@@ -5,11 +5,8 @@ clear
 F550_data
 %% UAV Dynamics Constants
 
-% Rotor Position (PX4 Generic X-configuration Hexacopter)
-l1 = 0.275; l2 = 0.275; l3 = 0.275; 
-l4 = 0.275; l5 = 0.275; l6 = 0.275; % m
-gamma1 = 0; gamma2 = 180; gamma3 = 120; 
-gamma4 = 300; gamma5 = 60; gamma6 = 240; %deg
+
+
 
 rotorThrustMax = 4; %N
 rotorTorqueMax = 0.05 ;%Nm
