@@ -28,3 +28,11 @@ MAX_CONTROL_VELOCITY_Z = 1;
 %Throttle amplitude
 MAX_MAN_THR = 0.9;
 MIN_MAN_THR = 0.05;
+
+
+% Controller Authority
+THR_AUTHORITY = 0.8;
+ROLL_AUTHORITY = 0.2;
+PITCH_AUTHORITY = 0.2;
+YAW_AUTHORITY = 0.3;
+

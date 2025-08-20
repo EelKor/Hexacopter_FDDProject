@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_Hexacopter_V2'.
 //
-// Model version                  : 3.5
+// Model version                  : 3.26
 // Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
-// C/C++ source code generated on : Wed Aug  6 11:25:39 2025
+// C/C++ source code generated on : Wed Aug 20 15:10:09 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -41,97 +41,169 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   0.52359879F,
 
   // Mask Parameter: DiscretePIDController1_D
-  //  Referenced by: '<S280>/Derivative Gain'
+  //  Referenced by: '<S278>/Derivative Gain'
 
   1.0F,
 
   // Mask Parameter: DiscretePIDController2_I
-  //  Referenced by: '<S336>/Integral Gain'
+  //  Referenced by: '<S334>/Integral Gain'
 
   1.0F,
 
   // Mask Parameter: DiscreteDerivative2_ICPrevScale
-  //  Referenced by: '<S530>/UD'
+  //  Referenced by: '<S359>/UD'
 
   0.0F,
 
   // Mask Parameter: DiscreteDerivative2_ICPrevSca_e
-  //  Referenced by: '<S243>/UD'
-
-  0.0F,
-
-  // Mask Parameter: DiscreteDerivative_ICPrevScaled
   //  Referenced by: '<S241>/UD'
 
   0.0F,
 
+  // Mask Parameter: DiscreteDerivative_ICPrevScaled
+  //  Referenced by: '<S239>/UD'
+
+  0.0F,
+
   // Mask Parameter: DiscreteDerivative1_ICPrevScale
-  //  Referenced by: '<S242>/UD'
+  //  Referenced by: '<S240>/UD'
 
   0.0F,
 
-  // Mask Parameter: DiscreteDerivative2_ICPrevSca_k
-  //  Referenced by: '<S473>/UD'
+  // Mask Parameter: DiscreteDerivative1_ICPrevSca_o
+  //  Referenced by: '<S358>/UD'
 
   0.0F,
 
-  // Mask Parameter: DiscreteDerivative2_ICPrevSca_f
-  //  Referenced by: '<S587>/UD'
+  // Mask Parameter: DiscreteDerivative3_ICPrevScale
+  //  Referenced by: '<S360>/UD'
 
   0.0F,
 
   // Mask Parameter: DiscreteDerivative2_ICPrevSca_n
-  //  Referenced by: '<S161>/UD'
+  //  Referenced by: '<S159>/UD'
 
   0.0F,
 
   // Mask Parameter: DiscretePIDController1_InitialC
-  //  Referenced by: '<S282>/Filter'
+  //  Referenced by: '<S280>/Filter'
 
   0.0F,
 
   // Mask Parameter: pid_ctrl_rollrate_InitialCondit
-  //  Referenced by: '<S569>/Integrator'
+  //  Referenced by: '<S517>/Integrator'
 
   0.0F,
 
   // Mask Parameter: DiscretePIDController2_InitialC
-  //  Referenced by: '<S339>/Integrator'
+  //  Referenced by: '<S337>/Integrator'
 
   0.0F,
 
-  // Mask Parameter: pid_ctrl_rollrate_InitialCond_l
-  //  Referenced by: '<S512>/Integrator'
+  // Mask Parameter: pid_ctrl_rollrate1_InitialCondi
+  //  Referenced by: '<S571>/Integrator'
+
+  0.0F,
+
+  // Mask Parameter: pid_ctrl_rollrate2_InitialCondi
+  //  Referenced by: '<S625>/Integrator'
 
   0.0F,
 
   // Mask Parameter: pid_ctrl_rollrate_InitialCond_p
-  //  Referenced by: '<S626>/Integrator'
+  //  Referenced by: '<S198>/Integrator'
 
   0.0F,
 
-  // Mask Parameter: pid_ctrl_rollrate_InitialCon_pr
-  //  Referenced by: '<S200>/Integrator'
+  // Mask Parameter: pid_ctrl_rollrate_LowerIntegrat
+  //  Referenced by: '<S517>/Integrator'
 
-  0.0F,
+  -0.06F,
+
+  // Mask Parameter: pid_ctrl_rollrate1_LowerIntegra
+  //  Referenced by: '<S571>/Integrator'
+
+  -0.06F,
+
+  // Mask Parameter: pid_ctrl_rollrate2_LowerIntegra
+  //  Referenced by: '<S625>/Integrator'
+
+  -0.09F,
+
+  // Mask Parameter: pid_ctrl_rollrate_LowerSaturati
+  //  Referenced by:
+  //    '<S524>/Saturation'
+  //    '<S509>/DeadZone'
+
+  -0.2F,
+
+  // Mask Parameter: pid_ctrl_rollrate1_LowerSaturat
+  //  Referenced by:
+  //    '<S578>/Saturation'
+  //    '<S563>/DeadZone'
+
+  -0.2F,
+
+  // Mask Parameter: pid_ctrl_rollrate2_LowerSaturat
+  //  Referenced by:
+  //    '<S632>/Saturation'
+  //    '<S617>/DeadZone'
+
+  -0.3F,
 
   // Mask Parameter: DiscretePIDController1_N
-  //  Referenced by: '<S290>/Filter Coefficient'
+  //  Referenced by: '<S288>/Filter Coefficient'
 
   100.0F,
 
   // Mask Parameter: DiscretePIDController1_P
-  //  Referenced by: '<S292>/Proportional Gain'
+  //  Referenced by: '<S290>/Proportional Gain'
 
   0.0F,
 
+  // Mask Parameter: pid_ctrl_rollrate_UpperIntegrat
+  //  Referenced by: '<S517>/Integrator'
+
+  0.06F,
+
+  // Mask Parameter: pid_ctrl_rollrate1_UpperIntegra
+  //  Referenced by: '<S571>/Integrator'
+
+  0.06F,
+
+  // Mask Parameter: pid_ctrl_rollrate2_UpperIntegra
+  //  Referenced by: '<S625>/Integrator'
+
+  0.09F,
+
+  // Mask Parameter: pid_ctrl_rollrate_UpperSaturati
+  //  Referenced by:
+  //    '<S524>/Saturation'
+  //    '<S509>/DeadZone'
+
+  0.2F,
+
+  // Mask Parameter: pid_ctrl_rollrate1_UpperSaturat
+  //  Referenced by:
+  //    '<S578>/Saturation'
+  //    '<S563>/DeadZone'
+
+  0.2F,
+
+  // Mask Parameter: pid_ctrl_rollrate2_UpperSaturat
+  //  Referenced by:
+  //    '<S632>/Saturation'
+  //    '<S617>/DeadZone'
+
+  0.3F,
+
   // Mask Parameter: CompareToConstant6_const
-  //  Referenced by: '<S48>/Constant'
+  //  Referenced by: '<S46>/Constant'
 
   0.0F,
 
   // Mask Parameter: CompareToConstant5_const
-  //  Referenced by: '<S47>/Constant'
+  //  Referenced by: '<S45>/Constant'
 
   0.0F,
 
@@ -141,57 +213,47 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   1300U,
 
   // Mask Parameter: CompareToConstant_const_a
-  //  Referenced by: '<S15>/Constant'
+  //  Referenced by: '<S14>/Constant'
 
   1400U,
 
   // Mask Parameter: CompareToConstant1_const
-  //  Referenced by: '<S43>/Constant'
+  //  Referenced by: '<S41>/Constant'
 
   1400U,
 
   // Mask Parameter: CompareToConstant2_const
-  //  Referenced by: '<S44>/Constant'
+  //  Referenced by: '<S42>/Constant'
 
   1800U,
 
   // Mask Parameter: CompareToConstant4_const
-  //  Referenced by: '<S46>/Constant'
+  //  Referenced by: '<S44>/Constant'
 
   1800U,
 
   // Mask Parameter: CompareToConstant3_const
-  //  Referenced by: '<S45>/Constant'
+  //  Referenced by: '<S43>/Constant'
 
   1800U,
 
   // Mask Parameter: CompareToConstant_const_o
-  //  Referenced by: '<S239>/Constant'
+  //  Referenced by: '<S237>/Constant'
 
   1300U,
 
   // Mask Parameter: CompareToConstant1_const_j
-  //  Referenced by: '<S240>/Constant'
+  //  Referenced by: '<S238>/Constant'
 
   1800U,
 
   // Mask Parameter: CompareToConstant_const_j
-  //  Referenced by: '<S359>/Constant'
-
-  1800U,
-
-  // Mask Parameter: CompareToConstant1_const_p
-  //  Referenced by: '<S360>/Constant'
-
-  1800U,
-
-  // Mask Parameter: CompareToConstant2_const_p
-  //  Referenced by: '<S361>/Constant'
+  //  Referenced by: '<S357>/Constant'
 
   1800U,
 
   // Computed Parameter: Out1_Y0
-  //  Referenced by: '<S234>/Out1'
+  //  Referenced by: '<S232>/Out1'
 
   {
     (0ULL),                            // timestamp
@@ -250,7 +312,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value
-  //  Referenced by: '<S228>/Constant'
+  //  Referenced by: '<S226>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -309,7 +371,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_g
-  //  Referenced by: '<S37>/Constant'
+  //  Referenced by: '<S35>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -350,7 +412,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Out1_Y0_c
-  //  Referenced by: '<S237>/Out1'
+  //  Referenced by: '<S235>/Out1'
 
   {
     (0ULL),                            // timestamp
@@ -394,7 +456,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_j
-  //  Referenced by: '<S236>/Constant'
+  //  Referenced by: '<S234>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -438,7 +500,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_e
-  //  Referenced by: '<S39>/Constant'
+  //  Referenced by: '<S37>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -455,7 +517,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Out1_Y0_h
-  //  Referenced by: '<S222>/Out1'
+  //  Referenced by: '<S220>/Out1'
 
   {
     (0ULL),                            // timestamp
@@ -478,7 +540,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_l
-  //  Referenced by: '<S221>/Constant'
+  //  Referenced by: '<S219>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -501,7 +563,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Out1_Y0_e
-  //  Referenced by: '<S233>/Out1'
+  //  Referenced by: '<S231>/Out1'
 
   {
     (0ULL),                            // timestamp
@@ -548,7 +610,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_k
-  //  Referenced by: '<S227>/Constant'
+  //  Referenced by: '<S225>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -595,7 +657,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_h
-  //  Referenced by: '<S41>/Constant'
+  //  Referenced by: '<S39>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -618,7 +680,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_p
-  //  Referenced by: '<S33>/Constant'
+  //  Referenced by: '<S31>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -643,7 +705,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Out1_Y0_a
-  //  Referenced by: '<S224>/Out1'
+  //  Referenced by: '<S222>/Out1'
 
   {
     (0ULL),                            // timestamp
@@ -659,7 +721,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_o
-  //  Referenced by: '<S223>/Constant'
+  //  Referenced by: '<S221>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -675,7 +737,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_ek
-  //  Referenced by: '<S35>/Constant'
+  //  Referenced by: '<S33>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -694,7 +756,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_l5
-  //  Referenced by: '<S31>/Constant'
+  //  Referenced by: '<S29>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -709,7 +771,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Out1_Y0_p
-  //  Referenced by: '<S232>/Out1'
+  //  Referenced by: '<S230>/Out1'
 
   {
     (0ULL),                            // timestamp
@@ -724,7 +786,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Out1_Y0_g
-  //  Referenced by: '<S235>/Out1'
+  //  Referenced by: '<S233>/Out1'
 
   {
     (0ULL),                            // timestamp
@@ -739,7 +801,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_f
-  //  Referenced by: '<S226>/Constant'
+  //  Referenced by: '<S224>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -754,7 +816,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   },
 
   // Computed Parameter: Constant_Value_a
-  //  Referenced by: '<S229>/Constant'
+  //  Referenced by: '<S227>/Constant'
 
   {
     (0ULL),                            // timestamp
@@ -799,19 +861,34 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   100.0,
 
   // Expression: 1
-  //  Referenced by: '<S238>/Constant'
+  //  Referenced by: '<S236>/Constant'
 
   1.0,
 
   // Expression: 1
-  //  Referenced by: '<S238>/Constant1'
+  //  Referenced by: '<S236>/Constant1'
 
   1.0,
 
   // Expression: 1
-  //  Referenced by: '<S238>/Constant2'
+  //  Referenced by: '<S236>/Constant2'
 
   1.0,
+
+  // Expression: 0.01
+  //  Referenced by: '<S15>/Gain'
+
+  0.01,
+
+  // Expression: 1
+  //  Referenced by: '<S15>/Saturation'
+
+  1.0,
+
+  // Expression: 0
+  //  Referenced by: '<S15>/Saturation'
+
+  0.0,
 
   // Expression: 0.01
   //  Referenced by: '<S16>/Gain'
@@ -888,21 +965,6 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
 
   0.0,
 
-  // Expression: 0.01
-  //  Referenced by: '<S21>/Gain'
-
-  0.01,
-
-  // Expression: 1
-  //  Referenced by: '<S21>/Saturation'
-
-  1.0,
-
-  // Expression: 0
-  //  Referenced by: '<S21>/Saturation'
-
-  0.0,
-
   // Expression: 1094
   //  Referenced by: '<S4>/Constant'
 
@@ -923,58 +985,85 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
 
   -1.0F,
 
+  // Computed Parameter: Constant1_Value_j
+  //  Referenced by: '<S507>/Constant1'
+
+  0.0F,
+
+  // Computed Parameter: Constant1_Value_jy
+  //  Referenced by: '<S561>/Constant1'
+
+  0.0F,
+
+  // Computed Parameter: Constant1_Value_i
+  //  Referenced by: '<S615>/Constant1'
+
+  0.0F,
+
+  // Computed Parameter: Mixermatrix_Value
+  //  Referenced by: '<S13>/Mixer matrix'
+
+  { 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, -1.0F, 1.0F, 0.5F, -0.5F, -0.5F, 0.5F,
+    0.0F, 0.0F, 0.87F, -0.87F, 0.87F, -0.87F, -1.0F, 1.0F, -1.0F, 1.0F, 1.0F,
+    -1.0F },
+
+  // Computed Parameter: Constant1_Value_k
+  //  Referenced by: '<S13>/Constant1'
+
+  1000.0F,
+
   // Computed Parameter: RateTransition4_InitialConditio
   //  Referenced by: '<S10>/Rate Transition4'
 
   0.0F,
 
-  // Computed Parameter: RateTransition_InitialCondition
-  //  Referenced by: '<S365>/Rate Transition'
+  // Computed Parameter: RateTransition5_InitialConditio
+  //  Referenced by: '<S10>/Rate Transition5'
 
   0.0F,
 
-  // Computed Parameter: RateTransition4_InitialCondit_l
-  //  Referenced by: '<S365>/Rate Transition4'
+  // Computed Parameter: RateTransition2_InitialConditio
+  //  Referenced by: '<S10>/Rate Transition2'
 
   0.0F,
 
   // Computed Parameter: Integrator_gainval
-  //  Referenced by: '<S569>/Integrator'
+  //  Referenced by: '<S517>/Integrator'
 
   0.001F,
 
-  // Computed Parameter: RateTransition2_InitialConditio
-  //  Referenced by: '<S365>/Rate Transition2'
+  // Computed Parameter: RateTransition18_InitialConditi
+  //  Referenced by: '<S10>/Rate Transition18'
 
   0.0F,
 
   // Computed Parameter: UnitDelay1_InitialCondition
-  //  Referenced by: '<S533>/Unit Delay1'
+  //  Referenced by: '<S371>/Unit Delay1'
 
   0.0F,
 
   // Computed Parameter: RateTransition3_InitialConditio
-  //  Referenced by: '<S365>/Rate Transition3'
+  //  Referenced by: '<S10>/Rate Transition3'
 
   0.0F,
 
   // Computed Parameter: tau_Gain
-  //  Referenced by: '<S533>/tau'
+  //  Referenced by: '<S371>/tau'
 
   0.0005F,
 
   // Computed Parameter: Bias_Bias
-  //  Referenced by: '<S534>/Bias'
+  //  Referenced by: '<S372>/Bias'
 
   1.0F,
 
-  // Computed Parameter: Gain_Gain_f5
-  //  Referenced by: '<S534>/Gain'
+  // Computed Parameter: Gain_Gain_a
+  //  Referenced by: '<S372>/Gain'
 
   1.41421354F,
 
   // Computed Parameter: TSamp_WtEt
-  //  Referenced by: '<S530>/TSamp'
+  //  Referenced by: '<S359>/TSamp'
 
   1000.0F,
 
@@ -984,7 +1073,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   0.0F,
 
   // Computed Parameter: TSamp_WtEt_m
-  //  Referenced by: '<S243>/TSamp'
+  //  Referenced by: '<S241>/TSamp'
 
   1000.0F,
 
@@ -993,7 +1082,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
 
   0.0F,
 
-  // Computed Parameter: RateTransition5_InitialConditio
+  // Computed Parameter: RateTransition5_InitialCondit_g
   //  Referenced by: '<S9>/Rate Transition5'
 
   0.0F,
@@ -1024,12 +1113,12 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   0.0F,
 
   // Computed Parameter: tau_Gain_f
-  //  Referenced by: '<S357>/tau'
+  //  Referenced by: '<S355>/tau'
 
   0.0005F,
 
   // Computed Parameter: Bias_Bias_h
-  //  Referenced by: '<S358>/Bias'
+  //  Referenced by: '<S356>/Bias'
 
   1.0F,
 
@@ -1039,17 +1128,17 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   0.0F,
 
   // Computed Parameter: UnitDelay_InitialCondition
-  //  Referenced by: '<S357>/Unit Delay'
+  //  Referenced by: '<S355>/Unit Delay'
 
   0.0F,
 
   // Computed Parameter: TSamp_WtEt_p
-  //  Referenced by: '<S241>/TSamp'
+  //  Referenced by: '<S239>/TSamp'
 
   1000.0F,
 
   // Computed Parameter: TSamp_WtEt_l
-  //  Referenced by: '<S242>/TSamp'
+  //  Referenced by: '<S240>/TSamp'
 
   1000.0F,
 
@@ -1079,12 +1168,12 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   0.0F,
 
   // Computed Parameter: Filter_gainval
-  //  Referenced by: '<S282>/Filter'
+  //  Referenced by: '<S280>/Filter'
 
   0.001F,
 
   // Computed Parameter: Integrator_gainval_c
-  //  Referenced by: '<S339>/Integrator'
+  //  Referenced by: '<S337>/Integrator'
 
   0.001F,
 
@@ -1108,57 +1197,57 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
 
   -2.0F,
 
-  // Computed Parameter: RateTransition_InitialConditi_n
-  //  Referenced by: '<S364>/Rate Transition'
+  // Computed Parameter: RateTransition8_InitialCondit_c
+  //  Referenced by: '<S10>/Rate Transition8'
 
   0.0F,
 
-  // Computed Parameter: RateTransition4_InitialCondit_d
-  //  Referenced by: '<S364>/Rate Transition4'
+  // Computed Parameter: RateTransition19_InitialConditi
+  //  Referenced by: '<S10>/Rate Transition19'
 
   0.0F,
 
-  // Computed Parameter: Integrator_gainval_d
-  //  Referenced by: '<S512>/Integrator'
+  // Computed Parameter: Integrator_gainval_l
+  //  Referenced by: '<S571>/Integrator'
 
   0.001F,
 
-  // Computed Parameter: RateTransition2_InitialCondit_p
-  //  Referenced by: '<S364>/Rate Transition2'
+  // Computed Parameter: RateTransition10_InitialCondi_k
+  //  Referenced by: '<S10>/Rate Transition10'
 
   0.0F,
 
-  // Computed Parameter: UnitDelay1_InitialCondition_h
-  //  Referenced by: '<S476>/Unit Delay1'
+  // Computed Parameter: UnitDelay1_InitialCondition_i
+  //  Referenced by: '<S369>/Unit Delay1'
 
   0.0F,
 
-  // Computed Parameter: RateTransition3_InitialCondit_m
-  //  Referenced by: '<S364>/Rate Transition3'
+  // Computed Parameter: RateTransition7_InitialCondit_l
+  //  Referenced by: '<S10>/Rate Transition7'
 
   0.0F,
 
-  // Computed Parameter: tau_Gain_d
-  //  Referenced by: '<S476>/tau'
+  // Computed Parameter: tau_Gain_k
+  //  Referenced by: '<S369>/tau'
 
   0.0005F,
 
-  // Computed Parameter: Bias_Bias_o
-  //  Referenced by: '<S477>/Bias'
+  // Computed Parameter: Bias_Bias_b
+  //  Referenced by: '<S370>/Bias'
 
   1.0F,
 
-  // Computed Parameter: Gain_Gain_bi
-  //  Referenced by: '<S477>/Gain'
+  // Computed Parameter: Gain_Gain_b3
+  //  Referenced by: '<S370>/Gain'
 
   1.41421354F,
 
-  // Computed Parameter: TSamp_WtEt_g
-  //  Referenced by: '<S473>/TSamp'
+  // Computed Parameter: TSamp_WtEt_d
+  //  Referenced by: '<S358>/TSamp'
 
   1000.0F,
 
-  // Computed Parameter: RateTransition_InitialConditi_c
+  // Computed Parameter: RateTransition_InitialCondition
   //  Referenced by: '<S10>/Rate Transition'
 
   0.0F,
@@ -1168,168 +1257,198 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
 
   0.0F,
 
-  // Computed Parameter: RateTransition_InitialConditi_m
-  //  Referenced by: '<S366>/Rate Transition'
+  // Computed Parameter: RateTransition13_InitialCondi_h
+  //  Referenced by: '<S10>/Rate Transition13'
 
   0.0F,
 
-  // Computed Parameter: RateTransition4_InitialCondit_a
-  //  Referenced by: '<S366>/Rate Transition4'
+  // Computed Parameter: RateTransition20_InitialConditi
+  //  Referenced by: '<S10>/Rate Transition20'
 
   0.0F,
 
-  // Computed Parameter: Integrator_gainval_b
-  //  Referenced by: '<S626>/Integrator'
+  // Computed Parameter: Integrator_gainval_e
+  //  Referenced by: '<S625>/Integrator'
 
   0.001F,
 
-  // Computed Parameter: RateTransition2_InitialCondit_d
-  //  Referenced by: '<S366>/Rate Transition2'
+  // Computed Parameter: RateTransition11_InitialCondi_g
+  //  Referenced by: '<S10>/Rate Transition11'
 
   0.0F,
 
-  // Computed Parameter: UnitDelay1_InitialCondition_c
-  //  Referenced by: '<S590>/Unit Delay1'
+  // Computed Parameter: UnitDelay1_InitialCondition_m
+  //  Referenced by: '<S373>/Unit Delay1'
 
   0.0F,
 
-  // Computed Parameter: RateTransition3_InitialCondit_o
-  //  Referenced by: '<S366>/Rate Transition3'
+  // Computed Parameter: RateTransition12_InitialCondi_h
+  //  Referenced by: '<S10>/Rate Transition12'
 
   0.0F,
 
-  // Computed Parameter: tau_Gain_m
-  //  Referenced by: '<S590>/tau'
+  // Computed Parameter: tau_Gain_d
+  //  Referenced by: '<S373>/tau'
 
   0.0005F,
 
-  // Computed Parameter: Bias_Bias_g
-  //  Referenced by: '<S591>/Bias'
+  // Computed Parameter: Bias_Bias_p
+  //  Referenced by: '<S374>/Bias'
 
   1.0F,
 
-  // Computed Parameter: Gain_Gain_a
-  //  Referenced by: '<S591>/Gain'
+  // Computed Parameter: Gain_Gain_ow
+  //  Referenced by: '<S374>/Gain'
 
   1.41421354F,
 
-  // Computed Parameter: TSamp_WtEt_ma
-  //  Referenced by: '<S587>/TSamp'
+  // Computed Parameter: TSamp_WtEt_b
+  //  Referenced by: '<S360>/TSamp'
+
+  1000.0F,
+
+  // Computed Parameter: Saturation1_UpperSat
+  //  Referenced by: '<S13>/Saturation1'
+
+  1.0F,
+
+  // Computed Parameter: Saturation1_LowerSat
+  //  Referenced by: '<S13>/Saturation1'
+
+  0.0F,
+
+  // Computed Parameter: Gain2_Gain
+  //  Referenced by: '<S13>/Gain2'
 
   1000.0F,
 
   // Computed Parameter: Constant_Value_ew
-  //  Referenced by: '<S23>/Constant'
-
-  1000.0F,
-
-  // Computed Parameter: Gain_Gain_h
-  //  Referenced by: '<S23>/Gain'
-
-  0.001F,
-
-  // Computed Parameter: Constant_Value_b
-  //  Referenced by: '<S16>/Constant'
-
-  1000.0F,
-
-  // Computed Parameter: Constant_Value_lg
-  //  Referenced by: '<S17>/Constant'
-
-  1000.0F,
-
-  // Computed Parameter: Constant_Value_n
-  //  Referenced by: '<S18>/Constant'
-
-  1000.0F,
-
-  // Computed Parameter: Constant_Value_e3
-  //  Referenced by: '<S19>/Constant'
-
-  1000.0F,
-
-  // Computed Parameter: Constant_Value_d
-  //  Referenced by: '<S20>/Constant'
-
-  1000.0F,
-
-  // Computed Parameter: Constant_Value_lv
   //  Referenced by: '<S21>/Constant'
 
   1000.0F,
 
+  // Computed Parameter: Gain_Gain_h
+  //  Referenced by: '<S21>/Gain'
+
+  0.001F,
+
+  // Computed Parameter: Constant_Value_b
+  //  Referenced by: '<S15>/Constant'
+
+  1000.0F,
+
+  // Computed Parameter: Constant_Value_lg
+  //  Referenced by: '<S16>/Constant'
+
+  1000.0F,
+
+  // Computed Parameter: Constant_Value_n
+  //  Referenced by: '<S17>/Constant'
+
+  1000.0F,
+
+  // Computed Parameter: Constant_Value_e3
+  //  Referenced by: '<S18>/Constant'
+
+  1000.0F,
+
+  // Computed Parameter: Constant_Value_d
+  //  Referenced by: '<S19>/Constant'
+
+  1000.0F,
+
+  // Computed Parameter: Constant_Value_lv
+  //  Referenced by: '<S20>/Constant'
+
+  1000.0F,
+
   // Computed Parameter: Bias1_Bias
-  //  Referenced by: '<S591>/Bias1'
+  //  Referenced by: '<S374>/Bias1'
 
   1.0F,
 
-  // Computed Parameter: Gain1_Gain_d
-  //  Referenced by: '<S590>/Gain1'
+  // Computed Parameter: Gain1_Gain_b
+  //  Referenced by: '<S373>/Gain1'
 
   2.0F,
 
   // Computed Parameter: UnitDelay2_InitialCondition
-  //  Referenced by: '<S590>/Unit Delay2'
+  //  Referenced by: '<S373>/Unit Delay2'
 
   0.0F,
 
-  // Computed Parameter: RateTransition1_InitialCondit_d
-  //  Referenced by: '<S366>/Rate Transition1'
+  // Computed Parameter: Clamping_zero_Value
+  //  Referenced by: '<S615>/Clamping_zero'
 
   0.0F,
 
-  // Computed Parameter: Bias1_Bias_k
-  //  Referenced by: '<S477>/Bias1'
+  // Computed Parameter: RateTransition14_InitialCondi_f
+  //  Referenced by: '<S10>/Rate Transition14'
+
+  0.0F,
+
+  // Computed Parameter: Bias1_Bias_o
+  //  Referenced by: '<S370>/Bias1'
 
   1.0F,
 
-  // Computed Parameter: Gain1_Gain_m
-  //  Referenced by: '<S476>/Gain1'
+  // Computed Parameter: Gain1_Gain_l
+  //  Referenced by: '<S369>/Gain1'
 
   2.0F,
 
-  // Computed Parameter: UnitDelay2_InitialCondition_b
-  //  Referenced by: '<S476>/Unit Delay2'
+  // Computed Parameter: UnitDelay2_InitialCondition_i
+  //  Referenced by: '<S369>/Unit Delay2'
 
   0.0F,
 
-  // Computed Parameter: RateTransition1_InitialCondit_f
-  //  Referenced by: '<S364>/Rate Transition1'
+  // Computed Parameter: Clamping_zero_Value_a
+  //  Referenced by: '<S561>/Clamping_zero'
+
+  0.0F,
+
+  // Computed Parameter: RateTransition9_InitialCondit_i
+  //  Referenced by: '<S10>/Rate Transition9'
 
   0.0F,
 
   // Computed Parameter: Gain_Gain_ar
-  //  Referenced by: '<S358>/Gain'
+  //  Referenced by: '<S356>/Gain'
 
   -2.0F,
 
-  // Computed Parameter: Bias1_Bias_ka
-  //  Referenced by: '<S358>/Bias1'
+  // Computed Parameter: Bias1_Bias_k
+  //  Referenced by: '<S356>/Bias1'
 
   1.0F,
 
-  // Computed Parameter: Bias1_Bias_a
-  //  Referenced by: '<S534>/Bias1'
+  // Computed Parameter: Bias1_Bias_f
+  //  Referenced by: '<S372>/Bias1'
 
   1.0F,
 
-  // Computed Parameter: Gain1_Gain_i
-  //  Referenced by: '<S533>/Gain1'
+  // Computed Parameter: Gain1_Gain_h
+  //  Referenced by: '<S371>/Gain1'
 
   2.0F,
 
-  // Computed Parameter: UnitDelay2_InitialCondition_e
-  //  Referenced by: '<S533>/Unit Delay2'
+  // Computed Parameter: UnitDelay2_InitialCondition_n
+  //  Referenced by: '<S371>/Unit Delay2'
 
   0.0F,
 
-  // Computed Parameter: RateTransition1_InitialCondit_p
-  //  Referenced by: '<S365>/Rate Transition1'
+  // Computed Parameter: Clamping_zero_Value_b
+  //  Referenced by: '<S507>/Clamping_zero'
+
+  0.0F,
+
+  // Computed Parameter: RateTransition6_InitialCondit_f
+  //  Referenced by: '<S10>/Rate Transition6'
 
   0.0F,
 
   // Computed Parameter: Gain_Gain_az
-  //  Referenced by: '<S56>/Gain'
+  //  Referenced by: '<S54>/Gain'
 
   -1.0F,
 
@@ -1398,7 +1517,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
 
   1514.0F,
 
-  // Computed Parameter: Gain2_Gain
+  // Computed Parameter: Gain2_Gain_l
   //  Referenced by: '<S4>/Gain2'
 
   0.0025F,
@@ -1413,12 +1532,12 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
 
   0.005F,
 
-  // Computed Parameter: Saturation1_UpperSat
+  // Computed Parameter: Saturation1_UpperSat_p
   //  Referenced by: '<S4>/Saturation1'
 
   1.0F,
 
-  // Computed Parameter: Saturation1_LowerSat
+  // Computed Parameter: Saturation1_LowerSat_e
   //  Referenced by: '<S4>/Saturation1'
 
   -1.0F,
@@ -1468,45 +1587,35 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
 
   -1.0F,
 
-  // Computed Parameter: Integrator_gainval_e
-  //  Referenced by: '<S200>/Integrator'
+  // Computed Parameter: Integrator_gainval_ei
+  //  Referenced by: '<S198>/Integrator'
 
   0.004F,
 
   // Computed Parameter: UnitDelay1_InitialCondition_e
-  //  Referenced by: '<S164>/Unit Delay1'
+  //  Referenced by: '<S162>/Unit Delay1'
 
   0.0F,
 
   // Computed Parameter: tau_Gain_g
-  //  Referenced by: '<S164>/tau'
+  //  Referenced by: '<S162>/tau'
 
   0.002F,
 
   // Computed Parameter: Bias_Bias_n
-  //  Referenced by: '<S165>/Bias'
+  //  Referenced by: '<S163>/Bias'
 
   1.0F,
 
   // Computed Parameter: Gain_Gain_oj
-  //  Referenced by: '<S165>/Gain'
+  //  Referenced by: '<S163>/Gain'
 
   1.41421354F,
 
   // Computed Parameter: TSamp_WtEt_n
-  //  Referenced by: '<S161>/TSamp'
+  //  Referenced by: '<S159>/TSamp'
 
   250.0F,
-
-  // Computed Parameter: Saturation5_UpperSat
-  //  Referenced by: '<S4>/Saturation5'
-
-  0.95F,
-
-  // Computed Parameter: Saturation5_LowerSat
-  //  Referenced by: '<S4>/Saturation5'
-
-  0.1F,
 
   // Computed Parameter: DeadZone6_Start
   //  Referenced by: '<S4>/Dead Zone6'
@@ -1594,7 +1703,7 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   0.0F,
 
   // Computed Parameter: u2_Gain
-  //  Referenced by: '<S27>/1//2'
+  //  Referenced by: '<S25>/1//2'
 
   0.5F,
 
@@ -1604,12 +1713,12 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   0.0F,
 
   // Computed Parameter: Gain1_Gain_o
-  //  Referenced by: '<S218>/Gain1'
+  //  Referenced by: '<S216>/Gain1'
 
   0.0174532924F,
 
   // Computed Parameter: Gain1_Gain_j
-  //  Referenced by: '<S219>/Gain1'
+  //  Referenced by: '<S217>/Gain1'
 
   0.0174532924F,
 
@@ -1619,17 +1728,17 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   0.0F,
 
   // Computed Parameter: Bias1_Bias_m
-  //  Referenced by: '<S165>/Bias1'
+  //  Referenced by: '<S163>/Bias1'
 
   1.0F,
 
   // Computed Parameter: Gain1_Gain_a
-  //  Referenced by: '<S164>/Gain1'
+  //  Referenced by: '<S162>/Gain1'
 
   2.0F,
 
   // Computed Parameter: UnitDelay2_InitialCondition_m
-  //  Referenced by: '<S164>/Unit Delay2'
+  //  Referenced by: '<S162>/Unit Delay2'
 
   0.0F,
 
@@ -1649,12 +1758,12 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   { 0U, 0U, 0U, 0U, 0U, 0U },
 
   // Computed Parameter: Saturation_UpperSat_d
-  //  Referenced by: '<S23>/Saturation'
+  //  Referenced by: '<S21>/Saturation'
 
   2000U,
 
   // Computed Parameter: Saturation_LowerSat_d0
-  //  Referenced by: '<S23>/Saturation'
+  //  Referenced by: '<S21>/Saturation'
 
   1000U,
 
@@ -1663,8 +1772,8 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
 
   0U,
 
-  // Computed Parameter: RateTransition6_InitialCondit_j
-  //  Referenced by: '<S365>/Rate Transition6'
+  // Computed Parameter: RateTransition15_InitialConditi
+  //  Referenced by: '<S10>/Rate Transition15'
 
   false,
 
@@ -1673,18 +1782,18 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
 
   false,
 
-  // Computed Parameter: RateTransition15_InitialConditi
+  // Computed Parameter: RateTransition15_InitialCondi_p
   //  Referenced by: '<S9>/Rate Transition15'
 
   false,
 
-  // Computed Parameter: RateTransition6_InitialCondit_l
-  //  Referenced by: '<S364>/Rate Transition6'
+  // Computed Parameter: RateTransition16_InitialCondi_i
+  //  Referenced by: '<S10>/Rate Transition16'
 
   false,
 
-  // Computed Parameter: RateTransition6_InitialCondit_e
-  //  Referenced by: '<S366>/Rate Transition6'
+  // Computed Parameter: RateTransition17_InitialCondi_p
+  //  Referenced by: '<S10>/Rate Transition17'
 
   false,
 
@@ -1696,7 +1805,67 @@ P_FLIGHT_Hexacopter_V2_T FLIGHT_Hexacopter_V2_P = {
   // Computed Parameter: RateTransition2_17_InitialCondi
   //  Referenced by: '<Root>/Rate Transition2'
 
-  false
+  false,
+
+  // Computed Parameter: Constant_Value_dr
+  //  Referenced by: '<S507>/Constant'
+
+  1,
+
+  // Computed Parameter: Constant2_Value_ns
+  //  Referenced by: '<S507>/Constant2'
+
+  -1,
+
+  // Computed Parameter: Constant3_Value_n
+  //  Referenced by: '<S507>/Constant3'
+
+  1,
+
+  // Computed Parameter: Constant4_Value_b
+  //  Referenced by: '<S507>/Constant4'
+
+  -1,
+
+  // Computed Parameter: Constant_Value_fd
+  //  Referenced by: '<S561>/Constant'
+
+  1,
+
+  // Computed Parameter: Constant2_Value_g
+  //  Referenced by: '<S561>/Constant2'
+
+  -1,
+
+  // Computed Parameter: Constant3_Value_b
+  //  Referenced by: '<S561>/Constant3'
+
+  1,
+
+  // Computed Parameter: Constant4_Value_h
+  //  Referenced by: '<S561>/Constant4'
+
+  -1,
+
+  // Computed Parameter: Constant_Value_gl
+  //  Referenced by: '<S615>/Constant'
+
+  1,
+
+  // Computed Parameter: Constant2_Value_i
+  //  Referenced by: '<S615>/Constant2'
+
+  -1,
+
+  // Computed Parameter: Constant3_Value_nf
+  //  Referenced by: '<S615>/Constant3'
+
+  1,
+
+  // Computed Parameter: Constant4_Value_e
+  //  Referenced by: '<S615>/Constant4'
+
+  -1
 };
 
 //
