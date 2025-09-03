@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_Hexacopter_V2'.
 //
-// Model version                  : 3.26
+// Model version                  : 3.72
 // Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
-// C/C++ source code generated on : Wed Aug 20 15:10:09 2025
+// C/C++ source code generated on : Wed Sep  3 23:21:41 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -88,7 +88,7 @@ struct px4_internal_block_PWM_FLIGHT_T
 
 #endif                                // struct_px4_internal_block_PWM_FLIGHT_T
 
-// Custom Type definition for MATLABSystem: '<S5>/read_mc_rollrate_p'
+// Custom Type definition for MATLABSystem: ''read_mc_rollrate_p' (':246')'
 #include "MW_Parameter.h"
 #ifndef struct_px4_internal_block_ParameterU_T
 #define struct_px4_internal_block_ParameterU_T

@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_Hexacopter_V2'.
 //
-// Model version                  : 3.26
+// Model version                  : 3.72
 // Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
-// C/C++ source code generated on : Wed Aug 20 15:10:09 2025
+// C/C++ source code generated on : Wed Sep  3 23:21:41 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -22,6 +22,7 @@
 #include "FLIGHT_Hexacopter_V2.h"
 #include "FLIGHT_Hexacopter_V2_types.h"
 
+extern real_T rt_remd_snf(real_T u0, real_T u1);
 extern real32_T rt_atan2f_snf(real32_T u0, real32_T u1);
 extern void FLIGHT_He_PX4Timestamp_Init(DW_PX4Timestamp_FLIGHT_Hexaco_T *localDW);
 extern void FLIGHT_Hexacop_PX4Timestamp(B_PX4Timestamp_FLIGHT_Hexacop_T *localB);
