@@ -35,7 +35,7 @@ Inertia= [Jxx, 0, 0;...
 Inertia_inv=inv(Inertia);
 
 armLength = 0.275;   %Body radius(m)
-Cd  = 0.010;      %Damping coefficient(N/(m/s)^2)
+Cd  = 0.25;      %Damping coefficient(N/(m/s)^2)
 Cmd = [0.0035 0.0039 0.0034]; %Damping moment coefficient vector(N/(m/s)^2)
 dzcg = 0.12;
 
