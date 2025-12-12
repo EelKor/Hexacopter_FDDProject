@@ -1,1 +1,0 @@
-var modelInfo = {model:"FLIGHT_hexacopter"};var modelHierarchy=[{model:"FLIGHT_hexacopter",relativePath:"_internal.html",parent:"null"},];var AddCode = true;
