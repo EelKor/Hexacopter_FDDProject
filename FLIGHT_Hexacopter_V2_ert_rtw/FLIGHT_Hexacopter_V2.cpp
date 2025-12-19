@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_Hexacopter_V2'.
 //
-// Model version                  : 3.72
+// Model version                  : 3.99
 // Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
-// C/C++ source code generated on : Wed Sep  3 23:21:41 2025
+// C/C++ source code generated on : Tue Oct 21 14:57:10 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -17,8 +17,8 @@
 // Validation result: Not run
 //
 #include "FLIGHT_Hexacopter_V2.h"
-#include "FLIGHT_Hexacopter_V2_types.h"
 #include "rtwtypes.h"
+#include "FLIGHT_Hexacopter_V2_types.h"
 #include "FLIGHT_Hexacopter_V2_private.h"
 #include <math.h>
 #include <string.h>
@@ -52,8 +52,7 @@ static void FLIGHT_Hexacopter_V2_xzlascl_k(real32_T cfrom, real32_T cto, int32_T
   m, int32_T n, real32_T *A);
 static void FLIGHT_Hexacopter_V2_svd(const real32_T A[3], real32_T U[3],
   real32_T *s, real32_T *V);
-static void FLIGHT_Hexacopter_PWM_setupImpl(px4_internal_block_PWM_FLIGHT_T *obj,
-  boolean_T armPWM, boolean_T forceFailsafe);
+static void FLIGHT_H_PX4Actuators_setupImpl(px4_internal_block_PX4Actuato_T *obj);
 static void rate_monotonic_scheduler(void);
 
 //
@@ -490,34 +489,41 @@ real32_T rt_atan2f_snf(real32_T u0, real32_T u1)
   return y;
 }
 
-static void FLIGHT_Hexacopter_PWM_setupImpl(px4_internal_block_PWM_FLIGHT_T *obj,
-  boolean_T armPWM, boolean_T forceFailsafe)
+static void FLIGHT_H_PX4Actuators_setupImpl(px4_internal_block_PX4Actuato_T *obj)
 {
-  obj->isMain = true;
-  pwm_open(&obj->actuatorAdvertiseObj, &obj->armAdvertiseObj);
-  obj->servoCount = 8;
-  if (armPWM) {
-    pwm_arm(&obj->armAdvertiseObj);
-    obj->isArmed = true;
-  } else {
-    pwm_disarm(&obj->armAdvertiseObj);
-    obj->isArmed = false;
-  }
-
-  obj->channelMask = 63;
-  if (obj->isMain) {
-    if (forceFailsafe) {
-      pwm_disarm(&obj->armAdvertiseObj);
-    } else {
-      pwm_arm(&obj->armAdvertiseObj);
+  int32_T n;
+  int32_T n_0;
+  obj->ValidMotorIdx[0] = true;
+  obj->ValidMotorIdx[1] = true;
+  obj->ValidMotorIdx[2] = true;
+  obj->ValidMotorIdx[3] = true;
+  obj->ValidMotorIdx[4] = true;
+  obj->ValidMotorIdx[5] = true;
+  n = 0;
+  for (int32_T b_k = 0; b_k < 12; b_k++) {
+    // Start for MATLABSystem: 'PX4 Actuator Write' (':2208')
+    if (obj->ValidMotorIdx[b_k]) {
+      n++;
     }
   }
+
+  n_0 = 0;
+  for (int32_T b_k = 0; b_k < 8; b_k++) {
+    // Start for MATLABSystem: 'PX4 Actuator Write' (':2208')
+    if (obj->ValidServoIdx[b_k]) {
+      n_0++;
+    }
+  }
+
+  // Start for MATLABSystem: 'PX4 Actuator Write' (':2208')
+  obj->QSize = static_cast<uint8_T>(n + n_0);
+  MW_actuators_init(obj->QSize);
 }
 
 // Model step function for TID0
 void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
 {
-  uint16_T rtb_DataTypeConversion_g_0;
+  uint16_T rtb_DataTypeConversion7_0;
   int8_T tmp_0;
   int8_T tmp_1;
   boolean_T b_varargout_1;
@@ -528,9 +534,14 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
     rate_monotonic_scheduler();
   }
 
-  // RateTransition: 'Rate Transition4' (':1068') incorporates:
+  // RateTransition: 'Rate Transition8' (':1988') incorporates:
   //   RateTransition generated from: 'Rate Transition' (':1176')
   //   RateTransition generated from: 'Rate Transition2' (':1298')
+  //   RateTransition: 'Rate Transition1' (':1911')
+  //   RateTransition: 'Rate Transition15' (':1924')
+  //   RateTransition: 'Rate Transition16' (':1925')
+  //   RateTransition: 'Rate Transition17' (':1927')
+  //   RateTransition: 'Rate Transition4' (':1912')
   //   RateTransition: 'Rate Transition' (':732')
   //   RateTransition: 'Rate Transition10' (':1995')
   //   RateTransition: 'Rate Transition11' (':2002')
@@ -541,32 +552,23 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   RateTransition: 'Rate Transition17' (':2011')
   //   RateTransition: 'Rate Transition18' (':2012')
   //   RateTransition: 'Rate Transition3' (':1980')
+  //   RateTransition: 'Rate Transition4' (':1068')
   //   RateTransition: 'Rate Transition6' (':1982')
   //   RateTransition: 'Rate Transition7' (':1987')
-  //   RateTransition: 'Rate Transition8' (':1988')
   //   RateTransition: 'Rate Transition9' (':1989')
-  //   RateTransition: 'Rate Transition1' (':1911')
-  //   RateTransition: 'Rate Transition15' (':1924')
-  //   RateTransition: 'Rate Transition16' (':1925')
-  //   RateTransition: 'Rate Transition17' (':1927')
-  //   RateTransition: 'Rate Transition4' (':1912')
 
   tmp = FLIGHT_Hexacopter_V2_M->Timing.RateInteraction.TID0_1;
   if (tmp) {
-    // RateTransition: 'Rate Transition4' (':1068')
-    FLIGHT_Hexacopter_V2_B.RateTransition4 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition4_Buffer0;
+    // RateTransition: 'Rate Transition8' (':1988')
+    FLIGHT_Hexacopter_V2_B.RateTransition8 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0;
 
-    // RateTransition: 'Rate Transition5' (':1981')
-    FLIGHT_Hexacopter_V2_B.RateTransition5 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition5_Buffer0;
-
-    // RateTransition: 'Rate Transition2' (':1974')
-    FLIGHT_Hexacopter_V2_B.RateTransition2 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition2_Buffer0;
+    // RateTransition: 'Rate Transition19' (':2013')
+    FLIGHT_Hexacopter_V2_B.RateTransition19 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition19_Buffer0;
   }
 
-  // End of RateTransition: 'Rate Transition4' (':1068')
+  // End of RateTransition: 'Rate Transition8' (':1988')
 
   // MATLABSystem: 'SourceBlock' (':299:9')
   b_varargout_1 = uORB_read_step(FLIGHT_Hexacopter_V2_DW.obj_m.orbMetadataObj,
@@ -584,23 +586,277 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
 
   // End of Outputs for SubSystem: 'Enabled Subsystem' (':299:3')
 
-  // Sum: 'Sum1' (':1976')
-  FLIGHT_Hexacopter_V2_B.IProdOut_b = FLIGHT_Hexacopter_V2_B.RateTransition2 -
-    FLIGHT_Hexacopter_V2_B.In1_k.xyz[0];
+  // Sum: 'Sum6' (':1993')
+  FLIGHT_Hexacopter_V2_B.IProdOut_p = FLIGHT_Hexacopter_V2_B.RateTransition19 -
+    FLIGHT_Hexacopter_V2_B.In1_k.xyz[1];
 
-  // RateTransition: 'Rate Transition15' (':2009')
+  // RateTransition: 'Rate Transition16' (':2010')
   if (tmp) {
+    // RateTransition: 'Rate Transition16' (':2010')
+    FLIGHT_Hexacopter_V2_B.RateTransition16 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0;
+  }
+
+  // DiscreteIntegrator: 'Integrator' (':1991:843')
+  if ((FLIGHT_Hexacopter_V2_B.RateTransition16 &&
+       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState <= 0)) ||
+      ((!FLIGHT_Hexacopter_V2_B.RateTransition16) &&
+       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState == 1))) {
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_InitialCondi;
+  }
+
+  // Sum: 'Sum' (':1991:3518') incorporates:
+  //   DiscreteIntegrator: 'Integrator' (':1991:843')
+  //   Product: 'PProd Out' (':1991:909')
+
+  FLIGHT_Hexacopter_V2_B.DeadZone = FLIGHT_Hexacopter_V2_B.IProdOut_p *
+    FLIGHT_Hexacopter_V2_B.RateTransition8 +
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE;
+
+  // RateTransition: 'Rate Transition10' (':1995') incorporates:
+  //   RateTransition: 'Rate Transition7' (':1987')
+
+  if (tmp) {
+    // RateTransition: 'Rate Transition10' (':1995')
+    FLIGHT_Hexacopter_V2_B.RateTransition10 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0;
+
+    // RateTransition: 'Rate Transition7' (':1987')
+    FLIGHT_Hexacopter_V2_B.RateTransition7 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0;
+  }
+
+  // Sum: 'Sum' (':1984:220:337') incorporates:
+  //   UnitDelay: 'Unit Delay1' (':1984:220:338')
+
+  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE += FLIGHT_Hexacopter_V2_B.In1_k.xyz
+    [1];
+
+  // Gain: 'tau' (':1984:220:372')
+  FLIGHT_Hexacopter_V2_B.p = FLIGHT_Hexacopter_V2_P.tau_Gain *
+    FLIGHT_Hexacopter_V2_B.RateTransition7;
+
+  // Product: 'Product2' (':1984:220:361')
+  FLIGHT_Hexacopter_V2_B.q = FLIGHT_Hexacopter_V2_B.p * FLIGHT_Hexacopter_V2_B.p;
+
+  // Bias: 'Bias' (':1984:220:373')
+  FLIGHT_Hexacopter_V2_B.r_c = FLIGHT_Hexacopter_V2_B.q +
+    FLIGHT_Hexacopter_V2_P.Bias_Bias;
+
+  // Gain: 'Gain' (':1984:220:358')
+  FLIGHT_Hexacopter_V2_B.p *= FLIGHT_Hexacopter_V2_P.Gain_Gain_b3;
+
+  // Sum: 'Add1' (':1984:220:364')
+  FLIGHT_Hexacopter_V2_B.d_f = FLIGHT_Hexacopter_V2_B.r_c +
+    FLIGHT_Hexacopter_V2_B.p;
+
+  // SampleTimeMath: 'TSamp' (':1983:4') incorporates:
+  //   Product: 'Product1' (':1984:220:343')
+  //   Product: 'Product3' (':1984:220:365')
+  //   UnitDelay: 'Unit Delay1' (':1984:220:338')
+  //
+  //  About 'TSamp' (':1983:4'):
+  //   y = u * K where K = 1 / ( w * Ts )
+  //
+  FLIGHT_Hexacopter_V2_B.TSamp = FLIGHT_Hexacopter_V2_B.q /
+    FLIGHT_Hexacopter_V2_B.d_f * FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE *
+    FLIGHT_Hexacopter_V2_P.TSamp_WtEt;
+
+  // Saturate: 'Saturation' (':1991:923')
+  if (FLIGHT_Hexacopter_V2_B.DeadZone >
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_UpperSaturat) {
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_UpperSaturat;
+  } else if (FLIGHT_Hexacopter_V2_B.DeadZone <
+             FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_LowerSaturat) {
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_LowerSaturat;
+  } else {
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp = FLIGHT_Hexacopter_V2_B.DeadZone;
+  }
+
+  // Sum: 'Sum4' (':1990') incorporates:
+  //   Product: 'Product1' (':1986')
+  //   Saturate: 'Saturation' (':1991:923')
+  //   Sum: 'Diff' (':1983:3')
+  //   UnitDelay: 'UD' (':1983:5')
+  //
+  //  Block description for 'Diff' (':1983:3'):
+  //
+  //   Add in CPU
+  //
+  //  Block description for 'UD' (':1983:5'):
+  //
+  //   Store in Global RAM
+
+  FLIGHT_Hexacopter_V2_B.Sum4 = FLIGHT_Hexacopter_V2_B.rtb_R_tmp -
+    (FLIGHT_Hexacopter_V2_B.TSamp - FLIGHT_Hexacopter_V2_DW.UD_DSTATE) *
+    FLIGHT_Hexacopter_V2_B.RateTransition10;
+
+  // RateTransition: 'Rate Transition' (':732') incorporates:
+  //   RateTransition: 'Rate Transition13' (':2004')
+  //   RateTransition: 'Rate Transition17' (':2011')
+
+  if (tmp) {
+    // RateTransition: 'Rate Transition' (':732')
+    FLIGHT_Hexacopter_V2_B.RateTransition =
+      FLIGHT_Hexacopter_V2_DW.RateTransition_Buffer0;
+
+    // RateTransition: 'Rate Transition1' (':733')
+    FLIGHT_Hexacopter_V2_B.RateTransition1 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0;
+
+    // RateTransition: 'Rate Transition13' (':2004')
+    FLIGHT_Hexacopter_V2_B.RateTransition13 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0;
+
+    // RateTransition: 'Rate Transition20' (':2014')
+    FLIGHT_Hexacopter_V2_B.RateTransition20 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition20_Buffer0;
+
+    // RateTransition: 'Rate Transition17' (':2011')
+    FLIGHT_Hexacopter_V2_B.RateTransition17_h =
+      FLIGHT_Hexacopter_V2_DW.RateTransition17_Buffer0_e;
+  }
+
+  // Sum: 'Sum8' (':2007')
+  FLIGHT_Hexacopter_V2_B.IProdOut_g = FLIGHT_Hexacopter_V2_B.RateTransition20 -
+    FLIGHT_Hexacopter_V2_B.In1_k.xyz[2];
+
+  // DiscreteIntegrator: 'Integrator' (':2008:843')
+  if ((FLIGHT_Hexacopter_V2_B.RateTransition17_h &&
+       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_e <= 0)) ||
+      ((!FLIGHT_Hexacopter_V2_B.RateTransition17_h) &&
+       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_e == 1))) {
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_InitialCondi;
+  }
+
+  // Sum: 'Sum' (':2008:3518') incorporates:
+  //   DiscreteIntegrator: 'Integrator' (':2008:843')
+  //   Product: 'PProd Out' (':2008:909')
+
+  FLIGHT_Hexacopter_V2_B.DeadZone_d = FLIGHT_Hexacopter_V2_B.IProdOut_g *
+    FLIGHT_Hexacopter_V2_B.RateTransition13 +
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o;
+
+  // RateTransition: 'Rate Transition11' (':2002') incorporates:
+  //   RateTransition: 'Rate Transition12' (':2003')
+
+  if (tmp) {
+    // RateTransition: 'Rate Transition11' (':2002')
+    FLIGHT_Hexacopter_V2_B.RateTransition11 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0;
+
+    // RateTransition: 'Rate Transition12' (':2003')
+    FLIGHT_Hexacopter_V2_B.RateTransition12 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0;
+  }
+
+  // Sum: 'Sum' (':1999:220:337') incorporates:
+  //   UnitDelay: 'Unit Delay1' (':1999:220:338')
+
+  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_p +=
+    FLIGHT_Hexacopter_V2_B.In1_k.xyz[2];
+
+  // Gain: 'tau' (':1999:220:372')
+  FLIGHT_Hexacopter_V2_B.p_g = FLIGHT_Hexacopter_V2_P.tau_Gain_d *
+    FLIGHT_Hexacopter_V2_B.RateTransition12;
+
+  // Product: 'Product2' (':1999:220:361')
+  FLIGHT_Hexacopter_V2_B.q_i = FLIGHT_Hexacopter_V2_B.p_g *
+    FLIGHT_Hexacopter_V2_B.p_g;
+
+  // Bias: 'Bias' (':1999:220:373')
+  FLIGHT_Hexacopter_V2_B.r_m = FLIGHT_Hexacopter_V2_B.q_i +
+    FLIGHT_Hexacopter_V2_P.Bias_Bias_p;
+
+  // Gain: 'Gain' (':1999:220:358')
+  FLIGHT_Hexacopter_V2_B.p_g *= FLIGHT_Hexacopter_V2_P.Gain_Gain_ow;
+
+  // Sum: 'Add1' (':1999:220:364')
+  FLIGHT_Hexacopter_V2_B.d_c = FLIGHT_Hexacopter_V2_B.r_m +
+    FLIGHT_Hexacopter_V2_B.p_g;
+
+  // SampleTimeMath: 'TSamp' (':1998:4') incorporates:
+  //   Product: 'Product1' (':1999:220:343')
+  //   Product: 'Product3' (':1999:220:365')
+  //   UnitDelay: 'Unit Delay1' (':1999:220:338')
+  //
+  //  About 'TSamp' (':1998:4'):
+  //   y = u * K where K = 1 / ( w * Ts )
+  //
+  FLIGHT_Hexacopter_V2_B.TSamp_p = FLIGHT_Hexacopter_V2_B.q_i /
+    FLIGHT_Hexacopter_V2_B.d_c * FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_p *
+    FLIGHT_Hexacopter_V2_P.TSamp_WtEt_b;
+
+  // Saturate: 'Saturation' (':2008:923')
+  if (FLIGHT_Hexacopter_V2_B.DeadZone_d >
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_UpperSaturat) {
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_UpperSaturat;
+  } else if (FLIGHT_Hexacopter_V2_B.DeadZone_d <
+             FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_LowerSaturat) {
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_LowerSaturat;
+  } else {
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp = FLIGHT_Hexacopter_V2_B.DeadZone_d;
+  }
+
+  // Sum: 'Sum' (':726') incorporates:
+  //   Product: 'Product3' (':2001')
+  //   Product: 'yawrate_feedforward' (':724')
+  //   Saturate: 'Saturation' (':2008:923')
+  //   Sum: 'Diff' (':1998:3')
+  //   Sum: 'Sum7' (':2006')
+  //   UnitDelay: 'UD' (':1998:5')
+  //
+  //  Block description for 'Diff' (':1998:3'):
+  //
+  //   Add in CPU
+  //
+  //  Block description for 'UD' (':1998:5'):
+  //
+  //   Store in Global RAM
+
+  FLIGHT_Hexacopter_V2_B.Sum_gv = (FLIGHT_Hexacopter_V2_B.rtb_R_tmp -
+    (FLIGHT_Hexacopter_V2_B.TSamp_p - FLIGHT_Hexacopter_V2_DW.UD_DSTATE_d) *
+    FLIGHT_Hexacopter_V2_B.RateTransition11) +
+    FLIGHT_Hexacopter_V2_B.RateTransition *
+    FLIGHT_Hexacopter_V2_B.RateTransition1;
+
+  // RateTransition: 'Rate Transition4' (':1068') incorporates:
+  //   RateTransition: 'Rate Transition15' (':2009')
+
+  if (tmp) {
+    // RateTransition: 'Rate Transition4' (':1068')
+    FLIGHT_Hexacopter_V2_B.RateTransition4 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition4_Buffer0;
+
+    // RateTransition: 'Rate Transition5' (':1981')
+    FLIGHT_Hexacopter_V2_B.RateTransition5 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition5_Buffer0;
+
+    // RateTransition: 'Rate Transition2' (':1974')
+    FLIGHT_Hexacopter_V2_B.RateTransition2 =
+      FLIGHT_Hexacopter_V2_DW.RateTransition2_Buffer0;
+
     // RateTransition: 'Rate Transition15' (':2009')
     FLIGHT_Hexacopter_V2_B.RateTransition15 =
       FLIGHT_Hexacopter_V2_DW.RateTransition15_Buffer0;
   }
 
+  // Sum: 'Sum1' (':1976')
+  FLIGHT_Hexacopter_V2_B.IProdOut_b = FLIGHT_Hexacopter_V2_B.RateTransition2 -
+    FLIGHT_Hexacopter_V2_B.In1_k.xyz[0];
+
   // DiscreteIntegrator: 'Integrator' (':1978:843')
   if ((FLIGHT_Hexacopter_V2_B.RateTransition15 &&
-       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState <= 0)) ||
+       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_f <= 0)) ||
       ((!FLIGHT_Hexacopter_V2_B.RateTransition15) &&
-       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState == 1))) {
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE =
+       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_f == 1))) {
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_b =
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_InitialCondit;
   }
 
@@ -608,9 +864,9 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   DiscreteIntegrator: 'Integrator' (':1978:843')
   //   Product: 'PProd Out' (':1978:909')
 
-  FLIGHT_Hexacopter_V2_B.DeadZone = FLIGHT_Hexacopter_V2_B.IProdOut_b *
+  FLIGHT_Hexacopter_V2_B.DeadZone_k = FLIGHT_Hexacopter_V2_B.IProdOut_b *
     FLIGHT_Hexacopter_V2_B.RateTransition5 +
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE;
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_b;
 
   // RateTransition: 'Rate Transition18' (':2012') incorporates:
   //   RateTransition: 'Rate Transition3' (':1980')
@@ -628,50 +884,50 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   // Sum: 'Sum' (':1967:220:337') incorporates:
   //   UnitDelay: 'Unit Delay1' (':1967:220:338')
 
-  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE += FLIGHT_Hexacopter_V2_B.In1_k.xyz
-    [0];
+  FLIGHT_Hexacopter_V2_B.Product2_mp = FLIGHT_Hexacopter_V2_B.In1_k.xyz[0] +
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a;
 
   // Gain: 'tau' (':1967:220:372')
-  FLIGHT_Hexacopter_V2_B.p = FLIGHT_Hexacopter_V2_P.tau_Gain *
+  FLIGHT_Hexacopter_V2_B.p_i = FLIGHT_Hexacopter_V2_P.tau_Gain_da *
     FLIGHT_Hexacopter_V2_B.RateTransition3;
 
   // Product: 'Product2' (':1967:220:361')
-  FLIGHT_Hexacopter_V2_B.q = FLIGHT_Hexacopter_V2_B.p * FLIGHT_Hexacopter_V2_B.p;
+  FLIGHT_Hexacopter_V2_B.q_m = FLIGHT_Hexacopter_V2_B.p_i *
+    FLIGHT_Hexacopter_V2_B.p_i;
 
   // Bias: 'Bias' (':1967:220:373')
-  FLIGHT_Hexacopter_V2_B.r_b = FLIGHT_Hexacopter_V2_B.q +
-    FLIGHT_Hexacopter_V2_P.Bias_Bias;
+  FLIGHT_Hexacopter_V2_B.r_l = FLIGHT_Hexacopter_V2_B.q_m +
+    FLIGHT_Hexacopter_V2_P.Bias_Bias_g;
 
   // Gain: 'Gain' (':1967:220:358')
-  FLIGHT_Hexacopter_V2_B.p *= FLIGHT_Hexacopter_V2_P.Gain_Gain_a;
+  FLIGHT_Hexacopter_V2_B.p_i *= FLIGHT_Hexacopter_V2_P.Gain_Gain_a;
 
   // Sum: 'Add1' (':1967:220:364')
-  FLIGHT_Hexacopter_V2_B.d_p = FLIGHT_Hexacopter_V2_B.r_b +
-    FLIGHT_Hexacopter_V2_B.p;
+  FLIGHT_Hexacopter_V2_B.d_k = FLIGHT_Hexacopter_V2_B.r_l +
+    FLIGHT_Hexacopter_V2_B.p_i;
 
   // SampleTimeMath: 'TSamp' (':1966:4') incorporates:
   //   Product: 'Product1' (':1967:220:343')
   //   Product: 'Product3' (':1967:220:365')
-  //   UnitDelay: 'Unit Delay1' (':1967:220:338')
   //
   //  About 'TSamp' (':1966:4'):
   //   y = u * K where K = 1 / ( w * Ts )
   //
-  FLIGHT_Hexacopter_V2_B.TSamp = FLIGHT_Hexacopter_V2_B.q /
-    FLIGHT_Hexacopter_V2_B.d_p * FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE *
-    FLIGHT_Hexacopter_V2_P.TSamp_WtEt;
+  FLIGHT_Hexacopter_V2_B.TSamp_a = FLIGHT_Hexacopter_V2_B.q_m /
+    FLIGHT_Hexacopter_V2_B.d_k * FLIGHT_Hexacopter_V2_B.Product2_mp *
+    FLIGHT_Hexacopter_V2_P.TSamp_WtEt_m;
 
   // Saturate: 'Saturation' (':1978:923')
-  if (FLIGHT_Hexacopter_V2_B.DeadZone >
+  if (FLIGHT_Hexacopter_V2_B.DeadZone_k >
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_UpperSaturati) {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_UpperSaturati;
-  } else if (FLIGHT_Hexacopter_V2_B.DeadZone <
+  } else if (FLIGHT_Hexacopter_V2_B.DeadZone_k <
              FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_LowerSaturati) {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_LowerSaturati;
   } else {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c = FLIGHT_Hexacopter_V2_B.DeadZone;
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp = FLIGHT_Hexacopter_V2_B.DeadZone_k;
   }
 
   // Sum: 'Sum5' (':1977') incorporates:
@@ -688,8 +944,8 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //
   //   Store in Global RAM
 
-  FLIGHT_Hexacopter_V2_B.Sum5_f = FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c -
-    (FLIGHT_Hexacopter_V2_B.TSamp - FLIGHT_Hexacopter_V2_DW.UD_DSTATE) *
+  FLIGHT_Hexacopter_V2_B.Sum5_f = FLIGHT_Hexacopter_V2_B.rtb_R_tmp -
+    (FLIGHT_Hexacopter_V2_B.TSamp_a - FLIGHT_Hexacopter_V2_DW.UD_DSTATE_i) *
     FLIGHT_Hexacopter_V2_B.RateTransition18;
 
   // RateTransition generated from: 'Rate Transition' (':1176') incorporates:
@@ -730,40 +986,40 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
       FLIGHT_Hexacopter_V2_DW.RateTransition9_Buffer0;
 
     // RateTransition: 'Rate Transition10' (':1918')
-    FLIGHT_Hexacopter_V2_B.RateTransition10 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0;
+    FLIGHT_Hexacopter_V2_B.RateTransition10_b =
+      FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0_m;
 
     // RateTransition: 'Rate Transition11' (':1919')
-    FLIGHT_Hexacopter_V2_B.RateTransition11 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0;
+    FLIGHT_Hexacopter_V2_B.RateTransition11_b =
+      FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0_i;
 
     // RateTransition: 'Rate Transition17' (':1927')
     FLIGHT_Hexacopter_V2_B.RateTransition17 =
       FLIGHT_Hexacopter_V2_DW.RateTransition17_Buffer0;
 
     // RateTransition: 'Rate Transition1' (':1911')
-    FLIGHT_Hexacopter_V2_B.RateTransition1 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0;
+    FLIGHT_Hexacopter_V2_B.RateTransition1_j =
+      FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0_p;
 
     // RateTransition: 'Rate Transition16' (':1925')
-    FLIGHT_Hexacopter_V2_B.RateTransition16 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0;
+    FLIGHT_Hexacopter_V2_B.RateTransition16_g =
+      FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0_m;
 
     // RateTransition: 'Rate Transition7' (':1915')
-    FLIGHT_Hexacopter_V2_B.RateTransition7 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0;
+    FLIGHT_Hexacopter_V2_B.RateTransition7_k =
+      FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0_h;
 
     // RateTransition: 'Rate Transition8' (':1916')
-    FLIGHT_Hexacopter_V2_B.RateTransition8 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0;
+    FLIGHT_Hexacopter_V2_B.RateTransition8_c =
+      FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0_o;
 
     // RateTransition: 'Rate Transition12' (':1920')
-    FLIGHT_Hexacopter_V2_B.RateTransition12 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0;
+    FLIGHT_Hexacopter_V2_B.RateTransition12_i =
+      FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0_l;
 
     // RateTransition: 'Rate Transition13' (':1921')
-    FLIGHT_Hexacopter_V2_B.RateTransition13 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0;
+    FLIGHT_Hexacopter_V2_B.RateTransition13_g =
+      FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0_p;
 
     // RateTransition: 'Rate Transition14' (':1922')
     FLIGHT_Hexacopter_V2_B.RateTransition14 =
@@ -800,19 +1056,19 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //
   //   Store in Global RAM
 
-  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[0] = FLIGHT_Hexacopter_V2_P.TSamp_WtEt_m -
-    FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[0];
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[0] = FLIGHT_Hexacopter_V2_P.TSamp_WtEt_ma
+    - FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[0];
 
   // SampleTimeMath: 'TSamp' (':1524:4')
   //
   //  About 'TSamp' (':1524:4'):
   //   y = u * K where K = 1 / ( w * Ts )
   //
-  FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_f =
+  FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_g =
     FLIGHT_Hexacopter_V2_B.rtb_omega_phi_idx_1 *
-    FLIGHT_Hexacopter_V2_P.TSamp_WtEt_m;
+    FLIGHT_Hexacopter_V2_P.TSamp_WtEt_ma;
   FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_idx_1 =
-    FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_f;
+    FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_g;
 
   // Sum: 'Diff' (':1524:3') incorporates:
   //   SampleTimeMath: 'TSamp' (':1524:4')
@@ -829,7 +1085,7 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //
   //   Store in Global RAM
 
-  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[1] = FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_f
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[1] = FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_g
     - FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[1];
 
   // SampleTimeMath: 'TSamp' (':1524:4')
@@ -837,9 +1093,9 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //  About 'TSamp' (':1524:4'):
   //   y = u * K where K = 1 / ( w * Ts )
   //
-  FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_f =
+  FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_g =
     FLIGHT_Hexacopter_V2_B.rtb_omega_phi_idx_2 *
-    FLIGHT_Hexacopter_V2_P.TSamp_WtEt_m;
+    FLIGHT_Hexacopter_V2_P.TSamp_WtEt_ma;
 
   // Sum: 'Diff' (':1524:3') incorporates:
   //   SampleTimeMath: 'TSamp' (':1524:4')
@@ -856,7 +1112,7 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //
   //   Store in Global RAM
 
-  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[2] = FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_f
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[2] = FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_g
     - FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[2];
 
   // Product: 'Product' (':1514') incorporates:
@@ -864,8 +1120,8 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   Product: 'Product1' (':1515')
   //   Sum: 'Add' (':1476')
 
-  FLIGHT_Hexacopter_V2_B.Product_p = (FLIGHT_Hexacopter_V2_B.RateTransition10 -
-    FLIGHT_Hexacopter_V2_B.RateTransition11) /
+  FLIGHT_Hexacopter_V2_B.Product_p = (FLIGHT_Hexacopter_V2_B.RateTransition10_b
+    - FLIGHT_Hexacopter_V2_B.RateTransition11_b) /
     FLIGHT_Hexacopter_V2_B.RateTransition9 * (FLIGHT_Hexacopter_V2_B.In1_k.xyz[1]
     * FLIGHT_Hexacopter_V2_B.In1_k.xyz[2]);
 
@@ -874,10 +1130,10 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   Product: 'Product3' (':1517')
   //   Sum: 'Add1' (':1477')
 
-  FLIGHT_Hexacopter_V2_B.Product2_m = (FLIGHT_Hexacopter_V2_B.RateTransition11 -
-    FLIGHT_Hexacopter_V2_B.RateTransition9) /
-    FLIGHT_Hexacopter_V2_B.RateTransition10 * (FLIGHT_Hexacopter_V2_B.In1_k.xyz
-    [0] * FLIGHT_Hexacopter_V2_B.In1_k.xyz[2]);
+  FLIGHT_Hexacopter_V2_B.Product2_m = (FLIGHT_Hexacopter_V2_B.RateTransition11_b
+    - FLIGHT_Hexacopter_V2_B.RateTransition9) /
+    FLIGHT_Hexacopter_V2_B.RateTransition10_b *
+    (FLIGHT_Hexacopter_V2_B.In1_k.xyz[0] * FLIGHT_Hexacopter_V2_B.In1_k.xyz[2]);
 
   // Product: 'Product4' (':1518') incorporates:
   //   Product: 'Divide2' (':1487')
@@ -885,9 +1141,9 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   Sum: 'Add2' (':1478')
 
   FLIGHT_Hexacopter_V2_B.Product4 = (FLIGHT_Hexacopter_V2_B.RateTransition9 -
-    FLIGHT_Hexacopter_V2_B.RateTransition10) /
-    FLIGHT_Hexacopter_V2_B.RateTransition11 * (FLIGHT_Hexacopter_V2_B.In1_k.xyz
-    [0] * FLIGHT_Hexacopter_V2_B.In1_k.xyz[1]);
+    FLIGHT_Hexacopter_V2_B.RateTransition10_b) /
+    FLIGHT_Hexacopter_V2_B.RateTransition11_b *
+    (FLIGHT_Hexacopter_V2_B.In1_k.xyz[0] * FLIGHT_Hexacopter_V2_B.In1_k.xyz[1]);
 
   // Gain: 'tau' (':1756:219:350')
   FLIGHT_Hexacopter_V2_B.Product2_gt = FLIGHT_Hexacopter_V2_P.tau_Gain_f *
@@ -902,7 +1158,7 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   // Sum: 'Sum' (':1756:219:332') incorporates:
   //   UnitDelay: 'Unit Delay' (':1756:219:331')
 
-  FLIGHT_Hexacopter_V2_B.Sum_o = FLIGHT_Hexacopter_V2_B.RateTransition1 +
+  FLIGHT_Hexacopter_V2_B.Sum_o = FLIGHT_Hexacopter_V2_B.RateTransition1_j +
     FLIGHT_Hexacopter_V2_DW.UnitDelay_DSTATE;
 
   // Product: 'Product1' (':1756:219:334')
@@ -1019,12 +1275,13 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   // R = -ks*sign(s) - kp*s;
   //  Modified Sigmoid
   // :  R = -ks*( s/(abs(s)+eps) ) - kp*s;
-  FLIGHT_Hexacopter_V2_B.IProdOut_p = static_cast<real32_T>(fabs
+  FLIGHT_Hexacopter_V2_B.rtb_R_tmp = static_cast<real32_T>(fabs
     (static_cast<real_T>(FLIGHT_Hexacopter_V2_B.s)));
   FLIGHT_Hexacopter_V2_B.R = FLIGHT_Hexacopter_V2_B.s /
-    (FLIGHT_Hexacopter_V2_B.IProdOut_p + FLIGHT_Hexacopter_V2_B.RateTransition12)
-    * -FLIGHT_Hexacopter_V2_B.RateTransition7 -
-    FLIGHT_Hexacopter_V2_B.RateTransition8 * FLIGHT_Hexacopter_V2_B.s;
+    (FLIGHT_Hexacopter_V2_B.rtb_R_tmp +
+     FLIGHT_Hexacopter_V2_B.RateTransition12_i) *
+    -FLIGHT_Hexacopter_V2_B.RateTransition7_k -
+    FLIGHT_Hexacopter_V2_B.RateTransition8_c * FLIGHT_Hexacopter_V2_B.s;
 
   // S-Function (sdspdiag2): 'Create Diagonal Matrix' (':1482') incorporates:
   //   Constant: 'Constant' (':1744')
@@ -1050,7 +1307,7 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
 
   FLIGHT_Hexacopter_V2_B.CreateDiagonalMatrix[4] =
     FLIGHT_Hexacopter_V2_P.Constant1_Value_f /
-    FLIGHT_Hexacopter_V2_B.RateTransition10;
+    FLIGHT_Hexacopter_V2_B.RateTransition10_b;
 
   // MATLAB Function: 'MATLAB Function1' (':1575')
   FLIGHT_Hexacopter_V2_B.G1[1] = 0.0F;
@@ -1061,7 +1318,7 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
 
   FLIGHT_Hexacopter_V2_B.CreateDiagonalMatrix[8] =
     FLIGHT_Hexacopter_V2_P.Constant2_Value_n /
-    FLIGHT_Hexacopter_V2_B.RateTransition11;
+    FLIGHT_Hexacopter_V2_B.RateTransition11_b;
 
   // MATLAB Function: 'MATLAB Function1' (':1575')
   FLIGHT_Hexacopter_V2_B.G1[2] = 0.0F;
@@ -1105,9 +1362,9 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
     FLIGHT_Hexacopter_V2_B.G1_inv[2] = (rtNaNF);
   } else {
     FLIGHT_Hexacopter_V2_svd(FLIGHT_Hexacopter_V2_B.G1, FLIGHT_Hexacopter_V2_B.U,
-      &FLIGHT_Hexacopter_V2_B.DeadZone_d, &FLIGHT_Hexacopter_V2_B.V);
+      &FLIGHT_Hexacopter_V2_B.Saturation2, &FLIGHT_Hexacopter_V2_B.V);
     FLIGHT_Hexacopter_V2_B.absx = static_cast<real32_T>(fabs(static_cast<real_T>
-      (FLIGHT_Hexacopter_V2_B.DeadZone_d)));
+      (FLIGHT_Hexacopter_V2_B.Saturation2)));
     if (rtIsInfF(FLIGHT_Hexacopter_V2_B.absx) || rtIsNaNF
         (FLIGHT_Hexacopter_V2_B.absx)) {
       FLIGHT_Hexacopter_V2_B.absx = (rtNaNF);
@@ -1115,59 +1372,59 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
       FLIGHT_Hexacopter_V2_B.absx = 1.4013E-45F;
     } else {
       frexp(static_cast<real_T>(FLIGHT_Hexacopter_V2_B.absx),
-            &FLIGHT_Hexacopter_V2_B.ParamStep_g1);
+            &FLIGHT_Hexacopter_V2_B.ParamStep_m);
       FLIGHT_Hexacopter_V2_B.absx = static_cast<real32_T>(ldexp(1.0,
-        FLIGHT_Hexacopter_V2_B.ParamStep_g1 - 24));
+        FLIGHT_Hexacopter_V2_B.ParamStep_m - 24));
     }
 
     FLIGHT_Hexacopter_V2_B.absx *= 3.0F;
-    if (rtIsInfF(FLIGHT_Hexacopter_V2_B.DeadZone_d) || rtIsNaNF
-        (FLIGHT_Hexacopter_V2_B.DeadZone_d)) {
+    if (rtIsInfF(FLIGHT_Hexacopter_V2_B.Saturation2) || rtIsNaNF
+        (FLIGHT_Hexacopter_V2_B.Saturation2)) {
       FLIGHT_Hexacopter_V2_B.absx = 3.402823466E+38F;
     }
 
     FLIGHT_Hexacopter_V2_B.i = 0;
-    if (FLIGHT_Hexacopter_V2_B.DeadZone_d > FLIGHT_Hexacopter_V2_B.absx) {
+    if (FLIGHT_Hexacopter_V2_B.Saturation2 > FLIGHT_Hexacopter_V2_B.absx) {
       FLIGHT_Hexacopter_V2_B.i = 1;
     }
 
     if (FLIGHT_Hexacopter_V2_B.i > 0) {
-      FLIGHT_Hexacopter_V2_B.DeadZone_d = 1.0F /
-        FLIGHT_Hexacopter_V2_B.DeadZone_d;
+      FLIGHT_Hexacopter_V2_B.Saturation2 = 1.0F /
+        FLIGHT_Hexacopter_V2_B.Saturation2;
       for (FLIGHT_Hexacopter_V2_B.i = 1; FLIGHT_Hexacopter_V2_B.i < 2;
            FLIGHT_Hexacopter_V2_B.i++) {
-        FLIGHT_Hexacopter_V2_B.V *= FLIGHT_Hexacopter_V2_B.DeadZone_d;
+        FLIGHT_Hexacopter_V2_B.V *= FLIGHT_Hexacopter_V2_B.Saturation2;
       }
 
       FLIGHT_Hexacopter_V2_B.i = 0;
-      for (FLIGHT_Hexacopter_V2_B.ParamStep_g1 = 0;
-           FLIGHT_Hexacopter_V2_B.ParamStep_g1 < 3;
-           FLIGHT_Hexacopter_V2_B.ParamStep_g1++) {
-        for (FLIGHT_Hexacopter_V2_B.ParamStep_m =
-             FLIGHT_Hexacopter_V2_B.ParamStep_g1 + 1;
-             FLIGHT_Hexacopter_V2_B.ParamStep_m <=
-             FLIGHT_Hexacopter_V2_B.ParamStep_g1 + 1;
-             FLIGHT_Hexacopter_V2_B.ParamStep_m++) {
-          FLIGHT_Hexacopter_V2_B.G1_inv[FLIGHT_Hexacopter_V2_B.ParamStep_m - 1] =
+      for (FLIGHT_Hexacopter_V2_B.ParamStep_m = 0;
+           FLIGHT_Hexacopter_V2_B.ParamStep_m < 3;
+           FLIGHT_Hexacopter_V2_B.ParamStep_m++) {
+        for (FLIGHT_Hexacopter_V2_B.ParamStep_n =
+             FLIGHT_Hexacopter_V2_B.ParamStep_m + 1;
+             FLIGHT_Hexacopter_V2_B.ParamStep_n <=
+             FLIGHT_Hexacopter_V2_B.ParamStep_m + 1;
+             FLIGHT_Hexacopter_V2_B.ParamStep_n++) {
+          FLIGHT_Hexacopter_V2_B.G1_inv[FLIGHT_Hexacopter_V2_B.ParamStep_n - 1] =
             0.0F;
         }
       }
 
-      for (FLIGHT_Hexacopter_V2_B.ParamStep_g1 = 0;
-           FLIGHT_Hexacopter_V2_B.ParamStep_g1 < 3;
-           FLIGHT_Hexacopter_V2_B.ParamStep_g1++) {
+      for (FLIGHT_Hexacopter_V2_B.ParamStep_m = 0;
+           FLIGHT_Hexacopter_V2_B.ParamStep_m < 3;
+           FLIGHT_Hexacopter_V2_B.ParamStep_m++) {
         FLIGHT_Hexacopter_V2_B.i++;
-        for (FLIGHT_Hexacopter_V2_B.ParamStep_m = FLIGHT_Hexacopter_V2_B.i;
-             FLIGHT_Hexacopter_V2_B.ParamStep_m <= FLIGHT_Hexacopter_V2_B.i;
-             FLIGHT_Hexacopter_V2_B.ParamStep_m += 3) {
-          for (FLIGHT_Hexacopter_V2_B.ParamStep_n =
-               FLIGHT_Hexacopter_V2_B.ParamStep_g1 + 1;
-               FLIGHT_Hexacopter_V2_B.ParamStep_n <=
-               FLIGHT_Hexacopter_V2_B.ParamStep_g1 + 1;
-               FLIGHT_Hexacopter_V2_B.ParamStep_n++) {
-            FLIGHT_Hexacopter_V2_B.G1_inv[FLIGHT_Hexacopter_V2_B.ParamStep_n - 1]
-              += FLIGHT_Hexacopter_V2_B.U[FLIGHT_Hexacopter_V2_B.ParamStep_m - 1]
-              * FLIGHT_Hexacopter_V2_B.V;
+        for (FLIGHT_Hexacopter_V2_B.ParamStep_n = FLIGHT_Hexacopter_V2_B.i;
+             FLIGHT_Hexacopter_V2_B.ParamStep_n <= FLIGHT_Hexacopter_V2_B.i;
+             FLIGHT_Hexacopter_V2_B.ParamStep_n += 3) {
+          for (FLIGHT_Hexacopter_V2_B.ParamStep_pp =
+               FLIGHT_Hexacopter_V2_B.ParamStep_m + 1;
+               FLIGHT_Hexacopter_V2_B.ParamStep_pp <=
+               FLIGHT_Hexacopter_V2_B.ParamStep_m + 1;
+               FLIGHT_Hexacopter_V2_B.ParamStep_pp++) {
+            FLIGHT_Hexacopter_V2_B.G1_inv[FLIGHT_Hexacopter_V2_B.ParamStep_pp -
+              1] += FLIGHT_Hexacopter_V2_B.U[FLIGHT_Hexacopter_V2_B.ParamStep_n
+              - 1] * FLIGHT_Hexacopter_V2_B.V;
           }
         }
       }
@@ -1188,21 +1445,21 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   DiscreteIntegrator: 'Discrete-Time Integrator' (':1887')
   //   MATLAB Function: 'MATLAB Function4' (':1578')
 
-  if (FLIGHT_Hexacopter_V2_B.RateTransition16) {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
-      -FLIGHT_Hexacopter_V2_B.RateTransition13 * static_cast<real32_T>(sqrt(
-      static_cast<real_T>(FLIGHT_Hexacopter_V2_B.IProdOut_p))) *
+  if (FLIGHT_Hexacopter_V2_B.RateTransition16_g) {
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
+      -FLIGHT_Hexacopter_V2_B.RateTransition13_g * static_cast<real32_T>(sqrt(
+      static_cast<real_T>(FLIGHT_Hexacopter_V2_B.rtb_R_tmp))) *
       FLIGHT_Hexacopter_V2_B.V -
       FLIGHT_Hexacopter_V2_DW.DiscreteTimeIntegrator_DSTATE;
   } else {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c = FLIGHT_Hexacopter_V2_B.R;
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp = FLIGHT_Hexacopter_V2_B.R;
   }
 
   // MATLAB Function: 'MATLAB Function2' (':1576') incorporates:
   //   Switch: 'Switch' (':1900')
 
   FLIGHT_Hexacopter_V2_B.Saturation2 = (-FLIGHT_Hexacopter_V2_B.H +
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c) * FLIGHT_Hexacopter_V2_B.G1_inv[0];
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp) * FLIGHT_Hexacopter_V2_B.G1_inv[0];
 
   // Saturate: 'Saturation2' (':1581')
   if (FLIGHT_Hexacopter_V2_B.Saturation2 >
@@ -1216,255 +1473,6 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   }
 
   // End of Saturate: 'Saturation2' (':1581')
-
-  // RateTransition: 'Rate Transition8' (':1988') incorporates:
-  //   RateTransition: 'Rate Transition16' (':2010')
-
-  if (tmp) {
-    // RateTransition: 'Rate Transition8' (':1988')
-    FLIGHT_Hexacopter_V2_B.RateTransition8_i =
-      FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0_a;
-
-    // RateTransition: 'Rate Transition19' (':2013')
-    FLIGHT_Hexacopter_V2_B.RateTransition19 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition19_Buffer0;
-
-    // RateTransition: 'Rate Transition16' (':2010')
-    FLIGHT_Hexacopter_V2_B.RateTransition16_e =
-      FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0_g;
-  }
-
-  // Sum: 'Sum6' (':1993')
-  FLIGHT_Hexacopter_V2_B.IProdOut_p = FLIGHT_Hexacopter_V2_B.RateTransition19 -
-    FLIGHT_Hexacopter_V2_B.In1_k.xyz[1];
-
-  // DiscreteIntegrator: 'Integrator' (':1991:843')
-  if ((FLIGHT_Hexacopter_V2_B.RateTransition16_e &&
-       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_e <= 0)) ||
-      ((!FLIGHT_Hexacopter_V2_B.RateTransition16_e) &&
-       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_e == 1))) {
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_InitialCondi;
-  }
-
-  // Sum: 'Sum' (':1991:3518') incorporates:
-  //   DiscreteIntegrator: 'Integrator' (':1991:843')
-  //   Product: 'PProd Out' (':1991:909')
-
-  FLIGHT_Hexacopter_V2_B.DeadZone_d = FLIGHT_Hexacopter_V2_B.IProdOut_p *
-    FLIGHT_Hexacopter_V2_B.RateTransition8_i +
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l;
-
-  // RateTransition: 'Rate Transition10' (':1995') incorporates:
-  //   RateTransition: 'Rate Transition7' (':1987')
-
-  if (tmp) {
-    // RateTransition: 'Rate Transition10' (':1995')
-    FLIGHT_Hexacopter_V2_B.RateTransition10_j =
-      FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0_g;
-
-    // RateTransition: 'Rate Transition7' (':1987')
-    FLIGHT_Hexacopter_V2_B.RateTransition7_h =
-      FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0_e;
-  }
-
-  // Sum: 'Sum' (':1984:220:337') incorporates:
-  //   UnitDelay: 'Unit Delay1' (':1984:220:338')
-
-  FLIGHT_Hexacopter_V2_B.Product2_l = FLIGHT_Hexacopter_V2_B.In1_k.xyz[1] +
-    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a;
-
-  // Gain: 'tau' (':1984:220:372')
-  FLIGHT_Hexacopter_V2_B.p_l = FLIGHT_Hexacopter_V2_P.tau_Gain_k *
-    FLIGHT_Hexacopter_V2_B.RateTransition7_h;
-
-  // Product: 'Product2' (':1984:220:361')
-  FLIGHT_Hexacopter_V2_B.q_o = FLIGHT_Hexacopter_V2_B.p_l *
-    FLIGHT_Hexacopter_V2_B.p_l;
-
-  // Bias: 'Bias' (':1984:220:373')
-  FLIGHT_Hexacopter_V2_B.r_d = FLIGHT_Hexacopter_V2_B.q_o +
-    FLIGHT_Hexacopter_V2_P.Bias_Bias_b;
-
-  // Gain: 'Gain' (':1984:220:358')
-  FLIGHT_Hexacopter_V2_B.p_l *= FLIGHT_Hexacopter_V2_P.Gain_Gain_b3;
-
-  // Sum: 'Add1' (':1984:220:364')
-  FLIGHT_Hexacopter_V2_B.d_g = FLIGHT_Hexacopter_V2_B.r_d +
-    FLIGHT_Hexacopter_V2_B.p_l;
-
-  // SampleTimeMath: 'TSamp' (':1983:4') incorporates:
-  //   Product: 'Product1' (':1984:220:343')
-  //   Product: 'Product3' (':1984:220:365')
-  //
-  //  About 'TSamp' (':1983:4'):
-  //   y = u * K where K = 1 / ( w * Ts )
-  //
-  FLIGHT_Hexacopter_V2_B.absx = FLIGHT_Hexacopter_V2_B.q_o /
-    FLIGHT_Hexacopter_V2_B.d_g * FLIGHT_Hexacopter_V2_B.Product2_l *
-    FLIGHT_Hexacopter_V2_P.TSamp_WtEt_d;
-
-  // Saturate: 'Saturation' (':1991:923')
-  if (FLIGHT_Hexacopter_V2_B.DeadZone_d >
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_UpperSaturat) {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_UpperSaturat;
-  } else if (FLIGHT_Hexacopter_V2_B.DeadZone_d <
-             FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_LowerSaturat) {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_LowerSaturat;
-  } else {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c = FLIGHT_Hexacopter_V2_B.DeadZone_d;
-  }
-
-  // Sum: 'Sum4' (':1990') incorporates:
-  //   Product: 'Product1' (':1986')
-  //   Saturate: 'Saturation' (':1991:923')
-  //   Sum: 'Diff' (':1983:3')
-  //   UnitDelay: 'UD' (':1983:5')
-  //
-  //  Block description for 'Diff' (':1983:3'):
-  //
-  //   Add in CPU
-  //
-  //  Block description for 'UD' (':1983:5'):
-  //
-  //   Store in Global RAM
-
-  FLIGHT_Hexacopter_V2_B.Sum4 = FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c -
-    (FLIGHT_Hexacopter_V2_B.absx - FLIGHT_Hexacopter_V2_DW.UD_DSTATE_b) *
-    FLIGHT_Hexacopter_V2_B.RateTransition10_j;
-
-  // RateTransition: 'Rate Transition' (':732') incorporates:
-  //   RateTransition: 'Rate Transition13' (':2004')
-  //   RateTransition: 'Rate Transition17' (':2011')
-
-  if (tmp) {
-    // RateTransition: 'Rate Transition' (':732')
-    FLIGHT_Hexacopter_V2_B.RateTransition =
-      FLIGHT_Hexacopter_V2_DW.RateTransition_Buffer0;
-
-    // RateTransition: 'Rate Transition1' (':733')
-    FLIGHT_Hexacopter_V2_B.RateTransition1_a =
-      FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0_g;
-
-    // RateTransition: 'Rate Transition13' (':2004')
-    FLIGHT_Hexacopter_V2_B.RateTransition13_a =
-      FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0_d;
-
-    // RateTransition: 'Rate Transition20' (':2014')
-    FLIGHT_Hexacopter_V2_B.RateTransition20 =
-      FLIGHT_Hexacopter_V2_DW.RateTransition20_Buffer0;
-
-    // RateTransition: 'Rate Transition17' (':2011')
-    FLIGHT_Hexacopter_V2_B.RateTransition17_h =
-      FLIGHT_Hexacopter_V2_DW.RateTransition17_Buffer0_e;
-  }
-
-  // Sum: 'Sum8' (':2007')
-  FLIGHT_Hexacopter_V2_B.IProdOut_g = FLIGHT_Hexacopter_V2_B.RateTransition20 -
-    FLIGHT_Hexacopter_V2_B.In1_k.xyz[2];
-
-  // DiscreteIntegrator: 'Integrator' (':2008:843')
-  if ((FLIGHT_Hexacopter_V2_B.RateTransition17_h &&
-       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_es <= 0)) ||
-      ((!FLIGHT_Hexacopter_V2_B.RateTransition17_h) &&
-       (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_es == 1))) {
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_InitialCondi;
-  }
-
-  // Sum: 'Sum' (':2008:3518') incorporates:
-  //   DiscreteIntegrator: 'Integrator' (':2008:843')
-  //   Product: 'PProd Out' (':2008:909')
-
-  FLIGHT_Hexacopter_V2_B.DeadZone_db = FLIGHT_Hexacopter_V2_B.IProdOut_g *
-    FLIGHT_Hexacopter_V2_B.RateTransition13_a +
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o;
-
-  // RateTransition: 'Rate Transition11' (':2002') incorporates:
-  //   RateTransition: 'Rate Transition12' (':2003')
-
-  if (tmp) {
-    // RateTransition: 'Rate Transition11' (':2002')
-    FLIGHT_Hexacopter_V2_B.RateTransition11_a =
-      FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0_b;
-
-    // RateTransition: 'Rate Transition12' (':2003')
-    FLIGHT_Hexacopter_V2_B.RateTransition12_j =
-      FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0_j;
-  }
-
-  // Sum: 'Sum' (':1999:220:337') incorporates:
-  //   UnitDelay: 'Unit Delay1' (':1999:220:338')
-
-  FLIGHT_Hexacopter_V2_B.Product2_d = FLIGHT_Hexacopter_V2_B.In1_k.xyz[2] +
-    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_p;
-
-  // Gain: 'tau' (':1999:220:372')
-  FLIGHT_Hexacopter_V2_B.p_g = FLIGHT_Hexacopter_V2_P.tau_Gain_d *
-    FLIGHT_Hexacopter_V2_B.RateTransition12_j;
-
-  // Product: 'Product2' (':1999:220:361')
-  FLIGHT_Hexacopter_V2_B.q_i = FLIGHT_Hexacopter_V2_B.p_g *
-    FLIGHT_Hexacopter_V2_B.p_g;
-
-  // Bias: 'Bias' (':1999:220:373')
-  FLIGHT_Hexacopter_V2_B.r_m = FLIGHT_Hexacopter_V2_B.q_i +
-    FLIGHT_Hexacopter_V2_P.Bias_Bias_p;
-
-  // Gain: 'Gain' (':1999:220:358')
-  FLIGHT_Hexacopter_V2_B.p_g *= FLIGHT_Hexacopter_V2_P.Gain_Gain_ow;
-
-  // Sum: 'Add1' (':1999:220:364')
-  FLIGHT_Hexacopter_V2_B.d_c = FLIGHT_Hexacopter_V2_B.r_m +
-    FLIGHT_Hexacopter_V2_B.p_g;
-
-  // SampleTimeMath: 'TSamp' (':1998:4') incorporates:
-  //   Product: 'Product1' (':1999:220:343')
-  //   Product: 'Product3' (':1999:220:365')
-  //
-  //  About 'TSamp' (':1998:4'):
-  //   y = u * K where K = 1 / ( w * Ts )
-  //
-  FLIGHT_Hexacopter_V2_B.TSamp_p = FLIGHT_Hexacopter_V2_B.q_i /
-    FLIGHT_Hexacopter_V2_B.d_c * FLIGHT_Hexacopter_V2_B.Product2_d *
-    FLIGHT_Hexacopter_V2_P.TSamp_WtEt_b;
-
-  // Saturate: 'Saturation' (':2008:923')
-  if (FLIGHT_Hexacopter_V2_B.DeadZone_db >
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_UpperSaturat) {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_UpperSaturat;
-  } else if (FLIGHT_Hexacopter_V2_B.DeadZone_db <
-             FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_LowerSaturat) {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_LowerSaturat;
-  } else {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c = FLIGHT_Hexacopter_V2_B.DeadZone_db;
-  }
-
-  // Sum: 'Sum' (':726') incorporates:
-  //   Product: 'Product3' (':2001')
-  //   Product: 'yawrate_feedforward' (':724')
-  //   Saturate: 'Saturation' (':2008:923')
-  //   Sum: 'Sum7' (':2006')
-  //   Sum: 'Diff' (':1998:3')
-  //   UnitDelay: 'UD' (':1998:5')
-  //
-  //  Block description for 'Diff' (':1998:3'):
-  //
-  //   Add in CPU
-  //
-  //  Block description for 'UD' (':1998:5'):
-  //
-  //   Store in Global RAM
-
-  FLIGHT_Hexacopter_V2_B.Sum2_au = (FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c -
-    (FLIGHT_Hexacopter_V2_B.TSamp_p - FLIGHT_Hexacopter_V2_DW.UD_DSTATE_d) *
-    FLIGHT_Hexacopter_V2_B.RateTransition11_a) +
-    FLIGHT_Hexacopter_V2_B.RateTransition *
-    FLIGHT_Hexacopter_V2_B.RateTransition1_a;
 
   // SignalConversion generated from: 'Product1' (':160:195')
   FLIGHT_Hexacopter_V2_B.fv[0] = FLIGHT_Hexacopter_V2_B.RateTransition4;
@@ -1486,7 +1494,7 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
 
   // SignalConversion generated from: 'Product1' (':160:195')
   FLIGHT_Hexacopter_V2_B.fv[2] = FLIGHT_Hexacopter_V2_B.Sum4;
-  FLIGHT_Hexacopter_V2_B.fv[3] = FLIGHT_Hexacopter_V2_B.Sum2_au;
+  FLIGHT_Hexacopter_V2_B.fv[3] = FLIGHT_Hexacopter_V2_B.Sum_gv;
 
   // Product: 'Product1' (':160:195') incorporates:
   //   Constant: 'Mixer matrix' (':160:192')
@@ -1498,15 +1506,14 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
 
   for (FLIGHT_Hexacopter_V2_B.i = 0; FLIGHT_Hexacopter_V2_B.i < 4;
        FLIGHT_Hexacopter_V2_B.i++) {
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
       FLIGHT_Hexacopter_V2_B.fv[FLIGHT_Hexacopter_V2_B.i];
-    for (FLIGHT_Hexacopter_V2_B.ParamStep_g1 = 0;
-         FLIGHT_Hexacopter_V2_B.ParamStep_g1 < 6;
-         FLIGHT_Hexacopter_V2_B.ParamStep_g1++) {
-      FLIGHT_Hexacopter_V2_B.Gain_g[FLIGHT_Hexacopter_V2_B.ParamStep_g1] +=
+    for (FLIGHT_Hexacopter_V2_B.ParamStep_m = 0;
+         FLIGHT_Hexacopter_V2_B.ParamStep_m < 6;
+         FLIGHT_Hexacopter_V2_B.ParamStep_m++) {
+      FLIGHT_Hexacopter_V2_B.Gain_g[FLIGHT_Hexacopter_V2_B.ParamStep_m] +=
         FLIGHT_Hexacopter_V2_P.Mixermatrix_Value[6 * FLIGHT_Hexacopter_V2_B.i +
-        FLIGHT_Hexacopter_V2_B.ParamStep_g1] *
-        FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c;
+        FLIGHT_Hexacopter_V2_B.ParamStep_m] * FLIGHT_Hexacopter_V2_B.rtb_R_tmp;
     }
   }
 
@@ -1514,15 +1521,15 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   for (FLIGHT_Hexacopter_V2_B.i = 0; FLIGHT_Hexacopter_V2_B.i < 6;
        FLIGHT_Hexacopter_V2_B.i++) {
     // Saturate: 'Saturation1' (':160:198')
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
       FLIGHT_Hexacopter_V2_B.Gain_g[FLIGHT_Hexacopter_V2_B.i];
-    if (FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c >
+    if (FLIGHT_Hexacopter_V2_B.rtb_R_tmp >
         FLIGHT_Hexacopter_V2_P.Saturation1_UpperSat) {
-      FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
+      FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
         FLIGHT_Hexacopter_V2_P.Saturation1_UpperSat;
-    } else if (FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c <
+    } else if (FLIGHT_Hexacopter_V2_B.rtb_R_tmp <
                FLIGHT_Hexacopter_V2_P.Saturation1_LowerSat) {
-      FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c =
+      FLIGHT_Hexacopter_V2_B.rtb_R_tmp =
         FLIGHT_Hexacopter_V2_P.Saturation1_LowerSat;
     }
 
@@ -1531,38 +1538,40 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
     //   Gain: 'Gain2' (':160:2979')
     //   Saturate: 'Saturation1' (':160:198')
 
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c = FLIGHT_Hexacopter_V2_P.Gain2_Gain *
-      FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c +
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp = FLIGHT_Hexacopter_V2_P.Gain2_Gain *
+      FLIGHT_Hexacopter_V2_B.rtb_R_tmp +
       FLIGHT_Hexacopter_V2_P.Constant1_Value_k;
     FLIGHT_Hexacopter_V2_B.Gain_g[FLIGHT_Hexacopter_V2_B.i] =
-      FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c;
+      FLIGHT_Hexacopter_V2_B.rtb_R_tmp;
 
-    // DataTypeConversion: 'Data Type Conversion' (':160:2982')
-    FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c = static_cast<real32_T>(floor(
-      static_cast<real_T>(FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c)));
-    if (rtIsNaNF(FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c) || rtIsInfF
-        (FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c)) {
-      FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c = 0.0F;
+    // DataTypeConversion: 'Data Type Conversion' (':160:2982') incorporates:
+    //   DataTypeConversion: 'Data Type Conversion7' (':1090')
+
+    FLIGHT_Hexacopter_V2_B.rtb_R_tmp = static_cast<real32_T>(floor
+      (static_cast<real_T>(FLIGHT_Hexacopter_V2_B.rtb_R_tmp)));
+    if (rtIsNaNF(FLIGHT_Hexacopter_V2_B.rtb_R_tmp) || rtIsInfF
+        (FLIGHT_Hexacopter_V2_B.rtb_R_tmp)) {
+      FLIGHT_Hexacopter_V2_B.rtb_R_tmp = 0.0F;
     } else {
-      FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c = static_cast<real32_T>(fmod(
-        static_cast<real_T>(FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c), 65536.0));
+      FLIGHT_Hexacopter_V2_B.rtb_R_tmp = static_cast<real32_T>(fmod(static_cast<
+        real_T>(FLIGHT_Hexacopter_V2_B.rtb_R_tmp), 65536.0));
     }
 
-    rtb_DataTypeConversion_g_0 = static_cast<uint16_T>
-      (FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c < 0.0F ? static_cast<int32_T>(
+    rtb_DataTypeConversion7_0 = static_cast<uint16_T>
+      (FLIGHT_Hexacopter_V2_B.rtb_R_tmp < 0.0F ? static_cast<int32_T>(
         static_cast<uint16_T>(-static_cast<int16_T>(static_cast<uint16_T>
-          (-FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c)))) : static_cast<int32_T>(
-        static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.rtb_Gain_g_c)));
-    FLIGHT_Hexacopter_V2_B.DataTypeConversion_g[FLIGHT_Hexacopter_V2_B.i] =
-      rtb_DataTypeConversion_g_0;
+          (-FLIGHT_Hexacopter_V2_B.rtb_R_tmp)))) : static_cast<int32_T>(
+        static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.rtb_R_tmp)));
+    FLIGHT_Hexacopter_V2_B.DataTypeConversion7[FLIGHT_Hexacopter_V2_B.i] =
+      rtb_DataTypeConversion7_0;
 
     // End of DataTypeConversion: 'Data Type Conversion' (':160:2982')
 
     // DataTypeConversion: 'Data Type Conversion6' (':1089') incorporates:
-    //   DataTypeConversion: 'Data Type Conversion' (':160:2982')
+    //   DataTypeConversion: 'Data Type Conversion7' (':1090')
 
     FLIGHT_Hexacopter_V2_B.DataTypeConversion6[FLIGHT_Hexacopter_V2_B.i] =
-      rtb_DataTypeConversion_g_0;
+      rtb_DataTypeConversion7_0;
   }
 
   // MATLABSystem: 'Read Parameter13' (':1125')
@@ -1586,46 +1595,6 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   rtb_Compare_n = (FLIGHT_Hexacopter_V2_B.rc_inject_failure >=
                    FLIGHT_Hexacopter_V2_P.CompareToConstant_const_a);
 
-  // MATLABSystem: 'Read Parameter1' (':1124')
-  b_varargout_1 = MW_ParamRead_Step
-    (FLIGHT_Hexacopter_V2_DW.obj_aw.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_Hexacopter_V2_B.ParamStep_g1);
-  if (b_varargout_1) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_g1 = 0;
-  }
-
-  // MATLABSystem: 'Read Parameter2' (':1126')
-  b_varargout_1 = MW_ParamRead_Step
-    (FLIGHT_Hexacopter_V2_DW.obj_ps.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_Hexacopter_V2_B.ParamStep_m);
-  if (b_varargout_1) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_m = 0;
-  }
-
-  // MATLABSystem: 'Read Parameter3' (':1127')
-  b_varargout_1 = MW_ParamRead_Step
-    (FLIGHT_Hexacopter_V2_DW.obj_hi.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_Hexacopter_V2_B.ParamStep_n);
-  if (b_varargout_1) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_n = 0;
-  }
-
-  // MATLABSystem: 'Read Parameter4' (':1128')
-  b_varargout_1 = MW_ParamRead_Step
-    (FLIGHT_Hexacopter_V2_DW.obj_jg.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_Hexacopter_V2_B.ParamStep_p);
-  if (b_varargout_1) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_p = 0;
-  }
-
-  // MATLABSystem: 'Read Parameter5' (':1129')
-  b_varargout_1 = MW_ParamRead_Step
-    (FLIGHT_Hexacopter_V2_DW.obj_ic5.MW_PARAMHANDLE, MW_INT32,
-     &FLIGHT_Hexacopter_V2_B.ParamStep_l);
-  if (b_varargout_1) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_l = 0;
-  }
-
   // Switch: 'Switch' (':1142') incorporates:
   //   Constant: 'Constant' (':1077')
   //   DataTypeConversion: 'Data Type Conversion3' (':1086')
@@ -1642,6 +1611,63 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
 
   FLIGHT_Hexacopter_V2_B.u0 = FLIGHT_Hexacopter_V2_P.Gain_Gain *
     FLIGHT_Hexacopter_V2_B.d;
+
+  // MATLABSystem: 'Read Parameter1' (':1124')
+  b_varargout_1 = MW_ParamRead_Step
+    (FLIGHT_Hexacopter_V2_DW.obj_aw.MW_PARAMHANDLE, MW_INT32,
+     &FLIGHT_Hexacopter_V2_B.i);
+  if (b_varargout_1) {
+    FLIGHT_Hexacopter_V2_B.i = 0;
+  }
+
+  // Switch: 'Switch1' (':1143') incorporates:
+  //   Constant: 'Constant1' (':1078')
+  //   DataTypeConversion: 'Data Type Conversion2' (':1085')
+  //   MATLABSystem: 'Read Parameter1' (':1124')
+  //
+  if (rtb_Compare_n) {
+    FLIGHT_Hexacopter_V2_B.d = FLIGHT_Hexacopter_V2_B.i;
+  } else {
+    FLIGHT_Hexacopter_V2_B.d = FLIGHT_Hexacopter_V2_P.Constant1_Value;
+  }
+
+  // Gain: 'Gain' (':1137:1') incorporates:
+  //   Switch: 'Switch1' (':1143')
+
+  FLIGHT_Hexacopter_V2_B.u0_c = FLIGHT_Hexacopter_V2_P.Gain_Gain_l *
+    FLIGHT_Hexacopter_V2_B.d;
+
+  // MATLABSystem: 'Read Parameter2' (':1126')
+  b_varargout_1 = MW_ParamRead_Step
+    (FLIGHT_Hexacopter_V2_DW.obj_ps.MW_PARAMHANDLE, MW_INT32,
+     &FLIGHT_Hexacopter_V2_B.i);
+  if (b_varargout_1) {
+    FLIGHT_Hexacopter_V2_B.i = 0;
+  }
+
+  // MATLABSystem: 'Read Parameter3' (':1127')
+  b_varargout_1 = MW_ParamRead_Step
+    (FLIGHT_Hexacopter_V2_DW.obj_hi.MW_PARAMHANDLE, MW_INT32,
+     &FLIGHT_Hexacopter_V2_B.ParamStep_m);
+  if (b_varargout_1) {
+    FLIGHT_Hexacopter_V2_B.ParamStep_m = 0;
+  }
+
+  // MATLABSystem: 'Read Parameter4' (':1128')
+  b_varargout_1 = MW_ParamRead_Step
+    (FLIGHT_Hexacopter_V2_DW.obj_jg.MW_PARAMHANDLE, MW_INT32,
+     &FLIGHT_Hexacopter_V2_B.ParamStep_n);
+  if (b_varargout_1) {
+    FLIGHT_Hexacopter_V2_B.ParamStep_n = 0;
+  }
+
+  // MATLABSystem: 'Read Parameter5' (':1129')
+  b_varargout_1 = MW_ParamRead_Step
+    (FLIGHT_Hexacopter_V2_DW.obj_ic5.MW_PARAMHANDLE, MW_INT32,
+     &FLIGHT_Hexacopter_V2_B.ParamStep_pp);
+  if (b_varargout_1) {
+    FLIGHT_Hexacopter_V2_B.ParamStep_pp = 0;
+  }
 
   // Saturate: 'Saturation' (':1136:6')
   if (FLIGHT_Hexacopter_V2_B.u0 > FLIGHT_Hexacopter_V2_P.Saturation_UpperSat) {
@@ -1668,30 +1694,13 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
     FLIGHT_Hexacopter_V2_B.d = fmod(FLIGHT_Hexacopter_V2_B.d, 65536.0);
   }
 
-  // Switch: 'Switch1' (':1143') incorporates:
-  //   Constant: 'Constant1' (':1078')
-  //   DataTypeConversion: 'Data Type Conversion2' (':1085')
-  //   MATLABSystem: 'Read Parameter1' (':1124')
-  //
-  if (rtb_Compare_n) {
-    FLIGHT_Hexacopter_V2_B.d1 = FLIGHT_Hexacopter_V2_B.ParamStep_g1;
-  } else {
-    FLIGHT_Hexacopter_V2_B.d1 = FLIGHT_Hexacopter_V2_P.Constant1_Value;
-  }
-
-  // Gain: 'Gain' (':1137:1') incorporates:
-  //   Switch: 'Switch1' (':1143')
-
-  FLIGHT_Hexacopter_V2_B.u0 = FLIGHT_Hexacopter_V2_P.Gain_Gain_l *
-    FLIGHT_Hexacopter_V2_B.d1;
-
   // Saturate: 'Saturation' (':1137:6')
-  if (FLIGHT_Hexacopter_V2_B.u0 > FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_f)
+  if (FLIGHT_Hexacopter_V2_B.u0_c > FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_f)
   {
-    FLIGHT_Hexacopter_V2_B.u0 = FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_f;
-  } else if (FLIGHT_Hexacopter_V2_B.u0 <
+    FLIGHT_Hexacopter_V2_B.u0_c = FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_f;
+  } else if (FLIGHT_Hexacopter_V2_B.u0_c <
              FLIGHT_Hexacopter_V2_P.Saturation_LowerSat_a) {
-    FLIGHT_Hexacopter_V2_B.u0 = FLIGHT_Hexacopter_V2_P.Saturation_LowerSat_a;
+    FLIGHT_Hexacopter_V2_B.u0_c = FLIGHT_Hexacopter_V2_P.Saturation_LowerSat_a;
   }
 
   // DataTypeConversion: 'Data Type Conversion7' (':1090') incorporates:
@@ -1701,15 +1710,15 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   Sum: 'Sum' (':1137:4660')
   //   Sum: 'Sum1' (':1137:4661')
 
-  FLIGHT_Hexacopter_V2_B.d1 = floor((static_cast<real_T>
+  FLIGHT_Hexacopter_V2_B.u0_c = floor((static_cast<real_T>
     (FLIGHT_Hexacopter_V2_B.DataTypeConversion6[1]) -
-    FLIGHT_Hexacopter_V2_P.Constant_Value_lg) * FLIGHT_Hexacopter_V2_B.u0 +
+    FLIGHT_Hexacopter_V2_P.Constant_Value_lg) * FLIGHT_Hexacopter_V2_B.u0_c +
     FLIGHT_Hexacopter_V2_P.Constant_Value_lg);
-  if (rtIsNaN(FLIGHT_Hexacopter_V2_B.d1) || rtIsInf(FLIGHT_Hexacopter_V2_B.d1))
-  {
-    FLIGHT_Hexacopter_V2_B.d1 = 0.0;
+  if (rtIsNaN(FLIGHT_Hexacopter_V2_B.u0_c) || rtIsInf
+      (FLIGHT_Hexacopter_V2_B.u0_c)) {
+    FLIGHT_Hexacopter_V2_B.u0_c = 0.0;
   } else {
-    FLIGHT_Hexacopter_V2_B.d1 = fmod(FLIGHT_Hexacopter_V2_B.d1, 65536.0);
+    FLIGHT_Hexacopter_V2_B.u0_c = fmod(FLIGHT_Hexacopter_V2_B.u0_c, 65536.0);
   }
 
   // Switch: 'Switch2' (':1144') incorporates:
@@ -1718,16 +1727,16 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   MATLABSystem: 'Read Parameter2' (':1126')
   //
   if (rtb_Compare_n) {
-    FLIGHT_Hexacopter_V2_B.d2 = FLIGHT_Hexacopter_V2_B.ParamStep_m;
+    FLIGHT_Hexacopter_V2_B.d1 = FLIGHT_Hexacopter_V2_B.i;
   } else {
-    FLIGHT_Hexacopter_V2_B.d2 = FLIGHT_Hexacopter_V2_P.Constant2_Value;
+    FLIGHT_Hexacopter_V2_B.d1 = FLIGHT_Hexacopter_V2_P.Constant2_Value;
   }
 
   // Gain: 'Gain' (':1138:1') incorporates:
   //   Switch: 'Switch2' (':1144')
 
   FLIGHT_Hexacopter_V2_B.u0 = FLIGHT_Hexacopter_V2_P.Gain_Gain_e *
-    FLIGHT_Hexacopter_V2_B.d2;
+    FLIGHT_Hexacopter_V2_B.d1;
 
   // Saturate: 'Saturation' (':1138:6')
   if (FLIGHT_Hexacopter_V2_B.u0 > FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_e)
@@ -1745,15 +1754,15 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   Sum: 'Sum' (':1138:4660')
   //   Sum: 'Sum1' (':1138:4661')
 
-  FLIGHT_Hexacopter_V2_B.d2 = floor((static_cast<real_T>
+  FLIGHT_Hexacopter_V2_B.d1 = floor((static_cast<real_T>
     (FLIGHT_Hexacopter_V2_B.DataTypeConversion6[2]) -
     FLIGHT_Hexacopter_V2_P.Constant_Value_n) * FLIGHT_Hexacopter_V2_B.u0 +
     FLIGHT_Hexacopter_V2_P.Constant_Value_n);
-  if (rtIsNaN(FLIGHT_Hexacopter_V2_B.d2) || rtIsInf(FLIGHT_Hexacopter_V2_B.d2))
+  if (rtIsNaN(FLIGHT_Hexacopter_V2_B.d1) || rtIsInf(FLIGHT_Hexacopter_V2_B.d1))
   {
-    FLIGHT_Hexacopter_V2_B.d2 = 0.0;
+    FLIGHT_Hexacopter_V2_B.d1 = 0.0;
   } else {
-    FLIGHT_Hexacopter_V2_B.d2 = fmod(FLIGHT_Hexacopter_V2_B.d2, 65536.0);
+    FLIGHT_Hexacopter_V2_B.d1 = fmod(FLIGHT_Hexacopter_V2_B.d1, 65536.0);
   }
 
   // Switch: 'Switch3' (':1145') incorporates:
@@ -1762,16 +1771,16 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   MATLABSystem: 'Read Parameter3' (':1127')
   //
   if (rtb_Compare_n) {
-    FLIGHT_Hexacopter_V2_B.d3 = FLIGHT_Hexacopter_V2_B.ParamStep_n;
+    FLIGHT_Hexacopter_V2_B.d2 = FLIGHT_Hexacopter_V2_B.ParamStep_m;
   } else {
-    FLIGHT_Hexacopter_V2_B.d3 = FLIGHT_Hexacopter_V2_P.Constant3_Value;
+    FLIGHT_Hexacopter_V2_B.d2 = FLIGHT_Hexacopter_V2_P.Constant3_Value;
   }
 
   // Gain: 'Gain' (':1139:1') incorporates:
   //   Switch: 'Switch3' (':1145')
 
   FLIGHT_Hexacopter_V2_B.u0 = FLIGHT_Hexacopter_V2_P.Gain_Gain_n *
-    FLIGHT_Hexacopter_V2_B.d3;
+    FLIGHT_Hexacopter_V2_B.d2;
 
   // Saturate: 'Saturation' (':1139:6')
   if (FLIGHT_Hexacopter_V2_B.u0 > FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_a)
@@ -1789,15 +1798,15 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   Sum: 'Sum' (':1139:4660')
   //   Sum: 'Sum1' (':1139:4661')
 
-  FLIGHT_Hexacopter_V2_B.d3 = floor((static_cast<real_T>
+  FLIGHT_Hexacopter_V2_B.d2 = floor((static_cast<real_T>
     (FLIGHT_Hexacopter_V2_B.DataTypeConversion6[3]) -
     FLIGHT_Hexacopter_V2_P.Constant_Value_e3) * FLIGHT_Hexacopter_V2_B.u0 +
     FLIGHT_Hexacopter_V2_P.Constant_Value_e3);
-  if (rtIsNaN(FLIGHT_Hexacopter_V2_B.d3) || rtIsInf(FLIGHT_Hexacopter_V2_B.d3))
+  if (rtIsNaN(FLIGHT_Hexacopter_V2_B.d2) || rtIsInf(FLIGHT_Hexacopter_V2_B.d2))
   {
-    FLIGHT_Hexacopter_V2_B.d3 = 0.0;
+    FLIGHT_Hexacopter_V2_B.d2 = 0.0;
   } else {
-    FLIGHT_Hexacopter_V2_B.d3 = fmod(FLIGHT_Hexacopter_V2_B.d3, 65536.0);
+    FLIGHT_Hexacopter_V2_B.d2 = fmod(FLIGHT_Hexacopter_V2_B.d2, 65536.0);
   }
 
   // Switch: 'Switch4' (':1146') incorporates:
@@ -1806,16 +1815,16 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   MATLABSystem: 'Read Parameter4' (':1128')
   //
   if (rtb_Compare_n) {
-    FLIGHT_Hexacopter_V2_B.d4 = FLIGHT_Hexacopter_V2_B.ParamStep_p;
+    FLIGHT_Hexacopter_V2_B.d3 = FLIGHT_Hexacopter_V2_B.ParamStep_n;
   } else {
-    FLIGHT_Hexacopter_V2_B.d4 = FLIGHT_Hexacopter_V2_P.Constant4_Value;
+    FLIGHT_Hexacopter_V2_B.d3 = FLIGHT_Hexacopter_V2_P.Constant4_Value;
   }
 
   // Gain: 'Gain' (':1140:1') incorporates:
   //   Switch: 'Switch4' (':1146')
 
   FLIGHT_Hexacopter_V2_B.u0 = FLIGHT_Hexacopter_V2_P.Gain_Gain_g *
-    FLIGHT_Hexacopter_V2_B.d4;
+    FLIGHT_Hexacopter_V2_B.d3;
 
   // Saturate: 'Saturation' (':1140:6')
   if (FLIGHT_Hexacopter_V2_B.u0 > FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_en)
@@ -1833,15 +1842,15 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   Sum: 'Sum' (':1140:4660')
   //   Sum: 'Sum1' (':1140:4661')
 
-  FLIGHT_Hexacopter_V2_B.d4 = floor((static_cast<real_T>
+  FLIGHT_Hexacopter_V2_B.d3 = floor((static_cast<real_T>
     (FLIGHT_Hexacopter_V2_B.DataTypeConversion6[4]) -
     FLIGHT_Hexacopter_V2_P.Constant_Value_d) * FLIGHT_Hexacopter_V2_B.u0 +
     FLIGHT_Hexacopter_V2_P.Constant_Value_d);
-  if (rtIsNaN(FLIGHT_Hexacopter_V2_B.d4) || rtIsInf(FLIGHT_Hexacopter_V2_B.d4))
+  if (rtIsNaN(FLIGHT_Hexacopter_V2_B.d3) || rtIsInf(FLIGHT_Hexacopter_V2_B.d3))
   {
-    FLIGHT_Hexacopter_V2_B.d4 = 0.0;
+    FLIGHT_Hexacopter_V2_B.d3 = 0.0;
   } else {
-    FLIGHT_Hexacopter_V2_B.d4 = fmod(FLIGHT_Hexacopter_V2_B.d4, 65536.0);
+    FLIGHT_Hexacopter_V2_B.d3 = fmod(FLIGHT_Hexacopter_V2_B.d3, 65536.0);
   }
 
   // Switch: 'Switch5' (':1147') incorporates:
@@ -1850,7 +1859,7 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   MATLABSystem: 'Read Parameter5' (':1129')
   //
   if (rtb_Compare_n) {
-    FLIGHT_Hexacopter_V2_B.u0 = FLIGHT_Hexacopter_V2_B.ParamStep_l;
+    FLIGHT_Hexacopter_V2_B.u0 = FLIGHT_Hexacopter_V2_B.ParamStep_pp;
   } else {
     FLIGHT_Hexacopter_V2_B.u0 = FLIGHT_Hexacopter_V2_P.Constant5_Value;
   }
@@ -1890,74 +1899,84 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   // RateTransition generated from: 'Rate Transition2' (':1298')
   if (tmp) {
     // RateTransition generated from: 'Rate Transition2' (':1298')
-    FLIGHT_Hexacopter_V2_B.VehicleStatus_flag_armed =
-      FLIGHT_Hexacopter_V2_DW.RateTransition2_16_Buffer0;
+    FLIGHT_Hexacopter_V2_B.VehicleStatus_armed =
+      FLIGHT_Hexacopter_V2_DW.RateTransition2_1_Buffer0;
 
     // RateTransition generated from: 'Rate Transition2' (':1298')
-    FLIGHT_Hexacopter_V2_B.VehicleStatus_flag_kill =
-      FLIGHT_Hexacopter_V2_DW.RateTransition2_17_Buffer0;
+    FLIGHT_Hexacopter_V2_B.VehicleStatus_emergency_kill =
+      FLIGHT_Hexacopter_V2_DW.RateTransition2_2_Buffer0;
   }
 
-  // MATLABSystem: 'PX4 PWM Output' (':1181') incorporates:
+  // MATLABSystem: 'PX4 Actuator Write' (':2208') incorporates:
+  //   Constant: 'Constant' (':2179')
   //   DataTypeConversion: 'Data Type Conversion7' (':1090')
+  //   DataTypeConversion: 'Data Type Conversion' (':2176')
+  //   Gain: 'Gain' (':2177')
+  //   Sum: 'Add' (':2178')
+
+  for (FLIGHT_Hexacopter_V2_B.i = 0; FLIGHT_Hexacopter_V2_B.i < 12;
+       FLIGHT_Hexacopter_V2_B.i++) {
+    FLIGHT_Hexacopter_V2_B.Gain_g[FLIGHT_Hexacopter_V2_B.i] = (rtNaNF);
+  }
 
   for (FLIGHT_Hexacopter_V2_B.i = 0; FLIGHT_Hexacopter_V2_B.i < 8;
        FLIGHT_Hexacopter_V2_B.i++) {
-    FLIGHT_Hexacopter_V2_B.pwmValue[FLIGHT_Hexacopter_V2_B.i] = 0U;
+    FLIGHT_Hexacopter_V2_B.servoValues[FLIGHT_Hexacopter_V2_B.i] = (rtNaNF);
   }
 
-  FLIGHT_Hexacopter_V2_B.pwmValue[0] = static_cast<uint16_T>
+  FLIGHT_Hexacopter_V2_B.Gain_g[0] = (static_cast<real32_T>
     (FLIGHT_Hexacopter_V2_B.d < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>
-      (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.d))))
-     : static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.d)));
-  FLIGHT_Hexacopter_V2_B.pwmValue[1] = static_cast<uint16_T>
+    (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.d)))) :
+     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.d))) -
+    FLIGHT_Hexacopter_V2_P.Constant_Value_g2) *
+    FLIGHT_Hexacopter_V2_P.Gain_Gain_p;
+  FLIGHT_Hexacopter_V2_B.Gain_g[1] = (static_cast<real32_T>
+    (FLIGHT_Hexacopter_V2_B.u0_c < 0.0 ? static_cast<int32_T>
+     (static_cast<uint16_T>(-static_cast<int16_T>(static_cast<uint16_T>
+    (-FLIGHT_Hexacopter_V2_B.u0_c)))) : static_cast<int32_T>
+     (static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.u0_c))) -
+    FLIGHT_Hexacopter_V2_P.Constant_Value_g2) *
+    FLIGHT_Hexacopter_V2_P.Gain_Gain_p;
+  FLIGHT_Hexacopter_V2_B.Gain_g[2] = (static_cast<real32_T>
     (FLIGHT_Hexacopter_V2_B.d1 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>
-      (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.d1))))
-     : static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.d1)));
-  FLIGHT_Hexacopter_V2_B.pwmValue[2] = static_cast<uint16_T>
+    (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.d1)))) :
+     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.d1))) -
+    FLIGHT_Hexacopter_V2_P.Constant_Value_g2) *
+    FLIGHT_Hexacopter_V2_P.Gain_Gain_p;
+  FLIGHT_Hexacopter_V2_B.Gain_g[3] = (static_cast<real32_T>
     (FLIGHT_Hexacopter_V2_B.d2 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>
-      (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.d2))))
-     : static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.d2)));
-  FLIGHT_Hexacopter_V2_B.pwmValue[3] = static_cast<uint16_T>
+    (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.d2)))) :
+     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.d2))) -
+    FLIGHT_Hexacopter_V2_P.Constant_Value_g2) *
+    FLIGHT_Hexacopter_V2_P.Gain_Gain_p;
+  FLIGHT_Hexacopter_V2_B.Gain_g[4] = (static_cast<real32_T>
     (FLIGHT_Hexacopter_V2_B.d3 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>
-      (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.d3))))
-     : static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.d3)));
-  FLIGHT_Hexacopter_V2_B.pwmValue[4] = static_cast<uint16_T>
-    (FLIGHT_Hexacopter_V2_B.d4 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>
-      (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.d4))))
-     : static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.d4)));
-  FLIGHT_Hexacopter_V2_B.pwmValue[5] = static_cast<uint16_T>
+    (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.d3)))) :
+     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.d3))) -
+    FLIGHT_Hexacopter_V2_P.Constant_Value_g2) *
+    FLIGHT_Hexacopter_V2_P.Gain_Gain_p;
+  FLIGHT_Hexacopter_V2_B.Gain_g[5] = (static_cast<real32_T>
     (FLIGHT_Hexacopter_V2_B.u0 < 0.0 ? static_cast<int32_T>(static_cast<uint16_T>
-      (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.u0))))
-     : static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.u0)));
-  if (FLIGHT_Hexacopter_V2_B.VehicleStatus_flag_armed) {
-    if (!FLIGHT_Hexacopter_V2_DW.obj_md.isArmed) {
-      FLIGHT_Hexacopter_V2_DW.obj_md.isArmed = true;
-      pwm_arm(&FLIGHT_Hexacopter_V2_DW.obj_md.armAdvertiseObj);
-    }
+    (-static_cast<int16_T>(static_cast<uint16_T>(-FLIGHT_Hexacopter_V2_B.u0)))) :
+     static_cast<int32_T>(static_cast<uint16_T>(FLIGHT_Hexacopter_V2_B.u0))) -
+    FLIGHT_Hexacopter_V2_P.Constant_Value_g2) *
+    FLIGHT_Hexacopter_V2_P.Gain_Gain_p;
 
-    pwm_setServo(FLIGHT_Hexacopter_V2_DW.obj_md.servoCount,
-                 FLIGHT_Hexacopter_V2_DW.obj_md.channelMask,
-                 &FLIGHT_Hexacopter_V2_B.pwmValue[0],
-                 FLIGHT_Hexacopter_V2_DW.obj_md.isMain,
-                 &FLIGHT_Hexacopter_V2_DW.obj_md.actuatorAdvertiseObj);
+  // Switch: 'Switch' (':2217') incorporates:
+  //   Constant: 'Constant' (':2218')
+  //   Logic: 'NOT' (':2220')
+
+  if (!FLIGHT_Hexacopter_V2_B.VehicleStatus_emergency_kill) {
+    b_varargout_1 = FLIGHT_Hexacopter_V2_B.VehicleStatus_armed;
   } else {
-    pwm_disarm(&FLIGHT_Hexacopter_V2_DW.obj_md.armAdvertiseObj);
-    FLIGHT_Hexacopter_V2_DW.obj_md.isArmed = false;
-    pwm_resetServo(FLIGHT_Hexacopter_V2_DW.obj_md.servoCount,
-                   FLIGHT_Hexacopter_V2_DW.obj_md.isMain,
-                   &FLIGHT_Hexacopter_V2_DW.obj_md.actuatorAdvertiseObj);
+    b_varargout_1 = FLIGHT_Hexacopter_V2_P.Constant_Value_f2;
   }
 
-  if (FLIGHT_Hexacopter_V2_DW.obj_md.isMain) {
-    if (FLIGHT_Hexacopter_V2_B.VehicleStatus_flag_kill) {
-      pwm_disarm(&FLIGHT_Hexacopter_V2_DW.obj_md.armAdvertiseObj);
-    } else {
-      pwm_arm(&FLIGHT_Hexacopter_V2_DW.obj_md.armAdvertiseObj);
-    }
-  }
+  // MATLABSystem: 'PX4 Actuator Write' (':2208') incorporates:
+  //   Switch: 'Switch' (':2217')
 
-  // End of MATLABSystem: 'PX4 PWM Output' (':1181')
+  MW_actuators_set(b_varargout_1, &FLIGHT_Hexacopter_V2_B.Gain_g[0],
+                   &FLIGHT_Hexacopter_V2_B.servoValues[0]);
   FLIGHT_Hexacop_PX4Timestamp(&FLIGHT_Hexacopter_V2_B.PX4Timestamp_pn);
 
   // BusAssignment: 'Bus Assignment' (':1699') incorporates:
@@ -2048,18 +2067,18 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   for (FLIGHT_Hexacopter_V2_B.i = 0; FLIGHT_Hexacopter_V2_B.i < 6;
        FLIGHT_Hexacopter_V2_B.i++) {
     // Saturate: 'Saturation' (':1284')
-    rtb_DataTypeConversion_g_0 =
-      FLIGHT_Hexacopter_V2_B.DataTypeConversion_g[FLIGHT_Hexacopter_V2_B.i];
-    if (rtb_DataTypeConversion_g_0 >
-        FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_d) {
-      rtb_DataTypeConversion_g_0 = FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_d;
-    } else if (rtb_DataTypeConversion_g_0 <
+    rtb_DataTypeConversion7_0 =
+      FLIGHT_Hexacopter_V2_B.DataTypeConversion7[FLIGHT_Hexacopter_V2_B.i];
+    if (rtb_DataTypeConversion7_0 > FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_d)
+    {
+      rtb_DataTypeConversion7_0 = FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_d;
+    } else if (rtb_DataTypeConversion7_0 <
                FLIGHT_Hexacopter_V2_P.Saturation_LowerSat_d0) {
-      rtb_DataTypeConversion_g_0 = FLIGHT_Hexacopter_V2_P.Saturation_LowerSat_d0;
+      rtb_DataTypeConversion7_0 = FLIGHT_Hexacopter_V2_P.Saturation_LowerSat_d0;
     }
 
     FLIGHT_Hexacopter_V2_B.BusAssignment_e.control[FLIGHT_Hexacopter_V2_B.i] = (
-      static_cast<real32_T>(rtb_DataTypeConversion_g_0) -
+      static_cast<real32_T>(rtb_DataTypeConversion7_0) -
       FLIGHT_Hexacopter_V2_P.Constant_Value_ew) *
       FLIGHT_Hexacopter_V2_P.Gain_Gain_h;
 
@@ -2069,18 +2088,18 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
     //   Gain: 'Gain' (':1283')
     //   Sum: 'Subtract' (':1285')
 
-    rtb_DataTypeConversion_g_0 =
+    rtb_DataTypeConversion7_0 =
       FLIGHT_Hexacopter_V2_P.Constant4_Value_f[FLIGHT_Hexacopter_V2_B.i];
-    if (rtb_DataTypeConversion_g_0 >
-        FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_d) {
-      rtb_DataTypeConversion_g_0 = FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_d;
-    } else if (rtb_DataTypeConversion_g_0 <
+    if (rtb_DataTypeConversion7_0 > FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_d)
+    {
+      rtb_DataTypeConversion7_0 = FLIGHT_Hexacopter_V2_P.Saturation_UpperSat_d;
+    } else if (rtb_DataTypeConversion7_0 <
                FLIGHT_Hexacopter_V2_P.Saturation_LowerSat_d0) {
-      rtb_DataTypeConversion_g_0 = FLIGHT_Hexacopter_V2_P.Saturation_LowerSat_d0;
+      rtb_DataTypeConversion7_0 = FLIGHT_Hexacopter_V2_P.Saturation_LowerSat_d0;
     }
 
     FLIGHT_Hexacopter_V2_B.BusAssignment_e.control[FLIGHT_Hexacopter_V2_B.i + 6]
-      = (static_cast<real32_T>(rtb_DataTypeConversion_g_0) -
+      = (static_cast<real32_T>(rtb_DataTypeConversion7_0) -
          FLIGHT_Hexacopter_V2_P.Constant_Value_ew) *
       FLIGHT_Hexacopter_V2_P.Gain_Gain_h;
     FLIGHT_Hexacopter_V2_B.BusAssignment_e._padding0[FLIGHT_Hexacopter_V2_B.i] =
@@ -2095,6 +2114,17 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   uORB_write_step(FLIGHT_Hexacopter_V2_DW.obj_nf.orbMetadataObj,
                   &FLIGHT_Hexacopter_V2_DW.obj_nf.orbAdvertiseObj,
                   &FLIGHT_Hexacopter_V2_B.BusAssignment_e);
+
+  // Sum: 'Sum1' (':1756:219:333') incorporates:
+  //   Bias: 'Bias1' (':1756:219:352')
+  //   Gain: 'Gain' (':1756:219:343')
+  //   Product: 'Product4' (':1756:219:314')
+  //   UnitDelay: 'Unit Delay' (':1756:219:331')
+
+  FLIGHT_Hexacopter_V2_DW.UnitDelay_DSTATE =
+    (FLIGHT_Hexacopter_V2_P.Gain_Gain_ar * FLIGHT_Hexacopter_V2_B.Product2_gt +
+     FLIGHT_Hexacopter_V2_P.Bias1_Bias) * FLIGHT_Hexacopter_V2_B.Sum_o +
+    FLIGHT_Hexacopter_V2_B.RateTransition1_j;
   FLIGHT_Hexac_PX4Timestamp_c(&FLIGHT_Hexacopter_V2_B.PX4Timestamp_c);
 
   // BusAssignment: 'Bus Assignment' (':1210:101') incorporates:
@@ -2107,7 +2137,7 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   FLIGHT_Hexacopter_V2_B.BusAssignment_j.control_power[1] =
     FLIGHT_Hexacopter_V2_B.Sum4;
   FLIGHT_Hexacopter_V2_B.BusAssignment_j.control_power[2] =
-    FLIGHT_Hexacopter_V2_B.Sum2_au;
+    FLIGHT_Hexacopter_V2_B.Sum_gv;
   FLIGHT_Hexacopter_V2_B.BusAssignment_j._padding0[0] = 0U;
   FLIGHT_Hexacopter_V2_B.BusAssignment_j._padding0[1] = 0U;
   FLIGHT_Hexacopter_V2_B.BusAssignment_j._padding0[2] = 0U;
@@ -2120,6 +2150,57 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
                   &FLIGHT_Hexacopter_V2_DW.obj_fe.orbAdvertiseObj,
                   &FLIGHT_Hexacopter_V2_B.BusAssignment_j);
 
+  // Sum: 'Sum1' (':1967:220:339') incorporates:
+  //   Bias: 'Bias1' (':1967:220:375')
+  //   Gain: 'Gain1' (':1967:220:340')
+  //   Product: 'Product5' (':1967:220:299')
+  //   Product: 'Product4' (':1967:220:366')
+  //   Sum: 'Sum2' (':1967:220:341')
+  //   UnaryMinus: 'Unary Minus' (':1967:220:374')
+  //   UnitDelay: 'Unit Delay1' (':1967:220:338')
+  //   UnitDelay: 'Unit Delay2' (':1967:220:342')
+
+  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a = ((-FLIGHT_Hexacopter_V2_B.q_m +
+    FLIGHT_Hexacopter_V2_P.Bias1_Bias_f) / FLIGHT_Hexacopter_V2_B.d_k *
+    FLIGHT_Hexacopter_V2_B.Product2_mp + FLIGHT_Hexacopter_V2_B.In1_k.xyz[0]) *
+    FLIGHT_Hexacopter_V2_P.Gain1_Gain_h +
+    FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE;
+
+  // Sum: 'Sum3' (':1967:220:345') incorporates:
+  //   Product: 'Product2' (':1967:220:344')
+  //   Product: 'Product5' (':1967:220:370')
+  //   Sum: 'Add3' (':1967:220:371')
+  //   UnitDelay: 'Unit Delay2' (':1967:220:342')
+
+  FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE = FLIGHT_Hexacopter_V2_B.In1_k.xyz[0]
+    - 1.0F / FLIGHT_Hexacopter_V2_B.d_k * (FLIGHT_Hexacopter_V2_B.r_l -
+    FLIGHT_Hexacopter_V2_B.p_i) * FLIGHT_Hexacopter_V2_B.Product2_mp;
+
+  // DeadZone: 'DeadZone' (':1978:660')
+  if (FLIGHT_Hexacopter_V2_B.DeadZone_k >
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_UpperSaturati) {
+    FLIGHT_Hexacopter_V2_B.DeadZone_k -=
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_UpperSaturati;
+  } else if (FLIGHT_Hexacopter_V2_B.DeadZone_k >=
+             FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_LowerSaturati) {
+    FLIGHT_Hexacopter_V2_B.DeadZone_k = 0.0F;
+  } else {
+    FLIGHT_Hexacopter_V2_B.DeadZone_k -=
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_LowerSaturati;
+  }
+
+  // End of DeadZone: 'DeadZone' (':1978:660')
+
+  // RateTransition: 'Rate Transition6' (':1982')
+  if (tmp) {
+    // RateTransition: 'Rate Transition6' (':1982')
+    FLIGHT_Hexacopter_V2_B.RateTransition6_o =
+      FLIGHT_Hexacopter_V2_DW.RateTransition6_Buffer0_e;
+  }
+
+  // Product: 'IProd Out' (':1978:787')
+  FLIGHT_Hexacopter_V2_B.IProdOut_b *= FLIGHT_Hexacopter_V2_B.RateTransition6_o;
+
   // Sum: 'Sum1' (':1999:220:339') incorporates:
   //   Bias: 'Bias1' (':1999:220:375')
   //   Gain: 'Gain1' (':1999:220:340')
@@ -2130,32 +2211,39 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   UnitDelay: 'Unit Delay1' (':1999:220:338')
   //   UnitDelay: 'Unit Delay2' (':1999:220:342')
 
-  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_p = ((-FLIGHT_Hexacopter_V2_B.q_i +
-    FLIGHT_Hexacopter_V2_P.Bias1_Bias) / FLIGHT_Hexacopter_V2_B.d_c *
-    FLIGHT_Hexacopter_V2_B.Product2_d + FLIGHT_Hexacopter_V2_B.In1_k.xyz[2]) *
-    FLIGHT_Hexacopter_V2_P.Gain1_Gain_b +
-    FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE;
+  FLIGHT_Hexacopter_V2_B.Sum4 = ((-FLIGHT_Hexacopter_V2_B.q_i +
+    FLIGHT_Hexacopter_V2_P.Bias1_Bias_j) / FLIGHT_Hexacopter_V2_B.d_c *
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_p +
+    FLIGHT_Hexacopter_V2_B.In1_k.xyz[2]) * FLIGHT_Hexacopter_V2_P.Gain1_Gain_b +
+    FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_o;
 
-  // Sum: 'Sum3' (':1999:220:345') incorporates:
-  //   Product: 'Product2' (':1999:220:344')
+  // Product: 'Product2' (':1999:220:344') incorporates:
   //   Product: 'Product5' (':1999:220:370')
   //   Sum: 'Add3' (':1999:220:371')
+  //   UnitDelay: 'Unit Delay1' (':1999:220:338')
+
+  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_p *= 1.0F /
+    FLIGHT_Hexacopter_V2_B.d_c * (FLIGHT_Hexacopter_V2_B.r_m -
+    FLIGHT_Hexacopter_V2_B.p_g);
+
+  // Sum: 'Sum3' (':1999:220:345') incorporates:
+  //   UnitDelay: 'Unit Delay1' (':1999:220:338')
   //   UnitDelay: 'Unit Delay2' (':1999:220:342')
 
-  FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE = FLIGHT_Hexacopter_V2_B.In1_k.xyz[2]
-    - 1.0F / FLIGHT_Hexacopter_V2_B.d_c * (FLIGHT_Hexacopter_V2_B.r_m -
-    FLIGHT_Hexacopter_V2_B.p_g) * FLIGHT_Hexacopter_V2_B.Product2_d;
+  FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_o =
+    FLIGHT_Hexacopter_V2_B.In1_k.xyz[2] -
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_p;
 
   // DeadZone: 'DeadZone' (':2008:660')
-  if (FLIGHT_Hexacopter_V2_B.DeadZone_db >
+  if (FLIGHT_Hexacopter_V2_B.DeadZone_d >
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_UpperSaturat) {
-    FLIGHT_Hexacopter_V2_B.DeadZone_db -=
+    FLIGHT_Hexacopter_V2_B.DeadZone_d -=
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_UpperSaturat;
-  } else if (FLIGHT_Hexacopter_V2_B.DeadZone_db >=
+  } else if (FLIGHT_Hexacopter_V2_B.DeadZone_d >=
              FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_LowerSaturat) {
-    FLIGHT_Hexacopter_V2_B.DeadZone_db = 0.0F;
+    FLIGHT_Hexacopter_V2_B.DeadZone_d = 0.0F;
   } else {
-    FLIGHT_Hexacopter_V2_B.DeadZone_db -=
+    FLIGHT_Hexacopter_V2_B.DeadZone_d -=
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_LowerSaturat;
   }
 
@@ -2181,33 +2269,38 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   UnitDelay: 'Unit Delay1' (':1984:220:338')
   //   UnitDelay: 'Unit Delay2' (':1984:220:342')
 
-  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a = ((-FLIGHT_Hexacopter_V2_B.q_o +
-    FLIGHT_Hexacopter_V2_P.Bias1_Bias_o) / FLIGHT_Hexacopter_V2_B.d_g *
-    FLIGHT_Hexacopter_V2_B.Product2_l + FLIGHT_Hexacopter_V2_B.In1_k.xyz[1]) *
-    FLIGHT_Hexacopter_V2_P.Gain1_Gain_l +
+  FLIGHT_Hexacopter_V2_B.q = ((-FLIGHT_Hexacopter_V2_B.q +
+    FLIGHT_Hexacopter_V2_P.Bias1_Bias_o) / FLIGHT_Hexacopter_V2_B.d_f *
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE +
+    FLIGHT_Hexacopter_V2_B.In1_k.xyz[1]) * FLIGHT_Hexacopter_V2_P.Gain1_Gain_l +
     FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_c;
 
-  // Sum: 'Sum3' (':1984:220:345') incorporates:
-  //   Product: 'Product2' (':1984:220:344')
+  // Product: 'Product2' (':1984:220:344') incorporates:
   //   Product: 'Product5' (':1984:220:370')
   //   Sum: 'Add3' (':1984:220:371')
+  //   UnitDelay: 'Unit Delay1' (':1984:220:338')
+
+  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE *= 1.0F / FLIGHT_Hexacopter_V2_B.d_f
+    * (FLIGHT_Hexacopter_V2_B.r_c - FLIGHT_Hexacopter_V2_B.p);
+
+  // Sum: 'Sum3' (':1984:220:345') incorporates:
+  //   UnitDelay: 'Unit Delay1' (':1984:220:338')
   //   UnitDelay: 'Unit Delay2' (':1984:220:342')
 
   FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_c =
-    FLIGHT_Hexacopter_V2_B.In1_k.xyz[1] - 1.0F / FLIGHT_Hexacopter_V2_B.d_g *
-    (FLIGHT_Hexacopter_V2_B.r_d - FLIGHT_Hexacopter_V2_B.p_l) *
-    FLIGHT_Hexacopter_V2_B.Product2_l;
+    FLIGHT_Hexacopter_V2_B.In1_k.xyz[1] -
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE;
 
   // DeadZone: 'DeadZone' (':1991:660')
-  if (FLIGHT_Hexacopter_V2_B.DeadZone_d >
+  if (FLIGHT_Hexacopter_V2_B.DeadZone >
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_UpperSaturat) {
-    FLIGHT_Hexacopter_V2_B.DeadZone_d -=
+    FLIGHT_Hexacopter_V2_B.DeadZone -=
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_UpperSaturat;
-  } else if (FLIGHT_Hexacopter_V2_B.DeadZone_d >=
+  } else if (FLIGHT_Hexacopter_V2_B.DeadZone >=
              FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_LowerSaturat) {
-    FLIGHT_Hexacopter_V2_B.DeadZone_d = 0.0F;
+    FLIGHT_Hexacopter_V2_B.DeadZone = 0.0F;
   } else {
-    FLIGHT_Hexacopter_V2_B.DeadZone_d -=
+    FLIGHT_Hexacopter_V2_B.DeadZone -=
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_LowerSaturat;
   }
 
@@ -2223,73 +2316,150 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   // Product: 'IProd Out' (':1991:787')
   FLIGHT_Hexacopter_V2_B.IProdOut_p *= FLIGHT_Hexacopter_V2_B.RateTransition9_p;
 
-  // Sum: 'Sum1' (':1756:219:333') incorporates:
-  //   Bias: 'Bias1' (':1756:219:352')
-  //   Gain: 'Gain' (':1756:219:343')
-  //   Product: 'Product4' (':1756:219:314')
-  //   UnitDelay: 'Unit Delay' (':1756:219:331')
+  // Switch: 'Switch1' (':1991:3943') incorporates:
+  //   Constant: 'Clamping_zero' (':1991:4030')
+  //   Constant: 'Constant' (':1991:3944')
+  //   Constant: 'Constant2' (':1991:3945')
+  //   RelationalOperator: 'fix for DT propagation issue' (':1991:4032')
 
-  FLIGHT_Hexacopter_V2_DW.UnitDelay_DSTATE =
-    (FLIGHT_Hexacopter_V2_P.Gain_Gain_ar * FLIGHT_Hexacopter_V2_B.Product2_gt +
-     FLIGHT_Hexacopter_V2_P.Bias1_Bias_k) * FLIGHT_Hexacopter_V2_B.Sum_o +
-    FLIGHT_Hexacopter_V2_B.RateTransition1;
-
-  // Sum: 'Sum1' (':1967:220:339') incorporates:
-  //   Bias: 'Bias1' (':1967:220:375')
-  //   Gain: 'Gain1' (':1967:220:340')
-  //   Product: 'Product5' (':1967:220:299')
-  //   Product: 'Product4' (':1967:220:366')
-  //   Sum: 'Sum2' (':1967:220:341')
-  //   UnaryMinus: 'Unary Minus' (':1967:220:374')
-  //   UnitDelay: 'Unit Delay1' (':1967:220:338')
-  //   UnitDelay: 'Unit Delay2' (':1967:220:342')
-
-  FLIGHT_Hexacopter_V2_B.q = ((-FLIGHT_Hexacopter_V2_B.q +
-    FLIGHT_Hexacopter_V2_P.Bias1_Bias_f) / FLIGHT_Hexacopter_V2_B.d_p *
-    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE +
-    FLIGHT_Hexacopter_V2_B.In1_k.xyz[0]) * FLIGHT_Hexacopter_V2_P.Gain1_Gain_h +
-    FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_i;
-
-  // Product: 'Product2' (':1967:220:344') incorporates:
-  //   Product: 'Product5' (':1967:220:370')
-  //   Sum: 'Add3' (':1967:220:371')
-  //   UnitDelay: 'Unit Delay1' (':1967:220:338')
-
-  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE *= 1.0F / FLIGHT_Hexacopter_V2_B.d_p
-    * (FLIGHT_Hexacopter_V2_B.r_b - FLIGHT_Hexacopter_V2_B.p);
-
-  // Sum: 'Sum3' (':1967:220:345') incorporates:
-  //   UnitDelay: 'Unit Delay1' (':1967:220:338')
-  //   UnitDelay: 'Unit Delay2' (':1967:220:342')
-
-  FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_i =
-    FLIGHT_Hexacopter_V2_B.In1_k.xyz[0] -
-    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE;
-
-  // DeadZone: 'DeadZone' (':1978:660')
   if (FLIGHT_Hexacopter_V2_B.DeadZone >
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_UpperSaturati) {
-    FLIGHT_Hexacopter_V2_B.DeadZone -=
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_UpperSaturati;
-  } else if (FLIGHT_Hexacopter_V2_B.DeadZone >=
-             FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_LowerSaturati) {
-    FLIGHT_Hexacopter_V2_B.DeadZone = 0.0F;
+      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_a) {
+    tmp_0 = FLIGHT_Hexacopter_V2_P.Constant_Value_fd;
   } else {
-    FLIGHT_Hexacopter_V2_B.DeadZone -=
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_LowerSaturati;
+    tmp_0 = FLIGHT_Hexacopter_V2_P.Constant2_Value_g;
   }
 
-  // End of DeadZone: 'DeadZone' (':1978:660')
+  // Switch: 'Switch2' (':1991:3949') incorporates:
+  //   Constant: 'Clamping_zero' (':1991:4030')
+  //   Constant: 'Constant3' (':1991:3947')
+  //   Constant: 'Constant4' (':1991:3948')
+  //   RelationalOperator: 'fix for DT propagation issue1' (':1991:4037')
 
-  // RateTransition: 'Rate Transition6' (':1982')
-  if (tmp) {
-    // RateTransition: 'Rate Transition6' (':1982')
-    FLIGHT_Hexacopter_V2_B.RateTransition6_o =
-      FLIGHT_Hexacopter_V2_DW.RateTransition6_Buffer0_e;
+  if (FLIGHT_Hexacopter_V2_B.IProdOut_p >
+      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_a) {
+    tmp_1 = FLIGHT_Hexacopter_V2_P.Constant3_Value_b;
+  } else {
+    tmp_1 = FLIGHT_Hexacopter_V2_P.Constant4_Value_h;
   }
 
-  // Product: 'IProd Out' (':1978:787')
-  FLIGHT_Hexacopter_V2_B.IProdOut_b *= FLIGHT_Hexacopter_V2_B.RateTransition6_o;
+  // Switch: 'Switch' (':1991:670') incorporates:
+  //   Constant: 'Clamping_zero' (':1991:4030')
+  //   Constant: 'Constant1' (':1991:655')
+  //   Logic: 'AND3' (':1991:653')
+  //   RelationalOperator: 'Equal1' (':1991:661')
+  //   RelationalOperator: 'Relational Operator' (':1991:4031')
+  //   Switch: 'Switch1' (':1991:3943')
+  //   Switch: 'Switch2' (':1991:3949')
+
+  if ((FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_a !=
+       FLIGHT_Hexacopter_V2_B.DeadZone) && (tmp_0 == tmp_1)) {
+    FLIGHT_Hexacopter_V2_B.IProdOut_p =
+      FLIGHT_Hexacopter_V2_P.Constant1_Value_jy;
+  }
+
+  // Update for DiscreteIntegrator: 'Integrator' (':1991:843') incorporates:
+  //   Switch: 'Switch' (':1991:670')
+
+  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE +=
+    FLIGHT_Hexacopter_V2_P.Integrator_gainval *
+    FLIGHT_Hexacopter_V2_B.IProdOut_p;
+  if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE >
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_UpperIntegra) {
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_UpperIntegra;
+  } else if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE <
+             FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_LowerIntegra) {
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_LowerIntegra;
+  }
+
+  FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState = static_cast<int8_T>
+    (FLIGHT_Hexacopter_V2_B.RateTransition16);
+
+  // End of Update for DiscreteIntegrator: 'Integrator' (':1991:843')
+
+  // Update for UnitDelay: 'Unit Delay1' (':1984:220:338')
+  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE = FLIGHT_Hexacopter_V2_B.q;
+
+  // Update for UnitDelay: 'UD' (':1983:5')
+  //
+  //  Block description for 'UD' (':1983:5'):
+  //
+  //   Store in Global RAM
+
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE = FLIGHT_Hexacopter_V2_B.TSamp;
+
+  // Switch: 'Switch1' (':2008:3943') incorporates:
+  //   Constant: 'Clamping_zero' (':2008:4030')
+  //   Constant: 'Constant' (':2008:3944')
+  //   Constant: 'Constant2' (':2008:3945')
+  //   RelationalOperator: 'fix for DT propagation issue' (':2008:4032')
+
+  if (FLIGHT_Hexacopter_V2_B.DeadZone_d >
+      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_f) {
+    tmp_0 = FLIGHT_Hexacopter_V2_P.Constant_Value_gl;
+  } else {
+    tmp_0 = FLIGHT_Hexacopter_V2_P.Constant2_Value_i;
+  }
+
+  // Switch: 'Switch2' (':2008:3949') incorporates:
+  //   Constant: 'Clamping_zero' (':2008:4030')
+  //   Constant: 'Constant3' (':2008:3947')
+  //   Constant: 'Constant4' (':2008:3948')
+  //   RelationalOperator: 'fix for DT propagation issue1' (':2008:4037')
+
+  if (FLIGHT_Hexacopter_V2_B.IProdOut_g >
+      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_f) {
+    tmp_1 = FLIGHT_Hexacopter_V2_P.Constant3_Value_nf;
+  } else {
+    tmp_1 = FLIGHT_Hexacopter_V2_P.Constant4_Value_e;
+  }
+
+  // Switch: 'Switch' (':2008:670') incorporates:
+  //   Constant: 'Clamping_zero' (':2008:4030')
+  //   Constant: 'Constant1' (':2008:655')
+  //   Logic: 'AND3' (':2008:653')
+  //   RelationalOperator: 'Equal1' (':2008:661')
+  //   RelationalOperator: 'Relational Operator' (':2008:4031')
+  //   Switch: 'Switch1' (':2008:3943')
+  //   Switch: 'Switch2' (':2008:3949')
+
+  if ((FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_f !=
+       FLIGHT_Hexacopter_V2_B.DeadZone_d) && (tmp_0 == tmp_1)) {
+    FLIGHT_Hexacopter_V2_B.IProdOut_g = FLIGHT_Hexacopter_V2_P.Constant1_Value_i;
+  }
+
+  // Update for DiscreteIntegrator: 'Integrator' (':2008:843') incorporates:
+  //   Switch: 'Switch' (':2008:670')
+
+  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o +=
+    FLIGHT_Hexacopter_V2_P.Integrator_gainval_e *
+    FLIGHT_Hexacopter_V2_B.IProdOut_g;
+  if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o >
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_UpperIntegra) {
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_UpperIntegra;
+  } else if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o <
+             FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_LowerIntegra) {
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_LowerIntegra;
+  }
+
+  FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_e = static_cast<int8_T>
+    (FLIGHT_Hexacopter_V2_B.RateTransition17_h);
+
+  // End of Update for DiscreteIntegrator: 'Integrator' (':2008:843')
+
+  // Update for UnitDelay: 'Unit Delay1' (':1999:220:338')
+  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_p = FLIGHT_Hexacopter_V2_B.Sum4;
+
+  // Update for UnitDelay: 'UD' (':1998:5')
+  //
+  //  Block description for 'UD' (':1998:5'):
+  //
+  //   Store in Global RAM
+
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_d = FLIGHT_Hexacopter_V2_B.TSamp_p;
 
   // Switch: 'Switch1' (':1978:3943') incorporates:
   //   Constant: 'Clamping_zero' (':1978:4030')
@@ -2297,8 +2467,8 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   Constant: 'Constant2' (':1978:3945')
   //   RelationalOperator: 'fix for DT propagation issue' (':1978:4032')
 
-  if (FLIGHT_Hexacopter_V2_B.DeadZone >
-      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_b) {
+  if (FLIGHT_Hexacopter_V2_B.DeadZone_k >
+      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value) {
     tmp_0 = FLIGHT_Hexacopter_V2_P.Constant_Value_dr;
   } else {
     tmp_0 = FLIGHT_Hexacopter_V2_P.Constant2_Value_ns;
@@ -2311,10 +2481,10 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   RelationalOperator: 'fix for DT propagation issue1' (':1978:4037')
 
   if (FLIGHT_Hexacopter_V2_B.IProdOut_b >
-      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_b) {
+      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value) {
     tmp_1 = FLIGHT_Hexacopter_V2_P.Constant3_Value_n;
   } else {
-    tmp_1 = FLIGHT_Hexacopter_V2_P.Constant4_Value_bo;
+    tmp_1 = FLIGHT_Hexacopter_V2_P.Constant4_Value_b;
   }
 
   // Switch: 'Switch' (':1978:670') incorporates:
@@ -2326,34 +2496,31 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //   Switch: 'Switch1' (':1978:3943')
   //   Switch: 'Switch2' (':1978:3949')
 
-  if ((FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_b !=
-       FLIGHT_Hexacopter_V2_B.DeadZone) && (tmp_0 == tmp_1)) {
+  if ((FLIGHT_Hexacopter_V2_P.Clamping_zero_Value !=
+       FLIGHT_Hexacopter_V2_B.DeadZone_k) && (tmp_0 == tmp_1)) {
     FLIGHT_Hexacopter_V2_B.IProdOut_b = FLIGHT_Hexacopter_V2_P.Constant1_Value_j;
   }
 
   // Update for DiscreteIntegrator: 'Integrator' (':1978:843') incorporates:
   //   Switch: 'Switch' (':1978:670')
 
-  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE +=
-    FLIGHT_Hexacopter_V2_P.Integrator_gainval *
+  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_b +=
+    FLIGHT_Hexacopter_V2_P.Integrator_gainval_j *
     FLIGHT_Hexacopter_V2_B.IProdOut_b;
-  if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE >
+  if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_b >
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_UpperIntegrat) {
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE =
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_b =
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_UpperIntegrat;
-  } else if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE <
+  } else if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_b <
              FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_LowerIntegrat) {
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE =
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_b =
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_LowerIntegrat;
   }
 
-  FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState = static_cast<int8_T>
+  FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_f = static_cast<int8_T>
     (FLIGHT_Hexacopter_V2_B.RateTransition15);
 
   // End of Update for DiscreteIntegrator: 'Integrator' (':1978:843')
-
-  // Update for UnitDelay: 'Unit Delay1' (':1967:220:338')
-  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE = FLIGHT_Hexacopter_V2_B.q;
 
   // Update for UnitDelay: 'UD' (':1966:5')
   //
@@ -2361,7 +2528,7 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //
   //   Store in Global RAM
 
-  FLIGHT_Hexacopter_V2_DW.UD_DSTATE = FLIGHT_Hexacopter_V2_B.TSamp;
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_i = FLIGHT_Hexacopter_V2_B.TSamp_a;
 
   // Update for UnitDelay: 'UD' (':1524:5') incorporates:
   //   SampleTimeMath: 'TSamp' (':1524:4')
@@ -2381,10 +2548,10 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
   //
   //   Add in CPU
 
-  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[0] = FLIGHT_Hexacopter_V2_P.TSamp_WtEt_m;
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[0] = FLIGHT_Hexacopter_V2_P.TSamp_WtEt_ma;
   FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[1] =
     FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_idx_1;
-  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[2] = FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_f;
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_h[2] = FLIGHT_Hexacopter_V2_B.rtb_TSamp_o_g;
 
   // Update for UnitDelay: 'UD' (':1522:5')
   //
@@ -2424,159 +2591,20 @@ void FLIGHT_Hexacopter_V2_step0(void)  // Sample time: [0.001s, 0.0s]
     FLIGHT_Hexacopter_V2_P.DiscreteTimeIntegrator_gainval;
   FLIGHT_Hexacopter_V2_DW.DiscreteTimeIntegrator_PrevRese = static_cast<int8_T>
     (FLIGHT_Hexacopter_V2_B.RateTransition15_l);
-
-  // Switch: 'Switch1' (':1991:3943') incorporates:
-  //   Constant: 'Clamping_zero' (':1991:4030')
-  //   Constant: 'Constant' (':1991:3944')
-  //   Constant: 'Constant2' (':1991:3945')
-  //   RelationalOperator: 'fix for DT propagation issue' (':1991:4032')
-
-  if (FLIGHT_Hexacopter_V2_B.DeadZone_d >
-      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_a) {
-    tmp_0 = FLIGHT_Hexacopter_V2_P.Constant_Value_fd;
-  } else {
-    tmp_0 = FLIGHT_Hexacopter_V2_P.Constant2_Value_g;
-  }
-
-  // Switch: 'Switch2' (':1991:3949') incorporates:
-  //   Constant: 'Clamping_zero' (':1991:4030')
-  //   Constant: 'Constant3' (':1991:3947')
-  //   Constant: 'Constant4' (':1991:3948')
-  //   RelationalOperator: 'fix for DT propagation issue1' (':1991:4037')
-
-  if (FLIGHT_Hexacopter_V2_B.IProdOut_p >
-      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_a) {
-    tmp_1 = FLIGHT_Hexacopter_V2_P.Constant3_Value_b;
-  } else {
-    tmp_1 = FLIGHT_Hexacopter_V2_P.Constant4_Value_h;
-  }
-
-  // Switch: 'Switch' (':1991:670') incorporates:
-  //   Constant: 'Clamping_zero' (':1991:4030')
-  //   Constant: 'Constant1' (':1991:655')
-  //   Logic: 'AND3' (':1991:653')
-  //   RelationalOperator: 'Equal1' (':1991:661')
-  //   RelationalOperator: 'Relational Operator' (':1991:4031')
-  //   Switch: 'Switch1' (':1991:3943')
-  //   Switch: 'Switch2' (':1991:3949')
-
-  if ((FLIGHT_Hexacopter_V2_P.Clamping_zero_Value_a !=
-       FLIGHT_Hexacopter_V2_B.DeadZone_d) && (tmp_0 == tmp_1)) {
-    FLIGHT_Hexacopter_V2_B.IProdOut_p =
-      FLIGHT_Hexacopter_V2_P.Constant1_Value_jy;
-  }
-
-  // Update for DiscreteIntegrator: 'Integrator' (':1991:843') incorporates:
-  //   Switch: 'Switch' (':1991:670')
-
-  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l +=
-    FLIGHT_Hexacopter_V2_P.Integrator_gainval_l *
-    FLIGHT_Hexacopter_V2_B.IProdOut_p;
-  if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l >
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_UpperIntegra) {
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_UpperIntegra;
-  } else if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l <
-             FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_LowerIntegra) {
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_LowerIntegra;
-  }
-
-  FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_e = static_cast<int8_T>
-    (FLIGHT_Hexacopter_V2_B.RateTransition16_e);
-
-  // End of Update for DiscreteIntegrator: 'Integrator' (':1991:843')
-
-  // Update for UnitDelay: 'UD' (':1983:5')
-  //
-  //  Block description for 'UD' (':1983:5'):
-  //
-  //   Store in Global RAM
-
-  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_b = FLIGHT_Hexacopter_V2_B.absx;
-
-  // Switch: 'Switch1' (':2008:3943') incorporates:
-  //   Constant: 'Clamping_zero' (':2008:4030')
-  //   Constant: 'Constant' (':2008:3944')
-  //   Constant: 'Constant2' (':2008:3945')
-  //   RelationalOperator: 'fix for DT propagation issue' (':2008:4032')
-
-  if (FLIGHT_Hexacopter_V2_B.DeadZone_db >
-      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value) {
-    tmp_0 = FLIGHT_Hexacopter_V2_P.Constant_Value_gl;
-  } else {
-    tmp_0 = FLIGHT_Hexacopter_V2_P.Constant2_Value_i;
-  }
-
-  // Switch: 'Switch2' (':2008:3949') incorporates:
-  //   Constant: 'Clamping_zero' (':2008:4030')
-  //   Constant: 'Constant3' (':2008:3947')
-  //   Constant: 'Constant4' (':2008:3948')
-  //   RelationalOperator: 'fix for DT propagation issue1' (':2008:4037')
-
-  if (FLIGHT_Hexacopter_V2_B.IProdOut_g >
-      FLIGHT_Hexacopter_V2_P.Clamping_zero_Value) {
-    tmp_1 = FLIGHT_Hexacopter_V2_P.Constant3_Value_nf;
-  } else {
-    tmp_1 = FLIGHT_Hexacopter_V2_P.Constant4_Value_e;
-  }
-
-  // Switch: 'Switch' (':2008:670') incorporates:
-  //   Constant: 'Clamping_zero' (':2008:4030')
-  //   Constant: 'Constant1' (':2008:655')
-  //   Logic: 'AND3' (':2008:653')
-  //   RelationalOperator: 'Equal1' (':2008:661')
-  //   RelationalOperator: 'Relational Operator' (':2008:4031')
-  //   Switch: 'Switch1' (':2008:3943')
-  //   Switch: 'Switch2' (':2008:3949')
-
-  if ((FLIGHT_Hexacopter_V2_P.Clamping_zero_Value !=
-       FLIGHT_Hexacopter_V2_B.DeadZone_db) && (tmp_0 == tmp_1)) {
-    FLIGHT_Hexacopter_V2_B.IProdOut_g = FLIGHT_Hexacopter_V2_P.Constant1_Value_i;
-  }
-
-  // Update for DiscreteIntegrator: 'Integrator' (':2008:843') incorporates:
-  //   Switch: 'Switch' (':2008:670')
-
-  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o +=
-    FLIGHT_Hexacopter_V2_P.Integrator_gainval_e *
-    FLIGHT_Hexacopter_V2_B.IProdOut_g;
-  if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o >
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_UpperIntegra) {
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_UpperIntegra;
-  } else if (FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o <
-             FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_LowerIntegra) {
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_LowerIntegra;
-  }
-
-  FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_es = static_cast<int8_T>
-    (FLIGHT_Hexacopter_V2_B.RateTransition17_h);
-
-  // End of Update for DiscreteIntegrator: 'Integrator' (':2008:843')
-
-  // Update for UnitDelay: 'UD' (':1998:5')
-  //
-  //  Block description for 'UD' (':1998:5'):
-  //
-  //   Store in Global RAM
-
-  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_d = FLIGHT_Hexacopter_V2_B.TSamp_p;
 }
 
 // Model step function for TID1
 void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
 {
   int32_T tmp;
-  real32_T Theta_idx_0;
-  real32_T rtb_Filter_k_idx_0;
-  real32_T rtb_Filter_k_idx_1;
+  real32_T V_idx_1;
   real32_T rtb_Gain7;
-  real32_T rtb_NProdOut_idx_0;
-  real32_T rtb_Sum2_i;
+  real32_T rtb_Product2_c_idx_0;
+  real32_T rtb_Product2_c_idx_1;
+  real32_T rtb_Sum_g_idx_0;
   real32_T rtb_Switch_gd_idx_0;
   real32_T rtb_Switch_gd_idx_1;
+  real32_T rtb_q3;
   real32_T rtb_read_mc_rollrate_p_o1;
   real32_T rtb_sincos_o1_idx_1;
   real32_T rtb_sincos_o1_idx_2;
@@ -2633,7 +2661,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   Sum: 'Sum2' (':410')
 
   FLIGHT_Hexacopter_V2_B.Gain7 = (static_cast<real32_T>
-    (FLIGHT_Hexacopter_V2_B.In1_p.values[2]) -
+    (FLIGHT_Hexacopter_V2_B.In1_p.values[1]) -
     FLIGHT_Hexacopter_V2_P.Constant2_Value_e) *
     FLIGHT_Hexacopter_V2_P.Gain1_Gain_f;
 
@@ -2663,34 +2691,30 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
 
   // DeadZone: 'Dead Zone2' (':366')
   if (FLIGHT_Hexacopter_V2_B.Gain7 > FLIGHT_Hexacopter_V2_P.DeadZone2_End) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = FLIGHT_Hexacopter_V2_B.Gain7 -
+    V_idx_1 = FLIGHT_Hexacopter_V2_B.Gain7 -
       FLIGHT_Hexacopter_V2_P.DeadZone2_End;
   } else if (FLIGHT_Hexacopter_V2_B.Gain7 >=
              FLIGHT_Hexacopter_V2_P.DeadZone2_Start) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = 0.0F;
+    V_idx_1 = 0.0F;
   } else {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = FLIGHT_Hexacopter_V2_B.Gain7 -
+    V_idx_1 = FLIGHT_Hexacopter_V2_B.Gain7 -
       FLIGHT_Hexacopter_V2_P.DeadZone2_Start;
   }
 
   // End of DeadZone: 'Dead Zone2' (':366')
 
   // Saturate: 'Saturation1' (':401')
-  if (FLIGHT_Hexacopter_V2_B.Sum2_g >
-      FLIGHT_Hexacopter_V2_P.Saturation1_UpperSat_p) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g =
-      FLIGHT_Hexacopter_V2_P.Saturation1_UpperSat_p;
-  } else if (FLIGHT_Hexacopter_V2_B.Sum2_g <
-             FLIGHT_Hexacopter_V2_P.Saturation1_LowerSat_e) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g =
-      FLIGHT_Hexacopter_V2_P.Saturation1_LowerSat_e;
+  if (V_idx_1 > FLIGHT_Hexacopter_V2_P.Saturation1_UpperSat_p) {
+    V_idx_1 = FLIGHT_Hexacopter_V2_P.Saturation1_UpperSat_p;
+  } else if (V_idx_1 < FLIGHT_Hexacopter_V2_P.Saturation1_LowerSat_e) {
+    V_idx_1 = FLIGHT_Hexacopter_V2_P.Saturation1_LowerSat_e;
   }
 
   // Gain: 'Gain6' (':387') incorporates:
   //   Saturate: 'Saturation1' (':401')
 
   FLIGHT_Hexacopter_V2_B.Gain6 = FLIGHT_Hexacopter_V2_P.MAX_CONTROL_ANGLE_RATE_Y
-    * FLIGHT_Hexacopter_V2_B.Sum2_g;
+    * V_idx_1;
 
   // Gain: 'Gain' (':380') incorporates:
   //   Constant: 'Constant' (':352')
@@ -2698,7 +2722,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   Sum: 'Sum' (':408')
 
   FLIGHT_Hexacopter_V2_B.Gain7 = static_cast<real32_T>((static_cast<real_T>
-    (FLIGHT_Hexacopter_V2_B.In1_p.values[1]) -
+    (FLIGHT_Hexacopter_V2_B.In1_p.values[2]) -
     FLIGHT_Hexacopter_V2_P.Constant_Value_k3) *
     FLIGHT_Hexacopter_V2_P.Gain_Gain_b);
 
@@ -2720,17 +2744,17 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   DataTypeConversion: 'Data Type Conversion11' (':358')
 
   FLIGHT_Hexacopter_V2_B.Gain7 = (static_cast<real32_T>
-    (FLIGHT_Hexacopter_V2_B.In1_p.values[1]) - 1514.0F) / 420.0F;
+    (FLIGHT_Hexacopter_V2_B.In1_p.values[2]) - 1514.0F) / 420.0F;
 
   // DeadZone: 'Dead Zone7' (':370')
   if (FLIGHT_Hexacopter_V2_B.Gain7 > FLIGHT_Hexacopter_V2_P.DeadZone7_End) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = FLIGHT_Hexacopter_V2_B.Gain7 -
+    V_idx_1 = FLIGHT_Hexacopter_V2_B.Gain7 -
       FLIGHT_Hexacopter_V2_P.DeadZone7_End;
   } else if (FLIGHT_Hexacopter_V2_B.Gain7 >=
              FLIGHT_Hexacopter_V2_P.DeadZone7_Start) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = 0.0F;
+    V_idx_1 = 0.0F;
   } else {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = FLIGHT_Hexacopter_V2_B.Gain7 -
+    V_idx_1 = FLIGHT_Hexacopter_V2_B.Gain7 -
       FLIGHT_Hexacopter_V2_P.DeadZone7_Start;
   }
 
@@ -2744,12 +2768,10 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   }
 
   // Saturate: 'Saturation10' (':402')
-  if (FLIGHT_Hexacopter_V2_B.Sum2_g >
-      FLIGHT_Hexacopter_V2_P.Saturation10_UpperSat) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = FLIGHT_Hexacopter_V2_P.Saturation10_UpperSat;
-  } else if (FLIGHT_Hexacopter_V2_B.Sum2_g <
-             FLIGHT_Hexacopter_V2_P.Saturation10_LowerSat) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = FLIGHT_Hexacopter_V2_P.Saturation10_LowerSat;
+  if (V_idx_1 > FLIGHT_Hexacopter_V2_P.Saturation10_UpperSat) {
+    V_idx_1 = FLIGHT_Hexacopter_V2_P.Saturation10_UpperSat;
+  } else if (V_idx_1 < FLIGHT_Hexacopter_V2_P.Saturation10_LowerSat) {
+    V_idx_1 = FLIGHT_Hexacopter_V2_P.Saturation10_LowerSat;
   }
 
   // Gain: 'Gain7' (':1862') incorporates:
@@ -2757,8 +2779,8 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   Product: 'Product' (':1855')
   //   Saturate: 'Saturation10' (':402')
   //
-  FLIGHT_Hexacopter_V2_B.Gain7 = FLIGHT_Hexacopter_V2_B.Sum2_g *
-    FLIGHT_Hexacopter_V2_B.ParamStep * FLIGHT_Hexacopter_V2_P.Gain7_Gain;
+  FLIGHT_Hexacopter_V2_B.Gain7 = V_idx_1 * FLIGHT_Hexacopter_V2_B.ParamStep *
+    FLIGHT_Hexacopter_V2_P.Gain7_Gain;
 
   // MATLABSystem: 'SourceBlock' (':320:9')
   rtb_flag_pos = uORB_read_step(FLIGHT_Hexacopter_V2_DW.obj_l.orbMetadataObj,
@@ -2815,15 +2837,15 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   if ((rtb_AND && (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_l <= 0)) ||
       ((!rtb_AND) && (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_l == 1)))
   {
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_lu =
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l =
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_InitialCond_p;
   }
 
   // MATLABSystem: 'Read Parameter5' (':214')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_ia.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_k);
+    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_c);
   if (rtb_flag_pos) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_k = 0.0F;
+    FLIGHT_Hexacopter_V2_B.ParamStep_c = 0.0F;
   }
 
   // Sum: 'Sum' (':1821:2:220:337') incorporates:
@@ -2833,16 +2855,16 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
 
   // MATLABSystem: 'Read Parameter11' (':196')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_jk.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_c);
+    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_b);
   if (rtb_flag_pos) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_c = 0.0F;
+    FLIGHT_Hexacopter_V2_B.ParamStep_b = 0.0F;
   }
 
   // MATLAB Function: 'MATLAB Function' (':192') incorporates:
   //   MATLABSystem: 'Read Parameter11' (':196')
   //
   // :  w_radps = w_hz * 2*pi;
-  FLIGHT_Hexacopter_V2_B.w_radps = FLIGHT_Hexacopter_V2_B.ParamStep_c * 2.0F *
+  FLIGHT_Hexacopter_V2_B.w_radps = FLIGHT_Hexacopter_V2_B.ParamStep_b * 2.0F *
     3.14159274F;
 
   // Gain: 'tau' (':1821:2:220:372')
@@ -2872,15 +2894,15 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //  About 'TSamp' (':1821:1:4'):
   //   y = u * K where K = 1 / ( w * Ts )
   //
-  FLIGHT_Hexacopter_V2_B.TSamp_ku = FLIGHT_Hexacopter_V2_B.q_c /
+  FLIGHT_Hexacopter_V2_B.TSamp_k = FLIGHT_Hexacopter_V2_B.q_c /
     FLIGHT_Hexacopter_V2_B.d_n * FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_i *
     FLIGHT_Hexacopter_V2_P.TSamp_WtEt_n;
 
   // MATLABSystem: 'Read Parameter26' (':423')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_lt.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_c);
+    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_b);
   if (rtb_flag_pos) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_c = 0.0F;
+    FLIGHT_Hexacopter_V2_B.ParamStep_b = 0.0F;
   }
 
   // MATLAB Function: 'MATLAB Function2' (':1854') incorporates:
@@ -2904,11 +2926,11 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   Store in Global RAM
 
   // :  des_throttle = thr_hover - a_z/9.81;
-  FLIGHT_Hexacopter_V2_B.des_throttle = FLIGHT_Hexacopter_V2_B.ParamStep_c -
+  FLIGHT_Hexacopter_V2_B.des_throttle = FLIGHT_Hexacopter_V2_B.ParamStep_b -
     ((FLIGHT_Hexacopter_V2_B.roll * FLIGHT_Hexacopter_V2_B.ParamStep +
-      FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_lu) -
-     (FLIGHT_Hexacopter_V2_B.TSamp_ku - FLIGHT_Hexacopter_V2_DW.UD_DSTATE_a) *
-     FLIGHT_Hexacopter_V2_B.ParamStep_k) / 9.81F;
+      FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l) -
+     (FLIGHT_Hexacopter_V2_B.TSamp_k - FLIGHT_Hexacopter_V2_DW.UD_DSTATE_a) *
+     FLIGHT_Hexacopter_V2_B.ParamStep_c) / 9.81F;
 
   // MATLABSystem: 'Read Parameter28' (':528')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_ic.MW_PARAMHANDLE,
@@ -2917,33 +2939,6 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
     FLIGHT_Hexacopter_V2_B.ParamStep = 0.0F;
   }
 
-  // MATLABSystem: 'Read Parameter27' (':479')
-  rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_l3.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_k);
-  if (rtb_flag_pos) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_k = 0.0F;
-  }
-
-  // Fcn: 'Fcn2' (':372') incorporates:
-  //   DataTypeConversion: 'Data Type Conversion1' (':357')
-
-  FLIGHT_Hexacopter_V2_B.Sum2_g = (static_cast<real32_T>
-    (FLIGHT_Hexacopter_V2_B.In1_p.values[0]) - 1514.0F) / 420.0F;
-
-  // DeadZone: 'Dead Zone6' (':369')
-  if (FLIGHT_Hexacopter_V2_B.Sum2_g > FLIGHT_Hexacopter_V2_P.DeadZone6_End) {
-    rtb_Sum2_i = FLIGHT_Hexacopter_V2_B.Sum2_g -
-      FLIGHT_Hexacopter_V2_P.DeadZone6_End;
-  } else if (FLIGHT_Hexacopter_V2_B.Sum2_g >=
-             FLIGHT_Hexacopter_V2_P.DeadZone6_Start) {
-    rtb_Sum2_i = 0.0F;
-  } else {
-    rtb_Sum2_i = FLIGHT_Hexacopter_V2_B.Sum2_g -
-      FLIGHT_Hexacopter_V2_P.DeadZone6_Start;
-  }
-
-  // End of DeadZone: 'Dead Zone6' (':369')
-
   // MATLABSystem: 'Read Parameter40' (':1867')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_pn.MW_PARAMHANDLE,
     MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_c);
@@ -2951,34 +2946,57 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
     FLIGHT_Hexacopter_V2_B.ParamStep_c = 0.0F;
   }
 
+  // MATLABSystem: 'Read Parameter27' (':479')
+  rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_l3.MW_PARAMHANDLE,
+    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_b);
+  if (rtb_flag_pos) {
+    FLIGHT_Hexacopter_V2_B.ParamStep_b = 0.0F;
+  }
+
+  // Fcn: 'Fcn2' (':372') incorporates:
+  //   DataTypeConversion: 'Data Type Conversion1' (':357')
+
+  FLIGHT_Hexacopter_V2_B.q3 = (static_cast<real32_T>
+    (FLIGHT_Hexacopter_V2_B.In1_p.values[0]) - 1514.0F) / 420.0F;
+
+  // DeadZone: 'Dead Zone6' (':369')
+  if (FLIGHT_Hexacopter_V2_B.q3 > FLIGHT_Hexacopter_V2_P.DeadZone6_End) {
+    rtb_q3 = FLIGHT_Hexacopter_V2_B.q3 - FLIGHT_Hexacopter_V2_P.DeadZone6_End;
+  } else if (FLIGHT_Hexacopter_V2_B.q3 >= FLIGHT_Hexacopter_V2_P.DeadZone6_Start)
+  {
+    rtb_q3 = 0.0F;
+  } else {
+    rtb_q3 = FLIGHT_Hexacopter_V2_B.q3 - FLIGHT_Hexacopter_V2_P.DeadZone6_Start;
+  }
+
+  // End of DeadZone: 'Dead Zone6' (':369')
+
   // Fcn: 'Fcn1' (':371') incorporates:
   //   DataTypeConversion: 'Data Type Conversion7' (':363')
 
-  FLIGHT_Hexacopter_V2_B.Sum2_g = (static_cast<real32_T>
-    (FLIGHT_Hexacopter_V2_B.In1_p.values[2]) - 1514.0F) / 420.0F;
+  FLIGHT_Hexacopter_V2_B.q3 = (static_cast<real32_T>
+    (FLIGHT_Hexacopter_V2_B.In1_p.values[1]) - 1514.0F) / 420.0F;
 
   // DeadZone: 'Dead Zone4' (':368')
   // :  R_b2i = [cos(heading), -sin(heading); sin(heading), cos(heading)];
   // body to inertia
   // :  V = R_b2i * [vx_b; vy_b];
-  if (FLIGHT_Hexacopter_V2_B.Sum2_g > FLIGHT_Hexacopter_V2_P.DeadZone4_End) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g -= FLIGHT_Hexacopter_V2_P.DeadZone4_End;
-  } else if (FLIGHT_Hexacopter_V2_B.Sum2_g >=
-             FLIGHT_Hexacopter_V2_P.DeadZone4_Start) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = 0.0F;
+  if (FLIGHT_Hexacopter_V2_B.q3 > FLIGHT_Hexacopter_V2_P.DeadZone4_End) {
+    V_idx_1 = FLIGHT_Hexacopter_V2_B.q3 - FLIGHT_Hexacopter_V2_P.DeadZone4_End;
+  } else if (FLIGHT_Hexacopter_V2_B.q3 >= FLIGHT_Hexacopter_V2_P.DeadZone4_Start)
+  {
+    V_idx_1 = 0.0F;
   } else {
-    FLIGHT_Hexacopter_V2_B.Sum2_g -= FLIGHT_Hexacopter_V2_P.DeadZone4_Start;
+    V_idx_1 = FLIGHT_Hexacopter_V2_B.q3 - FLIGHT_Hexacopter_V2_P.DeadZone4_Start;
   }
 
   // End of DeadZone: 'Dead Zone4' (':368')
 
   // Saturate: 'Saturation4' (':405')
-  if (FLIGHT_Hexacopter_V2_B.Sum2_g >
-      FLIGHT_Hexacopter_V2_P.Saturation4_UpperSat) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = FLIGHT_Hexacopter_V2_P.Saturation4_UpperSat;
-  } else if (FLIGHT_Hexacopter_V2_B.Sum2_g <
-             FLIGHT_Hexacopter_V2_P.Saturation4_LowerSat) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g = FLIGHT_Hexacopter_V2_P.Saturation4_LowerSat;
+  if (V_idx_1 > FLIGHT_Hexacopter_V2_P.Saturation4_UpperSat) {
+    V_idx_1 = FLIGHT_Hexacopter_V2_P.Saturation4_UpperSat;
+  } else if (V_idx_1 < FLIGHT_Hexacopter_V2_P.Saturation4_LowerSat) {
+    V_idx_1 = FLIGHT_Hexacopter_V2_P.Saturation4_LowerSat;
   }
 
   // MATLAB Function: 'MATLAB Function3' (':2041') incorporates:
@@ -2987,14 +3005,14 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   Product: 'Product2' (':1866')
   //   Saturate: 'Saturation4' (':405')
   //
-  FLIGHT_Hexacopter_V2_B.Sum2_g = FLIGHT_Hexacopter_V2_B.Sum2_g *
-    FLIGHT_Hexacopter_V2_B.ParamStep_c * FLIGHT_Hexacopter_V2_P.Gain9_Gain;
+  V_idx_1 = V_idx_1 * FLIGHT_Hexacopter_V2_B.ParamStep_c *
+    FLIGHT_Hexacopter_V2_P.Gain9_Gain;
 
   // Saturate: 'Saturation9' (':407')
-  if (rtb_Sum2_i > FLIGHT_Hexacopter_V2_P.Saturation9_UpperSat) {
-    rtb_Sum2_i = FLIGHT_Hexacopter_V2_P.Saturation9_UpperSat;
-  } else if (rtb_Sum2_i < FLIGHT_Hexacopter_V2_P.Saturation9_LowerSat) {
-    rtb_Sum2_i = FLIGHT_Hexacopter_V2_P.Saturation9_LowerSat;
+  if (rtb_q3 > FLIGHT_Hexacopter_V2_P.Saturation9_UpperSat) {
+    rtb_q3 = FLIGHT_Hexacopter_V2_P.Saturation9_UpperSat;
+  } else if (rtb_q3 < FLIGHT_Hexacopter_V2_P.Saturation9_LowerSat) {
+    rtb_q3 = FLIGHT_Hexacopter_V2_P.Saturation9_LowerSat;
   }
 
   // MATLAB Function: 'MATLAB Function3' (':2041') incorporates:
@@ -3003,16 +3021,16 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   Product: 'Product1' (':1865')
   //   Saturate: 'Saturation9' (':407')
   //
-  rtb_Sum2_i = rtb_Sum2_i * FLIGHT_Hexacopter_V2_B.ParamStep_c *
-    FLIGHT_Hexacopter_V2_P.Gain8_Gain;
-  FLIGHT_Hexacopter_V2_B.ParamStep_c = static_cast<real32_T>(cos
+  FLIGHT_Hexacopter_V2_B.ParamStep_p = rtb_q3 *
+    FLIGHT_Hexacopter_V2_B.ParamStep_c * FLIGHT_Hexacopter_V2_P.Gain8_Gain;
+  rtb_q3 = static_cast<real32_T>(cos(static_cast<real_T>
+    (FLIGHT_Hexacopter_V2_B.In1.heading))) * V_idx_1 + -static_cast<real32_T>
+    (sin(static_cast<real_T>(FLIGHT_Hexacopter_V2_B.In1.heading))) *
+    FLIGHT_Hexacopter_V2_B.ParamStep_p;
+  V_idx_1 = static_cast<real32_T>(sin(static_cast<real_T>
+    (FLIGHT_Hexacopter_V2_B.In1.heading))) * V_idx_1 + static_cast<real32_T>(cos
     (static_cast<real_T>(FLIGHT_Hexacopter_V2_B.In1.heading))) *
-    FLIGHT_Hexacopter_V2_B.Sum2_g + -static_cast<real32_T>(sin
-    (static_cast<real_T>(FLIGHT_Hexacopter_V2_B.In1.heading))) * rtb_Sum2_i;
-  rtb_Sum2_i = static_cast<real32_T>(sin(static_cast<real_T>
-    (FLIGHT_Hexacopter_V2_B.In1.heading))) * FLIGHT_Hexacopter_V2_B.Sum2_g +
-    static_cast<real32_T>(cos(static_cast<real_T>
-    (FLIGHT_Hexacopter_V2_B.In1.heading))) * rtb_Sum2_i;
+    FLIGHT_Hexacopter_V2_B.ParamStep_p;
 
   // Logic: 'AND1' (':448') incorporates:
   //   Constant: 'Constant' (':449:3')
@@ -3028,7 +3046,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   rtb_AND1 = static_cast<boolean_T>(static_cast<boolean_T>
     ((FLIGHT_Hexacopter_V2_B.In1_p.values[5] >
       FLIGHT_Hexacopter_V2_P.CompareToConstant2_const) ^
-     FLIGHT_Hexacopter_V2_B.In1_e.armed) ^ (FLIGHT_Hexacopter_V2_B.ParamStep_c ==
+     FLIGHT_Hexacopter_V2_B.In1_e.armed) ^ (rtb_q3 ==
     FLIGHT_Hexacopter_V2_P.CompareToConstant6_const)) ^
     (FLIGHT_Hexacopter_V2_B.In1_p.values[10] >
      FLIGHT_Hexacopter_V2_P.CompareToConstant7_const);
@@ -3058,7 +3076,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   rtb_AND2 = static_cast<boolean_T>(static_cast<boolean_T>
     ((FLIGHT_Hexacopter_V2_B.In1_p.values[5] >
       FLIGHT_Hexacopter_V2_P.CompareToConstant4_const) ^
-     FLIGHT_Hexacopter_V2_B.In1_e.armed) ^ (rtb_Sum2_i ==
+     FLIGHT_Hexacopter_V2_B.In1_e.armed) ^ (V_idx_1 ==
     FLIGHT_Hexacopter_V2_P.CompareToConstant5_const)) ^
     (FLIGHT_Hexacopter_V2_B.In1_p.values[10] >
      FLIGHT_Hexacopter_V2_P.CompareToConstant8_const);
@@ -3076,13 +3094,21 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
       FLIGHT_Hexacopter_V2_B.In1.y;
   }
 
-  // MATLAB Function: 'MATLAB Function5' (':2069') incorporates:
+  // MATLABSystem: 'Read Parameter47' (':2157')
+  rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_im.MW_PARAMHANDLE,
+    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_p);
+  if (rtb_flag_pos) {
+    FLIGHT_Hexacopter_V2_B.ParamStep_p = 0.0F;
+  }
+
+  // MATLAB Function: 'WPManager' (':2069') incorporates:
   //   Constant: 'Constant' (':2118:3')
-  //   Constant: 'Constant5' (':2114')
   //   DataTypeConversion: 'Data Type Conversion16' (':2129')
   //   DataTypeConversion: 'Data Type Conversion17' (':2130')
+  //   DataTypeConversion: 'Data Type Conversion19' (':2160')
+  //   MATLABSystem: 'Read Parameter47' (':2157')
   //   RelationalOperator: 'Compare' (':2118:2')
-
+  //
   //  X: Current Position NED
   //  L: Length of Square Waypoint
   //  flag: Engage WP Flight
@@ -3117,15 +3143,15 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
       FLIGHT_Hexacopter_V2_B.dv[0] = FLIGHT_Hexacopter_V2_DW.X0[0];
       FLIGHT_Hexacopter_V2_B.dv[1] = FLIGHT_Hexacopter_V2_DW.X0[1];
       FLIGHT_Hexacopter_V2_B.dv[2] = FLIGHT_Hexacopter_V2_DW.X0[0] +
-        FLIGHT_Hexacopter_V2_P.Constant5_Value_j;
+        FLIGHT_Hexacopter_V2_B.ParamStep_p;
       FLIGHT_Hexacopter_V2_B.dv[3] = FLIGHT_Hexacopter_V2_DW.X0[1];
       FLIGHT_Hexacopter_V2_B.dv[4] = FLIGHT_Hexacopter_V2_DW.X0[0] +
-        FLIGHT_Hexacopter_V2_P.Constant5_Value_j;
+        FLIGHT_Hexacopter_V2_B.ParamStep_p;
       FLIGHT_Hexacopter_V2_B.dv[5] = FLIGHT_Hexacopter_V2_DW.X0[1] +
-        FLIGHT_Hexacopter_V2_P.Constant5_Value_j;
+        FLIGHT_Hexacopter_V2_B.ParamStep_p;
       FLIGHT_Hexacopter_V2_B.dv[6] = FLIGHT_Hexacopter_V2_DW.X0[0];
       FLIGHT_Hexacopter_V2_B.dv[7] = FLIGHT_Hexacopter_V2_DW.X0[1] +
-        FLIGHT_Hexacopter_V2_P.Constant5_Value_j;
+        FLIGHT_Hexacopter_V2_B.ParamStep_p;
       FLIGHT_Hexacopter_V2_B.dv[8] = FLIGHT_Hexacopter_V2_DW.X0[0];
       FLIGHT_Hexacopter_V2_B.dv[9] = FLIGHT_Hexacopter_V2_DW.X0[1];
       for (FLIGHT_Hexacopter_V2_B.ParamStep_g = 0;
@@ -3165,11 +3191,11 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
       static_cast<int32_T>(rt_remd_snf(FLIGHT_Hexacopter_V2_DW.WP_num, 5.0) +
       1.0) - 1) << 1) + 1] - FLIGHT_Hexacopter_V2_B.In1.y;
 
-    // :  if(distance < 0.2)
+    // :  if(distance < 0.5)
     if (sqrt(FLIGHT_Hexacopter_V2_B.out_yawrate *
              FLIGHT_Hexacopter_V2_B.out_yawrate +
              FLIGHT_Hexacopter_V2_B.reletive_time_sec *
-             FLIGHT_Hexacopter_V2_B.reletive_time_sec) < 0.2) {
+             FLIGHT_Hexacopter_V2_B.reletive_time_sec) < 0.5) {
       //  0.2m 이내라면
       // :  WP_num = WP_num+1;
       FLIGHT_Hexacopter_V2_DW.WP_num++;
@@ -3190,7 +3216,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
     FLIGHT_Hexacopter_V2_B.rtb_Current_WP_idx_1 = 0.0;
   }
 
-  // End of MATLAB Function: 'MATLAB Function5' (':2069')
+  // End of MATLAB Function: 'WPManager' (':2069')
 
   // Switch: 'Switch' (':2119') incorporates:
   //   DataTypeConversion: 'Data Type Conversion18' (':2126')
@@ -3215,184 +3241,244 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   MATLABSystem: 'Read Parameter27' (':479')
   //   Sum: 'Sum4' (':2051')
   //
-  FLIGHT_Hexacopter_V2_B.Sum2_g = (rtb_Switch_gd_idx_0 -
-    FLIGHT_Hexacopter_V2_B.In1.x) * FLIGHT_Hexacopter_V2_B.ParamStep_k;
-  rtb_NProdOut_idx_0 = (rtb_Switch_gd_idx_1 - FLIGHT_Hexacopter_V2_B.In1.y) *
-    FLIGHT_Hexacopter_V2_B.ParamStep_k;
+  rtb_Product2_c_idx_0 = (rtb_Switch_gd_idx_0 - FLIGHT_Hexacopter_V2_B.In1.x) *
+    FLIGHT_Hexacopter_V2_B.ParamStep_b;
+  rtb_Product2_c_idx_1 = (rtb_Switch_gd_idx_1 - FLIGHT_Hexacopter_V2_B.In1.y) *
+    FLIGHT_Hexacopter_V2_B.ParamStep_b;
 
-  // Saturate: 'Saturation' (':2050:923')
-  if (FLIGHT_Hexacopter_V2_B.Sum2_g >
-      FLIGHT_Hexacopter_V2_P.DiscretePIDController_UpperSatu) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g =
-      FLIGHT_Hexacopter_V2_P.DiscretePIDController_UpperSatu;
-  } else if (FLIGHT_Hexacopter_V2_B.Sum2_g <
-             FLIGHT_Hexacopter_V2_P.DiscretePIDController_LowerSatu) {
-    FLIGHT_Hexacopter_V2_B.Sum2_g =
-      FLIGHT_Hexacopter_V2_P.DiscretePIDController_LowerSatu;
+  // Gain: 'Gain10' (':2140') incorporates:
+  //   MATLABSystem: 'Read Parameter40' (':1867')
+  //
+  FLIGHT_Hexacopter_V2_B.q3 = FLIGHT_Hexacopter_V2_P.Gain10_Gain *
+    FLIGHT_Hexacopter_V2_B.ParamStep_c;
+
+  // Switch: 'Switch2' (':2050:3846:8') incorporates:
+  //   MATLABSystem: 'Read Parameter40' (':1867')
+  //   RelationalOperator: 'LowerRelop1' (':2050:3846:6')
+  //   RelationalOperator: 'UpperRelop' (':2050:3846:9')
+  //   Switch: 'Switch' (':2050:3846:7')
+  //
+  if (rtb_Product2_c_idx_0 > FLIGHT_Hexacopter_V2_B.ParamStep_c) {
+    rtb_Product2_c_idx_0 = FLIGHT_Hexacopter_V2_B.ParamStep_c;
+  } else if (rtb_Product2_c_idx_0 < FLIGHT_Hexacopter_V2_B.q3) {
+    // Switch: 'Switch' (':2050:3846:7')
+    rtb_Product2_c_idx_0 = FLIGHT_Hexacopter_V2_B.q3;
   }
 
-  // Sum: 'Sum7' (':517') incorporates:
-  //   Saturate: 'Saturation' (':2050:923')
-
-  rtb_Filter_k_idx_0 = FLIGHT_Hexacopter_V2_B.Sum2_g -
-    FLIGHT_Hexacopter_V2_B.In1.vx;
-
-  // Saturate: 'Saturation' (':2050:923')
-  if (rtb_NProdOut_idx_0 >
-      FLIGHT_Hexacopter_V2_P.DiscretePIDController_UpperSatu) {
-    rtb_NProdOut_idx_0 = FLIGHT_Hexacopter_V2_P.DiscretePIDController_UpperSatu;
-  } else if (rtb_NProdOut_idx_0 <
-             FLIGHT_Hexacopter_V2_P.DiscretePIDController_LowerSatu) {
-    rtb_NProdOut_idx_0 = FLIGHT_Hexacopter_V2_P.DiscretePIDController_LowerSatu;
+  if (rtb_Product2_c_idx_1 > FLIGHT_Hexacopter_V2_B.ParamStep_c) {
+    rtb_Product2_c_idx_1 = FLIGHT_Hexacopter_V2_B.ParamStep_c;
+  } else if (rtb_Product2_c_idx_1 < FLIGHT_Hexacopter_V2_B.q3) {
+    // Switch: 'Switch' (':2050:3846:7')
+    rtb_Product2_c_idx_1 = FLIGHT_Hexacopter_V2_B.q3;
   }
 
-  // Sum: 'Sum7' (':517') incorporates:
-  //   Saturate: 'Saturation' (':2050:923')
+  // End of Switch: 'Switch2' (':2050:3846:8')
 
-  rtb_Filter_k_idx_1 = rtb_NProdOut_idx_0 - FLIGHT_Hexacopter_V2_B.In1.vy;
+  // Sum: 'Sum7' (':517')
+  rtb_Product2_c_idx_0 -= FLIGHT_Hexacopter_V2_B.In1.vx;
+  rtb_Product2_c_idx_1 -= FLIGHT_Hexacopter_V2_B.In1.vy;
 
   // Logic: 'XOR' (':2031')
   rtb_XOR = rtb_AND1 ^ rtb_AND2;
 
   // MATLABSystem: 'Read Parameter45' (':2023')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_k.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_k);
+    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_c);
   if (rtb_flag_pos) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_k = 0.0F;
+    FLIGHT_Hexacopter_V2_B.ParamStep_c = 0.0F;
   }
 
-  // DiscreteIntegrator: 'Integrator' (':514:843') incorporates:
-  //   DiscreteIntegrator: 'Filter' (':514:737')
-
-  rtb_flag_alt = !rtb_XOR;
+  // DiscreteIntegrator: 'Integrator' (':514:843')
   if ((rtb_XOR && (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_l3 <= 0)) ||
-      (rtb_flag_alt && (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_l3 ==
-                        1))) {
+      ((!rtb_XOR) && (FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_l3 == 1)))
+  {
     FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[0] =
-      FLIGHT_Hexacopter_V2_P.PID_Altitude1_InitialConditio_f;
+      FLIGHT_Hexacopter_V2_P.PID_Altitude1_InitialConditionF;
     FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[1] =
-      FLIGHT_Hexacopter_V2_P.PID_Altitude1_InitialConditio_f;
+      FLIGHT_Hexacopter_V2_P.PID_Altitude1_InitialConditionF;
   }
 
   // DiscreteIntegrator: 'Integrator' (':514:843') incorporates:
   //   MATLABSystem: 'Read Parameter45' (':2023')
   //   Product: 'IProd Out' (':514:787')
   //
-  FLIGHT_Hexacopter_V2_B.Sum2_g = rtb_Filter_k_idx_0 *
-    FLIGHT_Hexacopter_V2_B.ParamStep_k *
+  FLIGHT_Hexacopter_V2_B.ParamStep_b = rtb_Product2_c_idx_0 *
+    FLIGHT_Hexacopter_V2_B.ParamStep_c *
     FLIGHT_Hexacopter_V2_P.Integrator_gainval_f +
     FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[0];
-  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[0] = FLIGHT_Hexacopter_V2_B.Sum2_g;
+  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[0] =
+    FLIGHT_Hexacopter_V2_B.ParamStep_b;
 
   // DiscreteIntegrator: 'Integrator' (':514:843')
-  if (FLIGHT_Hexacopter_V2_B.Sum2_g >
+  if (FLIGHT_Hexacopter_V2_B.ParamStep_b >
       FLIGHT_Hexacopter_V2_P.PID_Altitude1_UpperIntegratorSa) {
+    FLIGHT_Hexacopter_V2_B.ParamStep_b =
+      FLIGHT_Hexacopter_V2_P.PID_Altitude1_UpperIntegratorSa;
+
     // DiscreteIntegrator: 'Integrator' (':514:843')
     FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[0] =
       FLIGHT_Hexacopter_V2_P.PID_Altitude1_UpperIntegratorSa;
-  } else if (FLIGHT_Hexacopter_V2_B.Sum2_g <
+  } else if (FLIGHT_Hexacopter_V2_B.ParamStep_b <
              FLIGHT_Hexacopter_V2_P.PID_Altitude1_LowerIntegratorSa) {
+    FLIGHT_Hexacopter_V2_B.ParamStep_b =
+      FLIGHT_Hexacopter_V2_P.PID_Altitude1_LowerIntegratorSa;
+
     // DiscreteIntegrator: 'Integrator' (':514:843')
     FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[0] =
       FLIGHT_Hexacopter_V2_P.PID_Altitude1_LowerIntegratorSa;
   }
+
+  // Sum: 'Sum' (':514:3518') incorporates:
+  //   MATLABSystem: 'Read Parameter28' (':528')
+  //   Product: 'IProd Out' (':514:787')
+  //   Product: 'PProd Out' (':514:909')
+  //
+  rtb_Sum_g_idx_0 = rtb_Product2_c_idx_0 * FLIGHT_Hexacopter_V2_B.ParamStep +
+    FLIGHT_Hexacopter_V2_B.ParamStep_b;
 
   // DiscreteIntegrator: 'Integrator' (':514:843') incorporates:
   //   MATLABSystem: 'Read Parameter45' (':2023')
   //   Product: 'IProd Out' (':514:787')
   //
-  FLIGHT_Hexacopter_V2_B.Sum2_g = rtb_Filter_k_idx_1 *
-    FLIGHT_Hexacopter_V2_B.ParamStep_k *
+  FLIGHT_Hexacopter_V2_B.ParamStep_b = rtb_Product2_c_idx_1 *
+    FLIGHT_Hexacopter_V2_B.ParamStep_c *
     FLIGHT_Hexacopter_V2_P.Integrator_gainval_f +
     FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[1];
-  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[1] = FLIGHT_Hexacopter_V2_B.Sum2_g;
+  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[1] =
+    FLIGHT_Hexacopter_V2_B.ParamStep_b;
 
   // DiscreteIntegrator: 'Integrator' (':514:843')
-  if (FLIGHT_Hexacopter_V2_B.Sum2_g >
+  if (FLIGHT_Hexacopter_V2_B.ParamStep_b >
       FLIGHT_Hexacopter_V2_P.PID_Altitude1_UpperIntegratorSa) {
+    FLIGHT_Hexacopter_V2_B.ParamStep_b =
+      FLIGHT_Hexacopter_V2_P.PID_Altitude1_UpperIntegratorSa;
+
     // DiscreteIntegrator: 'Integrator' (':514:843')
     FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[1] =
       FLIGHT_Hexacopter_V2_P.PID_Altitude1_UpperIntegratorSa;
-  } else if (FLIGHT_Hexacopter_V2_B.Sum2_g <
+  } else if (FLIGHT_Hexacopter_V2_B.ParamStep_b <
              FLIGHT_Hexacopter_V2_P.PID_Altitude1_LowerIntegratorSa) {
+    FLIGHT_Hexacopter_V2_B.ParamStep_b =
+      FLIGHT_Hexacopter_V2_P.PID_Altitude1_LowerIntegratorSa;
+
     // DiscreteIntegrator: 'Integrator' (':514:843')
     FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[1] =
       FLIGHT_Hexacopter_V2_P.PID_Altitude1_LowerIntegratorSa;
   }
+
+  // Sum: 'Sum' (':514:3518') incorporates:
+  //   MATLABSystem: 'Read Parameter28' (':528')
+  //   Product: 'IProd Out' (':514:787')
+  //   Product: 'PProd Out' (':514:909')
+  //
+  FLIGHT_Hexacopter_V2_B.ParamStep_c = rtb_Product2_c_idx_1 *
+    FLIGHT_Hexacopter_V2_B.ParamStep + FLIGHT_Hexacopter_V2_B.ParamStep_b;
 
   // MATLABSystem: 'Read Parameter46' (':2024')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_pc.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_k);
+    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep);
   if (rtb_flag_pos) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_k = 0.0F;
+    FLIGHT_Hexacopter_V2_B.ParamStep = 0.0F;
   }
 
-  // DiscreteIntegrator: 'Filter' (':514:737')
-  if ((rtb_XOR && (FLIGHT_Hexacopter_V2_DW.Filter_PrevResetState <= 0)) ||
-      (rtb_flag_alt && (FLIGHT_Hexacopter_V2_DW.Filter_PrevResetState == 1))) {
-    FLIGHT_Hexacopter_V2_DW.Filter_DSTATE_i[0] =
-      FLIGHT_Hexacopter_V2_P.PID_Altitude1_InitialConditionF;
-    FLIGHT_Hexacopter_V2_DW.Filter_DSTATE_i[1] =
-      FLIGHT_Hexacopter_V2_P.PID_Altitude1_InitialConditionF;
-  }
+  // Gain: 'tau' (':2145:220:372')
+  FLIGHT_Hexacopter_V2_B.q3 = FLIGHT_Hexacopter_V2_P.tau_Gain_e *
+    FLIGHT_Hexacopter_V2_B.w_radps;
 
-  // Product: 'NProd Out' (':514:878') incorporates:
-  //   Constant: 'Constant4' (':2034')
-  //   DiscreteIntegrator: 'Filter' (':514:737')
-  //   MATLABSystem: 'Read Parameter46' (':2024')
-  //   Product: 'DProd Out' (':514:684')
-  //   Sum: 'SumD' (':514:738')
+  // Product: 'Product2' (':2145:220:361')
+  FLIGHT_Hexacopter_V2_B.q2 = FLIGHT_Hexacopter_V2_B.q3 *
+    FLIGHT_Hexacopter_V2_B.q3;
+
+  // Bias: 'Bias' (':2145:220:373')
+  FLIGHT_Hexacopter_V2_B.q1 = FLIGHT_Hexacopter_V2_B.q2 +
+    FLIGHT_Hexacopter_V2_P.Bias_Bias_p0;
+
+  // Gain: 'Gain' (':2145:220:358')
+  FLIGHT_Hexacopter_V2_B.q3 *= FLIGHT_Hexacopter_V2_P.Gain_Gain_lv;
+
+  // Sum: 'Add1' (':2145:220:364')
+  FLIGHT_Hexacopter_V2_B.Sum3_i = FLIGHT_Hexacopter_V2_B.q1 +
+    FLIGHT_Hexacopter_V2_B.q3;
+
+  // Product: 'Product3' (':2145:220:365')
+  FLIGHT_Hexacopter_V2_B.Product3_dq = FLIGHT_Hexacopter_V2_B.q2 /
+    FLIGHT_Hexacopter_V2_B.Sum3_i;
+
+  // Sum: 'Sum' (':2145:220:337') incorporates:
+  //   UnitDelay: 'Unit Delay1' (':2145:220:338')
+
+  rtb_Product2_c_idx_0 = FLIGHT_Hexacopter_V2_B.In1.vx +
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a2[0];
+  rtb_Product2_c_idx_1 = FLIGHT_Hexacopter_V2_B.In1.vy +
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a2[1];
+
+  // SampleTimeMath: 'TSamp' (':2144:4') incorporates:
+  //   Product: 'Product1' (':2145:220:343')
+  //
+  //  About 'TSamp' (':2144:4'):
+  //   y = u * K where K = 1 / ( w * Ts )
   //
   // :  g = 9.81;
   // :  d2r = pi/180;
   // :  R_psi_inv= [sin(heading), -cos(heading); cos(heading), sin(heading)];
   // :  Theta = -1/g * R_psi_inv * a_cmd;
-  FLIGHT_Hexacopter_V2_B.Sum2_g = (rtb_Filter_k_idx_0 *
-    FLIGHT_Hexacopter_V2_B.ParamStep_k -
-    FLIGHT_Hexacopter_V2_DW.Filter_DSTATE_i[0]) *
-    FLIGHT_Hexacopter_V2_P.Constant4_Value_b;
-  rtb_NProdOut_idx_0 = FLIGHT_Hexacopter_V2_B.Sum2_g;
+  FLIGHT_Hexacopter_V2_B.ParamStep_b = rtb_Product2_c_idx_0 *
+    FLIGHT_Hexacopter_V2_B.Product3_dq * FLIGHT_Hexacopter_V2_P.TSamp_WtEt_i;
+  FLIGHT_Hexacopter_V2_B.ParamStep_p = FLIGHT_Hexacopter_V2_B.ParamStep_b;
 
-  // Sum: 'Sum' (':514:3526') incorporates:
-  //   MATLABSystem: 'Read Parameter28' (':528')
-  //   Product: 'DProd Out' (':514:684')
-  //   Product: 'PProd Out' (':514:909')
-  //
-  rtb_Filter_k_idx_0 = (rtb_Filter_k_idx_0 * FLIGHT_Hexacopter_V2_B.ParamStep +
-                        FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[0]) +
-    FLIGHT_Hexacopter_V2_B.Sum2_g;
-
-  // Product: 'NProd Out' (':514:878') incorporates:
-  //   Constant: 'Constant4' (':2034')
-  //   DiscreteIntegrator: 'Filter' (':514:737')
+  // Sum: 'Sum5' (':2149') incorporates:
   //   MATLABSystem: 'Read Parameter46' (':2024')
-  //   Product: 'DProd Out' (':514:684')
-  //   Sum: 'SumD' (':514:738')
+  //   Product: 'Product3' (':2146')
+  //   Sum: 'Diff' (':2144:3')
+  //   UnitDelay: 'UD' (':2144:5')
+  //  *
+  //  Block description for 'Diff' (':2144:3'):
   //
-  FLIGHT_Hexacopter_V2_B.Sum2_g = (rtb_Filter_k_idx_1 *
-    FLIGHT_Hexacopter_V2_B.ParamStep_k -
-    FLIGHT_Hexacopter_V2_DW.Filter_DSTATE_i[1]) *
-    FLIGHT_Hexacopter_V2_P.Constant4_Value_b;
+  //   Add in CPU
+  //
+  //  Block description for 'UD' (':2144:5'):
+  //
+  //   Store in Global RAM
 
-  // Sum: 'Sum' (':514:3526') incorporates:
-  //   MATLABSystem: 'Read Parameter28' (':528')
-  //   Product: 'DProd Out' (':514:684')
-  //   Product: 'PProd Out' (':514:909')
+  rtb_Sum_g_idx_0 -= (FLIGHT_Hexacopter_V2_B.ParamStep_b -
+                      FLIGHT_Hexacopter_V2_DW.UD_DSTATE_c[0]) *
+    FLIGHT_Hexacopter_V2_B.ParamStep;
+
+  // SampleTimeMath: 'TSamp' (':2144:4') incorporates:
+  //   Product: 'Product1' (':2145:220:343')
   //
-  rtb_Filter_k_idx_1 = (rtb_Filter_k_idx_1 * FLIGHT_Hexacopter_V2_B.ParamStep +
-                        FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[1]) +
-    FLIGHT_Hexacopter_V2_B.Sum2_g;
+  //  About 'TSamp' (':2144:4'):
+  //   y = u * K where K = 1 / ( w * Ts )
+  //
+  FLIGHT_Hexacopter_V2_B.ParamStep_b = rtb_Product2_c_idx_1 *
+    FLIGHT_Hexacopter_V2_B.Product3_dq * FLIGHT_Hexacopter_V2_P.TSamp_WtEt_i;
+
+  // Sum: 'Sum5' (':2149') incorporates:
+  //   MATLABSystem: 'Read Parameter46' (':2024')
+  //   Product: 'Product3' (':2146')
+  //   Sum: 'Diff' (':2144:3')
+  //   UnitDelay: 'UD' (':2144:5')
+  //  *
+  //  Block description for 'Diff' (':2144:3'):
+  //
+  //   Add in CPU
+  //
+  //  Block description for 'UD' (':2144:5'):
+  //
+  //   Store in Global RAM
+
+  FLIGHT_Hexacopter_V2_B.ParamStep_c -= (FLIGHT_Hexacopter_V2_B.ParamStep_b -
+    FLIGHT_Hexacopter_V2_DW.UD_DSTATE_c[1]) * FLIGHT_Hexacopter_V2_B.ParamStep;
 
   // MATLAB Function: 'MATLAB Function4' (':2059')
-  Theta_idx_0 = -0.101936802F * static_cast<real32_T>(sin(static_cast<real_T>
-    (FLIGHT_Hexacopter_V2_B.In1.heading))) * rtb_Filter_k_idx_0 + -0.101936802F *
-    -static_cast<real32_T>(cos(static_cast<real_T>
-    (FLIGHT_Hexacopter_V2_B.In1.heading))) * rtb_Filter_k_idx_1;
-  rtb_Filter_k_idx_0 = -0.101936802F * static_cast<real32_T>(cos
-    (static_cast<real_T>(FLIGHT_Hexacopter_V2_B.In1.heading))) *
-    rtb_Filter_k_idx_0 + -0.101936802F * static_cast<real32_T>(sin
-    (static_cast<real_T>(FLIGHT_Hexacopter_V2_B.In1.heading))) *
-    rtb_Filter_k_idx_1;
+  FLIGHT_Hexacopter_V2_B.Product3_dq = -0.101936802F * static_cast<real32_T>(sin
+    (static_cast<real_T>(FLIGHT_Hexacopter_V2_B.In1.heading))) * rtb_Sum_g_idx_0
+    + -0.101936802F * -static_cast<real32_T>(cos(static_cast<real_T>
+    (FLIGHT_Hexacopter_V2_B.In1.heading))) * FLIGHT_Hexacopter_V2_B.ParamStep_c;
+  rtb_Sum_g_idx_0 = -0.101936802F * static_cast<real32_T>(cos(static_cast<real_T>
+    (FLIGHT_Hexacopter_V2_B.In1.heading))) * rtb_Sum_g_idx_0 + -0.101936802F *
+    static_cast<real32_T>(sin(static_cast<real_T>
+    (FLIGHT_Hexacopter_V2_B.In1.heading))) * FLIGHT_Hexacopter_V2_B.ParamStep_c;
 
   // MATLABSystem: 'SourceBlock' (':319:9')
   // :  des_phi = min(Theta(1), 20*d2r);
@@ -3454,18 +3540,18 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLAB Function: 'MATLAB Function' (':317')
 
   // MATLAB Function: 'MATLAB Function4' (':2059')
-  if (!(Theta_idx_0 <= 0.34906584F)) {
+  if (!(FLIGHT_Hexacopter_V2_B.Product3_dq <= 0.34906584F)) {
     // SignalConversion generated from: ' SFunction ' (':537::33') incorporates:
     //   MATLAB Function: 'MATLAB Function' (':537')
 
-    Theta_idx_0 = 0.34906584F;
+    FLIGHT_Hexacopter_V2_B.Product3_dq = 0.34906584F;
   }
 
-  if (!(rtb_Filter_k_idx_0 <= 0.34906584F)) {
+  if (!(rtb_Sum_g_idx_0 <= 0.34906584F)) {
     // SignalConversion generated from: ' SFunction ' (':537::33') incorporates:
     //   MATLAB Function: 'MATLAB Function' (':537')
 
-    rtb_Filter_k_idx_0 = 0.34906584F;
+    rtb_Sum_g_idx_0 = 0.34906584F;
   }
 
   // MATLAB Function: 'MATLAB Function' (':537') incorporates:
@@ -3489,8 +3575,8 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
         rtb_sincos_o1_idx_2 = FLIGHT_Hexacopter_V2_P.Saturation3_LowerSat;
       }
 
-      Theta_idx_0 = FLIGHT_Hexacopter_V2_P.MAX_CONTROL_ANGLE_ROLL *
-        rtb_sincos_o1_idx_2;
+      FLIGHT_Hexacopter_V2_B.Product3_dq =
+        FLIGHT_Hexacopter_V2_P.MAX_CONTROL_ANGLE_ROLL * rtb_sincos_o1_idx_2;
 
       // Saturate: 'Saturation2' (':403') incorporates:
       //   Gain: 'Gain4' (':385')
@@ -3503,7 +3589,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
         rtb_sincos_o1_idx_1 = FLIGHT_Hexacopter_V2_P.Saturation2_LowerSat_h;
       }
 
-      rtb_Filter_k_idx_0 = FLIGHT_Hexacopter_V2_P.MAX_CONTROL_ANGLE_PITCH *
+      rtb_Sum_g_idx_0 = FLIGHT_Hexacopter_V2_P.MAX_CONTROL_ANGLE_PITCH *
         rtb_sincos_o1_idx_1;
     } else {
       // Saturate: 'Saturation3' (':404')
@@ -3517,8 +3603,8 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
         rtb_sincos_o1_idx_2 = FLIGHT_Hexacopter_V2_P.Saturation3_LowerSat;
       }
 
-      Theta_idx_0 = FLIGHT_Hexacopter_V2_P.MAX_CONTROL_ANGLE_ROLL *
-        rtb_sincos_o1_idx_2;
+      FLIGHT_Hexacopter_V2_B.Product3_dq =
+        FLIGHT_Hexacopter_V2_P.MAX_CONTROL_ANGLE_ROLL * rtb_sincos_o1_idx_2;
 
       // Saturate: 'Saturation2' (':403') incorporates:
       //   Gain: 'Gain4' (':385')
@@ -3531,7 +3617,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
         rtb_sincos_o1_idx_1 = FLIGHT_Hexacopter_V2_P.Saturation2_LowerSat_h;
       }
 
-      rtb_Filter_k_idx_0 = FLIGHT_Hexacopter_V2_P.MAX_CONTROL_ANGLE_PITCH *
+      rtb_Sum_g_idx_0 = FLIGHT_Hexacopter_V2_P.MAX_CONTROL_ANGLE_PITCH *
         rtb_sincos_o1_idx_1;
 
       // Saturate: 'Saturation' (':400') incorporates:
@@ -3616,7 +3702,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
                   FLIGHT_Hexacopter_V2_P.CompareToConstant3_const);
 
   // MATLABSystem: 'PX4 Timestamp' (':642')
-  FLIGHT_Hexacopter_V2_B.rtb_PX4Timestamp_c = hrt_absolute_time();
+  FLIGHT_Hexacopter_V2_B.rtb_PX4Timestamp_k = hrt_absolute_time();
 
   // MATLABSystem: 'Read Parameter1' (':194')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_l4.MW_PARAMHANDLE,
@@ -3627,9 +3713,9 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
 
   // MATLABSystem: 'Read Parameter' (':193')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_jf.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_k);
+    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_c);
   if (rtb_flag_pos) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_k = 0.0F;
+    FLIGHT_Hexacopter_V2_B.ParamStep_c = 0.0F;
   }
 
   // MATLABSystem: 'Read Parameter2' (':205')
@@ -3651,8 +3737,9 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   MATLABSystem: 'Read Parameter1' (':194')
   //   MATLABSystem: 'Read Parameter2' (':205')
   //
-  FLIGHT_Hexacopter_V2_B.rtb_Current_WP_idx_0 = Theta_idx_0;
-  FLIGHT_Hexacopter_V2_B.rtb_Current_WP_idx_1 = rtb_Filter_k_idx_0;
+  FLIGHT_Hexacopter_V2_B.rtb_Current_WP_idx_0 =
+    FLIGHT_Hexacopter_V2_B.Product3_dq;
+  FLIGHT_Hexacopter_V2_B.rtb_Current_WP_idx_1 = rtb_Sum_g_idx_0;
   FLIGHT_Hexacopter_V2_B.out_yawrate = FLIGHT_Hexacopter_V2_B.Gain6;
 
   // :  if(isempty(start_time_usec))
@@ -3660,7 +3747,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   if (rtb_flag_alt && (FLIGHT_Hexacopter_V2_DW.start_time_usec == -1.0)) {
     // :  start_time_usec = time_usec;
     FLIGHT_Hexacopter_V2_DW.start_time_usec = static_cast<real_T>
-      (FLIGHT_Hexacopter_V2_B.rtb_PX4Timestamp_c);
+      (FLIGHT_Hexacopter_V2_B.rtb_PX4Timestamp_k);
   }
 
   // :  d2r = pi/180;
@@ -3669,7 +3756,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
     //  time calculation
     // :  reletive_time_sec = double(time_usec - start_time_usec)*1e-6;
     FLIGHT_Hexacopter_V2_B.reletive_time_sec = (static_cast<real_T>
-      (FLIGHT_Hexacopter_V2_B.rtb_PX4Timestamp_c) -
+      (FLIGHT_Hexacopter_V2_B.rtb_PX4Timestamp_k) -
       FLIGHT_Hexacopter_V2_DW.start_time_usec) * 1.0E-6;
   } else {
     // :  else
@@ -3698,12 +3785,12 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
     // :  if(reletive_time_sec >= t1 && reletive_time_sec < t2)
     if ((!(FLIGHT_Hexacopter_V2_B.reletive_time_sec >= 0.0)) ||
         (!(FLIGHT_Hexacopter_V2_B.reletive_time_sec <
-           FLIGHT_Hexacopter_V2_B.ParamStep_k))) {
+           FLIGHT_Hexacopter_V2_B.ParamStep_c))) {
       if ((FLIGHT_Hexacopter_V2_B.reletive_time_sec >=
-           FLIGHT_Hexacopter_V2_B.ParamStep_k) &&
+           FLIGHT_Hexacopter_V2_B.ParamStep_c) &&
           (FLIGHT_Hexacopter_V2_B.reletive_time_sec < static_cast<real_T>
-           (FLIGHT_Hexacopter_V2_B.ParamStep_k) +
-           FLIGHT_Hexacopter_V2_B.ParamStep_k)) {
+           (FLIGHT_Hexacopter_V2_B.ParamStep_c) +
+           FLIGHT_Hexacopter_V2_B.ParamStep_c)) {
         // :  elseif(reletive_time_sec >= t2 && reletive_time_sec < t3)
         // :  cmd = -peak_angle_rad;
         FLIGHT_Hexacopter_V2_B.peak_angle_rad =
@@ -3758,16 +3845,54 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // Trigonometry: 'sincos' (':1231:9')
   FLIGHT_Hexacopter_V2_B.ParamStep = static_cast<real32_T>(cos
     (static_cast<real_T>(FLIGHT_Hexacopter_V2_B.Gain6)));
-  rtb_Gain7 = static_cast<real32_T>(sin(static_cast<real_T>
+  FLIGHT_Hexacopter_V2_B.Gain6 = static_cast<real32_T>(sin(static_cast<real_T>
     (FLIGHT_Hexacopter_V2_B.Gain6)));
-  rtb_Filter_k_idx_0 = static_cast<real32_T>(cos(static_cast<real_T>
+  rtb_Gain7 = static_cast<real32_T>(cos(static_cast<real_T>(rtb_sincos_o1_idx_1)));
+  rtb_Sum_g_idx_0 = static_cast<real32_T>(sin(static_cast<real_T>
     (rtb_sincos_o1_idx_1)));
-  Theta_idx_0 = static_cast<real32_T>(sin(static_cast<real_T>
-    (rtb_sincos_o1_idx_1)));
-  rtb_Filter_k_idx_1 = static_cast<real32_T>(cos(static_cast<real_T>
-    (rtb_sincos_o1_idx_2)));
-  FLIGHT_Hexacopter_V2_B.ParamStep_k = static_cast<real32_T>(sin
+  FLIGHT_Hexacopter_V2_B.Product3_dq = static_cast<real32_T>(cos
     (static_cast<real_T>(rtb_sincos_o1_idx_2)));
+  FLIGHT_Hexacopter_V2_B.ParamStep_c = static_cast<real32_T>(sin
+    (static_cast<real_T>(rtb_sincos_o1_idx_2)));
+
+  // Product: 'Product4' (':2145:220:366') incorporates:
+  //   Bias: 'Bias1' (':2145:220:375')
+  //   UnaryMinus: 'Unary Minus' (':2145:220:374')
+
+  rtb_sincos_o1_idx_2 = (-FLIGHT_Hexacopter_V2_B.q2 +
+    FLIGHT_Hexacopter_V2_P.Bias1_Bias_o1) / FLIGHT_Hexacopter_V2_B.Sum3_i;
+
+  // Product: 'Product5' (':2145:220:370') incorporates:
+  //   Sum: 'Add3' (':2145:220:371')
+
+  rtb_sincos_o1_idx_1 = 1.0F / FLIGHT_Hexacopter_V2_B.Sum3_i *
+    (FLIGHT_Hexacopter_V2_B.q1 - FLIGHT_Hexacopter_V2_B.q3);
+
+  // Sum: 'Sum1' (':2145:220:339') incorporates:
+  //   Gain: 'Gain1' (':2145:220:340')
+  //   Product: 'Product5' (':2145:220:299')
+  //   Sum: 'Sum2' (':2145:220:341')
+  //   UnitDelay: 'Unit Delay1' (':2145:220:338')
+  //   UnitDelay: 'Unit Delay2' (':2145:220:342')
+
+  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a2[0] = (rtb_Product2_c_idx_0 *
+    rtb_sincos_o1_idx_2 + FLIGHT_Hexacopter_V2_B.In1.vx) *
+    FLIGHT_Hexacopter_V2_P.Gain1_Gain_lb +
+    FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_a[0];
+  FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a2[1] = (rtb_Product2_c_idx_1 *
+    rtb_sincos_o1_idx_2 + FLIGHT_Hexacopter_V2_B.In1.vy) *
+    FLIGHT_Hexacopter_V2_P.Gain1_Gain_lb +
+    FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_a[1];
+
+  // Sum: 'Sum3' (':2145:220:345') incorporates:
+  //   Product: 'Product2' (':2145:220:344')
+  //   Product: 'Product5' (':2145:220:299')
+  //   UnitDelay: 'Unit Delay2' (':2145:220:342')
+
+  FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_a[0] = FLIGHT_Hexacopter_V2_B.In1.vx
+    - rtb_Product2_c_idx_0 * rtb_sincos_o1_idx_1;
+  FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_a[1] = FLIGHT_Hexacopter_V2_B.In1.vy
+    - rtb_Product2_c_idx_1 * rtb_sincos_o1_idx_1;
   FLIGHT_Hexac_PX4Timestamp_j(&FLIGHT_Hexacopter_V2_B.PX4Timestamp_j);
 
   // BusAssignment: 'Bus Assignment' (':1230:101') incorporates:
@@ -3791,8 +3916,8 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   Fcn: 'q1' (':1231:6')
   //   Trigonometry: 'sincos' (':1231:9')
 
-  rtb_sincos_o1_idx_2 = FLIGHT_Hexacopter_V2_B.ParamStep * rtb_Filter_k_idx_0;
-  rtb_sincos_o1_idx_1 = rtb_Gain7 * Theta_idx_0;
+  rtb_sincos_o1_idx_2 = FLIGHT_Hexacopter_V2_B.ParamStep * rtb_Gain7;
+  rtb_sincos_o1_idx_1 = FLIGHT_Hexacopter_V2_B.Gain6 * rtb_Sum_g_idx_0;
 
   // BusAssignment: 'Bus Assignment' (':1230:101') incorporates:
   //   Fcn: 'q0' (':1231:5')
@@ -3800,18 +3925,18 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   Trigonometry: 'sincos' (':1231:9')
 
   FLIGHT_Hexacopter_V2_B.BusAssignment_f.q_d[0] = rtb_sincos_o1_idx_2 *
-    rtb_Filter_k_idx_1 + rtb_sincos_o1_idx_1 *
-    FLIGHT_Hexacopter_V2_B.ParamStep_k;
+    FLIGHT_Hexacopter_V2_B.Product3_dq + rtb_sincos_o1_idx_1 *
+    FLIGHT_Hexacopter_V2_B.ParamStep_c;
   FLIGHT_Hexacopter_V2_B.BusAssignment_f.q_d[1] = rtb_sincos_o1_idx_2 *
-    FLIGHT_Hexacopter_V2_B.ParamStep_k - rtb_sincos_o1_idx_1 *
-    rtb_Filter_k_idx_1;
+    FLIGHT_Hexacopter_V2_B.ParamStep_c - rtb_sincos_o1_idx_1 *
+    FLIGHT_Hexacopter_V2_B.Product3_dq;
 
   // Fcn: 'q2' (':1231:7') incorporates:
   //   Fcn: 'q3' (':1231:8')
   //   Trigonometry: 'sincos' (':1231:9')
 
-  rtb_sincos_o1_idx_2 = rtb_Gain7 * rtb_Filter_k_idx_0;
-  rtb_sincos_o1_idx_1 = FLIGHT_Hexacopter_V2_B.ParamStep * Theta_idx_0;
+  rtb_sincos_o1_idx_2 = FLIGHT_Hexacopter_V2_B.Gain6 * rtb_Gain7;
+  rtb_sincos_o1_idx_1 = FLIGHT_Hexacopter_V2_B.ParamStep * rtb_Sum_g_idx_0;
 
   // BusAssignment: 'Bus Assignment' (':1230:101') incorporates:
   //   Constant: 'Constant' (':1224')
@@ -3820,11 +3945,11 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   Trigonometry: 'sincos' (':1231:9')
 
   FLIGHT_Hexacopter_V2_B.BusAssignment_f.q_d[2] = rtb_sincos_o1_idx_1 *
-    rtb_Filter_k_idx_1 + rtb_sincos_o1_idx_2 *
-    FLIGHT_Hexacopter_V2_B.ParamStep_k;
+    FLIGHT_Hexacopter_V2_B.Product3_dq + rtb_sincos_o1_idx_2 *
+    FLIGHT_Hexacopter_V2_B.ParamStep_c;
   FLIGHT_Hexacopter_V2_B.BusAssignment_f.q_d[3] = rtb_sincos_o1_idx_2 *
-    rtb_Filter_k_idx_1 - rtb_sincos_o1_idx_1 *
-    FLIGHT_Hexacopter_V2_B.ParamStep_k;
+    FLIGHT_Hexacopter_V2_B.Product3_dq - rtb_sincos_o1_idx_1 *
+    FLIGHT_Hexacopter_V2_B.ParamStep_c;
   FLIGHT_Hexacopter_V2_B.BusAssignment_f.thrust_body[0] =
     FLIGHT_Hexacopter_V2_P.Constant_Value_i;
   FLIGHT_Hexacopter_V2_B.BusAssignment_f.thrust_body[1] =
@@ -3846,7 +3971,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // RateTransition: 'Rate Transition1' (':733') incorporates:
   //   DataTypeConversion: 'Data Type Conversion15' (':632')
 
-  FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0_g = static_cast<real32_T>
+  FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0 = static_cast<real32_T>
     (FLIGHT_Hexacopter_V2_B.out_yawrate);
 
   // RateTransition: 'Rate Transition20' (':2014') incorporates:
@@ -4009,8 +4134,8 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   FLIGHT_Hexacopter_V2_B.BusAssignment_g.x = rtb_Switch_gd_idx_0;
   FLIGHT_Hexacopter_V2_B.BusAssignment_g.y = rtb_Switch_gd_idx_1;
   FLIGHT_Hexacopter_V2_B.BusAssignment_g.z = 0.0F;
-  FLIGHT_Hexacopter_V2_B.BusAssignment_g.vx = FLIGHT_Hexacopter_V2_B.ParamStep_c;
-  FLIGHT_Hexacopter_V2_B.BusAssignment_g.vy = rtb_Sum2_i;
+  FLIGHT_Hexacopter_V2_B.BusAssignment_g.vx = rtb_q3;
+  FLIGHT_Hexacopter_V2_B.BusAssignment_g.vy = V_idx_1;
   FLIGHT_Hexacopter_V2_B.BusAssignment_g.vz = FLIGHT_Hexacopter_V2_B.Gain7;
   FLIGHT_Hexacopter_V2_B.BusAssignment_g.acceleration[0] = 0.0F;
   FLIGHT_Hexacopter_V2_B.BusAssignment_g.thrust[0] = 0.0F;
@@ -4032,7 +4157,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // RateTransition: 'Rate Transition1' (':1911') incorporates:
   //   DataTypeConversion: 'Data Type Conversion14' (':631')
 
-  FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0 = static_cast<real32_T>
+  FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0_p = static_cast<real32_T>
     (FLIGHT_Hexacopter_V2_B.rtb_Current_WP_idx_0);
 
   // Sum: 'Sum1' (':1821:2:220:339') incorporates:
@@ -4068,7 +4193,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
     FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_i;
 
   // RateTransition: 'Rate Transition12' (':2003')
-  FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0_j =
+  FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0 =
     FLIGHT_Hexacopter_V2_B.w_radps;
 
   // RateTransition: 'Rate Transition3' (':1980')
@@ -4076,8 +4201,16 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
     FLIGHT_Hexacopter_V2_B.w_radps;
 
   // RateTransition: 'Rate Transition7' (':1987')
-  FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0_e =
+  FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0 =
     FLIGHT_Hexacopter_V2_B.w_radps;
+
+  // RateTransition generated from: 'Rate Transition2' (':1298')
+  FLIGHT_Hexacopter_V2_DW.RateTransition2_1_Buffer0 =
+    FLIGHT_Hexacopter_V2_B.In1_e.armed;
+
+  // RateTransition generated from: 'Rate Transition2' (':1298')
+  FLIGHT_Hexacopter_V2_DW.RateTransition2_2_Buffer0 =
+    FLIGHT_Hexacopter_V2_B.In1_e.manual_lockdown;
 
   // MATLABSystem: 'Read Parameter4' (':213')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_c1.MW_PARAMHANDLE,
@@ -4126,15 +4259,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
      FLIGHT_Hexacopter_V2_B.In1_d.armed) ^ rtb_flag_pos;
 
   // RateTransition: 'Rate Transition16' (':1925')
-  FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0 = rtb_flag_pos;
-
-  // RateTransition generated from: 'Rate Transition2' (':1298')
-  FLIGHT_Hexacopter_V2_DW.RateTransition2_16_Buffer0 =
-    FLIGHT_Hexacopter_V2_B.In1_d.armed;
-
-  // RateTransition generated from: 'Rate Transition2' (':1298')
-  FLIGHT_Hexacopter_V2_DW.RateTransition2_17_Buffer0 =
-    FLIGHT_Hexacopter_V2_B.In1_d.manual_lockdown;
+  FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0_m = rtb_flag_pos;
 
   // Logic: 'OR' (':1709') incorporates:
   //   Constant: 'Constant' (':1710:3')
@@ -4148,7 +4273,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   FLIGHT_Hexacopter_V2_DW.RateTransition15_Buffer0 = rtb_flag_pos;
 
   // RateTransition: 'Rate Transition16' (':2010')
-  FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0_g = rtb_flag_pos;
+  FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0 = rtb_flag_pos;
 
   // RateTransition: 'Rate Transition17' (':2011')
   FLIGHT_Hexacopter_V2_DW.RateTransition17_Buffer0_e = rtb_flag_pos;
@@ -4176,7 +4301,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLABSystem: 'Read Parameter13' (':198')
 
   // RateTransition: 'Rate Transition8' (':1988')
-  FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0_a =
+  FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0 =
     FLIGHT_Hexacopter_V2_B.ReadParameter13_o1;
 
   // MATLABSystem: 'Read Parameter14' (':199')
@@ -4202,7 +4327,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLABSystem: 'Read Parameter15' (':200')
 
   // RateTransition: 'Rate Transition10' (':1995')
-  FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0_g =
+  FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0 =
     FLIGHT_Hexacopter_V2_B.ReadParameter15_o1;
 
   // MATLABSystem: 'Read Parameter16' (':201')
@@ -4215,7 +4340,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLABSystem: 'Read Parameter16' (':201')
 
   // RateTransition: 'Rate Transition13' (':2004')
-  FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0_d =
+  FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0 =
     FLIGHT_Hexacopter_V2_B.ReadParameter16_o1;
 
   // MATLABSystem: 'Read Parameter17' (':202')
@@ -4241,7 +4366,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLABSystem: 'Read Parameter18' (':203')
 
   // RateTransition: 'Rate Transition11' (':2002')
-  FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0_b =
+  FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0 =
     FLIGHT_Hexacopter_V2_B.ReadParameter18_o1;
 
   // MATLABSystem: 'Read Parameter19' (':204')
@@ -4306,7 +4431,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLABSystem: 'Read Parameter32' (':1035')
 
   // RateTransition: 'Rate Transition7' (':1915')
-  FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0 =
+  FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0_h =
     FLIGHT_Hexacopter_V2_B.ReadParameter32_o1;
 
   // MATLABSystem: 'Read Parameter33' (':1036')
@@ -4319,7 +4444,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLABSystem: 'Read Parameter33' (':1036')
 
   // RateTransition: 'Rate Transition8' (':1916')
-  FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0 =
+  FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0_o =
     FLIGHT_Hexacopter_V2_B.ReadParameter33_o1;
 
   // MATLABSystem: 'Read Parameter34' (':1725')
@@ -4336,7 +4461,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
     FLIGHT_Hexacopter_V2_B.ReadParameter34_o1;
 
   // MATLABSystem: 'Read Parameter35' (':1726')
-  rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_b.MW_PARAMHANDLE,
+  rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_bv.MW_PARAMHANDLE,
     MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ReadParameter35_o1);
   if (rtb_flag_pos) {
     FLIGHT_Hexacopter_V2_B.ReadParameter35_o1 = 0.0F;
@@ -4345,7 +4470,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLABSystem: 'Read Parameter35' (':1726')
 
   // RateTransition: 'Rate Transition10' (':1918')
-  FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0 =
+  FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0_m =
     FLIGHT_Hexacopter_V2_B.ReadParameter35_o1;
 
   // MATLABSystem: 'Read Parameter36' (':1727')
@@ -4358,7 +4483,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLABSystem: 'Read Parameter36' (':1727')
 
   // RateTransition: 'Rate Transition11' (':1919')
-  FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0 =
+  FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0_i =
     FLIGHT_Hexacopter_V2_B.ReadParameter36_o1;
 
   // MATLABSystem: 'Read Parameter37' (':1752')
@@ -4371,21 +4496,21 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLABSystem: 'Read Parameter37' (':1752')
 
   // RateTransition: 'Rate Transition12' (':1920')
-  FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0 =
+  FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0_l =
     FLIGHT_Hexacopter_V2_B.ReadParameter37_o1;
 
   // MATLABSystem: 'Read Parameter38' (':1760')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_e.MW_PARAMHANDLE,
-    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_k);
+    MW_SINGLE, &FLIGHT_Hexacopter_V2_B.ParamStep_c);
   if (rtb_flag_pos) {
-    FLIGHT_Hexacopter_V2_B.ParamStep_k = 0.0F;
+    FLIGHT_Hexacopter_V2_B.ParamStep_c = 0.0F;
   }
 
   // Gain: 'Gain' (':1763') incorporates:
   //   MATLABSystem: 'Read Parameter38' (':1760')
   //
   FLIGHT_Hexacopter_V2_B.ReadParameter37_o1 =
-    FLIGHT_Hexacopter_V2_P.Gain_Gain_eb * FLIGHT_Hexacopter_V2_B.ParamStep_k;
+    FLIGHT_Hexacopter_V2_P.Gain_Gain_eb * FLIGHT_Hexacopter_V2_B.ParamStep_c;
 
   // RateTransition: 'Rate Transition17' (':1927')
   FLIGHT_Hexacopter_V2_DW.RateTransition17_Buffer0 =
@@ -4401,7 +4526,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   // End of MATLABSystem: 'Read Parameter41' (':1904')
 
   // RateTransition: 'Rate Transition13' (':1921')
-  FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0 =
+  FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0_p =
     FLIGHT_Hexacopter_V2_B.ReadParameter41_o1;
 
   // MATLABSystem: 'Read Parameter42' (':1905')
@@ -4419,11 +4544,11 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
 
   // MATLABSystem: 'Read Parameter43' (':1930')
   MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_ox.MW_PARAMHANDLE, MW_SINGLE,
-                    &FLIGHT_Hexacopter_V2_B.ParamStep_k);
+                    &FLIGHT_Hexacopter_V2_B.ParamStep_c);
 
   // MATLABSystem: 'Read Parameter44' (':1932')
   MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_o.MW_PARAMHANDLE, MW_SINGLE,
-                    &FLIGHT_Hexacopter_V2_B.ParamStep_k);
+                    &FLIGHT_Hexacopter_V2_B.ParamStep_c);
 
   // MATLABSystem: 'Read Parameter8' (':217')
   rtb_flag_pos = MW_ParamRead_Step(FLIGHT_Hexacopter_V2_DW.obj_f.MW_PARAMHANDLE,
@@ -4454,7 +4579,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //   MATLABSystem: 'Read Parameter4' (':213')
   //   Product: 'IProd Out' (':1821:10:787')
   //
-  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_lu += FLIGHT_Hexacopter_V2_B.roll *
+  FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l += FLIGHT_Hexacopter_V2_B.roll *
     FLIGHT_Hexacopter_V2_B.ParamStep *
     FLIGHT_Hexacopter_V2_P.Integrator_gainval_ei;
   FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_l = static_cast<int8_T>
@@ -4469,15 +4594,14 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   //
   //   Store in Global RAM
 
-  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_a = FLIGHT_Hexacopter_V2_B.TSamp_ku;
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_a = FLIGHT_Hexacopter_V2_B.TSamp_k;
 
   // Update for DiscreteIntegrator: 'Discrete-Time Integrator' (':436') incorporates:
   //   MATLAB Function: 'MATLAB Function3' (':2041')
 
   FLIGHT_Hexacopter_V2_DW.DiscreteTimeIntegrator_IC_LOADI = 0U;
   FLIGHT_Hexacopter_V2_DW.DiscreteTimeIntegrator_DSTATE_c +=
-    FLIGHT_Hexacopter_V2_P.DiscreteTimeIntegrator_gainva_h *
-    FLIGHT_Hexacopter_V2_B.ParamStep_c;
+    FLIGHT_Hexacopter_V2_P.DiscreteTimeIntegrator_gainva_h * rtb_q3;
   FLIGHT_Hexacopter_V2_DW.DiscreteTimeIntegrator_PrevRe_l = static_cast<int8_T>
     (rtb_AND1);
 
@@ -4486,7 +4610,7 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
 
   FLIGHT_Hexacopter_V2_DW.DiscreteTimeIntegrator1_IC_LOAD = 0U;
   FLIGHT_Hexacopter_V2_DW.DiscreteTimeIntegrator1_DSTATE +=
-    FLIGHT_Hexacopter_V2_P.DiscreteTimeIntegrator1_gainval * rtb_Sum2_i;
+    FLIGHT_Hexacopter_V2_P.DiscreteTimeIntegrator1_gainval * V_idx_1;
   FLIGHT_Hexacopter_V2_DW.DiscreteTimeIntegrator1_PrevRes = static_cast<int8_T>
     (rtb_AND2);
 
@@ -4494,15 +4618,18 @@ void FLIGHT_Hexacopter_V2_step1(void)  // Sample time: [0.004s, 0.0s]
   FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_l3 = static_cast<int8_T>
     (rtb_XOR);
 
-  // Update for DiscreteIntegrator: 'Filter' (':514:737') incorporates:
-  //   DiscreteIntegrator: 'Integrator' (':514:843')
-  //   Product: 'NProd Out' (':514:878')
+  // Update for UnitDelay: 'UD' (':2144:5') incorporates:
+  //   SampleTimeMath: 'TSamp' (':2144:4')
+  //
+  //  About 'TSamp' (':2144:4'):
+  //   y = u * K where K = 1 / ( w * Ts )
+  //    *
+  //  Block description for 'UD' (':2144:5'):
+  //
+  //   Store in Global RAM
 
-  FLIGHT_Hexacopter_V2_DW.Filter_DSTATE_i[0] +=
-    FLIGHT_Hexacopter_V2_P.Filter_gainval_f * rtb_NProdOut_idx_0;
-  FLIGHT_Hexacopter_V2_DW.Filter_DSTATE_i[1] +=
-    FLIGHT_Hexacopter_V2_P.Filter_gainval_f * FLIGHT_Hexacopter_V2_B.Sum2_g;
-  FLIGHT_Hexacopter_V2_DW.Filter_PrevResetState = static_cast<int8_T>(rtb_XOR);
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_c[0] = FLIGHT_Hexacopter_V2_B.ParamStep_p;
+  FLIGHT_Hexacopter_V2_DW.UD_DSTATE_c[1] = FLIGHT_Hexacopter_V2_B.ParamStep_b;
 }
 
 // Use this function only if you need to maintain compatibility with an existing static main program.
@@ -4544,42 +4671,92 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     static const char_T ParameterNameStr_8[17] = "IMU_DGYRO_CUTOFF";
     static const char_T ParameterNameStr_9[14] = "MPC_THR_HOVER";
     static const char_T ParameterNameStr_a[17] = "MPC_XY_VEL_P_ACC";
-    static const char_T ParameterNameStr_b[9] = "MPC_XY_P";
-    static const char_T ParameterNameStr_c[15] = "MPC_XY_VEL_MAX";
-    static const char_T ParameterNameStr_d[17] = "MPC_XY_VEL_I_ACC";
-    static const char_T ParameterNameStr_e[17] = "MPC_XY_VEL_D_ACC";
-    static const char_T ParameterNameStr_f[17] = "DOUBLET_PEAK_ANG";
-    static const char_T ParameterNameStr_g[11] = "DOUBLET_DT";
-    static const char_T ParameterNameStr_h[13] = "DOUBLET_AXIS";
-    static const char_T ParameterNameStr_i[16] = "MC_ROLLRATE_MAX";
-    static const char_T ParameterNameStr_j[10] = "MC_ROLL_P";
-    static const char_T ParameterNameStr_k[17] = "MC_PITCHRATE_MAX";
-    static const char_T ParameterNameStr_l[11] = "MC_PITCH_P";
-    static const char_T ParameterNameStr_m[16] = "MPC_Z_VEL_I_ACC";
-    static const char_T ParameterNameStr_n[14] = "MC_ROLLRATE_D";
-    static const char_T ParameterNameStr_o[15] = "MC_PITCHRATE_P";
-    static const char_T ParameterNameStr_p[15] = "MC_PITCHRATE_I";
-    static const char_T ParameterNameStr_q[15] = "MC_PITCHRATE_D";
-    static const char_T ParameterNameStr_r[13] = "MC_YAWRATE_P";
-    static const char_T ParameterNameStr_s[13] = "MC_YAWRATE_I";
-    static const char_T ParameterNameStr_t[13] = "MC_YAWRATE_D";
-    static const char_T ParameterNameStr_u[14] = "MC_YAWRATE_FF";
-    static const char_T ParameterNameStr_v[11] = "SMC_K_SS_P";
-    static const char_T ParameterNameStr_w[11] = "SMC_K_SS_I";
-    static const char_T ParameterNameStr_x[11] = "SMC_K_SS_D";
-    static const char_T ParameterNameStr_y[14] = "SMC_K_REACH_S";
-    static const char_T ParameterNameStr_z[14] = "SMC_K_REACH_P";
-    static const char_T ParameterNameStr_10[9] = "SMC_I_XX";
-    static const char_T ParameterNameStr_11[9] = "SMC_I_YY";
-    static const char_T ParameterNameStr_12[9] = "SMC_I_ZZ";
-    static const char_T ParameterNameStr_13[12] = "SMC_EPSILON";
-    static const char_T ParameterNameStr_14[15] = "SMC_LPF_CUTOFF";
-    static const char_T ParameterNameStr_15[14] = "ST_SMC_LAMBDA";
-    static const char_T ParameterNameStr_16[11] = "ST_SMC_ETA";
-    static const char_T ParameterNameStr_17[11] = "MC_PITCH_I";
-    static const char_T ParameterNameStr_18[10] = "MC_ROLL_I";
-    static const char_T ParameterNameStr_19[14] = "MC_ROLLRATE_I";
-    static const char_T ParameterNameStr_1a[14] = "MC_ROLLRATE_P";
+    static const char_T ParameterNameStr_b[15] = "MPC_XY_VEL_MAX";
+    static const char_T ParameterNameStr_c[9] = "MPC_XY_P";
+    static const char_T ParameterNameStr_d[14] = "MPC_WP_LENGTH";
+    static const char_T ParameterNameStr_e[17] = "MPC_XY_VEL_I_ACC";
+    static const char_T ParameterNameStr_f[17] = "MPC_XY_VEL_D_ACC";
+    static const char_T ParameterNameStr_g[17] = "DOUBLET_PEAK_ANG";
+    static const char_T ParameterNameStr_h[11] = "DOUBLET_DT";
+    static const char_T ParameterNameStr_i[13] = "DOUBLET_AXIS";
+    static const char_T ParameterNameStr_j[16] = "MC_ROLLRATE_MAX";
+    static const char_T ParameterNameStr_k[10] = "MC_ROLL_P";
+    static const char_T ParameterNameStr_l[17] = "MC_PITCHRATE_MAX";
+    static const char_T ParameterNameStr_m[11] = "MC_PITCH_P";
+    static const char_T ParameterNameStr_n[16] = "MPC_Z_VEL_I_ACC";
+    static const char_T ParameterNameStr_o[14] = "MC_ROLLRATE_D";
+    static const char_T ParameterNameStr_p[15] = "MC_PITCHRATE_P";
+    static const char_T ParameterNameStr_q[15] = "MC_PITCHRATE_I";
+    static const char_T ParameterNameStr_r[15] = "MC_PITCHRATE_D";
+    static const char_T ParameterNameStr_s[13] = "MC_YAWRATE_P";
+    static const char_T ParameterNameStr_t[13] = "MC_YAWRATE_I";
+    static const char_T ParameterNameStr_u[13] = "MC_YAWRATE_D";
+    static const char_T ParameterNameStr_v[14] = "MC_YAWRATE_FF";
+    static const char_T ParameterNameStr_w[11] = "SMC_K_SS_P";
+    static const char_T ParameterNameStr_x[11] = "SMC_K_SS_I";
+    static const char_T ParameterNameStr_y[11] = "SMC_K_SS_D";
+    static const char_T ParameterNameStr_z[14] = "SMC_K_REACH_S";
+    static const char_T ParameterNameStr_10[14] = "SMC_K_REACH_P";
+    static const char_T ParameterNameStr_11[9] = "SMC_I_XX";
+    static const char_T ParameterNameStr_12[9] = "SMC_I_YY";
+    static const char_T ParameterNameStr_13[9] = "SMC_I_ZZ";
+    static const char_T ParameterNameStr_14[12] = "SMC_EPSILON";
+    static const char_T ParameterNameStr_15[15] = "SMC_LPF_CUTOFF";
+    static const char_T ParameterNameStr_16[14] = "ST_SMC_LAMBDA";
+    static const char_T ParameterNameStr_17[11] = "ST_SMC_ETA";
+    static const char_T ParameterNameStr_18[11] = "MC_PITCH_I";
+    static const char_T ParameterNameStr_19[10] = "MC_ROLL_I";
+    static const char_T ParameterNameStr_1a[14] = "MC_ROLLRATE_I";
+    static const char_T ParameterNameStr_1b[14] = "MC_ROLLRATE_P";
+    int32_T i;
+
+    // Start for RateTransition: 'Rate Transition8' (':1988')
+    FLIGHT_Hexacopter_V2_B.RateTransition8 =
+      FLIGHT_Hexacopter_V2_P.RateTransition8_InitialConditio;
+
+    // Start for RateTransition: 'Rate Transition19' (':2013')
+    FLIGHT_Hexacopter_V2_B.RateTransition19 =
+      FLIGHT_Hexacopter_V2_P.RateTransition19_InitialConditi;
+
+    // Start for RateTransition: 'Rate Transition16' (':2010')
+    FLIGHT_Hexacopter_V2_B.RateTransition16 =
+      FLIGHT_Hexacopter_V2_P.RateTransition16_InitialConditi;
+
+    // Start for RateTransition: 'Rate Transition10' (':1995')
+    FLIGHT_Hexacopter_V2_B.RateTransition10 =
+      FLIGHT_Hexacopter_V2_P.RateTransition10_InitialConditi;
+
+    // Start for RateTransition: 'Rate Transition7' (':1987')
+    FLIGHT_Hexacopter_V2_B.RateTransition7 =
+      FLIGHT_Hexacopter_V2_P.RateTransition7_InitialConditio;
+
+    // Start for RateTransition: 'Rate Transition' (':732')
+    FLIGHT_Hexacopter_V2_B.RateTransition =
+      FLIGHT_Hexacopter_V2_P.RateTransition_InitialCondition;
+
+    // Start for RateTransition: 'Rate Transition1' (':733')
+    FLIGHT_Hexacopter_V2_B.RateTransition1 =
+      FLIGHT_Hexacopter_V2_P.RateTransition1_InitialConditio;
+
+    // Start for RateTransition: 'Rate Transition13' (':2004')
+    FLIGHT_Hexacopter_V2_B.RateTransition13 =
+      FLIGHT_Hexacopter_V2_P.RateTransition13_InitialConditi;
+
+    // Start for RateTransition: 'Rate Transition20' (':2014')
+    FLIGHT_Hexacopter_V2_B.RateTransition20 =
+      FLIGHT_Hexacopter_V2_P.RateTransition20_InitialConditi;
+
+    // Start for RateTransition: 'Rate Transition17' (':2011')
+    FLIGHT_Hexacopter_V2_B.RateTransition17_h =
+      FLIGHT_Hexacopter_V2_P.RateTransition17_InitialCondi_p;
+
+    // Start for RateTransition: 'Rate Transition11' (':2002')
+    FLIGHT_Hexacopter_V2_B.RateTransition11 =
+      FLIGHT_Hexacopter_V2_P.RateTransition11_InitialConditi;
+
+    // Start for RateTransition: 'Rate Transition12' (':2003')
+    FLIGHT_Hexacopter_V2_B.RateTransition12 =
+      FLIGHT_Hexacopter_V2_P.RateTransition12_InitialConditi;
 
     // Start for RateTransition: 'Rate Transition4' (':1068')
     FLIGHT_Hexacopter_V2_B.RateTransition4 =
@@ -4634,40 +4811,40 @@ void FLIGHT_Hexacopter_V2_initialize(void)
       FLIGHT_Hexacopter_V2_P.RateTransition9_InitialConditio;
 
     // Start for RateTransition: 'Rate Transition10' (':1918')
-    FLIGHT_Hexacopter_V2_B.RateTransition10 =
-      FLIGHT_Hexacopter_V2_P.RateTransition10_InitialConditi;
+    FLIGHT_Hexacopter_V2_B.RateTransition10_b =
+      FLIGHT_Hexacopter_V2_P.RateTransition10_InitialCondi_e;
 
     // Start for RateTransition: 'Rate Transition11' (':1919')
-    FLIGHT_Hexacopter_V2_B.RateTransition11 =
-      FLIGHT_Hexacopter_V2_P.RateTransition11_InitialConditi;
+    FLIGHT_Hexacopter_V2_B.RateTransition11_b =
+      FLIGHT_Hexacopter_V2_P.RateTransition11_InitialCondi_j;
 
     // Start for RateTransition: 'Rate Transition17' (':1927')
     FLIGHT_Hexacopter_V2_B.RateTransition17 =
       FLIGHT_Hexacopter_V2_P.RateTransition17_InitialConditi;
 
     // Start for RateTransition: 'Rate Transition1' (':1911')
-    FLIGHT_Hexacopter_V2_B.RateTransition1 =
-      FLIGHT_Hexacopter_V2_P.RateTransition1_InitialConditio;
+    FLIGHT_Hexacopter_V2_B.RateTransition1_j =
+      FLIGHT_Hexacopter_V2_P.RateTransition1_InitialCondit_i;
 
     // Start for RateTransition: 'Rate Transition16' (':1925')
-    FLIGHT_Hexacopter_V2_B.RateTransition16 =
-      FLIGHT_Hexacopter_V2_P.RateTransition16_InitialConditi;
+    FLIGHT_Hexacopter_V2_B.RateTransition16_g =
+      FLIGHT_Hexacopter_V2_P.RateTransition16_InitialCondi_b;
 
     // Start for RateTransition: 'Rate Transition7' (':1915')
-    FLIGHT_Hexacopter_V2_B.RateTransition7 =
-      FLIGHT_Hexacopter_V2_P.RateTransition7_InitialConditio;
+    FLIGHT_Hexacopter_V2_B.RateTransition7_k =
+      FLIGHT_Hexacopter_V2_P.RateTransition7_InitialCondit_m;
 
     // Start for RateTransition: 'Rate Transition8' (':1916')
-    FLIGHT_Hexacopter_V2_B.RateTransition8 =
-      FLIGHT_Hexacopter_V2_P.RateTransition8_InitialConditio;
+    FLIGHT_Hexacopter_V2_B.RateTransition8_c =
+      FLIGHT_Hexacopter_V2_P.RateTransition8_InitialCondit_k;
 
     // Start for RateTransition: 'Rate Transition12' (':1920')
-    FLIGHT_Hexacopter_V2_B.RateTransition12 =
-      FLIGHT_Hexacopter_V2_P.RateTransition12_InitialConditi;
+    FLIGHT_Hexacopter_V2_B.RateTransition12_i =
+      FLIGHT_Hexacopter_V2_P.RateTransition12_InitialCondi_k;
 
     // Start for RateTransition: 'Rate Transition13' (':1921')
-    FLIGHT_Hexacopter_V2_B.RateTransition13 =
-      FLIGHT_Hexacopter_V2_P.RateTransition13_InitialConditi;
+    FLIGHT_Hexacopter_V2_B.RateTransition13_g =
+      FLIGHT_Hexacopter_V2_P.RateTransition13_InitialCondi_j;
 
     // Start for RateTransition: 'Rate Transition14' (':1922')
     FLIGHT_Hexacopter_V2_B.RateTransition14 =
@@ -4677,65 +4854,21 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     FLIGHT_Hexacopter_V2_B.RateTransition15_l =
       FLIGHT_Hexacopter_V2_P.RateTransition15_InitialCondi_p;
 
-    // Start for RateTransition: 'Rate Transition8' (':1988')
-    FLIGHT_Hexacopter_V2_B.RateTransition8_i =
-      FLIGHT_Hexacopter_V2_P.RateTransition8_InitialCondit_c;
-
-    // Start for RateTransition: 'Rate Transition19' (':2013')
-    FLIGHT_Hexacopter_V2_B.RateTransition19 =
-      FLIGHT_Hexacopter_V2_P.RateTransition19_InitialConditi;
-
-    // Start for RateTransition: 'Rate Transition16' (':2010')
-    FLIGHT_Hexacopter_V2_B.RateTransition16_e =
-      FLIGHT_Hexacopter_V2_P.RateTransition16_InitialCondi_i;
-
-    // Start for RateTransition: 'Rate Transition10' (':1995')
-    FLIGHT_Hexacopter_V2_B.RateTransition10_j =
-      FLIGHT_Hexacopter_V2_P.RateTransition10_InitialCondi_k;
-
-    // Start for RateTransition: 'Rate Transition7' (':1987')
-    FLIGHT_Hexacopter_V2_B.RateTransition7_h =
-      FLIGHT_Hexacopter_V2_P.RateTransition7_InitialCondit_l;
-
-    // Start for RateTransition: 'Rate Transition' (':732')
-    FLIGHT_Hexacopter_V2_B.RateTransition =
-      FLIGHT_Hexacopter_V2_P.RateTransition_InitialCondition;
-
-    // Start for RateTransition: 'Rate Transition1' (':733')
-    FLIGHT_Hexacopter_V2_B.RateTransition1_a =
-      FLIGHT_Hexacopter_V2_P.RateTransition1_InitialCondit_e;
-
-    // Start for RateTransition: 'Rate Transition13' (':2004')
-    FLIGHT_Hexacopter_V2_B.RateTransition13_a =
-      FLIGHT_Hexacopter_V2_P.RateTransition13_InitialCondi_h;
-
-    // Start for RateTransition: 'Rate Transition20' (':2014')
-    FLIGHT_Hexacopter_V2_B.RateTransition20 =
-      FLIGHT_Hexacopter_V2_P.RateTransition20_InitialConditi;
-
-    // Start for RateTransition: 'Rate Transition17' (':2011')
-    FLIGHT_Hexacopter_V2_B.RateTransition17_h =
-      FLIGHT_Hexacopter_V2_P.RateTransition17_InitialCondi_p;
-
-    // Start for RateTransition: 'Rate Transition11' (':2002')
-    FLIGHT_Hexacopter_V2_B.RateTransition11_a =
-      FLIGHT_Hexacopter_V2_P.RateTransition11_InitialCondi_g;
-
-    // Start for RateTransition: 'Rate Transition12' (':2003')
-    FLIGHT_Hexacopter_V2_B.RateTransition12_j =
-      FLIGHT_Hexacopter_V2_P.RateTransition12_InitialCondi_h;
-
     // Start for RateTransition generated from: 'Rate Transition' (':1176')
     FLIGHT_Hexacopter_V2_B.rc_inject_failure =
       FLIGHT_Hexacopter_V2_P.RateTransition_4_InitialConditi;
 
     // Start for RateTransition generated from: 'Rate Transition2' (':1298')
-    FLIGHT_Hexacopter_V2_B.VehicleStatus_flag_armed =
-      FLIGHT_Hexacopter_V2_P.RateTransition2_16_InitialCondi;
+    FLIGHT_Hexacopter_V2_B.VehicleStatus_armed =
+      FLIGHT_Hexacopter_V2_P.RateTransition2_1_InitialCondit;
 
     // Start for RateTransition generated from: 'Rate Transition2' (':1298')
-    FLIGHT_Hexacopter_V2_B.VehicleStatus_flag_kill =
-      FLIGHT_Hexacopter_V2_P.RateTransition2_17_InitialCondi;
+    FLIGHT_Hexacopter_V2_B.VehicleStatus_emergency_kill =
+      FLIGHT_Hexacopter_V2_P.RateTransition2_2_InitialCondit;
+
+    // Start for RateTransition: 'Rate Transition6' (':1982')
+    FLIGHT_Hexacopter_V2_B.RateTransition6_o =
+      FLIGHT_Hexacopter_V2_P.RateTransition6_InitialCondit_f;
 
     // Start for RateTransition: 'Rate Transition14' (':2005')
     FLIGHT_Hexacopter_V2_B.RateTransition14_c =
@@ -4745,9 +4878,89 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     FLIGHT_Hexacopter_V2_B.RateTransition9_p =
       FLIGHT_Hexacopter_V2_P.RateTransition9_InitialCondit_i;
 
-    // Start for RateTransition: 'Rate Transition6' (':1982')
-    FLIGHT_Hexacopter_V2_B.RateTransition6_o =
-      FLIGHT_Hexacopter_V2_P.RateTransition6_InitialCondit_f;
+    // InitializeConditions for RateTransition: 'Rate Transition8' (':1988')
+    FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition8_InitialConditio;
+
+    // InitializeConditions for RateTransition: 'Rate Transition19' (':2013')
+    FLIGHT_Hexacopter_V2_DW.RateTransition19_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition19_InitialConditi;
+
+    // InitializeConditions for RateTransition: 'Rate Transition16' (':2010')
+    FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition16_InitialConditi;
+
+    // InitializeConditions for DiscreteIntegrator: 'Integrator' (':1991:843')
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_InitialCondi;
+    FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState = 2;
+
+    // InitializeConditions for RateTransition: 'Rate Transition10' (':1995')
+    FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition10_InitialConditi;
+
+    // InitializeConditions for UnitDelay: 'Unit Delay1' (':1984:220:338')
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE =
+      FLIGHT_Hexacopter_V2_P.UnitDelay1_InitialCondition;
+
+    // InitializeConditions for RateTransition: 'Rate Transition7' (':1987')
+    FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition7_InitialConditio;
+
+    // InitializeConditions for UnitDelay: 'UD' (':1983:5')
+    //
+    //  Block description for 'UD' (':1983:5'):
+    //
+    //   Store in Global RAM
+
+    FLIGHT_Hexacopter_V2_DW.UD_DSTATE =
+      FLIGHT_Hexacopter_V2_P.DiscreteDerivative1_ICPrevScale;
+
+    // InitializeConditions for RateTransition: 'Rate Transition' (':732')
+    FLIGHT_Hexacopter_V2_DW.RateTransition_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition_InitialCondition;
+
+    // InitializeConditions for RateTransition: 'Rate Transition1' (':733')
+    FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition1_InitialConditio;
+
+    // InitializeConditions for RateTransition: 'Rate Transition13' (':2004')
+    FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition13_InitialConditi;
+
+    // InitializeConditions for RateTransition: 'Rate Transition20' (':2014')
+    FLIGHT_Hexacopter_V2_DW.RateTransition20_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition20_InitialConditi;
+
+    // InitializeConditions for RateTransition: 'Rate Transition17' (':2011')
+    FLIGHT_Hexacopter_V2_DW.RateTransition17_Buffer0_e =
+      FLIGHT_Hexacopter_V2_P.RateTransition17_InitialCondi_p;
+
+    // InitializeConditions for DiscreteIntegrator: 'Integrator' (':2008:843')
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o =
+      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_InitialCondi;
+    FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_e = 2;
+
+    // InitializeConditions for RateTransition: 'Rate Transition11' (':2002')
+    FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition11_InitialConditi;
+
+    // InitializeConditions for UnitDelay: 'Unit Delay1' (':1999:220:338')
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_p =
+      FLIGHT_Hexacopter_V2_P.UnitDelay1_InitialCondition_m;
+
+    // InitializeConditions for RateTransition: 'Rate Transition12' (':2003')
+    FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition12_InitialConditi;
+
+    // InitializeConditions for UnitDelay: 'UD' (':1998:5')
+    //
+    //  Block description for 'UD' (':1998:5'):
+    //
+    //   Store in Global RAM
+
+    FLIGHT_Hexacopter_V2_DW.UD_DSTATE_d =
+      FLIGHT_Hexacopter_V2_P.DiscreteDerivative3_ICPrevScale;
 
     // InitializeConditions for RateTransition: 'Rate Transition4' (':1068')
     FLIGHT_Hexacopter_V2_DW.RateTransition4_Buffer0 =
@@ -4766,17 +4979,17 @@ void FLIGHT_Hexacopter_V2_initialize(void)
       FLIGHT_Hexacopter_V2_P.RateTransition15_InitialConditi;
 
     // InitializeConditions for DiscreteIntegrator: 'Integrator' (':1978:843')
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE =
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_b =
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_InitialCondit;
-    FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState = 2;
+    FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_f = 2;
 
     // InitializeConditions for RateTransition: 'Rate Transition18' (':2012')
     FLIGHT_Hexacopter_V2_DW.RateTransition18_Buffer0 =
       FLIGHT_Hexacopter_V2_P.RateTransition18_InitialConditi;
 
     // InitializeConditions for UnitDelay: 'Unit Delay1' (':1967:220:338')
-    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE =
-      FLIGHT_Hexacopter_V2_P.UnitDelay1_InitialCondition;
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a =
+      FLIGHT_Hexacopter_V2_P.UnitDelay1_InitialCondition_l;
 
     // InitializeConditions for RateTransition: 'Rate Transition3' (':1980')
     FLIGHT_Hexacopter_V2_DW.RateTransition3_Buffer0 =
@@ -4788,7 +5001,7 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     //
     //   Store in Global RAM
 
-    FLIGHT_Hexacopter_V2_DW.UD_DSTATE =
+    FLIGHT_Hexacopter_V2_DW.UD_DSTATE_i =
       FLIGHT_Hexacopter_V2_P.DiscreteDerivative2_ICPrevScale;
 
     // InitializeConditions for RateTransition generated from: 'Rate Transition' (':1176') 
@@ -4866,20 +5079,20 @@ void FLIGHT_Hexacopter_V2_initialize(void)
       FLIGHT_Hexacopter_V2_P.RateTransition9_InitialConditio;
 
     // InitializeConditions for RateTransition: 'Rate Transition10' (':1918')
-    FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition10_InitialConditi;
+    FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0_m =
+      FLIGHT_Hexacopter_V2_P.RateTransition10_InitialCondi_e;
 
     // InitializeConditions for RateTransition: 'Rate Transition11' (':1919')
-    FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition11_InitialConditi;
+    FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0_i =
+      FLIGHT_Hexacopter_V2_P.RateTransition11_InitialCondi_j;
 
     // InitializeConditions for RateTransition: 'Rate Transition17' (':1927')
     FLIGHT_Hexacopter_V2_DW.RateTransition17_Buffer0 =
       FLIGHT_Hexacopter_V2_P.RateTransition17_InitialConditi;
 
     // InitializeConditions for RateTransition: 'Rate Transition1' (':1911')
-    FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition1_InitialConditio;
+    FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0_p =
+      FLIGHT_Hexacopter_V2_P.RateTransition1_InitialCondit_i;
 
     // InitializeConditions for UnitDelay: 'Unit Delay' (':1756:219:331')
     FLIGHT_Hexacopter_V2_DW.UnitDelay_DSTATE =
@@ -4901,27 +5114,27 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     //   Store in Global RAM
 
     FLIGHT_Hexacopter_V2_DW.UD_DSTATE_e =
-      FLIGHT_Hexacopter_V2_P.DiscreteDerivative1_ICPrevScale;
+      FLIGHT_Hexacopter_V2_P.DiscreteDerivative1_ICPrevSca_g;
 
     // InitializeConditions for RateTransition: 'Rate Transition16' (':1925')
-    FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition16_InitialConditi;
+    FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0_m =
+      FLIGHT_Hexacopter_V2_P.RateTransition16_InitialCondi_b;
 
     // InitializeConditions for RateTransition: 'Rate Transition7' (':1915')
-    FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition7_InitialConditio;
+    FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0_h =
+      FLIGHT_Hexacopter_V2_P.RateTransition7_InitialCondit_m;
 
     // InitializeConditions for RateTransition: 'Rate Transition8' (':1916')
-    FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition8_InitialConditio;
+    FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0_o =
+      FLIGHT_Hexacopter_V2_P.RateTransition8_InitialCondit_k;
 
     // InitializeConditions for RateTransition: 'Rate Transition12' (':1920')
-    FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition12_InitialConditi;
+    FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0_l =
+      FLIGHT_Hexacopter_V2_P.RateTransition12_InitialCondi_k;
 
     // InitializeConditions for RateTransition: 'Rate Transition13' (':1921')
-    FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition13_InitialConditi;
+    FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0_p =
+      FLIGHT_Hexacopter_V2_P.RateTransition13_InitialCondi_j;
 
     // InitializeConditions for RateTransition: 'Rate Transition14' (':1922')
     FLIGHT_Hexacopter_V2_DW.RateTransition14_Buffer0 =
@@ -4945,105 +5158,29 @@ void FLIGHT_Hexacopter_V2_initialize(void)
       FLIGHT_Hexacopter_V2_P.DiscreteTimeIntegrator_IC;
     FLIGHT_Hexacopter_V2_DW.DiscreteTimeIntegrator_PrevRese = 2;
 
-    // InitializeConditions for RateTransition: 'Rate Transition8' (':1988')
-    FLIGHT_Hexacopter_V2_DW.RateTransition8_Buffer0_a =
-      FLIGHT_Hexacopter_V2_P.RateTransition8_InitialCondit_c;
-
-    // InitializeConditions for RateTransition: 'Rate Transition19' (':2013')
-    FLIGHT_Hexacopter_V2_DW.RateTransition19_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition19_InitialConditi;
-
-    // InitializeConditions for RateTransition: 'Rate Transition16' (':2010')
-    FLIGHT_Hexacopter_V2_DW.RateTransition16_Buffer0_g =
-      FLIGHT_Hexacopter_V2_P.RateTransition16_InitialCondi_i;
-
-    // InitializeConditions for DiscreteIntegrator: 'Integrator' (':1991:843')
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate1_InitialCondi;
-    FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_e = 2;
-
-    // InitializeConditions for RateTransition: 'Rate Transition10' (':1995')
-    FLIGHT_Hexacopter_V2_DW.RateTransition10_Buffer0_g =
-      FLIGHT_Hexacopter_V2_P.RateTransition10_InitialCondi_k;
-
-    // InitializeConditions for UnitDelay: 'Unit Delay1' (':1984:220:338')
-    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a =
-      FLIGHT_Hexacopter_V2_P.UnitDelay1_InitialCondition_i;
-
-    // InitializeConditions for RateTransition: 'Rate Transition7' (':1987')
-    FLIGHT_Hexacopter_V2_DW.RateTransition7_Buffer0_e =
-      FLIGHT_Hexacopter_V2_P.RateTransition7_InitialCondit_l;
-
-    // InitializeConditions for UnitDelay: 'UD' (':1983:5')
-    //
-    //  Block description for 'UD' (':1983:5'):
-    //
-    //   Store in Global RAM
-
-    FLIGHT_Hexacopter_V2_DW.UD_DSTATE_b =
-      FLIGHT_Hexacopter_V2_P.DiscreteDerivative1_ICPrevSca_o;
-
-    // InitializeConditions for RateTransition: 'Rate Transition' (':732')
-    FLIGHT_Hexacopter_V2_DW.RateTransition_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition_InitialCondition;
-
-    // InitializeConditions for RateTransition: 'Rate Transition1' (':733')
-    FLIGHT_Hexacopter_V2_DW.RateTransition1_Buffer0_g =
-      FLIGHT_Hexacopter_V2_P.RateTransition1_InitialCondit_e;
-
-    // InitializeConditions for RateTransition: 'Rate Transition13' (':2004')
-    FLIGHT_Hexacopter_V2_DW.RateTransition13_Buffer0_d =
-      FLIGHT_Hexacopter_V2_P.RateTransition13_InitialCondi_h;
-
-    // InitializeConditions for RateTransition: 'Rate Transition20' (':2014')
-    FLIGHT_Hexacopter_V2_DW.RateTransition20_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition20_InitialConditi;
-
-    // InitializeConditions for RateTransition: 'Rate Transition17' (':2011')
-    FLIGHT_Hexacopter_V2_DW.RateTransition17_Buffer0_e =
-      FLIGHT_Hexacopter_V2_P.RateTransition17_InitialCondi_p;
-
-    // InitializeConditions for DiscreteIntegrator: 'Integrator' (':2008:843')
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_o =
-      FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate2_InitialCondi;
-    FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_es = 2;
-
-    // InitializeConditions for RateTransition: 'Rate Transition11' (':2002')
-    FLIGHT_Hexacopter_V2_DW.RateTransition11_Buffer0_b =
-      FLIGHT_Hexacopter_V2_P.RateTransition11_InitialCondi_g;
-
-    // InitializeConditions for UnitDelay: 'Unit Delay1' (':1999:220:338')
-    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_p =
-      FLIGHT_Hexacopter_V2_P.UnitDelay1_InitialCondition_m;
-
-    // InitializeConditions for RateTransition: 'Rate Transition12' (':2003')
-    FLIGHT_Hexacopter_V2_DW.RateTransition12_Buffer0_j =
-      FLIGHT_Hexacopter_V2_P.RateTransition12_InitialCondi_h;
-
-    // InitializeConditions for UnitDelay: 'UD' (':1998:5')
-    //
-    //  Block description for 'UD' (':1998:5'):
-    //
-    //   Store in Global RAM
-
-    FLIGHT_Hexacopter_V2_DW.UD_DSTATE_d =
-      FLIGHT_Hexacopter_V2_P.DiscreteDerivative3_ICPrevScale;
-
     // InitializeConditions for RateTransition generated from: 'Rate Transition' (':1176') 
     FLIGHT_Hexacopter_V2_DW.RateTransition_4_Buffer0 =
       FLIGHT_Hexacopter_V2_P.RateTransition_4_InitialConditi;
 
     // InitializeConditions for RateTransition generated from: 'Rate Transition2' (':1298') 
-    FLIGHT_Hexacopter_V2_DW.RateTransition2_16_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition2_16_InitialCondi;
+    FLIGHT_Hexacopter_V2_DW.RateTransition2_1_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition2_1_InitialCondit;
 
     // InitializeConditions for RateTransition generated from: 'Rate Transition2' (':1298') 
-    FLIGHT_Hexacopter_V2_DW.RateTransition2_17_Buffer0 =
-      FLIGHT_Hexacopter_V2_P.RateTransition2_17_InitialCondi;
+    FLIGHT_Hexacopter_V2_DW.RateTransition2_2_Buffer0 =
+      FLIGHT_Hexacopter_V2_P.RateTransition2_2_InitialCondit;
 
-    // InitializeConditions for UnitDelay: 'Unit Delay2' (':1999:220:342')
+    // InitializeConditions for UnitDelay: 'Unit Delay2' (':1967:220:342')
     FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE =
       FLIGHT_Hexacopter_V2_P.UnitDelay2_InitialCondition;
+
+    // InitializeConditions for RateTransition: 'Rate Transition6' (':1982')
+    FLIGHT_Hexacopter_V2_DW.RateTransition6_Buffer0_e =
+      FLIGHT_Hexacopter_V2_P.RateTransition6_InitialCondit_f;
+
+    // InitializeConditions for UnitDelay: 'Unit Delay2' (':1999:220:342')
+    FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_o =
+      FLIGHT_Hexacopter_V2_P.UnitDelay2_InitialCondition_m;
 
     // InitializeConditions for RateTransition: 'Rate Transition14' (':2005')
     FLIGHT_Hexacopter_V2_DW.RateTransition14_Buffer0_o =
@@ -5057,16 +5194,8 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     FLIGHT_Hexacopter_V2_DW.RateTransition9_Buffer0_h =
       FLIGHT_Hexacopter_V2_P.RateTransition9_InitialCondit_i;
 
-    // InitializeConditions for UnitDelay: 'Unit Delay2' (':1967:220:342')
-    FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_i =
-      FLIGHT_Hexacopter_V2_P.UnitDelay2_InitialCondition_n;
-
-    // InitializeConditions for RateTransition: 'Rate Transition6' (':1982')
-    FLIGHT_Hexacopter_V2_DW.RateTransition6_Buffer0_e =
-      FLIGHT_Hexacopter_V2_P.RateTransition6_InitialCondit_f;
-
     // InitializeConditions for DiscreteIntegrator: 'Integrator' (':1821:10:843') 
-    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_lu =
+    FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_l =
       FLIGHT_Hexacopter_V2_P.pid_ctrl_rollrate_InitialCond_p;
     FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_l = 2;
 
@@ -5094,12 +5223,9 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     // InitializeConditions for DiscreteIntegrator: 'Integrator' (':514:843')
     FLIGHT_Hexacopter_V2_DW.Integrator_PrevResetState_l3 = 2;
 
-    // InitializeConditions for DiscreteIntegrator: 'Filter' (':514:737')
-    FLIGHT_Hexacopter_V2_DW.Filter_PrevResetState = 2;
-
     // InitializeConditions for UnitDelay: 'Unit Delay2' (':1821:2:220:342')
     FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_f =
-      FLIGHT_Hexacopter_V2_P.UnitDelay2_InitialCondition_m;
+      FLIGHT_Hexacopter_V2_P.UnitDelay2_InitialCondition_mv;
 
     // SystemInitialize for MATLAB Function: 'MATLAB Function1' (':641')
     // :  start_time_usec = -1;
@@ -5108,19 +5234,45 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     // InitializeConditions for DiscreteIntegrator: 'Integrator' (':514:843')
     // :  X0 = [0,0];
     FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[0] =
-      FLIGHT_Hexacopter_V2_P.PID_Altitude1_InitialConditio_f;
-
-    // InitializeConditions for DiscreteIntegrator: 'Filter' (':514:737')
-    FLIGHT_Hexacopter_V2_DW.Filter_DSTATE_i[0] =
       FLIGHT_Hexacopter_V2_P.PID_Altitude1_InitialConditionF;
+
+    // InitializeConditions for UnitDelay: 'Unit Delay1' (':2145:220:338')
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a2[0] =
+      FLIGHT_Hexacopter_V2_P.UnitDelay1_InitialCondition_a;
+
+    // InitializeConditions for UnitDelay: 'UD' (':2144:5')
+    //
+    //  Block description for 'UD' (':2144:5'):
+    //
+    //   Store in Global RAM
+
+    FLIGHT_Hexacopter_V2_DW.UD_DSTATE_c[0] =
+      FLIGHT_Hexacopter_V2_P.DiscreteDerivative1_ICPrevSca_p;
+
+    // InitializeConditions for UnitDelay: 'Unit Delay2' (':2145:220:342')
+    FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_a[0] =
+      FLIGHT_Hexacopter_V2_P.UnitDelay2_InitialCondition_a;
 
     // InitializeConditions for DiscreteIntegrator: 'Integrator' (':514:843')
     FLIGHT_Hexacopter_V2_DW.Integrator_DSTATE_k[1] =
-      FLIGHT_Hexacopter_V2_P.PID_Altitude1_InitialConditio_f;
-
-    // InitializeConditions for DiscreteIntegrator: 'Filter' (':514:737')
-    FLIGHT_Hexacopter_V2_DW.Filter_DSTATE_i[1] =
       FLIGHT_Hexacopter_V2_P.PID_Altitude1_InitialConditionF;
+
+    // InitializeConditions for UnitDelay: 'Unit Delay1' (':2145:220:338')
+    FLIGHT_Hexacopter_V2_DW.UnitDelay1_DSTATE_a2[1] =
+      FLIGHT_Hexacopter_V2_P.UnitDelay1_InitialCondition_a;
+
+    // InitializeConditions for UnitDelay: 'UD' (':2144:5')
+    //
+    //  Block description for 'UD' (':2144:5'):
+    //
+    //   Store in Global RAM
+
+    FLIGHT_Hexacopter_V2_DW.UD_DSTATE_c[1] =
+      FLIGHT_Hexacopter_V2_P.DiscreteDerivative1_ICPrevSca_p;
+
+    // InitializeConditions for UnitDelay: 'Unit Delay2' (':2145:220:342')
+    FLIGHT_Hexacopter_V2_DW.UnitDelay2_DSTATE_a[1] =
+      FLIGHT_Hexacopter_V2_P.UnitDelay2_InitialCondition_a;
 
     // SystemInitialize for Enabled SubSystem: 'Enabled Subsystem' (':281:3')
     // SystemInitialize for SignalConversion generated from: 'In1' (':281:4') incorporates:
@@ -5232,13 +5384,22 @@ void FLIGHT_Hexacopter_V2_initialize(void)
       (&ParameterNameStr_4[0], true, 1.0);
     FLIGHT_Hexacopter_V2_DW.obj_ic5.isSetupComplete = true;
 
-    // Start for MATLABSystem: 'PX4 PWM Output' (':1181')
-    FLIGHT_Hexacopter_V2_DW.obj_md.matlabCodegenIsDeleted = false;
-    FLIGHT_Hexacopter_V2_DW.obj_md.isSetupComplete = false;
-    FLIGHT_Hexacopter_V2_DW.obj_md.isInitialized = 1;
-    FLIGHT_Hexacopter_PWM_setupImpl(&FLIGHT_Hexacopter_V2_DW.obj_md, false,
-      false);
-    FLIGHT_Hexacopter_V2_DW.obj_md.isSetupComplete = true;
+    // Start for MATLABSystem: 'PX4 Actuator Write' (':2208')
+    for (i = 0; i < 12; i++) {
+      FLIGHT_Hexacopter_V2_DW.obj.ValidMotorIdx[i] = false;
+    }
+
+    for (i = 0; i < 8; i++) {
+      FLIGHT_Hexacopter_V2_DW.obj.ValidServoIdx[i] = false;
+    }
+
+    FLIGHT_Hexacopter_V2_DW.obj.matlabCodegenIsDeleted = false;
+    FLIGHT_Hexacopter_V2_DW.obj.isSetupComplete = false;
+    FLIGHT_Hexacopter_V2_DW.obj.isInitialized = 1;
+    FLIGHT_H_PX4Actuators_setupImpl(&FLIGHT_Hexacopter_V2_DW.obj);
+    FLIGHT_Hexacopter_V2_DW.obj.isSetupComplete = true;
+
+    // End of Start for MATLABSystem: 'PX4 Actuator Write' (':2208')
     FLIGHT_He_PX4Timestamp_Init(&FLIGHT_Hexacopter_V2_DW.PX4Timestamp_pn);
 
     // Start for MATLABSystem: 'SinkBlock' (':1700:15') incorporates:
@@ -5343,32 +5504,39 @@ void FLIGHT_Hexacopter_V2_initialize(void)
       (&ParameterNameStr_a[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_ic.isSetupComplete = true;
 
-    // Start for MATLABSystem: 'Read Parameter27' (':479')
-    FLIGHT_Hexacopter_V2_DW.obj_l3.matlabCodegenIsDeleted = false;
-    FLIGHT_Hexacopter_V2_DW.obj_l3.isInitialized = 1;
-    FLIGHT_Hexacopter_V2_DW.obj_l3.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_b[0], true, 4.0);
-    FLIGHT_Hexacopter_V2_DW.obj_l3.isSetupComplete = true;
-
     // Start for MATLABSystem: 'Read Parameter40' (':1867')
     FLIGHT_Hexacopter_V2_DW.obj_pn.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_pn.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_pn.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_c[0], true, 4.0);
+      (&ParameterNameStr_b[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_pn.isSetupComplete = true;
+
+    // Start for MATLABSystem: 'Read Parameter27' (':479')
+    FLIGHT_Hexacopter_V2_DW.obj_l3.matlabCodegenIsDeleted = false;
+    FLIGHT_Hexacopter_V2_DW.obj_l3.isInitialized = 1;
+    FLIGHT_Hexacopter_V2_DW.obj_l3.MW_PARAMHANDLE = MW_Init_Param
+      (&ParameterNameStr_c[0], true, 4.0);
+    FLIGHT_Hexacopter_V2_DW.obj_l3.isSetupComplete = true;
+
+    // Start for MATLABSystem: 'Read Parameter47' (':2157')
+    FLIGHT_Hexacopter_V2_DW.obj_im.matlabCodegenIsDeleted = false;
+    FLIGHT_Hexacopter_V2_DW.obj_im.isInitialized = 1;
+    FLIGHT_Hexacopter_V2_DW.obj_im.MW_PARAMHANDLE = MW_Init_Param
+      (&ParameterNameStr_d[0], true, 4.0);
+    FLIGHT_Hexacopter_V2_DW.obj_im.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter45' (':2023')
     FLIGHT_Hexacopter_V2_DW.obj_k.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_k.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_k.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_d[0], true, 4.0);
+      (&ParameterNameStr_e[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_k.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter46' (':2024')
     FLIGHT_Hexacopter_V2_DW.obj_pc.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_pc.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_pc.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_e[0], true, 4.0);
+      (&ParameterNameStr_f[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_pc.isSetupComplete = true;
 
     // Start for MATLABSystem: 'SourceBlock' (':319:9')
@@ -5390,29 +5558,29 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     FLIGHT_Hexacopter_V2_DW.obj_i.isSetupComplete = true;
 
     // Start for MATLABSystem: 'PX4 Timestamp' (':642')
-    FLIGHT_Hexacopter_V2_DW.obj.matlabCodegenIsDeleted = false;
-    FLIGHT_Hexacopter_V2_DW.obj.isInitialized = 1;
-    FLIGHT_Hexacopter_V2_DW.obj.isSetupComplete = true;
+    FLIGHT_Hexacopter_V2_DW.obj_b.matlabCodegenIsDeleted = false;
+    FLIGHT_Hexacopter_V2_DW.obj_b.isInitialized = 1;
+    FLIGHT_Hexacopter_V2_DW.obj_b.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter1' (':194')
     FLIGHT_Hexacopter_V2_DW.obj_l4.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_l4.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_l4.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_f[0], true, 4.0);
+      (&ParameterNameStr_g[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_l4.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter' (':193')
     FLIGHT_Hexacopter_V2_DW.obj_jf.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_jf.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_jf.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_g[0], true, 4.0);
+      (&ParameterNameStr_h[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_jf.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter2' (':205')
     FLIGHT_Hexacopter_V2_DW.obj_a1.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_a1.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_a1.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_h[0], true, 4.0);
+      (&ParameterNameStr_i[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_a1.isSetupComplete = true;
     FLIGHT__PX4Timestamp_c_Init(&FLIGHT_Hexacopter_V2_DW.PX4Timestamp_j);
 
@@ -5434,28 +5602,28 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     FLIGHT_Hexacopter_V2_DW.obj_ai.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_ai.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_ai.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_i[0], true, 4.0);
+      (&ParameterNameStr_j[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_ai.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter6' (':215')
     FLIGHT_Hexacopter_V2_DW.obj_p.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_p.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_p.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_j[0], true, 4.0);
+      (&ParameterNameStr_k[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_p.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter10' (':195')
     FLIGHT_Hexacopter_V2_DW.obj_bq.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_bq.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_bq.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_k[0], true, 4.0);
+      (&ParameterNameStr_l[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_bq.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter7' (':216')
     FLIGHT_Hexacopter_V2_DW.obj_fj.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_fj.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_fj.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_l[0], true, 4.0);
+      (&ParameterNameStr_m[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_fj.isSetupComplete = true;
 
     // Start for MATLABSystem: 'SinkBlock' (':1251:104:15') incorporates:
@@ -5489,7 +5657,7 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     FLIGHT_Hexacopter_V2_DW.obj_c1.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_c1.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_c1.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_m[0], true, 4.0);
+      (&ParameterNameStr_n[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_c1.isSetupComplete = true;
     FLIGHT_Hex_SourceBlock_Init(&FLIGHT_Hexacopter_V2_DW.SourceBlock_p);
 
@@ -5497,168 +5665,168 @@ void FLIGHT_Hexacopter_V2_initialize(void)
     FLIGHT_Hexacopter_V2_DW.obj_jo.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_jo.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_jo.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_n[0], true, 4.0);
+      (&ParameterNameStr_o[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_jo.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter13' (':198')
     FLIGHT_Hexacopter_V2_DW.obj_pf.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_pf.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_pf.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_o[0], true, 4.0);
+      (&ParameterNameStr_p[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_pf.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter14' (':199')
     FLIGHT_Hexacopter_V2_DW.obj_fd.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_fd.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_fd.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_p[0], true, 4.0);
+      (&ParameterNameStr_q[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_fd.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter15' (':200')
     FLIGHT_Hexacopter_V2_DW.obj_nn.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_nn.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_nn.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_q[0], true, 4.0);
+      (&ParameterNameStr_r[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_nn.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter16' (':201')
     FLIGHT_Hexacopter_V2_DW.obj_j.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_j.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_j.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_r[0], true, 4.0);
+      (&ParameterNameStr_s[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_j.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter17' (':202')
     FLIGHT_Hexacopter_V2_DW.obj_d.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_d.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_d.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_s[0], true, 4.0);
+      (&ParameterNameStr_t[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_d.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter18' (':203')
     FLIGHT_Hexacopter_V2_DW.obj_ml.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_ml.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_ml.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_t[0], true, 4.0);
+      (&ParameterNameStr_u[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_ml.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter19' (':204')
     FLIGHT_Hexacopter_V2_DW.obj_mc.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_mc.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_mc.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_u[0], true, 4.0);
+      (&ParameterNameStr_v[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_mc.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter29' (':1032')
     FLIGHT_Hexacopter_V2_DW.obj_br.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_br.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_br.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_v[0], true, 4.0);
+      (&ParameterNameStr_w[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_br.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter30' (':1033')
     FLIGHT_Hexacopter_V2_DW.obj_mo.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_mo.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_mo.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_w[0], true, 4.0);
+      (&ParameterNameStr_x[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_mo.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter31' (':1034')
     FLIGHT_Hexacopter_V2_DW.obj_as.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_as.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_as.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_x[0], true, 4.0);
+      (&ParameterNameStr_y[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_as.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter32' (':1035')
     FLIGHT_Hexacopter_V2_DW.obj_lv.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_lv.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_lv.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_y[0], true, 4.0);
+      (&ParameterNameStr_z[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_lv.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter33' (':1036')
     FLIGHT_Hexacopter_V2_DW.obj_bd.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_bd.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_bd.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_z[0], true, 4.0);
+      (&ParameterNameStr_10[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_bd.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter34' (':1725')
     FLIGHT_Hexacopter_V2_DW.obj_oq.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_oq.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_oq.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_10[0], true, 4.0);
+      (&ParameterNameStr_11[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_oq.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter35' (':1726')
-    FLIGHT_Hexacopter_V2_DW.obj_b.matlabCodegenIsDeleted = false;
-    FLIGHT_Hexacopter_V2_DW.obj_b.isInitialized = 1;
-    FLIGHT_Hexacopter_V2_DW.obj_b.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_11[0], true, 4.0);
-    FLIGHT_Hexacopter_V2_DW.obj_b.isSetupComplete = true;
+    FLIGHT_Hexacopter_V2_DW.obj_bv.matlabCodegenIsDeleted = false;
+    FLIGHT_Hexacopter_V2_DW.obj_bv.isInitialized = 1;
+    FLIGHT_Hexacopter_V2_DW.obj_bv.MW_PARAMHANDLE = MW_Init_Param
+      (&ParameterNameStr_12[0], true, 4.0);
+    FLIGHT_Hexacopter_V2_DW.obj_bv.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter36' (':1727')
     FLIGHT_Hexacopter_V2_DW.obj_ln.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_ln.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_ln.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_12[0], true, 4.0);
+      (&ParameterNameStr_13[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_ln.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter37' (':1752')
     FLIGHT_Hexacopter_V2_DW.obj_pi.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_pi.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_pi.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_13[0], true, 4.0);
+      (&ParameterNameStr_14[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_pi.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter38' (':1760')
     FLIGHT_Hexacopter_V2_DW.obj_e.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_e.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_e.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_14[0], true, 4.0);
+      (&ParameterNameStr_15[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_e.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter41' (':1904')
     FLIGHT_Hexacopter_V2_DW.obj_h.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_h.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_h.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_15[0], true, 4.0);
+      (&ParameterNameStr_16[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_h.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter42' (':1905')
     FLIGHT_Hexacopter_V2_DW.obj_fy.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_fy.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_fy.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_16[0], true, 4.0);
+      (&ParameterNameStr_17[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_fy.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter43' (':1930')
     FLIGHT_Hexacopter_V2_DW.obj_ox.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_ox.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_ox.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_17[0], true, 4.0);
+      (&ParameterNameStr_18[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_ox.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter44' (':1932')
     FLIGHT_Hexacopter_V2_DW.obj_o.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_o.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_o.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_18[0], true, 4.0);
+      (&ParameterNameStr_19[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_o.isSetupComplete = true;
 
     // Start for MATLABSystem: 'Read Parameter8' (':217')
     FLIGHT_Hexacopter_V2_DW.obj_f.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_f.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_f.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_19[0], true, 4.0);
+      (&ParameterNameStr_1a[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_f.isSetupComplete = true;
 
     // Start for MATLABSystem: 'read_mc_rollrate_p' (':246')
     FLIGHT_Hexacopter_V2_DW.obj_c.matlabCodegenIsDeleted = false;
     FLIGHT_Hexacopter_V2_DW.obj_c.isInitialized = 1;
     FLIGHT_Hexacopter_V2_DW.obj_c.MW_PARAMHANDLE = MW_Init_Param
-      (&ParameterNameStr_1a[0], true, 4.0);
+      (&ParameterNameStr_1b[0], true, 4.0);
     FLIGHT_Hexacopter_V2_DW.obj_c.isSetupComplete = true;
   }
 }
@@ -5666,6 +5834,9 @@ void FLIGHT_Hexacopter_V2_initialize(void)
 // Model terminate function
 void FLIGHT_Hexacopter_V2_terminate(void)
 {
+  int32_T i;
+  real32_T servoValues[8];
+
   // Terminate for MATLABSystem: 'SourceBlock' (':299:9')
   if (!FLIGHT_Hexacopter_V2_DW.obj_m.matlabCodegenIsDeleted) {
     FLIGHT_Hexacopter_V2_DW.obj_m.matlabCodegenIsDeleted = true;
@@ -5719,22 +5890,38 @@ void FLIGHT_Hexacopter_V2_terminate(void)
 
   // End of Terminate for MATLABSystem: 'Read Parameter5' (':1129')
 
-  // Terminate for MATLABSystem: 'PX4 PWM Output' (':1181')
-  if (!FLIGHT_Hexacopter_V2_DW.obj_md.matlabCodegenIsDeleted) {
-    FLIGHT_Hexacopter_V2_DW.obj_md.matlabCodegenIsDeleted = true;
-    if ((FLIGHT_Hexacopter_V2_DW.obj_md.isInitialized == 1) &&
-        FLIGHT_Hexacopter_V2_DW.obj_md.isSetupComplete) {
-      pwm_disarm(&FLIGHT_Hexacopter_V2_DW.obj_md.armAdvertiseObj);
-      pwm_resetServo(FLIGHT_Hexacopter_V2_DW.obj_md.servoCount,
-                     FLIGHT_Hexacopter_V2_DW.obj_md.isMain,
-                     &FLIGHT_Hexacopter_V2_DW.obj_md.actuatorAdvertiseObj);
-      pwm_close(FLIGHT_Hexacopter_V2_DW.obj_md.servoCount,
-                &FLIGHT_Hexacopter_V2_DW.obj_md.actuatorAdvertiseObj,
-                &FLIGHT_Hexacopter_V2_DW.obj_md.armAdvertiseObj);
+  // Terminate for MATLABSystem: 'PX4 Actuator Write' (':2208')
+  if (!FLIGHT_Hexacopter_V2_DW.obj.matlabCodegenIsDeleted) {
+    FLIGHT_Hexacopter_V2_DW.obj.matlabCodegenIsDeleted = true;
+    if ((FLIGHT_Hexacopter_V2_DW.obj.isInitialized == 1) &&
+        FLIGHT_Hexacopter_V2_DW.obj.isSetupComplete) {
+      for (i = 0; i < 12; i++) {
+        FLIGHT_Hexacopter_V2_B.motorValues[i] = (rtNaNF);
+      }
+
+      for (i = 0; i < 8; i++) {
+        servoValues[i] = (rtNaNF);
+      }
+
+      for (i = 0; i < 12; i++) {
+        if (FLIGHT_Hexacopter_V2_DW.obj.ValidMotorIdx[i]) {
+          FLIGHT_Hexacopter_V2_B.motorValues[i] = 0.0F;
+        }
+      }
+
+      for (i = 0; i < 8; i++) {
+        if (FLIGHT_Hexacopter_V2_DW.obj.ValidServoIdx[i]) {
+          servoValues[i] = 0.0F;
+        }
+      }
+
+      MW_actuators_set(false, &FLIGHT_Hexacopter_V2_B.motorValues[0],
+                       &servoValues[0]);
+      MW_actuators_terminate();
     }
   }
 
-  // End of Terminate for MATLABSystem: 'PX4 PWM Output' (':1181')
+  // End of Terminate for MATLABSystem: 'PX4 Actuator Write' (':2208')
   FLIGHT_He_PX4Timestamp_Term(&FLIGHT_Hexacopter_V2_DW.PX4Timestamp_pn);
 
   // Terminate for MATLABSystem: 'SinkBlock' (':1700:15')
@@ -5838,6 +6025,13 @@ void FLIGHT_Hexacopter_V2_terminate(void)
 
   // End of Terminate for MATLABSystem: 'Read Parameter28' (':528')
 
+  // Terminate for MATLABSystem: 'Read Parameter40' (':1867')
+  if (!FLIGHT_Hexacopter_V2_DW.obj_pn.matlabCodegenIsDeleted) {
+    FLIGHT_Hexacopter_V2_DW.obj_pn.matlabCodegenIsDeleted = true;
+  }
+
+  // End of Terminate for MATLABSystem: 'Read Parameter40' (':1867')
+
   // Terminate for MATLABSystem: 'Read Parameter27' (':479')
   if (!FLIGHT_Hexacopter_V2_DW.obj_l3.matlabCodegenIsDeleted) {
     FLIGHT_Hexacopter_V2_DW.obj_l3.matlabCodegenIsDeleted = true;
@@ -5845,12 +6039,12 @@ void FLIGHT_Hexacopter_V2_terminate(void)
 
   // End of Terminate for MATLABSystem: 'Read Parameter27' (':479')
 
-  // Terminate for MATLABSystem: 'Read Parameter40' (':1867')
-  if (!FLIGHT_Hexacopter_V2_DW.obj_pn.matlabCodegenIsDeleted) {
-    FLIGHT_Hexacopter_V2_DW.obj_pn.matlabCodegenIsDeleted = true;
+  // Terminate for MATLABSystem: 'Read Parameter47' (':2157')
+  if (!FLIGHT_Hexacopter_V2_DW.obj_im.matlabCodegenIsDeleted) {
+    FLIGHT_Hexacopter_V2_DW.obj_im.matlabCodegenIsDeleted = true;
   }
 
-  // End of Terminate for MATLABSystem: 'Read Parameter40' (':1867')
+  // End of Terminate for MATLABSystem: 'Read Parameter47' (':2157')
 
   // Terminate for MATLABSystem: 'Read Parameter45' (':2023')
   if (!FLIGHT_Hexacopter_V2_DW.obj_k.matlabCodegenIsDeleted) {
@@ -5889,8 +6083,8 @@ void FLIGHT_Hexacopter_V2_terminate(void)
   // End of Terminate for MATLABSystem: 'SourceBlock' (':326:6:9')
 
   // Terminate for MATLABSystem: 'PX4 Timestamp' (':642')
-  if (!FLIGHT_Hexacopter_V2_DW.obj.matlabCodegenIsDeleted) {
-    FLIGHT_Hexacopter_V2_DW.obj.matlabCodegenIsDeleted = true;
+  if (!FLIGHT_Hexacopter_V2_DW.obj_b.matlabCodegenIsDeleted) {
+    FLIGHT_Hexacopter_V2_DW.obj_b.matlabCodegenIsDeleted = true;
   }
 
   // End of Terminate for MATLABSystem: 'PX4 Timestamp' (':642')
@@ -6087,8 +6281,8 @@ void FLIGHT_Hexacopter_V2_terminate(void)
   // End of Terminate for MATLABSystem: 'Read Parameter34' (':1725')
 
   // Terminate for MATLABSystem: 'Read Parameter35' (':1726')
-  if (!FLIGHT_Hexacopter_V2_DW.obj_b.matlabCodegenIsDeleted) {
-    FLIGHT_Hexacopter_V2_DW.obj_b.matlabCodegenIsDeleted = true;
+  if (!FLIGHT_Hexacopter_V2_DW.obj_bv.matlabCodegenIsDeleted) {
+    FLIGHT_Hexacopter_V2_DW.obj_bv.matlabCodegenIsDeleted = true;
   }
 
   // End of Terminate for MATLABSystem: 'Read Parameter35' (':1726')

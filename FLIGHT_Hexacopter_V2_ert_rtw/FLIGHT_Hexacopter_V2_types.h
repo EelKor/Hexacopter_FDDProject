@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_Hexacopter_V2'.
 //
-// Model version                  : 3.72
+// Model version                  : 3.99
 // Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
-// C/C++ source code generated on : Wed Sep  3 23:21:41 2025
+// C/C++ source code generated on : Tue Oct 21 14:57:10 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -70,24 +70,6 @@ struct px4_internal_block_Subscriber_T
 
 #endif                                // struct_px4_internal_block_Subscriber_T
 
-#ifndef struct_px4_internal_block_PWM_FLIGHT_T
-#define struct_px4_internal_block_PWM_FLIGHT_T
-
-struct px4_internal_block_PWM_FLIGHT_T
-{
-  boolean_T matlabCodegenIsDeleted;
-  int32_T isInitialized;
-  boolean_T isSetupComplete;
-  unsigned int servoCount;
-  int channelMask;
-  boolean_T isMain;
-  orb_advert_t armAdvertiseObj;
-  orb_advert_t actuatorAdvertiseObj;
-  boolean_T isArmed;
-};
-
-#endif                                // struct_px4_internal_block_PWM_FLIGHT_T
-
 // Custom Type definition for MATLABSystem: ''read_mc_rollrate_p' (':246')'
 #include "MW_Parameter.h"
 #ifndef struct_px4_internal_block_ParameterU_T
@@ -116,6 +98,21 @@ struct px4_internal_block_Publisher__T
 };
 
 #endif                                // struct_px4_internal_block_Publisher__T
+
+#ifndef struct_px4_internal_block_PX4Actuato_T
+#define struct_px4_internal_block_PX4Actuato_T
+
+struct px4_internal_block_PX4Actuato_T
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  uint8_T QSize;
+  boolean_T ValidMotorIdx[12];
+  boolean_T ValidServoIdx[8];
+};
+
+#endif                                // struct_px4_internal_block_PX4Actuato_T
 
 // Parameters (default storage)
 typedef struct P_FLIGHT_Hexacopter_V2_T_ P_FLIGHT_Hexacopter_V2_T;

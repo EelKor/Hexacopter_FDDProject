@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'FLIGHT_Hexacopter_V2'.
 //
-// Model version                  : 3.72
+// Model version                  : 3.99
 // Simulink Coder version         : 25.1 (R2025a) 21-Nov-2024
-// C/C++ source code generated on : Wed Sep  3 23:21:41 2025
+// C/C++ source code generated on : Tue Oct 21 14:57:10 2025
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -22,11 +22,11 @@
 #include <poll.h>
 #include <uORB/uORB.h>
 #include "rtwtypes.h"
-#include "MW_PX4_PWM.h"
 #include "MW_PX4_Parameter.h"
 #include "MW_Parameter.h"
 #include "MW_uORB_Write.h"
 #include "MW_uORB_Read.h"
+#include "MW_PX4_Actuators.h"
 #include "FLIGHT_Hexacopter_V2_types.h"
 #include <uORB/topics/actuator_armed.h>
 #include <uORB/topics/vehicle_local_position.h>
@@ -119,11 +119,12 @@ struct B_FLIGHT_Hexacopter_V2_T {
   px4_Bus_vehicle_local_position_setpoint BusAssignment_g;// 'Bus Assignment' (':1256:101') 
   px4_Bus_vehicle_attitude_setpoint BusAssignment_f;// 'Bus Assignment' (':1230:101') 
   real32_T Gain_g[12];                 // 'Gain' (':1283')
+  real32_T motorValues[12];
   px4_Bus_vehicle_rates_setpoint BusAssignment_e0;// 'Bus Assignment' (':1251:101') 
   px4_Bus_vehicle_angular_velocity In1_k;// 'In1' (':299:0')
   px4_Bus_vehicle_angular_velocity r4;
+  real32_T servoValues[8];
   px4_Bus_actuator_controls_status BusAssignment_j;// 'Bus Assignment' (':1210:101') 
-  uint16_T pwmValue[8];
   real32_T fv[4];
   px4_Bus_actuator_armed In1_d;        // 'In1' (':1186:0')
   px4_Bus_actuator_armed In1_e;        // 'In1' (':318:0')
@@ -132,7 +133,7 @@ struct B_FLIGHT_Hexacopter_V2_T {
   real32_T G1[3];                      // 'MATLAB Function1' (':1575')
   real32_T G1_inv[3];                  // 'MATLAB Function2' (':1576')
   real32_T b_A[3];
-  uint16_T DataTypeConversion_g[6];    // 'Data Type Conversion' (':160:2982')
+  uint16_T DataTypeConversion7[6];     // 'Data Type Conversion7' (':1090')
   uint16_T DataTypeConversion6[6];     // 'Data Type Conversion6' (':1089')
   real_T reletive_time_sec;
   real_T peak_angle_rad;
@@ -142,12 +143,22 @@ struct B_FLIGHT_Hexacopter_V2_T {
   real_T WP;
   real_T WP_m;
   real_T u0;
+  real_T u0_c;
   real_T d;
   real_T d1;
   real_T d2;
   real_T d3;
-  real_T d4;
-  uint64_T rtb_PX4Timestamp_c;
+  uint64_T rtb_PX4Timestamp_k;
+  real32_T RateTransition8;            // 'Rate Transition8' (':1988')
+  real32_T RateTransition19;           // 'Rate Transition19' (':2013')
+  real32_T RateTransition10;           // 'Rate Transition10' (':1995')
+  real32_T RateTransition7;            // 'Rate Transition7' (':1987')
+  real32_T RateTransition;             // 'Rate Transition' (':732')
+  real32_T RateTransition1;            // 'Rate Transition1' (':733')
+  real32_T RateTransition13;           // 'Rate Transition13' (':2004')
+  real32_T RateTransition20;           // 'Rate Transition20' (':2014')
+  real32_T RateTransition11;           // 'Rate Transition11' (':2002')
+  real32_T RateTransition12;           // 'Rate Transition12' (':2003')
   real32_T RateTransition4;            // 'Rate Transition4' (':1068')
   real32_T RateTransition5;            // 'Rate Transition5' (':1981')
   real32_T RateTransition2;            // 'Rate Transition2' (':1974')
@@ -158,31 +169,22 @@ struct B_FLIGHT_Hexacopter_V2_T {
   real32_T RateTransition5_n;          // 'Rate Transition5' (':1913')
   real32_T RateTransition6;            // 'Rate Transition6' (':1914')
   real32_T RateTransition9;            // 'Rate Transition9' (':1917')
-  real32_T RateTransition10;           // 'Rate Transition10' (':1918')
-  real32_T RateTransition11;           // 'Rate Transition11' (':1919')
+  real32_T RateTransition10_b;         // 'Rate Transition10' (':1918')
+  real32_T RateTransition11_b;         // 'Rate Transition11' (':1919')
   real32_T RateTransition17;           // 'Rate Transition17' (':1927')
-  real32_T RateTransition1;            // 'Rate Transition1' (':1911')
-  real32_T RateTransition7;            // 'Rate Transition7' (':1915')
-  real32_T RateTransition8;            // 'Rate Transition8' (':1916')
-  real32_T RateTransition12;           // 'Rate Transition12' (':1920')
-  real32_T RateTransition13;           // 'Rate Transition13' (':1921')
+  real32_T RateTransition1_j;          // 'Rate Transition1' (':1911')
+  real32_T RateTransition7_k;          // 'Rate Transition7' (':1915')
+  real32_T RateTransition8_c;          // 'Rate Transition8' (':1916')
+  real32_T RateTransition12_i;         // 'Rate Transition12' (':1920')
+  real32_T RateTransition13_g;         // 'Rate Transition13' (':1921')
   real32_T RateTransition14;           // 'Rate Transition14' (':1922')
-  real32_T RateTransition8_i;          // 'Rate Transition8' (':1988')
-  real32_T RateTransition19;           // 'Rate Transition19' (':2013')
-  real32_T RateTransition10_j;         // 'Rate Transition10' (':1995')
-  real32_T RateTransition7_h;          // 'Rate Transition7' (':1987')
-  real32_T RateTransition;             // 'Rate Transition' (':732')
-  real32_T RateTransition1_a;          // 'Rate Transition1' (':733')
-  real32_T RateTransition13_a;         // 'Rate Transition13' (':2004')
-  real32_T RateTransition20;           // 'Rate Transition20' (':2014')
-  real32_T RateTransition11_a;         // 'Rate Transition11' (':2002')
-  real32_T RateTransition12_j;         // 'Rate Transition12' (':2003')
+  real32_T RateTransition6_o;          // 'Rate Transition6' (':1982')
   real32_T RateTransition14_c;         // 'Rate Transition14' (':2005')
   real32_T RateTransition9_p;          // 'Rate Transition9' (':1989')
-  real32_T RateTransition6_o;          // 'Rate Transition6' (':1982')
   real32_T ParamStep;
-  real32_T ParamStep_k;
   real32_T ParamStep_c;
+  real32_T ParamStep_b;
+  real32_T ParamStep_p;
   real32_T Gain7;                      // 'Gain7' (':1862')
   real32_T Gain6;                      // 'Gain6' (':387')
   real32_T roll;                       // 'Sum1' (':1821:8')
@@ -191,9 +193,13 @@ struct B_FLIGHT_Hexacopter_V2_T {
   real32_T q_c;                        // 'Product2' (':1821:2:220:361')
   real32_T r_o;                        // 'Bias' (':1821:2:220:373')
   real32_T d_n;                        // 'Add1' (':1821:2:220:364')
-  real32_T Sum2_g;                     // 'Sum2' (':686')
-  real32_T TSamp_ku;                   // 'TSamp' (':1821:1:4')
+  real32_T q3;                         // 'q3' (':1231:8')
+  real32_T TSamp_k;                    // 'TSamp' (':1821:1:4')
   real32_T des_throttle;               // 'MATLAB Function2' (':1854')
+  real32_T q2;                         // 'q2' (':1231:7')
+  real32_T q1;                         // 'q1' (':1231:6')
+  real32_T Sum3_i;                     // 'Sum3' (':687')
+  real32_T Product3_dq;                // 'Product3' (':2145:220:365')
   real32_T ReadParameter12_o1;         // 'Read Parameter12' (':197')
   real32_T ReadParameter13_o1;         // 'Read Parameter13' (':198')
   real32_T ReadParameter14_o1;         // 'Read Parameter14' (':199')
@@ -216,15 +222,32 @@ struct B_FLIGHT_Hexacopter_V2_T {
   real32_T ReadParameter8_o1;          // 'Read Parameter8' (':217')
   real32_T V;
   real32_T absx;
+  real32_T IProdOut_p;                 // 'IProd Out' (':1991:787')
+  real32_T DeadZone;                   // 'DeadZone' (':1991:660')
+  real32_T Sum4;                       // 'Sum4' (':1990')
+  real32_T p;                          // 'Gain' (':1984:220:358')
+  real32_T q;                          // 'Product2' (':1984:220:361')
+  real32_T r_c;                        // 'Bias' (':1984:220:373')
+  real32_T d_f;                        // 'Add1' (':1984:220:364')
+  real32_T IProdOut_g;                 // 'IProd Out' (':2008:787')
+  real32_T TSamp;                      // 'TSamp' (':1983:4')
+  real32_T DeadZone_d;                 // 'DeadZone' (':2008:660')
   real32_T IProdOut_b;                 // 'IProd Out' (':1978:787')
-  real32_T DeadZone;                   // 'DeadZone' (':1978:660')
+  real32_T p_g;                        // 'Gain' (':1999:220:358')
+  real32_T q_i;                        // 'Product2' (':1999:220:361')
+  real32_T r_m;                        // 'Bias' (':1999:220:373')
+  real32_T d_c;                        // 'Add1' (':1999:220:364')
+  real32_T Sum_gv;                     // 'Sum' (':726')
+  real32_T TSamp_p;                    // 'TSamp' (':1998:4')
+  real32_T DeadZone_k;                 // 'DeadZone' (':1978:660')
   real32_T Sum5_f;                     // 'Sum5' (':1977')
-  real32_T p;                          // 'Gain' (':1967:220:358')
-  real32_T q;                          // 'Product2' (':1967:220:361')
-  real32_T r_b;                        // 'Bias' (':1967:220:373')
-  real32_T d_p;                        // 'Add1' (':1967:220:364')
+  real32_T Product2_mp;                // 'Product2' (':1967:220:344')
+  real32_T p_i;                        // 'Gain' (':1967:220:358')
+  real32_T q_m;                        // 'Product2' (':1967:220:361')
+  real32_T r_l;                        // 'Bias' (':1967:220:373')
+  real32_T d_k;                        // 'Add1' (':1967:220:364')
   real32_T Product2_gt;                // 'Product2' (':1756:219:339')
-  real32_T TSamp;                      // 'TSamp' (':1966:4')
+  real32_T TSamp_a;                    // 'TSamp' (':1966:4')
   real32_T Product_p;                  // 'Product' (':1514')
   real32_T Product2_m;                 // 'Product2' (':1516')
   real32_T Product4;                   // 'Product4' (':1518')
@@ -240,46 +263,27 @@ struct B_FLIGHT_Hexacopter_V2_T {
   real32_T s;                          // 'MATLAB Function3' (':1577')
   real32_T R;                          // 'MATLAB Function4' (':1578')
   real32_T Saturation2;                // 'Saturation2' (':1581')
-  real32_T IProdOut_p;                 // 'IProd Out' (':1991:787')
-  real32_T DeadZone_d;                 // 'DeadZone' (':1991:660')
-  real32_T Sum4;                       // 'Sum4' (':1990')
-  real32_T Product2_l;                 // 'Product2' (':1984:220:344')
-  real32_T p_l;                        // 'Gain' (':1984:220:358')
-  real32_T q_o;                        // 'Product2' (':1984:220:361')
-  real32_T r_d;                        // 'Bias' (':1984:220:373')
-  real32_T d_g;                        // 'Add1' (':1984:220:364')
-  real32_T IProdOut_g;                 // 'IProd Out' (':2008:787')
-  real32_T DeadZone_db;                // 'DeadZone' (':2008:660')
-  real32_T Product2_d;                 // 'Product2' (':1999:220:344')
-  real32_T p_g;                        // 'Gain' (':1999:220:358')
-  real32_T q_i;                        // 'Product2' (':1999:220:361')
-  real32_T r_m;                        // 'Bias' (':1999:220:373')
-  real32_T d_c;                        // 'Add1' (':1999:220:364')
-  real32_T Sum2_au;                    // 'Sum2' (':1967:220:341')
-  real32_T TSamp_p;                    // 'TSamp' (':1998:4')
-  real32_T rtb_Gain_g_c;
-  real32_T rtb_TSamp_o_f;
+  real32_T rtb_R_tmp;
+  real32_T rtb_TSamp_o_g;
   real32_T rtb_omega_phi_idx_1;
   real32_T rtb_omega_phi_idx_2;
   real32_T rtb_TSamp_o_idx_1;
   real32_T anrm;
   real32_T absxk;
   int32_T ParamStep_g;
-  int32_T ParamStep_g1;
   int32_T ParamStep_m;
   int32_T ParamStep_n;
-  int32_T ParamStep_p;
-  int32_T ParamStep_l;
+  int32_T ParamStep_pp;
   int32_T i;
   uint16_T rc_ctrl_switch;             // 'Rate Transition' (':1176')
   uint16_T rc_inject_failure;          // 'Rate Transition' (':1176')
-  boolean_T RateTransition15;          // 'Rate Transition15' (':2009')
-  boolean_T RateTransition16;          // 'Rate Transition16' (':1925')
-  boolean_T RateTransition15_l;        // 'Rate Transition15' (':1924')
-  boolean_T RateTransition16_e;        // 'Rate Transition16' (':2010')
+  boolean_T RateTransition16;          // 'Rate Transition16' (':2010')
   boolean_T RateTransition17_h;        // 'Rate Transition17' (':2011')
-  boolean_T VehicleStatus_flag_armed;  // 'Rate Transition2' (':1298')
-  boolean_T VehicleStatus_flag_kill;   // 'Rate Transition2' (':1298')
+  boolean_T RateTransition15;          // 'Rate Transition15' (':2009')
+  boolean_T RateTransition16_g;        // 'Rate Transition16' (':1925')
+  boolean_T RateTransition15_l;        // 'Rate Transition15' (':1924')
+  boolean_T VehicleStatus_armed;       // 'Rate Transition2' (':1298')
+  boolean_T VehicleStatus_emergency_kill;// 'Rate Transition2' (':1298')
   B_SourceBlock_FLIGHT_Hexacopt_T SourceBlock_p;// 'SourceBlock' (':318:9')
   B_SourceBlock_FLIGHT_Hexacopt_T SourceBlock_l;// 'SourceBlock' (':318:9')
   B_PX4Timestamp_FLIGHT_Hexac_l_T PX4Timestamp_k;// 'PX4 Timestamp' (':1230:105') 
@@ -293,19 +297,20 @@ struct B_FLIGHT_Hexacopter_V2_T {
 
 // Block states (default storage) for system 'FLIGHT_Hexacopter_V2'
 struct DW_FLIGHT_Hexacopter_V2_T {
-  px4_internal_block_getPX4Abso_T obj; // 'PX4 Timestamp' (':642')
+  px4_internal_block_PX4Actuato_T obj; // 'PX4 Actuator Write' (':2208')
+  px4_internal_block_getPX4Abso_T obj_b;// 'PX4 Timestamp' (':642')
   px4_internal_block_Subscriber_T obj_i;// 'SourceBlock' (':326:6:9')
   px4_internal_block_Subscriber_T obj_l;// 'SourceBlock' (':320:9')
   px4_internal_block_Subscriber_T obj_a;// 'SourceBlock' (':319:9')
   px4_internal_block_Subscriber_T obj_m;// 'SourceBlock' (':299:9')
   px4_internal_block_Subscriber_T obj_n;// 'SourceBlock' (':281:9')
-  px4_internal_block_PWM_FLIGHT_T obj_md;// 'PX4 PWM Output' (':1181')
   px4_internal_block_ParameterU_T obj_c;// 'read_mc_rollrate_p' (':246')
   px4_internal_block_ParameterU_T obj_ai;// 'Read Parameter9' (':218')
   px4_internal_block_ParameterU_T obj_f;// 'Read Parameter8' (':217')
   px4_internal_block_ParameterU_T obj_fj;// 'Read Parameter7' (':216')
   px4_internal_block_ParameterU_T obj_p;// 'Read Parameter6' (':215')
   px4_internal_block_ParameterU_T obj_ia;// 'Read Parameter5' (':214')
+  px4_internal_block_ParameterU_T obj_im;// 'Read Parameter47' (':2157')
   px4_internal_block_ParameterU_T obj_pc;// 'Read Parameter46' (':2024')
   px4_internal_block_ParameterU_T obj_k;// 'Read Parameter45' (':2023')
   px4_internal_block_ParameterU_T obj_o;// 'Read Parameter44' (':1932')
@@ -318,7 +323,7 @@ struct DW_FLIGHT_Hexacopter_V2_T {
   px4_internal_block_ParameterU_T obj_e;// 'Read Parameter38' (':1760')
   px4_internal_block_ParameterU_T obj_pi;// 'Read Parameter37' (':1752')
   px4_internal_block_ParameterU_T obj_ln;// 'Read Parameter36' (':1727')
-  px4_internal_block_ParameterU_T obj_b;// 'Read Parameter35' (':1726')
+  px4_internal_block_ParameterU_T obj_bv;// 'Read Parameter35' (':1726')
   px4_internal_block_ParameterU_T obj_oq;// 'Read Parameter34' (':1725')
   px4_internal_block_ParameterU_T obj_bd;// 'Read Parameter33' (':1036')
   px4_internal_block_ParameterU_T obj_lv;// 'Read Parameter32' (':1035')
@@ -354,13 +359,19 @@ struct DW_FLIGHT_Hexacopter_V2_T {
   px4_internal_block_Publisher__T obj_mp;// 'SinkBlock' (':1251:104:15')
   px4_internal_block_Publisher__T obj_m1;// 'SinkBlock' (':1230:104:15')
   px4_internal_block_Publisher__T obj_fe;// 'SinkBlock' (':1210:104:15')
-  real_T X0[2];                        // 'MATLAB Function5' (':2069')
-  real_T WP_num;                       // 'MATLAB Function5' (':2069')
-  real_T WP[10];                       // 'MATLAB Function5' (':2069')
+  real_T X0[2];                        // 'WPManager' (':2069')
+  real_T WP_num;                       // 'WPManager' (':2069')
+  real_T WP[10];                       // 'WPManager' (':2069')
   real_T start_time_usec;              // 'MATLAB Function1' (':641')
-  real32_T Integrator_DSTATE;          // 'Integrator' (':1978:843')
-  real32_T UnitDelay1_DSTATE;          // 'Unit Delay1' (':1967:220:338')
-  real32_T UD_DSTATE;                  // 'UD' (':1966:5')
+  real32_T Integrator_DSTATE;          // 'Integrator' (':1991:843')
+  real32_T UnitDelay1_DSTATE;          // 'Unit Delay1' (':1984:220:338')
+  real32_T UD_DSTATE;                  // 'UD' (':1983:5')
+  real32_T Integrator_DSTATE_o;        // 'Integrator' (':2008:843')
+  real32_T UnitDelay1_DSTATE_p;        // 'Unit Delay1' (':1999:220:338')
+  real32_T UD_DSTATE_d;                // 'UD' (':1998:5')
+  real32_T Integrator_DSTATE_b;        // 'Integrator' (':1978:843')
+  real32_T UnitDelay1_DSTATE_a;        // 'Unit Delay1' (':1967:220:338')
+  real32_T UD_DSTATE_i;                // 'UD' (':1966:5')
   real32_T UD_DSTATE_h[3];             // 'UD' (':1524:5')
   real32_T UnitDelay_DSTATE;           // 'Unit Delay' (':1756:219:331')
   real32_T UD_DSTATE_o;                // 'UD' (':1522:5')
@@ -368,23 +379,29 @@ struct DW_FLIGHT_Hexacopter_V2_T {
   real32_T Filter_DSTATE;              // 'Filter' (':1817:737')
   real32_T Integrator_DSTATE_h;        // 'Integrator' (':1820:843')
   real32_T DiscreteTimeIntegrator_DSTATE;// 'Discrete-Time Integrator' (':1887') 
-  real32_T Integrator_DSTATE_l;        // 'Integrator' (':1991:843')
-  real32_T UnitDelay1_DSTATE_a;        // 'Unit Delay1' (':1984:220:338')
-  real32_T UD_DSTATE_b;                // 'UD' (':1983:5')
-  real32_T Integrator_DSTATE_o;        // 'Integrator' (':2008:843')
-  real32_T UnitDelay1_DSTATE_p;        // 'Unit Delay1' (':1999:220:338')
-  real32_T UD_DSTATE_d;                // 'UD' (':1998:5')
-  real32_T UnitDelay2_DSTATE;          // 'Unit Delay2' (':1999:220:342')
+  real32_T UnitDelay2_DSTATE;          // 'Unit Delay2' (':1967:220:342')
+  real32_T UnitDelay2_DSTATE_o;        // 'Unit Delay2' (':1999:220:342')
   real32_T UnitDelay2_DSTATE_c;        // 'Unit Delay2' (':1984:220:342')
-  real32_T UnitDelay2_DSTATE_i;        // 'Unit Delay2' (':1967:220:342')
-  real32_T Integrator_DSTATE_lu;       // 'Integrator' (':1821:10:843')
+  real32_T Integrator_DSTATE_l;        // 'Integrator' (':1821:10:843')
   real32_T UnitDelay1_DSTATE_i;        // 'Unit Delay1' (':1821:2:220:338')
   real32_T UD_DSTATE_a;                // 'UD' (':1821:1:5')
   real32_T DiscreteTimeIntegrator_DSTATE_c;// 'Discrete-Time Integrator' (':436') 
   real32_T DiscreteTimeIntegrator1_DSTATE;// 'Discrete-Time Integrator1' (':437') 
   real32_T Integrator_DSTATE_k[2];     // 'Integrator' (':514:843')
-  real32_T Filter_DSTATE_i[2];         // 'Filter' (':514:737')
+  real32_T UnitDelay1_DSTATE_a2[2];    // 'Unit Delay1' (':2145:220:338')
+  real32_T UD_DSTATE_c[2];             // 'UD' (':2144:5')
+  real32_T UnitDelay2_DSTATE_a[2];     // 'Unit Delay2' (':2145:220:342')
   real32_T UnitDelay2_DSTATE_f;        // 'Unit Delay2' (':1821:2:220:342')
+  real32_T RateTransition8_Buffer0;    // 'Rate Transition8' (':1988')
+  real32_T RateTransition19_Buffer0;   // 'Rate Transition19' (':2013')
+  real32_T RateTransition10_Buffer0;   // 'Rate Transition10' (':1995')
+  real32_T RateTransition7_Buffer0;    // 'Rate Transition7' (':1987')
+  real32_T RateTransition_Buffer0;     // 'Rate Transition' (':732')
+  real32_T RateTransition1_Buffer0;    // 'Rate Transition1' (':733')
+  real32_T RateTransition13_Buffer0;   // 'Rate Transition13' (':2004')
+  real32_T RateTransition20_Buffer0;   // 'Rate Transition20' (':2014')
+  real32_T RateTransition11_Buffer0;   // 'Rate Transition11' (':2002')
+  real32_T RateTransition12_Buffer0;   // 'Rate Transition12' (':2003')
   real32_T RateTransition4_Buffer0;    // 'Rate Transition4' (':1068')
   real32_T RateTransition5_Buffer0;    // 'Rate Transition5' (':1981')
   real32_T RateTransition2_Buffer0;    // 'Rate Transition2' (':1974')
@@ -395,49 +412,38 @@ struct DW_FLIGHT_Hexacopter_V2_T {
   real32_T RateTransition5_Buffer0_h;  // 'Rate Transition5' (':1913')
   real32_T RateTransition6_Buffer0;    // 'Rate Transition6' (':1914')
   real32_T RateTransition9_Buffer0;    // 'Rate Transition9' (':1917')
-  real32_T RateTransition10_Buffer0;   // 'Rate Transition10' (':1918')
-  real32_T RateTransition11_Buffer0;   // 'Rate Transition11' (':1919')
+  real32_T RateTransition10_Buffer0_m; // 'Rate Transition10' (':1918')
+  real32_T RateTransition11_Buffer0_i; // 'Rate Transition11' (':1919')
   real32_T RateTransition17_Buffer0;   // 'Rate Transition17' (':1927')
-  real32_T RateTransition1_Buffer0;    // 'Rate Transition1' (':1911')
-  real32_T RateTransition7_Buffer0;    // 'Rate Transition7' (':1915')
-  real32_T RateTransition8_Buffer0;    // 'Rate Transition8' (':1916')
-  real32_T RateTransition12_Buffer0;   // 'Rate Transition12' (':1920')
-  real32_T RateTransition13_Buffer0;   // 'Rate Transition13' (':1921')
+  real32_T RateTransition1_Buffer0_p;  // 'Rate Transition1' (':1911')
+  real32_T RateTransition7_Buffer0_h;  // 'Rate Transition7' (':1915')
+  real32_T RateTransition8_Buffer0_o;  // 'Rate Transition8' (':1916')
+  real32_T RateTransition12_Buffer0_l; // 'Rate Transition12' (':1920')
+  real32_T RateTransition13_Buffer0_p; // 'Rate Transition13' (':1921')
   real32_T RateTransition14_Buffer0;   // 'Rate Transition14' (':1922')
-  real32_T RateTransition8_Buffer0_a;  // 'Rate Transition8' (':1988')
-  real32_T RateTransition19_Buffer0;   // 'Rate Transition19' (':2013')
-  real32_T RateTransition10_Buffer0_g; // 'Rate Transition10' (':1995')
-  real32_T RateTransition7_Buffer0_e;  // 'Rate Transition7' (':1987')
-  real32_T RateTransition_Buffer0;     // 'Rate Transition' (':732')
-  real32_T RateTransition1_Buffer0_g;  // 'Rate Transition1' (':733')
-  real32_T RateTransition13_Buffer0_d; // 'Rate Transition13' (':2004')
-  real32_T RateTransition20_Buffer0;   // 'Rate Transition20' (':2014')
-  real32_T RateTransition11_Buffer0_b; // 'Rate Transition11' (':2002')
-  real32_T RateTransition12_Buffer0_j; // 'Rate Transition12' (':2003')
+  real32_T RateTransition6_Buffer0_e;  // 'Rate Transition6' (':1982')
   real32_T RateTransition14_Buffer0_o; // 'Rate Transition14' (':2005')
   real32_T RateTransition9_Buffer0_h;  // 'Rate Transition9' (':1989')
-  real32_T RateTransition6_Buffer0_e;  // 'Rate Transition6' (':1982')
   uint16_T RateTransition_8_Buffer0;   // 'Rate Transition' (':1176')
   uint16_T RateTransition_4_Buffer0;   // 'Rate Transition' (':1176')
-  int8_T Integrator_PrevResetState;    // 'Integrator' (':1978:843')
+  int8_T Integrator_PrevResetState;    // 'Integrator' (':1991:843')
+  int8_T Integrator_PrevResetState_e;  // 'Integrator' (':2008:843')
+  int8_T Integrator_PrevResetState_f;  // 'Integrator' (':1978:843')
   int8_T Integrator_PrevResetState_h;  // 'Integrator' (':1820:843')
   int8_T DiscreteTimeIntegrator_PrevRese;// 'Discrete-Time Integrator' (':1887') 
-  int8_T Integrator_PrevResetState_e;  // 'Integrator' (':1991:843')
-  int8_T Integrator_PrevResetState_es; // 'Integrator' (':2008:843')
   int8_T Integrator_PrevResetState_l;  // 'Integrator' (':1821:10:843')
   int8_T DiscreteTimeIntegrator_PrevRe_l;// 'Discrete-Time Integrator' (':436')
   int8_T DiscreteTimeIntegrator1_PrevRes;// 'Discrete-Time Integrator1' (':437') 
   int8_T Integrator_PrevResetState_l3; // 'Integrator' (':514:843')
-  int8_T Filter_PrevResetState;        // 'Filter' (':514:737')
   uint8_T DiscreteTimeIntegrator_IC_LOADI;// 'Discrete-Time Integrator' (':436') 
   uint8_T DiscreteTimeIntegrator1_IC_LOAD;// 'Discrete-Time Integrator1' (':437') 
-  boolean_T RateTransition15_Buffer0;  // 'Rate Transition15' (':2009')
-  boolean_T RateTransition16_Buffer0;  // 'Rate Transition16' (':1925')
-  boolean_T RateTransition15_Buffer0_a;// 'Rate Transition15' (':1924')
-  boolean_T RateTransition16_Buffer0_g;// 'Rate Transition16' (':2010')
+  boolean_T RateTransition16_Buffer0;  // 'Rate Transition16' (':2010')
   boolean_T RateTransition17_Buffer0_e;// 'Rate Transition17' (':2011')
-  boolean_T RateTransition2_16_Buffer0;// 'Rate Transition2' (':1298')
-  boolean_T RateTransition2_17_Buffer0;// 'Rate Transition2' (':1298')
+  boolean_T RateTransition15_Buffer0;  // 'Rate Transition15' (':2009')
+  boolean_T RateTransition16_Buffer0_m;// 'Rate Transition16' (':1925')
+  boolean_T RateTransition15_Buffer0_a;// 'Rate Transition15' (':1924')
+  boolean_T RateTransition2_1_Buffer0; // 'Rate Transition2' (':1298')
+  boolean_T RateTransition2_2_Buffer0; // 'Rate Transition2' (':1298')
   DW_SourceBlock_FLIGHT_Hexacop_T SourceBlock_p;// 'SourceBlock' (':318:9')
   DW_SourceBlock_FLIGHT_Hexacop_T SourceBlock_l;// 'SourceBlock' (':318:9')
   DW_PX4Timestamp_FLIGHT_Hexa_j_T PX4Timestamp_k;// 'PX4 Timestamp' (':1230:105') 
@@ -466,6 +472,14 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
   real32_T DiscretePIDController2_I; // Mask Parameter: DiscretePIDController2_I
                                         //  Referenced by: 'Integral Gain' (':1820:791')
 
+  real32_T DiscreteDerivative1_ICPrevScale;
+                              // Mask Parameter: DiscreteDerivative1_ICPrevScale
+                                 //  Referenced by: 'UD' (':1983:5')
+
+  real32_T DiscreteDerivative3_ICPrevScale;
+                              // Mask Parameter: DiscreteDerivative3_ICPrevScale
+                                 //  Referenced by: 'UD' (':1998:5')
+
   real32_T DiscreteDerivative2_ICPrevScale;
                               // Mask Parameter: DiscreteDerivative2_ICPrevScale
                                  //  Referenced by: 'UD' (':1966:5')
@@ -478,37 +492,21 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
                               // Mask Parameter: DiscreteDerivative_ICPrevScaled
                                  //  Referenced by: 'UD' (':1522:5')
 
-  real32_T DiscreteDerivative1_ICPrevScale;
-                              // Mask Parameter: DiscreteDerivative1_ICPrevScale
+  real32_T DiscreteDerivative1_ICPrevSca_g;
+                              // Mask Parameter: DiscreteDerivative1_ICPrevSca_g
                                  //  Referenced by: 'UD' (':1523:5')
-
-  real32_T DiscreteDerivative1_ICPrevSca_o;
-                              // Mask Parameter: DiscreteDerivative1_ICPrevSca_o
-                                 //  Referenced by: 'UD' (':1983:5')
-
-  real32_T DiscreteDerivative3_ICPrevScale;
-                              // Mask Parameter: DiscreteDerivative3_ICPrevScale
-                                 //  Referenced by: 'UD' (':1998:5')
 
   real32_T DiscreteDerivative2_ICPrevSca_n;
                               // Mask Parameter: DiscreteDerivative2_ICPrevSca_n
                                  //  Referenced by: 'UD' (':1821:1:5')
 
+  real32_T DiscreteDerivative1_ICPrevSca_p;
+                              // Mask Parameter: DiscreteDerivative1_ICPrevSca_p
+                                 //  Referenced by: 'UD' (':2144:5')
+
   real32_T DiscretePIDController1_InitialC;
                               // Mask Parameter: DiscretePIDController1_InitialC
                                  //  Referenced by: 'Filter' (':1817:737')
-
-  real32_T PID_Altitude1_InitialConditionF;
-                              // Mask Parameter: PID_Altitude1_InitialConditionF
-                                 //  Referenced by: 'Filter' (':514:737')
-
-  real32_T pid_ctrl_rollrate_InitialCondit;
-                              // Mask Parameter: pid_ctrl_rollrate_InitialCondit
-                                 //  Referenced by: 'Integrator' (':1978:843')
-
-  real32_T DiscretePIDController2_InitialC;
-                              // Mask Parameter: DiscretePIDController2_InitialC
-                                 //  Referenced by: 'Integrator' (':1820:843')
 
   real32_T pid_ctrl_rollrate1_InitialCondi;
                               // Mask Parameter: pid_ctrl_rollrate1_InitialCondi
@@ -518,17 +516,21 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
                               // Mask Parameter: pid_ctrl_rollrate2_InitialCondi
                                  //  Referenced by: 'Integrator' (':2008:843')
 
+  real32_T pid_ctrl_rollrate_InitialCondit;
+                              // Mask Parameter: pid_ctrl_rollrate_InitialCondit
+                                 //  Referenced by: 'Integrator' (':1978:843')
+
+  real32_T DiscretePIDController2_InitialC;
+                              // Mask Parameter: DiscretePIDController2_InitialC
+                                 //  Referenced by: 'Integrator' (':1820:843')
+
   real32_T pid_ctrl_rollrate_InitialCond_p;
                               // Mask Parameter: pid_ctrl_rollrate_InitialCond_p
                                  //  Referenced by: 'Integrator' (':1821:10:843')
 
-  real32_T PID_Altitude1_InitialConditio_f;
-                              // Mask Parameter: PID_Altitude1_InitialConditio_f
+  real32_T PID_Altitude1_InitialConditionF;
+                              // Mask Parameter: PID_Altitude1_InitialConditionF
                                  //  Referenced by: 'Integrator' (':514:843')
-
-  real32_T pid_ctrl_rollrate_LowerIntegrat;
-                              // Mask Parameter: pid_ctrl_rollrate_LowerIntegrat
-                                 //  Referenced by: 'Integrator' (':1978:843')
 
   real32_T pid_ctrl_rollrate1_LowerIntegra;
                               // Mask Parameter: pid_ctrl_rollrate1_LowerIntegra
@@ -538,15 +540,13 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
                               // Mask Parameter: pid_ctrl_rollrate2_LowerIntegra
                                  //  Referenced by: 'Integrator' (':2008:843')
 
+  real32_T pid_ctrl_rollrate_LowerIntegrat;
+                              // Mask Parameter: pid_ctrl_rollrate_LowerIntegrat
+                                 //  Referenced by: 'Integrator' (':1978:843')
+
   real32_T PID_Altitude1_LowerIntegratorSa;
                               // Mask Parameter: PID_Altitude1_LowerIntegratorSa
                                  //  Referenced by: 'Integrator' (':514:843')
-
-  real32_T pid_ctrl_rollrate_LowerSaturati;
-                              // Mask Parameter: pid_ctrl_rollrate_LowerSaturati
-                                 //  Referenced by:
-                                 //    'Saturation' (':1978:923')
-                                 //    'DeadZone' (':1978:660')
 
   real32_T pid_ctrl_rollrate1_LowerSaturat;
                               // Mask Parameter: pid_ctrl_rollrate1_LowerSaturat
@@ -560,19 +560,17 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
                                  //    'Saturation' (':2008:923')
                                  //    'DeadZone' (':2008:660')
 
-  real32_T DiscretePIDController_LowerSatu;
-                              // Mask Parameter: DiscretePIDController_LowerSatu
-                                 //  Referenced by: 'Saturation' (':2050:923')
+  real32_T pid_ctrl_rollrate_LowerSaturati;
+                              // Mask Parameter: pid_ctrl_rollrate_LowerSaturati
+                                 //  Referenced by:
+                                 //    'Saturation' (':1978:923')
+                                 //    'DeadZone' (':1978:660')
 
   real32_T DiscretePIDController1_N; // Mask Parameter: DiscretePIDController1_N
                                         //  Referenced by: 'Filter Coefficient' (':1817:882')
 
   real32_T DiscretePIDController1_P; // Mask Parameter: DiscretePIDController1_P
                                         //  Referenced by: 'Proportional Gain' (':1817:913')
-
-  real32_T pid_ctrl_rollrate_UpperIntegrat;
-                              // Mask Parameter: pid_ctrl_rollrate_UpperIntegrat
-                                 //  Referenced by: 'Integrator' (':1978:843')
 
   real32_T pid_ctrl_rollrate1_UpperIntegra;
                               // Mask Parameter: pid_ctrl_rollrate1_UpperIntegra
@@ -582,15 +580,13 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
                               // Mask Parameter: pid_ctrl_rollrate2_UpperIntegra
                                  //  Referenced by: 'Integrator' (':2008:843')
 
+  real32_T pid_ctrl_rollrate_UpperIntegrat;
+                              // Mask Parameter: pid_ctrl_rollrate_UpperIntegrat
+                                 //  Referenced by: 'Integrator' (':1978:843')
+
   real32_T PID_Altitude1_UpperIntegratorSa;
                               // Mask Parameter: PID_Altitude1_UpperIntegratorSa
                                  //  Referenced by: 'Integrator' (':514:843')
-
-  real32_T pid_ctrl_rollrate_UpperSaturati;
-                              // Mask Parameter: pid_ctrl_rollrate_UpperSaturati
-                                 //  Referenced by:
-                                 //    'Saturation' (':1978:923')
-                                 //    'DeadZone' (':1978:660')
 
   real32_T pid_ctrl_rollrate1_UpperSaturat;
                               // Mask Parameter: pid_ctrl_rollrate1_UpperSaturat
@@ -604,9 +600,11 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
                                  //    'Saturation' (':2008:923')
                                  //    'DeadZone' (':2008:660')
 
-  real32_T DiscretePIDController_UpperSatu;
-                              // Mask Parameter: DiscretePIDController_UpperSatu
-                                 //  Referenced by: 'Saturation' (':2050:923')
+  real32_T pid_ctrl_rollrate_UpperSaturati;
+                              // Mask Parameter: pid_ctrl_rollrate_UpperSaturati
+                                 //  Referenced by:
+                                 //    'Saturation' (':1978:923')
+                                 //    'DeadZone' (':1978:660')
 
   real32_T CompareToConstant6_const; // Mask Parameter: CompareToConstant6_const
                                         //  Referenced by: 'Constant' (':1881:3')
@@ -802,9 +800,6 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
   real_T Gain_Gain_b;                  // Expression: 1/800
                                           //  Referenced by: 'Gain' (':380')
 
-  real_T Constant5_Value_j;            // Expression: 5
-                                          //  Referenced by: 'Constant5' (':2114')
-
   real32_T Gain1_Gain;                 // Computed Parameter: Gain1_Gain
                                           //  Referenced by: 'Gain1' (':683')
 
@@ -826,6 +821,84 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
   real32_T Constant1_Value_k;          // Computed Parameter: Constant1_Value_k
                                           //  Referenced by: 'Constant1' (':160:2981')
 
+  real32_T RateTransition8_InitialConditio;
+                          // Computed Parameter: RateTransition8_InitialConditio
+                             //  Referenced by: 'Rate Transition8' (':1988')
+
+  real32_T RateTransition19_InitialConditi;
+                          // Computed Parameter: RateTransition19_InitialConditi
+                             //  Referenced by: 'Rate Transition19' (':2013')
+
+  real32_T Integrator_gainval;         // Computed Parameter: Integrator_gainval
+                                          //  Referenced by: 'Integrator' (':1991:843')
+
+  real32_T RateTransition10_InitialConditi;
+                          // Computed Parameter: RateTransition10_InitialConditi
+                             //  Referenced by: 'Rate Transition10' (':1995')
+
+  real32_T UnitDelay1_InitialCondition;
+                              // Computed Parameter: UnitDelay1_InitialCondition
+                                 //  Referenced by: 'Unit Delay1' (':1984:220:338')
+
+  real32_T RateTransition7_InitialConditio;
+                          // Computed Parameter: RateTransition7_InitialConditio
+                             //  Referenced by: 'Rate Transition7' (':1987')
+
+  real32_T tau_Gain;                   // Computed Parameter: tau_Gain
+                                          //  Referenced by: 'tau' (':1984:220:372')
+
+  real32_T Bias_Bias;                  // Computed Parameter: Bias_Bias
+                                          //  Referenced by: 'Bias' (':1984:220:373')
+
+  real32_T Gain_Gain_b3;               // Computed Parameter: Gain_Gain_b3
+                                          //  Referenced by: 'Gain' (':1984:220:358')
+
+  real32_T TSamp_WtEt;                 // Computed Parameter: TSamp_WtEt
+                                          //  Referenced by: 'TSamp' (':1983:4')
+
+  real32_T RateTransition_InitialCondition;
+                          // Computed Parameter: RateTransition_InitialCondition
+                             //  Referenced by: 'Rate Transition' (':732')
+
+  real32_T RateTransition1_InitialConditio;
+                          // Computed Parameter: RateTransition1_InitialConditio
+                             //  Referenced by: 'Rate Transition1' (':733')
+
+  real32_T RateTransition13_InitialConditi;
+                          // Computed Parameter: RateTransition13_InitialConditi
+                             //  Referenced by: 'Rate Transition13' (':2004')
+
+  real32_T RateTransition20_InitialConditi;
+                          // Computed Parameter: RateTransition20_InitialConditi
+                             //  Referenced by: 'Rate Transition20' (':2014')
+
+  real32_T Integrator_gainval_e;     // Computed Parameter: Integrator_gainval_e
+                                        //  Referenced by: 'Integrator' (':2008:843')
+
+  real32_T RateTransition11_InitialConditi;
+                          // Computed Parameter: RateTransition11_InitialConditi
+                             //  Referenced by: 'Rate Transition11' (':2002')
+
+  real32_T UnitDelay1_InitialCondition_m;
+                            // Computed Parameter: UnitDelay1_InitialCondition_m
+                               //  Referenced by: 'Unit Delay1' (':1999:220:338')
+
+  real32_T RateTransition12_InitialConditi;
+                          // Computed Parameter: RateTransition12_InitialConditi
+                             //  Referenced by: 'Rate Transition12' (':2003')
+
+  real32_T tau_Gain_d;                 // Computed Parameter: tau_Gain_d
+                                          //  Referenced by: 'tau' (':1999:220:372')
+
+  real32_T Bias_Bias_p;                // Computed Parameter: Bias_Bias_p
+                                          //  Referenced by: 'Bias' (':1999:220:373')
+
+  real32_T Gain_Gain_ow;               // Computed Parameter: Gain_Gain_ow
+                                          //  Referenced by: 'Gain' (':1999:220:358')
+
+  real32_T TSamp_WtEt_b;               // Computed Parameter: TSamp_WtEt_b
+                                          //  Referenced by: 'TSamp' (':1998:4')
+
   real32_T RateTransition4_InitialConditio;
                           // Computed Parameter: RateTransition4_InitialConditio
                              //  Referenced by: 'Rate Transition4' (':1068')
@@ -838,38 +911,38 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
                           // Computed Parameter: RateTransition2_InitialConditio
                              //  Referenced by: 'Rate Transition2' (':1974')
 
-  real32_T Integrator_gainval;         // Computed Parameter: Integrator_gainval
-                                          //  Referenced by: 'Integrator' (':1978:843')
+  real32_T Integrator_gainval_j;     // Computed Parameter: Integrator_gainval_j
+                                        //  Referenced by: 'Integrator' (':1978:843')
 
   real32_T RateTransition18_InitialConditi;
                           // Computed Parameter: RateTransition18_InitialConditi
                              //  Referenced by: 'Rate Transition18' (':2012')
 
-  real32_T UnitDelay1_InitialCondition;
-                              // Computed Parameter: UnitDelay1_InitialCondition
-                                 //  Referenced by: 'Unit Delay1' (':1967:220:338')
+  real32_T UnitDelay1_InitialCondition_l;
+                            // Computed Parameter: UnitDelay1_InitialCondition_l
+                               //  Referenced by: 'Unit Delay1' (':1967:220:338')
 
   real32_T RateTransition3_InitialConditio;
                           // Computed Parameter: RateTransition3_InitialConditio
                              //  Referenced by: 'Rate Transition3' (':1980')
 
-  real32_T tau_Gain;                   // Computed Parameter: tau_Gain
+  real32_T tau_Gain_da;                // Computed Parameter: tau_Gain_da
                                           //  Referenced by: 'tau' (':1967:220:372')
 
-  real32_T Bias_Bias;                  // Computed Parameter: Bias_Bias
+  real32_T Bias_Bias_g;                // Computed Parameter: Bias_Bias_g
                                           //  Referenced by: 'Bias' (':1967:220:373')
 
   real32_T Gain_Gain_a;                // Computed Parameter: Gain_Gain_a
                                           //  Referenced by: 'Gain' (':1967:220:358')
 
-  real32_T TSamp_WtEt;                 // Computed Parameter: TSamp_WtEt
+  real32_T TSamp_WtEt_m;               // Computed Parameter: TSamp_WtEt_m
                                           //  Referenced by: 'TSamp' (':1966:4')
 
   real32_T RateTransition2_InitialCondit_h;
                           // Computed Parameter: RateTransition2_InitialCondit_h
                              //  Referenced by: 'Rate Transition2' (':884')
 
-  real32_T TSamp_WtEt_m;               // Computed Parameter: TSamp_WtEt_m
+  real32_T TSamp_WtEt_ma;              // Computed Parameter: TSamp_WtEt_ma
                                           //  Referenced by: 'TSamp' (':1524:4')
 
   real32_T RateTransition4_InitialCondit_m;
@@ -888,12 +961,12 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
                           // Computed Parameter: RateTransition9_InitialConditio
                              //  Referenced by: 'Rate Transition9' (':1917')
 
-  real32_T RateTransition10_InitialConditi;
-                          // Computed Parameter: RateTransition10_InitialConditi
+  real32_T RateTransition10_InitialCondi_e;
+                          // Computed Parameter: RateTransition10_InitialCondi_e
                              //  Referenced by: 'Rate Transition10' (':1918')
 
-  real32_T RateTransition11_InitialConditi;
-                          // Computed Parameter: RateTransition11_InitialConditi
+  real32_T RateTransition11_InitialCondi_j;
+                          // Computed Parameter: RateTransition11_InitialCondi_j
                              //  Referenced by: 'Rate Transition11' (':1919')
 
   real32_T RateTransition17_InitialConditi;
@@ -906,8 +979,8 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
   real32_T Bias_Bias_h;                // Computed Parameter: Bias_Bias_h
                                           //  Referenced by: 'Bias' (':1756:219:351')
 
-  real32_T RateTransition1_InitialConditio;
-                          // Computed Parameter: RateTransition1_InitialConditio
+  real32_T RateTransition1_InitialCondit_i;
+                          // Computed Parameter: RateTransition1_InitialCondit_i
                              //  Referenced by: 'Rate Transition1' (':1911')
 
   real32_T UnitDelay_InitialCondition;
@@ -920,20 +993,20 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
   real32_T TSamp_WtEt_l;               // Computed Parameter: TSamp_WtEt_l
                                           //  Referenced by: 'TSamp' (':1523:4')
 
-  real32_T RateTransition7_InitialConditio;
-                          // Computed Parameter: RateTransition7_InitialConditio
+  real32_T RateTransition7_InitialCondit_m;
+                          // Computed Parameter: RateTransition7_InitialCondit_m
                              //  Referenced by: 'Rate Transition7' (':1915')
 
-  real32_T RateTransition8_InitialConditio;
-                          // Computed Parameter: RateTransition8_InitialConditio
+  real32_T RateTransition8_InitialCondit_k;
+                          // Computed Parameter: RateTransition8_InitialCondit_k
                              //  Referenced by: 'Rate Transition8' (':1916')
 
-  real32_T RateTransition12_InitialConditi;
-                          // Computed Parameter: RateTransition12_InitialConditi
+  real32_T RateTransition12_InitialCondi_k;
+                          // Computed Parameter: RateTransition12_InitialCondi_k
                              //  Referenced by: 'Rate Transition12' (':1920')
 
-  real32_T RateTransition13_InitialConditi;
-                          // Computed Parameter: RateTransition13_InitialConditi
+  real32_T RateTransition13_InitialCondi_j;
+                          // Computed Parameter: RateTransition13_InitialCondi_j
                              //  Referenced by: 'Rate Transition13' (':1921')
 
   real32_T RateTransition14_InitialConditi;
@@ -959,84 +1032,6 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
 
   real32_T Saturation2_LowerSat;     // Computed Parameter: Saturation2_LowerSat
                                         //  Referenced by: 'Saturation2' (':1581')
-
-  real32_T RateTransition8_InitialCondit_c;
-                          // Computed Parameter: RateTransition8_InitialCondit_c
-                             //  Referenced by: 'Rate Transition8' (':1988')
-
-  real32_T RateTransition19_InitialConditi;
-                          // Computed Parameter: RateTransition19_InitialConditi
-                             //  Referenced by: 'Rate Transition19' (':2013')
-
-  real32_T Integrator_gainval_l;     // Computed Parameter: Integrator_gainval_l
-                                        //  Referenced by: 'Integrator' (':1991:843')
-
-  real32_T RateTransition10_InitialCondi_k;
-                          // Computed Parameter: RateTransition10_InitialCondi_k
-                             //  Referenced by: 'Rate Transition10' (':1995')
-
-  real32_T UnitDelay1_InitialCondition_i;
-                            // Computed Parameter: UnitDelay1_InitialCondition_i
-                               //  Referenced by: 'Unit Delay1' (':1984:220:338')
-
-  real32_T RateTransition7_InitialCondit_l;
-                          // Computed Parameter: RateTransition7_InitialCondit_l
-                             //  Referenced by: 'Rate Transition7' (':1987')
-
-  real32_T tau_Gain_k;                 // Computed Parameter: tau_Gain_k
-                                          //  Referenced by: 'tau' (':1984:220:372')
-
-  real32_T Bias_Bias_b;                // Computed Parameter: Bias_Bias_b
-                                          //  Referenced by: 'Bias' (':1984:220:373')
-
-  real32_T Gain_Gain_b3;               // Computed Parameter: Gain_Gain_b3
-                                          //  Referenced by: 'Gain' (':1984:220:358')
-
-  real32_T TSamp_WtEt_d;               // Computed Parameter: TSamp_WtEt_d
-                                          //  Referenced by: 'TSamp' (':1983:4')
-
-  real32_T RateTransition_InitialCondition;
-                          // Computed Parameter: RateTransition_InitialCondition
-                             //  Referenced by: 'Rate Transition' (':732')
-
-  real32_T RateTransition1_InitialCondit_e;
-                          // Computed Parameter: RateTransition1_InitialCondit_e
-                             //  Referenced by: 'Rate Transition1' (':733')
-
-  real32_T RateTransition13_InitialCondi_h;
-                          // Computed Parameter: RateTransition13_InitialCondi_h
-                             //  Referenced by: 'Rate Transition13' (':2004')
-
-  real32_T RateTransition20_InitialConditi;
-                          // Computed Parameter: RateTransition20_InitialConditi
-                             //  Referenced by: 'Rate Transition20' (':2014')
-
-  real32_T Integrator_gainval_e;     // Computed Parameter: Integrator_gainval_e
-                                        //  Referenced by: 'Integrator' (':2008:843')
-
-  real32_T RateTransition11_InitialCondi_g;
-                          // Computed Parameter: RateTransition11_InitialCondi_g
-                             //  Referenced by: 'Rate Transition11' (':2002')
-
-  real32_T UnitDelay1_InitialCondition_m;
-                            // Computed Parameter: UnitDelay1_InitialCondition_m
-                               //  Referenced by: 'Unit Delay1' (':1999:220:338')
-
-  real32_T RateTransition12_InitialCondi_h;
-                          // Computed Parameter: RateTransition12_InitialCondi_h
-                             //  Referenced by: 'Rate Transition12' (':2003')
-
-  real32_T tau_Gain_d;                 // Computed Parameter: tau_Gain_d
-                                          //  Referenced by: 'tau' (':1999:220:372')
-
-  real32_T Bias_Bias_p;                // Computed Parameter: Bias_Bias_p
-                                          //  Referenced by: 'Bias' (':1999:220:373')
-
-  real32_T Gain_Gain_ow;               // Computed Parameter: Gain_Gain_ow
-                                          //  Referenced by: 'Gain' (':1999:220:358')
-
-  real32_T TSamp_WtEt_b;               // Computed Parameter: TSamp_WtEt_b
-                                          //  Referenced by: 'TSamp' (':1998:4')
 
   real32_T Saturation1_UpperSat;     // Computed Parameter: Saturation1_UpperSat
                                         //  Referenced by: 'Saturation1' (':160:198')
@@ -1071,18 +1066,47 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
   real32_T Constant_Value_lv;          // Computed Parameter: Constant_Value_lv
                                           //  Referenced by: 'Constant' (':1141:4658')
 
+  real32_T Constant_Value_g2;          // Computed Parameter: Constant_Value_g2
+                                          //  Referenced by: 'Constant' (':2179')
+
+  real32_T Gain_Gain_p;                // Computed Parameter: Gain_Gain_p
+                                          //  Referenced by: 'Gain' (':2177')
+
+  real32_T Gain_Gain_ar;               // Computed Parameter: Gain_Gain_ar
+                                          //  Referenced by: 'Gain' (':1756:219:343')
+
   real32_T Bias1_Bias;                 // Computed Parameter: Bias1_Bias
+                                          //  Referenced by: 'Bias1' (':1756:219:352')
+
+  real32_T Bias1_Bias_f;               // Computed Parameter: Bias1_Bias_f
+                                          //  Referenced by: 'Bias1' (':1967:220:375')
+
+  real32_T Gain1_Gain_h;               // Computed Parameter: Gain1_Gain_h
+                                          //  Referenced by: 'Gain1' (':1967:220:340')
+
+  real32_T UnitDelay2_InitialCondition;
+                              // Computed Parameter: UnitDelay2_InitialCondition
+                                 //  Referenced by: 'Unit Delay2' (':1967:220:342')
+
+  real32_T Clamping_zero_Value;       // Computed Parameter: Clamping_zero_Value
+                                         //  Referenced by: 'Clamping_zero' (':1978:4030')
+
+  real32_T RateTransition6_InitialCondit_f;
+                          // Computed Parameter: RateTransition6_InitialCondit_f
+                             //  Referenced by: 'Rate Transition6' (':1982')
+
+  real32_T Bias1_Bias_j;               // Computed Parameter: Bias1_Bias_j
                                           //  Referenced by: 'Bias1' (':1999:220:375')
 
   real32_T Gain1_Gain_b;               // Computed Parameter: Gain1_Gain_b
                                           //  Referenced by: 'Gain1' (':1999:220:340')
 
-  real32_T UnitDelay2_InitialCondition;
-                              // Computed Parameter: UnitDelay2_InitialCondition
-                                 //  Referenced by: 'Unit Delay2' (':1999:220:342')
+  real32_T UnitDelay2_InitialCondition_m;
+                            // Computed Parameter: UnitDelay2_InitialCondition_m
+                               //  Referenced by: 'Unit Delay2' (':1999:220:342')
 
-  real32_T Clamping_zero_Value;       // Computed Parameter: Clamping_zero_Value
-                                         //  Referenced by: 'Clamping_zero' (':2008:4030')
+  real32_T Clamping_zero_Value_f;   // Computed Parameter: Clamping_zero_Value_f
+                                       //  Referenced by: 'Clamping_zero' (':2008:4030')
 
   real32_T RateTransition14_InitialCondi_f;
                           // Computed Parameter: RateTransition14_InitialCondi_f
@@ -1104,29 +1128,6 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
   real32_T RateTransition9_InitialCondit_i;
                           // Computed Parameter: RateTransition9_InitialCondit_i
                              //  Referenced by: 'Rate Transition9' (':1989')
-
-  real32_T Gain_Gain_ar;               // Computed Parameter: Gain_Gain_ar
-                                          //  Referenced by: 'Gain' (':1756:219:343')
-
-  real32_T Bias1_Bias_k;               // Computed Parameter: Bias1_Bias_k
-                                          //  Referenced by: 'Bias1' (':1756:219:352')
-
-  real32_T Bias1_Bias_f;               // Computed Parameter: Bias1_Bias_f
-                                          //  Referenced by: 'Bias1' (':1967:220:375')
-
-  real32_T Gain1_Gain_h;               // Computed Parameter: Gain1_Gain_h
-                                          //  Referenced by: 'Gain1' (':1967:220:340')
-
-  real32_T UnitDelay2_InitialCondition_n;
-                            // Computed Parameter: UnitDelay2_InitialCondition_n
-                               //  Referenced by: 'Unit Delay2' (':1967:220:342')
-
-  real32_T Clamping_zero_Value_b;   // Computed Parameter: Clamping_zero_Value_b
-                                       //  Referenced by: 'Clamping_zero' (':1978:4030')
-
-  real32_T RateTransition6_InitialCondit_f;
-                          // Computed Parameter: RateTransition6_InitialCondit_f
-                             //  Referenced by: 'Rate Transition6' (':1982')
 
   real32_T Constant3_Value_h;          // Computed Parameter: Constant3_Value_h
                                           //  Referenced by: 'Constant3' (':355')
@@ -1266,20 +1267,43 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
                           // Computed Parameter: DiscreteTimeIntegrator1_gainval
                              //  Referenced by: 'Discrete-Time Integrator1' (':437')
 
+  real32_T Gain10_Gain;                // Computed Parameter: Gain10_Gain
+                                          //  Referenced by: 'Gain10' (':2140')
+
   real32_T Integrator_gainval_f;     // Computed Parameter: Integrator_gainval_f
                                         //  Referenced by: 'Integrator' (':514:843')
 
-  real32_T Constant4_Value_b;          // Computed Parameter: Constant4_Value_b
-                                          //  Referenced by: 'Constant4' (':2034')
+  real32_T tau_Gain_e;                 // Computed Parameter: tau_Gain_e
+                                          //  Referenced by: 'tau' (':2145:220:372')
 
-  real32_T Filter_gainval_f;           // Computed Parameter: Filter_gainval_f
-                                          //  Referenced by: 'Filter' (':514:737')
+  real32_T Bias_Bias_p0;               // Computed Parameter: Bias_Bias_p0
+                                          //  Referenced by: 'Bias' (':2145:220:373')
+
+  real32_T Gain_Gain_lv;               // Computed Parameter: Gain_Gain_lv
+                                          //  Referenced by: 'Gain' (':2145:220:358')
+
+  real32_T UnitDelay1_InitialCondition_a;
+                            // Computed Parameter: UnitDelay1_InitialCondition_a
+                               //  Referenced by: 'Unit Delay1' (':2145:220:338')
+
+  real32_T TSamp_WtEt_i;               // Computed Parameter: TSamp_WtEt_i
+                                          //  Referenced by: 'TSamp' (':2144:4')
 
   real32_T Constant1_Value_fy;         // Computed Parameter: Constant1_Value_fy
                                           //  Referenced by: 'Constant1' (':1239')
 
   real32_T u2_Gain;                    // Computed Parameter: u2_Gain
                                           //  Referenced by: '1//2' (':1231:2')
+
+  real32_T Bias1_Bias_o1;              // Computed Parameter: Bias1_Bias_o1
+                                          //  Referenced by: 'Bias1' (':2145:220:375')
+
+  real32_T Gain1_Gain_lb;              // Computed Parameter: Gain1_Gain_lb
+                                          //  Referenced by: 'Gain1' (':2145:220:340')
+
+  real32_T UnitDelay2_InitialCondition_a;
+                            // Computed Parameter: UnitDelay2_InitialCondition_a
+                               //  Referenced by: 'Unit Delay2' (':2145:220:342')
 
   real32_T Constant_Value_i;           // Computed Parameter: Constant_Value_i
                                           //  Referenced by: 'Constant' (':1224')
@@ -1299,9 +1323,9 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
   real32_T Gain1_Gain_a;               // Computed Parameter: Gain1_Gain_a
                                           //  Referenced by: 'Gain1' (':1821:2:220:340')
 
-  real32_T UnitDelay2_InitialCondition_m;
-                            // Computed Parameter: UnitDelay2_InitialCondition_m
-                               //  Referenced by: 'Unit Delay2' (':1821:2:220:342')
+  real32_T UnitDelay2_InitialCondition_mv;
+                           // Computed Parameter: UnitDelay2_InitialCondition_mv
+                              //  Referenced by: 'Unit Delay2' (':1821:2:220:342')
 
   real32_T Gain_Gain_eb;               // Computed Parameter: Gain_Gain_eb
                                           //  Referenced by: 'Gain' (':1763')
@@ -1326,33 +1350,36 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
   uint16_T Switch_Threshold;           // Computed Parameter: Switch_Threshold
                                           //  Referenced by: 'Switch' (':2119')
 
-  boolean_T RateTransition15_InitialConditi;
-                          // Computed Parameter: RateTransition15_InitialConditi
-                             //  Referenced by: 'Rate Transition15' (':2009')
-
   boolean_T RateTransition16_InitialConditi;
                           // Computed Parameter: RateTransition16_InitialConditi
-                             //  Referenced by: 'Rate Transition16' (':1925')
-
-  boolean_T RateTransition15_InitialCondi_p;
-                          // Computed Parameter: RateTransition15_InitialCondi_p
-                             //  Referenced by: 'Rate Transition15' (':1924')
-
-  boolean_T RateTransition16_InitialCondi_i;
-                          // Computed Parameter: RateTransition16_InitialCondi_i
                              //  Referenced by: 'Rate Transition16' (':2010')
 
   boolean_T RateTransition17_InitialCondi_p;
                           // Computed Parameter: RateTransition17_InitialCondi_p
                              //  Referenced by: 'Rate Transition17' (':2011')
 
-  boolean_T RateTransition2_16_InitialCondi;
-                          // Computed Parameter: RateTransition2_16_InitialCondi
+  boolean_T RateTransition15_InitialConditi;
+                          // Computed Parameter: RateTransition15_InitialConditi
+                             //  Referenced by: 'Rate Transition15' (':2009')
+
+  boolean_T RateTransition16_InitialCondi_b;
+                          // Computed Parameter: RateTransition16_InitialCondi_b
+                             //  Referenced by: 'Rate Transition16' (':1925')
+
+  boolean_T RateTransition15_InitialCondi_p;
+                          // Computed Parameter: RateTransition15_InitialCondi_p
+                             //  Referenced by: 'Rate Transition15' (':1924')
+
+  boolean_T RateTransition2_1_InitialCondit;
+                          // Computed Parameter: RateTransition2_1_InitialCondit
                              //  Referenced by: 'Rate Transition2' (':1298')
 
-  boolean_T RateTransition2_17_InitialCondi;
-                          // Computed Parameter: RateTransition2_17_InitialCondi
+  boolean_T RateTransition2_2_InitialCondit;
+                          // Computed Parameter: RateTransition2_2_InitialCondit
                              //  Referenced by: 'Rate Transition2' (':1298')
+
+  boolean_T Constant_Value_f2;         // Expression: false
+                                          //  Referenced by: 'Constant' (':2218')
 
   int8_T Constant_Value_dr;            // Computed Parameter: Constant_Value_dr
                                           //  Referenced by: 'Constant' (':1978:3944')
@@ -1363,7 +1390,7 @@ struct P_FLIGHT_Hexacopter_V2_T_ {
   int8_T Constant3_Value_n;            // Computed Parameter: Constant3_Value_n
                                           //  Referenced by: 'Constant3' (':1978:3947')
 
-  int8_T Constant4_Value_bo;           // Computed Parameter: Constant4_Value_bo
+  int8_T Constant4_Value_b;            // Computed Parameter: Constant4_Value_b
                                           //  Referenced by: 'Constant4' (':1978:3948')
 
   int8_T Constant_Value_fd;            // Computed Parameter: Constant_Value_fd
@@ -1511,6 +1538,9 @@ extern volatile boolean_T runModel;
 //-
 //  These blocks were eliminated from the model due to optimizations:
 //
+//  Block synthesized block : Unused code path elimination
+//  Block synthesized block : Unused code path elimination
+//  Block synthesized block : Unused code path elimination
 //  Block synthesized block : Unused code path elimination
 //  Block synthesized block : Unused code path elimination
 //  Block synthesized block : Unused code path elimination

@@ -12,10 +12,11 @@ px4_add_module(
     MAIN px4_simulink_app
     STACK_MAIN 2000
 SRCS
-   MW_PX4_PWM.cpp
    MW_PX4_Parameter.cpp
    MW_uORB_Write.cpp
    MW_uORB_Read.cpp
+   MW_PX4_ActuatorDevice.cpp
+   MW_PX4_Actuators.cpp
    ert_main.cpp
    FLIGHT_Hexacopter_V2.cpp
    FLIGHT_Hexacopter_V2_data.cpp
